@@ -1,0 +1,16 @@
+{
+	"compilerOptions": {
+		"target": "es2015",
+    "module": "es2015",
+    "jsx": "react",
+    "allowJs": true,
+    "strict": true,
+    "outDir": "./.ts-compiled",
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node"
+	},
+	"include": [
+    "./src/**/*",
+    "./resources/**/*"
+  ]
+}

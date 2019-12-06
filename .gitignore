@@ -1,0 +1,17 @@
+# build artefacts
+measure.sketchplugin
+
+# npm
+node_modules
+.npm
+npm-debug.log
+package-lock.json
+
+# mac
+.DS_Store
+
+# WebStorm
+.idea
+
+# sketch
+# sketch-assets
