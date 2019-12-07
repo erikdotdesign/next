@@ -1,12 +1,7 @@
 import React from 'react';
-import { Artboard } from 'react-sketchapp';
 
 interface AppProps {
   artboard: any;
-}
-
-interface AppState {
-
 }
 
 class App extends React.Component<AppProps, {}> {
@@ -18,12 +13,8 @@ class App extends React.Component<AppProps, {}> {
 
   }
   render() {
-    const { frame, background } = this.props.artboard;
     return (
-      <Artboard
-        style={{width: frame.width, height: frame.height, backgroundColor: background.color}}>
-
-      </Artboard>
+      <h1>App</h1>
     );
   }
 }

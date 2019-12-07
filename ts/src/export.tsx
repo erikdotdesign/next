@@ -4,6 +4,8 @@ import BrowserWindow from 'sketch-module-web-view';
 import { getWebview } from 'sketch-module-web-view/remote';
 // @ts-ignore
 import dom from 'sketch/dom';
+// @ts-ignore
+import ui from 'sketch/ui';
 
 const webviewIdentifier = 'measure.webview';
 
@@ -20,28 +22,33 @@ export default () => {
   };
   const selectedArtboard = getSelectedArtboard();
 
-  const browserWindow = new BrowserWindow({
-    identifier: webviewIdentifier,
-    width: 1024,
-    height: 768,
-    show: false
-  });
+  if (selectedArtboard !== undefined) {
 
-  browserWindow.loadURL(require('../resources/ui/index.html'));
+    const browserWindow = new BrowserWindow({
+      identifier: webviewIdentifier,
+      width: 1024,
+      height: 768,
+      show: false
+    });
 
-  browserWindow.once('ready-to-show', () => {
-    browserWindow.show();
-  });
+    browserWindow.loadURL(require('../resources/ui/index.html'));
 
-  const webContents = browserWindow.webContents;
+    browserWindow.once('ready-to-show', () => {
+      browserWindow.show();
+    });
 
-  webContents.on('did-finish-load', () => {
-    webContents.executeJavaScript(`setupApp(${JSON.stringify(selectedArtboard)})`);
-  });
+    const webContents = browserWindow.webContents;
 
-  webContents.on('nativeLog', (s: any) => {
-    console.log(s);
-  });
+    webContents.on('did-finish-load', () => {
+      webContents.executeJavaScript(`setupApp(${JSON.stringify(selectedArtboard)})`);
+    });
+
+    webContents.on('nativeLog', (s: any) => {
+      console.log(s);
+    });
+  } else {
+    ui.alert('Select artboard', 'Select an artboard to export.');
+  }
 }
 
 // When the plugin is shutdown by Sketch (for example when the user disable the plugin)
