@@ -22,7 +22,7 @@ class App extends React.Component<AppProps, {}> {
     return (
       <Artboard
         style={{width: frame.width, height: frame.height, backgroundColor: background.color}}>
-          <div style={{width: '100px', height: '100px'}}></div>
+
       </Artboard>
     );
   }
