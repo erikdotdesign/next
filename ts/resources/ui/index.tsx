@@ -2,11 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App';
 
-const render = () => {
+// @ts-ignore
+window.setupApp = (artboard: any) => {
   ReactDOM.render(
-    <App />,
+    <App artboard={artboard} />,
     document.getElementById('root')
   );
-}
-
-render();
+};

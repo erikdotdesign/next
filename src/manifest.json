@@ -3,9 +3,9 @@
   "bundleVersion": 1,
   "commands": [
     {
-      "name": "my-command",
-      "identifier": "measure.my-command-identifier",
-      "script": "./my-command.js",
+      "name": "export",
+      "identifier": "measure.export-identifier",
+      "script": "./export.js",
       "handlers": {
         "run": "onRun",
         "actions": {
@@ -15,9 +15,9 @@
     }
   ],
   "menu": {
-    "title": "measure",
+    "title": "Sr Measure",
     "items": [
-      "measure.my-command-identifier"
+      "measure.export-identifier"
     ]
   }
 }
