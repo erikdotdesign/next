@@ -5,12 +5,26 @@
     "jsx": "react",
     "allowJs": true,
     "strict": true,
-    "outDir": "./.ts-compiled",
+    "outDir": "./",
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node"
 	},
 	"include": [
-    "./src/**/*",
-    "./resources/**/*"
+    "./ts/**/*",
+  ],
+  "exclude": [
+    "./assets",
+    "./measure.sketchplugin",
+    "./node_modules",
+    "./resources",
+    "./sketch_assets",
+    "./src",
+    "./.babelrc",
+    "./.gitignore",
+    "./package-lock.json",
+    "./package.json",
+    "./tsconfig.json",
+    "./tslint.json",
+    "./webpack.skpm.config.js"
   ]
 }

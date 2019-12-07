@@ -17,11 +17,25 @@ export default () => {
 
   const browserWindow = new BrowserWindow(options);
 
+  browserWindow.loadURL(require('../resources/webview/index.html'));
+
   browserWindow.once('ready-to-show', () => {
     browserWindow.show();
   });
 
-  browserWindow.loadURL(require('../../resources/webview.html'));
+  const webContents = browserWindow.webContents;
+
+  webContents.on('did-finish-load', () => {
+    console.log('loaded 4');
+  });
+
+  webContents.on('nativeLog', (s: any) => {
+    console.log(s);
+  });
+
+  // webContents.on('did-finish-load', () => {
+  //   webContents.send('ping', 'whoooooooh!');
+  // });
 }
 
 // When the plugin is shutdown by Sketch (for example when the user disable the plugin)

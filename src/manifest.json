@@ -5,7 +5,7 @@
     {
       "name": "my-command",
       "identifier": "measure.my-command-identifier",
-      "script": "../.ts-compiled/src/my-command.js",
+      "script": "./my-command.js",
       "handlers": {
         "run": "onRun",
         "actions": {

@@ -14,7 +14,7 @@ module.exports = function (config, entry) {
             'img:src',
             'link:href'
           ],
-          interpolate: require,
+          interpolate: true,
         },
       },
     ]
