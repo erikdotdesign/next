@@ -19,13 +19,14 @@ export default () => {
     };
     const selectedArtboard = getSelectedArtboard();
     if (selectedArtboard !== undefined) {
+        // @ts-ignore
         const browserWindow = new BrowserWindow({
             identifier: webviewIdentifier,
             width: 1024,
             height: 768,
             show: false
         });
-        browserWindow.loadURL(require('../resources/ui/index.html'));
+        browserWindow.loadURL(require('../../resources/ui/index.html'));
         browserWindow.once('ready-to-show', () => {
             browserWindow.show();
         });

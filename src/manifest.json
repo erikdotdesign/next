@@ -5,7 +5,7 @@
     {
       "name": "export",
       "identifier": "measure.export-identifier",
-      "script": "./export.js",
+      "script": "../.ts-compiled/src/export.js",
       "handlers": {
         "run": "onRun",
         "actions": {

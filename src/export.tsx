@@ -24,6 +24,7 @@ export default () => {
 
   if (selectedArtboard !== undefined) {
 
+    // @ts-ignore
     const browserWindow = new BrowserWindow({
       identifier: webviewIdentifier,
       width: 1024,
@@ -31,7 +32,7 @@ export default () => {
       show: false
     });
 
-    browserWindow.loadURL(require('../resources/ui/index.html'));
+    browserWindow.loadURL(require('../../resources/ui/index.html'));
 
     browserWindow.once('ready-to-show', () => {
       browserWindow.show();

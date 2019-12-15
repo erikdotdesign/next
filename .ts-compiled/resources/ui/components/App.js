@@ -9,7 +9,7 @@ class App extends React.Component {
         console.log(this.props.artboard);
     }
     render() {
-        return (React.createElement("h1", null, "App"));
+        return (React.createElement("h1", null, "App New"));
     }
 }
 export default App;
