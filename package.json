@@ -41,7 +41,7 @@
     "typescript": "^3.7.3"
   },
   "resources": [
-    ".ts-compiled/resources/**/*.js"
+    "resources/**/*.tsx"
   ],
   "dependencies": {
     "react": "^16.12.0",

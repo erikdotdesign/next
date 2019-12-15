@@ -32,7 +32,7 @@ export default () => {
       show: false
     });
 
-    browserWindow.loadURL(require('../../resources/ui/index.html'));
+    browserWindow.loadURL(require('../resources/ui/index.html'));
 
     browserWindow.once('ready-to-show', () => {
       browserWindow.show();

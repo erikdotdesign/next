@@ -5,14 +5,13 @@
     "jsx": "react",
     "allowJs": true,
     "strict": true,
-    "rootDir": "./",
-    "outDir": "./.ts-compiled",
+    "outDir": "./src",
+    "rootDir": "./ts-commands",
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node"
 	},
 	"include": [
-    "./src/**/*",
-    "./resources/**/*",
+    "./ts-commands/**/*",
   ],
   "exclude": [
     "./assets",
