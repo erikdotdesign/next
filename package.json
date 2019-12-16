@@ -14,13 +14,15 @@
     "sketch-assets-file": "sketch-assets/icons.sketch"
   },
   "scripts": {
-    "build": "npm run typescript:once && skpm-build",
-    "watch": "skpm-build --watch & npm run typescript",
+    "build": "npm run typescript:once && npm run sass:once && skpm-build",
+    "watch": "skpm-build --watch & npm run typescript & npm run sass",
     "start": "skpm-build --watch",
     "postinstall": "npm run build && skpm-link",
     "typescript": "tsc --watch",
     "typescript:once": "tsc",
-    "typescript:clean": "rm -rf ./.ts-compiled"
+    "typescript:clean": "rm -rf ./.ts-compiled",
+    "sass:once": "sass --no-source-map styles/index.sass:resources/ui/style.css",
+    "sass": "sass --watch --no-source-map styles/index.sass:resources/ui/style.css"
   },
   "devDependencies": {
     "@babel/core": "^7.7.5",
@@ -32,6 +34,7 @@
     "@babel/preset-typescript": "^7.7.4",
     "@skpm/builder": "^0.7.4",
     "@skpm/extract-loader": "^2.0.2",
+    "@types/chroma-js": "^1.4.3",
     "@types/react": "^16.9.15",
     "@types/react-dom": "^16.9.4",
     "css-loader": "^3.2.0",
@@ -41,9 +44,10 @@
     "typescript": "^3.7.3"
   },
   "resources": [
-    "resources/**/*.tsx"
+    "resources/**/*.js"
   ],
   "dependencies": {
+    "chroma-js": "^2.1.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "sketch-module-web-view": "^3.1.4"

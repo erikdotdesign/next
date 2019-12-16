@@ -1,0 +1,26 @@
+=absolute-full
+  position: absolute
+  left: 0
+  top: 0
+  bottom: 0
+  right: 0
+
+=content-block
+  +absolute-full
+  content: ''
+  width: 100%
+  display: block
+
+=aspect($width, $height)
+  display: block
+  position: relative
+  padding-bottom: percentage($height / $width)
+  height: 0
+  overflow: hidden
+
+=aspect-fill
+  +absolute-full
+  height: 100%
+  width: 100%
+  max-height: 100%
+  max-width: 100%
