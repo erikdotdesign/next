@@ -3,6 +3,7 @@ import Layers from './Layers';
 
 interface ArtboardProps {
   artboard: any;
+  images?: any;
 }
 
 class Artboard extends React.Component<ArtboardProps, {}> {
@@ -21,7 +22,7 @@ class Artboard extends React.Component<ArtboardProps, {}> {
           height: frame.height,
           background: bg
         }}>
-        <Layers layers={layers} />
+        <Layers layers={layers} images={this.props.images} />
       </div>
     );
   }

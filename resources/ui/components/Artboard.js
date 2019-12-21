@@ -12,7 +12,7 @@ class Artboard extends React.Component {
                 height: frame.height,
                 background: bg
             } },
-            React.createElement(Layers, { layers: layers })));
+            React.createElement(Layers, { layers: layers, images: this.props.images })));
     }
 }
 export default Artboard;

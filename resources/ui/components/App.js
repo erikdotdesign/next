@@ -8,7 +8,7 @@ class App extends React.Component {
             React.createElement("div", { className: 'c-app' },
                 React.createElement(Sidebar, null),
                 React.createElement(Canvas, null,
-                    React.createElement(Artboard, { artboard: this.props.artboard })))));
+                    React.createElement(Artboard, { artboard: this.props.artboard, images: this.props.images })))));
     }
 }
 export default App;
