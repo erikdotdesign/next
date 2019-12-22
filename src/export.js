@@ -11,7 +11,9 @@ const webviewIdentifier = 'measure.webview';
 export default () => {
     const document = dom.getSelectedDocument();
     const selectedArtboard = utils.getSelectedArtboard(document.selectedPage);
-    const base64Images = utils.getConvertedImages(selectedArtboard.layers);
+    const base64Images = utils.generateBase64Images(selectedArtboard.layers);
+    const base64Gradients = utils.generateBase64Gradients(selectedArtboard.layers, dom);
+    const imageStore = [...base64Images, ...base64Gradients];
     if (selectedArtboard !== undefined) {
         const browserWindow = new BrowserWindow({
             identifier: webviewIdentifier,
@@ -29,7 +31,7 @@ export default () => {
             browserWindow.show();
         });
         webContents.on('did-finish-load', () => {
-            webContents.executeJavaScript(`renderApp(${JSON.stringify(selectedArtboard)},${JSON.stringify(base64Images)})`);
+            webContents.executeJavaScript(`renderApp(${JSON.stringify(selectedArtboard)},${JSON.stringify(imageStore)})`);
         });
         webContents.on('nativeLog', (s) => {
             console.log(s);

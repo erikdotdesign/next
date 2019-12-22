@@ -12,7 +12,6 @@ class Layer extends React.Component<LayerProps, {}> {
   }
   render() {
     const { layer, images } = this.props;
-    console.log(layer);
     return (
       <div
         className='c-layer'

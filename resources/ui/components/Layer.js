@@ -6,7 +6,6 @@ class Layer extends React.Component {
     }
     render() {
         const { layer, images } = this.props;
-        console.log(layer);
         return (React.createElement("div", { className: 'c-layer', style: createLayerStyles(layer, images) }));
     }
 }
