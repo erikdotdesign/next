@@ -1,11 +1,11 @@
 import React from 'react';
 import Artboard from './Artboard';
+import Layers from './Layers';
 import Sidebar from './Sidebar';
 import Canvas from './Canvas';
 
 interface AppProps {
   artboard: any;
-  images?: any;
 }
 
 class App extends React.Component<AppProps, {}> {
@@ -15,7 +15,9 @@ class App extends React.Component<AppProps, {}> {
         <div className='c-app'>
           <Sidebar />
           <Canvas>
-            <Artboard artboard={this.props.artboard} images={this.props.images} />
+            <Artboard artboard={this.props.artboard} >
+              <Layers layers={this.props.artboard.layers} />
+            </Artboard>
           </Canvas>
         </div>
       </div>

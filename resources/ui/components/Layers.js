@@ -5,9 +5,7 @@ class Layers extends React.Component {
         console.log(this.props.layers);
     }
     render() {
-        return (React.createElement("div", { className: 'c-layers' }, this.props.layers.map((layer, index) => {
-            return (React.createElement(Layer, { layer: layer, key: index, images: this.props.images }));
-        })));
+        return (React.createElement("div", { className: 'c-layers' }, this.props.layers.map((layer, index) => (React.createElement(Layer, { layer: layer, key: index })))));
     }
 }
 export default Layers;

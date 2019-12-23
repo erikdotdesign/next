@@ -1,18 +1,11 @@
 import React from 'react';
-import Layers from './Layers';
+import { createArtboardStyles } from '../../utils/layerStyles';
 class Artboard extends React.Component {
     componentDidMount() {
         console.log(this.props.artboard);
     }
     render() {
-        const { frame, background, layers } = this.props.artboard;
-        const bg = background.enabled ? background.color : 'transparent';
-        return (React.createElement("div", { className: 'c-artboard', style: {
-                width: frame.width,
-                height: frame.height,
-                background: bg
-            } },
-            React.createElement(Layers, { layers: layers, images: this.props.images })));
+        return (React.createElement("div", { className: 'c-artboard', style: createArtboardStyles(this.props.artboard) }, this.props.children));
     }
 }
 export default Artboard;

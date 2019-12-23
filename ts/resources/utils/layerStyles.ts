@@ -6,7 +6,8 @@ const getImage = (images: any, id: any) => {
 
 const createPosition = (x: number, y: number) => {
   return {
-    transform: `translateX(${x}px) translateY(${y}px)`
+    left: `${x}px`,
+    top: `${y}px`
   }
 };
 
@@ -22,7 +23,7 @@ const createHeight = (height: number) => {
   }
 };
 
-const createOpacity = (opacity: number) => {
+export const createOpacity = (opacity: number) => {
   return {
     opacity
   }
@@ -38,10 +39,8 @@ const createBorderRadius = (shapeType: any, points: any) => {
         }
       });
       return { borderRadius: borderRadius.join(' ') }
-      break;
     case 'Oval':
       return { borderRadius: '100%' }
-      break;
     default:
       return { borderRadius: 0 }
   };
@@ -52,13 +51,10 @@ const createBorder = (border: any) => {
   switch(position) {
     case 'Outside':
       return `0 0 0 ${thickness}px ${color}`;
-      break;
     case 'Center':
       return `0 0 0 ${thickness / 2}px ${color} inset, 0 0 0 ${thickness / 2}px ${color}`;
-      break;
     case 'Inside':
       return `0 0 0 ${thickness}px ${color} inset`;
-      break;
     default:
       return `0 0 0 ${thickness / 2}px ${color} inset, 0 0 0 ${thickness / 2}px ${color}`;
   }
@@ -184,7 +180,7 @@ const createPatternFill = (pattern: any, images: any) => {
 };
 
 // NEED TYPES
-const createBackground = (fills: any, images: any, id: any) => {
+const createBackground = (fills: any) => {
   // get fills that are enabled
   const hasActiveFills = fills.some((fill: any) => fill.enabled);
   // create background if there are active fills
@@ -199,10 +195,10 @@ const createBackground = (fills: any, images: any, id: any) => {
         return createColorFill(topFill.color);
         break;
       case 'Gradient':
-        return createGradientFillImage(images, id);
+        //return createGradientFillImage(images, id);
         break;
       case 'Pattern':
-        return createPatternFill(topFill.pattern, images);
+        //return createPatternFill(topFill.pattern, images);
         break;
     };
   } else {
@@ -212,28 +208,65 @@ const createBackground = (fills: any, images: any, id: any) => {
   }
 };
 
-// NEED TYPES
-const createDisplay = (hidden: any) => {
-  return hidden ? { display: 'none' } : { display: 'block' };
+const createVisibility = (hidden: boolean) => {
+  if (hidden) {
+    return { visibility: 'hidden' };
+  } else {
+    return { visibility: 'visible' };
+  }
 };
 
-// NEED TYPES
-const createLayerStyles = (layer: any, images: any) => {
-  const { style, frame, hidden, shapeType, points } = layer;
-  const display = createDisplay(hidden);
+const createRotation = (transform: any) => {
+  const scaleX = transform.flippedHorizontally ? -1 : 1;
+  const scaleY = transform.flippedVertically ? -1 : 1;
+  const rotation = transform.rotation * scaleX * scaleY;
+  return {
+    transform: `rotate(${rotation}deg) scale(${scaleX}, ${scaleY})`
+  }
+};
+
+export const createBaseLayerStyles = (layer: any) => {
+  const { frame, hidden, transform } = layer;
+  const visibility = createVisibility(hidden);
   const position = createPosition(frame.x, frame.y);
   const width = createWidth(frame.width);
   const height = createHeight(frame.height);
-  const borderRadius = createBorderRadius(shapeType, points);
-  const opacity = createOpacity(style.opacity);
-  const background = createBackground(style.fills, images, style.id);
-  const bordersAndShadows = createBordersAndShadows(style.borders, style.shadows, style.innerShadows);
+  const rotation = createRotation(transform);
 
   return {
-    ...display,
+    ...visibility,
     ...position,
     ...width,
     ...height,
+    ...rotation
+  }
+};
+
+export const createArtboardStyles = (artboard: any) => {
+  const { frame, background } = artboard;
+  const { color, enabled } = background;
+  const width = createWidth(frame.width);
+  const height = createHeight(frame.height);
+  const bg = enabled ? createColorFill(color) : { background: 'transparent' };
+
+  return {
+    ...width,
+    ...height,
+    ...bg
+  }
+};
+
+// NEED TYPES
+export const createShapePathStyles = (layer: any) => {
+  const { style, shapeType, points } = layer;
+  const baseStyles = createBaseLayerStyles(layer);
+  const borderRadius = createBorderRadius(shapeType, points);
+  const opacity = createOpacity(style.opacity);
+  const background = createBackground(style.fills);
+  const bordersAndShadows = createBordersAndShadows(style.borders, style.shadows, style.innerShadows);
+
+  return {
+    ...baseStyles,
     ...borderRadius,
     ...opacity,
     ...background,
@@ -241,8 +274,16 @@ const createLayerStyles = (layer: any, images: any) => {
   }
 };
 
-export default createLayerStyles;
+export const createGroupStyles = (layer: any) => {
+  const { style } = layer;
+  const baseStyles = createBaseLayerStyles(layer);
+  const opacity = createOpacity(style.opacity);
 
+  return {
+    ...baseStyles,
+    ...opacity
+  }
+};
 
 
 

@@ -9,12 +9,11 @@ import ui from 'sketch/ui';
 import * as utils from '../resources/utils/commandUtils';
 const webviewIdentifier = 'measure.webview';
 export default () => {
+    // Document and artboard
     const document = dom.getSelectedDocument();
-    const selectedArtboard = utils.getSelectedArtboard(document.selectedPage);
-    const base64Images = utils.generateBase64Images(selectedArtboard.layers);
-    const base64Gradients = utils.generateBase64Gradients(selectedArtboard.layers, dom);
-    const imageStore = [...base64Images, ...base64Gradients];
-    if (selectedArtboard !== undefined) {
+    const artboard = utils.getSelectedArtboard(document.selectedPage);
+    //const imageStore = utils.getImageStore(artboard.layers, dom);
+    if (artboard !== undefined) {
         const browserWindow = new BrowserWindow({
             identifier: webviewIdentifier,
             width: 1024,
@@ -30,8 +29,14 @@ export default () => {
         browserWindow.once('ready-to-show', () => {
             browserWindow.show();
         });
+        // webContents.on('did-finish-load', () => {
+        //   webContents.executeJavaScript(`renderApp(
+        //     ${JSON.stringify(artboard)},
+        //     ${JSON.stringify(imageStore)}
+        //   )`);
+        // });
         webContents.on('did-finish-load', () => {
-            webContents.executeJavaScript(`renderApp(${JSON.stringify(selectedArtboard)},${JSON.stringify(imageStore)})`);
+            webContents.executeJavaScript(`renderApp(${JSON.stringify(artboard)})`);
         });
         webContents.on('nativeLog', (s) => {
             console.log(s);

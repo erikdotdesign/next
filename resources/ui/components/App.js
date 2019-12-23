@@ -1,5 +1,6 @@
 import React from 'react';
 import Artboard from './Artboard';
+import Layers from './Layers';
 import Sidebar from './Sidebar';
 import Canvas from './Canvas';
 class App extends React.Component {
@@ -8,7 +9,8 @@ class App extends React.Component {
             React.createElement("div", { className: 'c-app' },
                 React.createElement(Sidebar, null),
                 React.createElement(Canvas, null,
-                    React.createElement(Artboard, { artboard: this.props.artboard, images: this.props.images })))));
+                    React.createElement(Artboard, { artboard: this.props.artboard },
+                        React.createElement(Layers, { layers: this.props.artboard.layers }))))));
     }
 }
 export default App;

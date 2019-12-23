@@ -3,7 +3,6 @@ import Layer from './Layer';
 
 interface LayersProps {
   layers: any;
-  images?: any;
 }
 
 class Layers extends React.Component<LayersProps, {}> {
@@ -14,11 +13,9 @@ class Layers extends React.Component<LayersProps, {}> {
     return (
       <div className='c-layers'>
         {
-          this.props.layers.map((layer: any, index: number) => {
-            return (
-              <Layer layer={layer} key={index} images={this.props.images} />
-            )
-          })
+          this.props.layers.map((layer: any, index: number) => (
+            <Layer layer={layer} key={index} />
+          ))
         }
       </div>
     );

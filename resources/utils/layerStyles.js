@@ -5,7 +5,8 @@ const getImage = (images, id) => {
 };
 const createPosition = (x, y) => {
     return {
-        transform: `translateX(${x}px) translateY(${y}px)`
+        left: `${x}px`,
+        top: `${y}px`
     };
 };
 const createWidth = (width) => {
@@ -18,7 +19,7 @@ const createHeight = (height) => {
         height: `${height}px`
     };
 };
-const createOpacity = (opacity) => {
+export const createOpacity = (opacity) => {
     return {
         opacity
     };
@@ -33,10 +34,8 @@ const createBorderRadius = (shapeType, points) => {
                 }
             });
             return { borderRadius: borderRadius.join(' ') };
-            break;
         case 'Oval':
             return { borderRadius: '100%' };
-            break;
         default:
             return { borderRadius: 0 };
     }
@@ -47,13 +46,10 @@ const createBorder = (border) => {
     switch (position) {
         case 'Outside':
             return `0 0 0 ${thickness}px ${color}`;
-            break;
         case 'Center':
             return `0 0 0 ${thickness / 2}px ${color} inset, 0 0 0 ${thickness / 2}px ${color}`;
-            break;
         case 'Inside':
             return `0 0 0 ${thickness}px ${color} inset`;
-            break;
         default:
             return `0 0 0 ${thickness / 2}px ${color} inset, 0 0 0 ${thickness / 2}px ${color}`;
     }
@@ -171,7 +167,7 @@ const createPatternFill = (pattern, images) => {
     return Object.assign({ background: `url(${image.url})` }, displayStyle);
 };
 // NEED TYPES
-const createBackground = (fills, images, id) => {
+const createBackground = (fills) => {
     // get fills that are enabled
     const hasActiveFills = fills.some((fill) => fill.enabled);
     // create background if there are active fills
@@ -186,10 +182,10 @@ const createBackground = (fills, images, id) => {
                 return createColorFill(topFill.color);
                 break;
             case 'Gradient':
-                return createGradientFillImage(images, id);
+                //return createGradientFillImage(images, id);
                 break;
             case 'Pattern':
-                return createPatternFill(topFill.pattern, images);
+                //return createPatternFill(topFill.pattern, images);
                 break;
         }
         ;
@@ -200,24 +196,55 @@ const createBackground = (fills, images, id) => {
         };
     }
 };
-// NEED TYPES
-const createDisplay = (hidden) => {
-    return hidden ? { display: 'none' } : { display: 'block' };
+const createVisibility = (hidden) => {
+    if (hidden) {
+        return { visibility: 'hidden' };
+    }
+    else {
+        return { visibility: 'visible' };
+    }
 };
-// NEED TYPES
-const createLayerStyles = (layer, images) => {
-    const { style, frame, hidden, shapeType, points } = layer;
-    const display = createDisplay(hidden);
+const createRotation = (transform) => {
+    const scaleX = transform.flippedHorizontally ? -1 : 1;
+    const scaleY = transform.flippedVertically ? -1 : 1;
+    const rotation = transform.rotation * scaleX * scaleY;
+    return {
+        transform: `rotate(${rotation}deg) scale(${scaleX}, ${scaleY})`
+    };
+};
+export const createBaseLayerStyles = (layer) => {
+    const { frame, hidden, transform } = layer;
+    const visibility = createVisibility(hidden);
     const position = createPosition(frame.x, frame.y);
     const width = createWidth(frame.width);
     const height = createHeight(frame.height);
+    const rotation = createRotation(transform);
+    return Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, visibility), position), width), height), rotation);
+};
+export const createArtboardStyles = (artboard) => {
+    const { frame, background } = artboard;
+    const { color, enabled } = background;
+    const width = createWidth(frame.width);
+    const height = createHeight(frame.height);
+    const bg = enabled ? createColorFill(color) : { background: 'transparent' };
+    return Object.assign(Object.assign(Object.assign({}, width), height), bg);
+};
+// NEED TYPES
+export const createShapePathStyles = (layer) => {
+    const { style, shapeType, points } = layer;
+    const baseStyles = createBaseLayerStyles(layer);
     const borderRadius = createBorderRadius(shapeType, points);
     const opacity = createOpacity(style.opacity);
-    const background = createBackground(style.fills, images, style.id);
+    const background = createBackground(style.fills);
     const bordersAndShadows = createBordersAndShadows(style.borders, style.shadows, style.innerShadows);
-    return Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, display), position), width), height), borderRadius), opacity), background), bordersAndShadows);
+    return Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, baseStyles), borderRadius), opacity), background), bordersAndShadows);
 };
-export default createLayerStyles;
+export const createGroupStyles = (layer) => {
+    const { style } = layer;
+    const baseStyles = createBaseLayerStyles(layer);
+    const opacity = createOpacity(style.opacity);
+    return Object.assign(Object.assign({}, baseStyles), opacity);
+};
 // NEED TYPES
 // const createLinearGradient = (gradient: any) => {
 //   const stops: any = [];

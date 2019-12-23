@@ -1,4 +1,4 @@
-const flattenGroups = (layers: any, newArray: any) => {
+export const flattenGroups = (layers: any, newArray: any) => {
   if (layers.length > 0) {
     layers.forEach((layer: any) => {
       if (layer.type === 'Group') {
@@ -9,6 +9,44 @@ const flattenGroups = (layers: any, newArray: any) => {
     });
   }
   return newArray;
+};
+
+// export const flattenGroups = (layers: any, groupFrame: any, newLayers: any) => {
+//   if (layers.length > 0) {
+//     layers.forEach((layer: any) => {
+//       // duplicate layer
+//       //const layerDuplicate = layer.duplicate();
+//       // add previous frame coords to current frame
+//       updateFrame(layer.frame, groupFrame);
+//       // check if layer is a group
+//       if (layer.type === 'SymbolInstance') {
+//         // detach symbol
+//         const detachedSymbol = detachSymbol(layer);
+//         // flatten detached symbol
+//         const flattenedSymbol = flattenGroups([detachedSymbol], {x: 0, y: 0}, []);
+//         // push flattened symbol to final array
+//         newLayers.push(...flattenedSymbol);
+//         // remove detached symbol
+//         detachedSymbol.remove();
+//       } else if (layer.type === 'Group') {
+//         // if layer is a group, run func again
+//         flattenGroups(layer.layers, layer.frame, newLayers);
+//       } else {
+//         // if not group or symbol, push to final array
+//         newLayers.push(layer);
+//       }
+//       // remove layer after pushing to newLayers
+//       //layerDuplicate.remove();
+//     });
+//   }
+//   return newLayers;
+// };
+
+const detachSymbol = (symbol: any) => {
+  const detachedSymbol: any = symbol.detach({
+    recursively: true
+  });
+  return detachedSymbol;
 };
 
 const layerToBase64 = (layer: any, id: any, dom: any) => {
@@ -44,8 +82,7 @@ const gradientToBase64 = (layer: any, id: any, dom: any) => {
 
 const getLayerImages = (layers: any) => {
   const layerImages: any = [];
-  const flattendLayers = flattenGroups(layers, []);
-  flattendLayers.forEach((layer: any) => {
+  layers.forEach((layer: any) => {
     if (layer.type === 'Image') {
       layerImages.push(layer.image);
     }
@@ -55,8 +92,7 @@ const getLayerImages = (layers: any) => {
 
 const getFillImages = (layers: any) => {
   const fillImages: any = [];
-  const flattendLayers = flattenGroups(layers, []);
-  flattendLayers.forEach((layer: any) => {
+  layers.forEach((layer: any) => {
     if (layer.style.fills.length > 0) {
       layer.style.fills.forEach((fill: any) => {
         if (fill.pattern.image !== null) {
@@ -96,8 +132,8 @@ export const generateBase64Images = (layers: any) => {
 
 export const generateBase64Gradients = (layers: any, dom: any) => {
   const base64Gradients: any = [];
-  const flattendLayers = flattenGroups(layers, []);
-  flattendLayers.forEach((layer: any) => {
+  //const flattendLayers = flattenGroups(layers, []);
+  layers.forEach((layer: any) => {
     const { style } = layer;
     // check if fills contain any enabled gradients
     const hasActiveGradient = style.fills.some((fill: any) => {
@@ -121,8 +157,13 @@ export const generateBase64Gradients = (layers: any, dom: any) => {
 
 export const getSelectedArtboard = (selectedPage: any) => {
   return selectedPage.layers.find((layer: any) => {
-    if (layer.type === 'Artboard' && layer.selected) {
-      return layer;
-    }
+    return layer.type === 'Artboard' && layer.selected;
   });
+};
+
+export const getImageStore = (layers: any, dom: any) => {
+  const flattenedLayers = flattenGroups(layers, []);
+  const images = generateBase64Images(flattenedLayers);
+  const gradients = generateBase64Gradients(flattenedLayers, dom);
+  return [...images, ...gradients];
 };

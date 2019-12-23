@@ -82,3 +82,8 @@ button {
   position: absolute;
   box-sizing: content-box;
 }
+
+.c-layer--text {
+  display: flex;
+  flex-direction: column;
+}
