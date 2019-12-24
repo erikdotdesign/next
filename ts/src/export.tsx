@@ -3,7 +3,7 @@ import BrowserWindow from 'sketch-module-web-view';
 // @ts-ignore
 import { getWebview } from 'sketch-module-web-view/remote';
 // @ts-ignore
-import dom from 'sketch/dom';
+import sketch from 'sketch/dom';
 // @ts-ignore
 import ui from 'sketch/ui';
 
@@ -12,12 +12,9 @@ import * as utils from '../resources/utils/commandUtils';
 const webviewIdentifier = 'measure.webview';
 
 export default () => {
-  // Document and artboard
-  const document = dom.getSelectedDocument();
-  const artboard = utils.getSelectedArtboard(document.selectedPage);
-  //const imageStore = utils.getImageStore(artboard.layers, dom);
+  const store = utils.getStore(sketch);
 
-  if (artboard !== undefined) {
+  if (store.artboard !== undefined) {
 
     const browserWindow = new BrowserWindow({
       identifier: webviewIdentifier,
@@ -38,19 +35,16 @@ export default () => {
       browserWindow.show();
     });
 
-    // webContents.on('did-finish-load', () => {
-    //   webContents.executeJavaScript(`renderApp(
-    //     ${JSON.stringify(artboard)},
-    //     ${JSON.stringify(imageStore)}
-    //   )`);
-    // });
-
     webContents.on('did-finish-load', () => {
-      webContents.executeJavaScript(`renderApp(${JSON.stringify(artboard)})`);
+      webContents.executeJavaScript(`renderApp(
+        ${JSON.stringify(store.artboard)},
+        ${JSON.stringify(store.layers)}
+      )`);
     });
 
-    webContents.on('nativeLog', (s: any) => {
-      console.log(s);
+    webContents.on('getImage', function(id: any) {
+      const image = store.images.find((img) => img.id === id);
+      return image.url;
     });
 
   } else {

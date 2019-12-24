@@ -9,6 +9,7 @@ interface GroupProps {
 class Group extends React.Component<GroupProps, {}> {
   render() {
     return (
+      // @ts-ignore
       <div className='c-layer c-layer--group' style={createGroupStyles(this.props.layer)}>
         <Layers layers={this.props.layer.layers} />
       </div>

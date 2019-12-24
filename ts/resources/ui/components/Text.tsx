@@ -11,6 +11,7 @@ class Text extends React.Component<TextProps, {}> {
     return (
       <div
         className='c-layer c-layer--text'
+        // @ts-ignore
         style={textContainerStyles(this.props.layer)}>
         {
           paragraphs.map((string: string, index: number) => (

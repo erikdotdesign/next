@@ -6,6 +6,7 @@ import Canvas from './Canvas';
 
 interface AppProps {
   artboard: any;
+  layers: any;
 }
 
 class App extends React.Component<AppProps, {}> {
@@ -16,7 +17,7 @@ class App extends React.Component<AppProps, {}> {
           <Sidebar />
           <Canvas>
             <Artboard artboard={this.props.artboard} >
-              <Layers layers={this.props.artboard.layers} />
+              <Layers layers={this.props.layers} />
             </Artboard>
           </Canvas>
         </div>

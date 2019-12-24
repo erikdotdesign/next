@@ -10,7 +10,7 @@ class App extends React.Component {
                 React.createElement(Sidebar, null),
                 React.createElement(Canvas, null,
                     React.createElement(Artboard, { artboard: this.props.artboard },
-                        React.createElement(Layers, { layers: this.props.artboard.layers }))))));
+                        React.createElement(Layers, { layers: this.props.layers }))))));
     }
 }
 export default App;

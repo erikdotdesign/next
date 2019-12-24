@@ -10,6 +10,7 @@ class ShapePath extends React.Component<ShapePathProps, {}> {
     return (
       <div
         className='c-layer c-layer--shape-path'
+        // @ts-ignore
         style={createShapePathStyles(this.props.layer)} />
     );
   }

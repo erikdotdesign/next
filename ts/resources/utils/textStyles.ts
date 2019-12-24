@@ -143,8 +143,8 @@ const createLineHeight = (lineHeight: number | null) => {
   }
 };
 
-const createParagraphSpacing = (paragraphSpacing: number, isLastChild: boolean) => {
-  if (!isLastChild) {
+const createParagraphSpacing = (paragraphSpacing: number, lastChild: boolean) => {
+  if (!lastChild) {
     return {
       paddingBottom: `${paragraphSpacing}px`
     }
@@ -204,7 +204,7 @@ export const textContainerStyles = (layer: any) => {
   }
 };
 
-export const textStyles = (layer: any, isLastChild: boolean) => {
+export const textStyles = (layer: any, lastChild: boolean) => {
   const { style } = layer;
   const textTransform = createTextTransform(style.textTransform);
   const fontFamily = createFontFamily(style.fontFamily);
@@ -216,7 +216,7 @@ export const textStyles = (layer: any, isLastChild: boolean) => {
   const opacity = createOpacity(style.opacity);
   const textDecoration = createTextDecoration(style.textStrikethrough, style.textUnderline);
   const fontStretch = createFontStretch(style.fontStretch);
-  const paragraphSpacing = createParagraphSpacing(style.paragraphSpacing, isLastChild);
+  const paragraphSpacing = createParagraphSpacing(style.paragraphSpacing, lastChild);
   const textAlign = createTextAlign(style.alignment);
   const borders = createTextBorders(style.borders);
   const shadows = createTextShadows(style.shadows);

@@ -7,9 +7,6 @@ interface ArtboardProps {
 }
 
 class Artboard extends React.Component<ArtboardProps, {}> {
-  componentDidMount() {
-    console.log(this.props.artboard);
-  }
   render() {
     return (
       <div

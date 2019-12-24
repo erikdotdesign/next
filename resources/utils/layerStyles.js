@@ -1,6 +1,11 @@
-const getImage = (images, id) => {
-    return images.find((image) => {
-        return image.id === id;
+const getImage = (id) => {
+    return window.postMessage('getImage', `${id}`).then((image) => {
+        if (image) {
+            return image;
+        }
+        else {
+            console.log('error grabbing image');
+        }
     });
 };
 const createPosition = (x, y) => {
@@ -111,10 +116,10 @@ const createBordersAndShadows = (borders, shadows, innerShadows) => {
         boxShadow: combined
     };
 };
-const createGradientFillImage = (images, id) => {
-    const image = getImage(images, id);
+const createGradientFillImage = (id) => {
+    const image = getImage(id);
     return {
-        background: `url(${image.url})`,
+        background: `url(${image})`,
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat'
     };
@@ -160,14 +165,14 @@ const createPatternDisplay = (pattern) => {
     ;
 };
 // NEED TYPES
-const createPatternFill = (pattern, images) => {
+const createPatternFill = (pattern) => {
     const fillImageId = pattern.image.id;
-    const image = getImage(images, fillImageId);
+    const image = getImage(fillImageId);
     const displayStyle = createPatternDisplay(pattern);
-    return Object.assign({ background: `url(${image.url})` }, displayStyle);
+    return Object.assign({ background: `url(${image})` }, displayStyle);
 };
 // NEED TYPES
-const createBackground = (fills) => {
+const createBackground = (fills, id) => {
     // get fills that are enabled
     const hasActiveFills = fills.some((fill) => fill.enabled);
     // create background if there are active fills
@@ -182,10 +187,10 @@ const createBackground = (fills) => {
                 return createColorFill(topFill.color);
                 break;
             case 'Gradient':
-                //return createGradientFillImage(images, id);
+                return createGradientFillImage(id);
                 break;
             case 'Pattern':
-                //return createPatternFill(topFill.pattern, images);
+                return createPatternFill(topFill.pattern);
                 break;
         }
         ;
@@ -235,7 +240,7 @@ export const createShapePathStyles = (layer) => {
     const baseStyles = createBaseLayerStyles(layer);
     const borderRadius = createBorderRadius(shapeType, points);
     const opacity = createOpacity(style.opacity);
-    const background = createBackground(style.fills);
+    const background = createBackground(style.fills, style.id);
     const bordersAndShadows = createBordersAndShadows(style.borders, style.shadows, style.innerShadows);
     return Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, baseStyles), borderRadius), opacity), background), bordersAndShadows);
 };

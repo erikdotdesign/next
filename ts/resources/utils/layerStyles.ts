@@ -1,6 +1,11 @@
-const getImage = (images: any, id: any) => {
-  return images.find((image: any) => {
-    return image.id === id;
+const getImage = (id: any) => {
+  // @ts-ignore
+  return window.postMessage('getImage', `${id}`).then((image: any) => {
+    if (image) {
+      return image;
+    } else {
+      console.log('error grabbing image');
+    }
   });
 };
 
@@ -117,10 +122,10 @@ const createBordersAndShadows = (borders: any, shadows: any, innerShadows: any) 
   }
 };
 
-const createGradientFillImage = (images: any, id: any) => {
-  const image = getImage(images, id);
+const createGradientFillImage = (id: any) => {
+  const image = getImage(id);
   return {
-    background: `url(${image.url})`,
+    background: `url(${image})`,
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat'
   }
@@ -168,19 +173,19 @@ const createPatternDisplay = (pattern: any) => {
 };
 
 // NEED TYPES
-const createPatternFill = (pattern: any, images: any) => {
+const createPatternFill = (pattern: any) => {
   const fillImageId = pattern.image.id;
-  const image = getImage(images, fillImageId);
+  const image = getImage(fillImageId);
   const displayStyle = createPatternDisplay(pattern);
 
   return {
-    background: `url(${image.url})`,
+    background: `url(${image})`,
     ...displayStyle
   }
 };
 
 // NEED TYPES
-const createBackground = (fills: any) => {
+const createBackground = (fills: any, id: any) => {
   // get fills that are enabled
   const hasActiveFills = fills.some((fill: any) => fill.enabled);
   // create background if there are active fills
@@ -195,10 +200,10 @@ const createBackground = (fills: any) => {
         return createColorFill(topFill.color);
         break;
       case 'Gradient':
-        //return createGradientFillImage(images, id);
+        return createGradientFillImage(id);
         break;
       case 'Pattern':
-        //return createPatternFill(topFill.pattern, images);
+        return createPatternFill(topFill.pattern);
         break;
     };
   } else {
@@ -262,7 +267,7 @@ export const createShapePathStyles = (layer: any) => {
   const baseStyles = createBaseLayerStyles(layer);
   const borderRadius = createBorderRadius(shapeType, points);
   const opacity = createOpacity(style.opacity);
-  const background = createBackground(style.fills);
+  const background = createBackground(style.fills, style.id);
   const bordersAndShadows = createBordersAndShadows(style.borders, style.shadows, style.innerShadows);
 
   return {

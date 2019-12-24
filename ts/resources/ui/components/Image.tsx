@@ -10,6 +10,7 @@ class Image extends React.Component<ImageProps, {}> {
     return (
       <div
         className='c-layer c-layer--image'
+        // @ts-ignore
         style={createBaseLayerStyles(this.props.layer)} />
     );
   }

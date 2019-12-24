@@ -10,6 +10,7 @@ class Slice extends React.Component<SliceProps, {}> {
     return (
       <div
         className='c-layer c-layer--slice'
+        // @ts-ignore
         style={createBaseLayerStyles(this.props.layer)} />
     );
   }
