@@ -9,6 +9,7 @@ class Shape extends React.Component<ShapeProps, {}> {
   render() {
     return (
       <div
+        data-layer-name={this.props.layer.name}
         className='c-layer c-layer--shape'
         // @ts-ignore
         style={createBaseLayerStyles(this.props.layer)} />

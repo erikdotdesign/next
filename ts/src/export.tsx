@@ -38,14 +38,15 @@ export default () => {
     webContents.on('did-finish-load', () => {
       webContents.executeJavaScript(`renderApp(
         ${JSON.stringify(store.artboard)},
-        ${JSON.stringify(store.layers)}
+        ${JSON.stringify(store.layers)},
+        ${JSON.stringify(store.images)}
       )`);
     });
 
-    webContents.on('getImage', function(id: any) {
-      const image = store.images.find((img) => img.id === id);
-      return image.url;
-    });
+    // webContents.on('getImage', function(id: any) {
+    //   const image = store.images.find((img) => img.id === id);
+    //   return image.url;
+    // });
 
   } else {
     ui.alert('Select artboard', 'Select an artboard to export.');

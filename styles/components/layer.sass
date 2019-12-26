@@ -1,7 +1,38 @@
 .c-layer
   position: absolute
   box-sizing: content-box
+  z-index: 2
 
 .c-layer--text
   display: flex
   flex-direction: column
+
+.c-layer--selection,
+.c-layer--hover
+  z-index: 3
+  pointer-events: none
+
+.c-layer__dim
+  position: absolute
+  height: 20px
+  background: blue
+  color: white
+  font-size: 16px
+  line-height: 20px
+  padding: 0 3px
+  border-radius: 2px
+
+.c-layer__rule
+  position: absolute
+  background: blue
+
+.c-layer__rule--t,
+.c-layer__rule--b
+  width: 1px
+  left: 50%
+
+.c-layer__rule--r,
+.c-layer__rule--l
+  height: 1px
+  top: 50%
+

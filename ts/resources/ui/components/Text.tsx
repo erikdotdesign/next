@@ -10,6 +10,7 @@ class Text extends React.Component<TextProps, {}> {
     const paragraphs = this.props.layer.text.split(/\n/g);
     return (
       <div
+        data-layer-name={this.props.layer.name}
         className='c-layer c-layer--text'
         // @ts-ignore
         style={textContainerStyles(this.props.layer)}>

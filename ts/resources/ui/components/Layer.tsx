@@ -8,26 +8,71 @@ import Slice from './Slice';
 
 interface LayerProps {
   layer: any;
+  images: any;
+  setAppState: any;
+  appState: any;
 }
 
-class Layer extends React.Component<LayerProps, {}> {
-  render() {
-    const { layer } = this.props;
-    const { type } = layer;
-    if (type === 'Group') {
-      return <Group layer={layer} />
-    } else if (type === 'Image') {
-      return <Image layer={layer} />
-    } else if (type === 'Shape') {
-      return <Shape layer={layer} />
-    } else if (type === 'ShapePath') {
-      return <ShapePath layer={layer} />
-    } else if (type === 'Text') {
-      return <Text layer={layer} />
-    } else if (type === 'Slice') {
-      return <Slice layer={layer} />
+interface LayerState {
+  selected: boolean;
+  hovered: boolean;
+}
+
+class Layer extends React.Component<LayerProps, LayerState> {
+  onClick = () => {
+    if (this.props.layer.type === 'Group') {
+      this.props.setAppState({
+        selection: this.props.layer,
+        group: this.props.layer
+      });
     } else {
-      return <div className='c-layer' />
+      this.props.setAppState({
+        selection: this.props.layer
+      });
+    }
+  }
+  // onDoubleClick = () => {
+  //   this.props.setAppState({
+  //     group: this.props.layer
+  //   });
+  // }
+  onMouseOver = () => {
+    this.props.setAppState({
+      hover: this.props.layer
+    });
+  }
+  onMouseOut = () => {
+    this.props.setAppState({
+      hover: ''
+    });
+  }
+  render() {
+    switch(this.props.layer.type) {
+      case 'Group':
+        return <Group
+                  onClick={this.onClick}
+                  //onDoubleClick={this.onDoubleClick}
+                  onMouseOver={this.onMouseOver}
+                  onMouseOut={this.onMouseOut}
+                  {...this.props} />
+      case 'Image':
+        return <Image
+                  {...this.props} />
+      case 'ShapePath':
+        return  <ShapePath
+                  {...this.props}
+                  onClick={this.onClick}
+                  onMouseOver={this.onMouseOver}
+                  onMouseOut={this.onMouseOut} />
+      case 'Text':
+        return <Text
+                  {...this.props} />
+      case 'Shape':
+        return <Shape {...this.props} />
+      case 'Slice':
+        return <Slice {...this.props} />
+      default:
+        return <div className='c-layer' />
     }
   }
 }

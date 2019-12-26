@@ -1,25 +1,20 @@
-const getImage = (id) => {
-    return window.postMessage('getImage', `${id}`).then((image) => {
-        if (image) {
-            return image;
-        }
-        else {
-            console.log('error grabbing image');
-        }
+export const getImage = (images, id) => {
+    return images.find((image) => {
+        return image.id === id;
     });
 };
-const createPosition = (x, y) => {
+export const createPosition = (x, y) => {
     return {
         left: `${x}px`,
         top: `${y}px`
     };
 };
-const createWidth = (width) => {
+export const createWidth = (width) => {
     return {
         width: `${width}px`
     };
 };
-const createHeight = (height) => {
+export const createHeight = (height) => {
     return {
         height: `${height}px`
     };
@@ -29,7 +24,7 @@ export const createOpacity = (opacity) => {
         opacity
     };
 };
-const createBorderRadius = (shapeType, points) => {
+export const createBorderRadius = (shapeType, points) => {
     switch (shapeType) {
         case 'Rectangle':
             const borderRadius = [];
@@ -46,7 +41,7 @@ const createBorderRadius = (shapeType, points) => {
     }
     ;
 };
-const createBorder = (border) => {
+export const createBorder = (border) => {
     const { thickness, color, position } = border;
     switch (position) {
         case 'Outside':
@@ -60,7 +55,7 @@ const createBorder = (border) => {
     }
 };
 // NEED TYPES
-const createBorders = (borders) => {
+export const createBorders = (borders) => {
     const bordersMap = [];
     borders.forEach((border) => {
         if (border.enabled) {
@@ -69,7 +64,7 @@ const createBorders = (borders) => {
     });
     return bordersMap;
 };
-const createShadow = (shadow, inset) => {
+export const createShadow = (shadow, inset) => {
     const { x, y, blur, spread, color } = shadow;
     if (inset) {
         return `${x}px ${y}px ${blur}px ${spread}px ${color} inset`;
@@ -79,7 +74,7 @@ const createShadow = (shadow, inset) => {
     }
 };
 // NEED TYPES
-const createShadows = (shadows, innerShadows) => {
+export const createShadows = (shadows, innerShadows) => {
     const shadowsMap = [];
     shadows.forEach((shadow) => {
         if (shadow.enabled) {
@@ -93,7 +88,7 @@ const createShadows = (shadows, innerShadows) => {
     });
     return shadowsMap;
 };
-const createBordersAndShadows = (borders, shadows, innerShadows) => {
+export const createBordersAndShadows = (borders, shadows, innerShadows) => {
     let combined = null;
     // generate shadows
     const shadowsMap = createShadows(shadows, innerShadows);
@@ -116,10 +111,10 @@ const createBordersAndShadows = (borders, shadows, innerShadows) => {
         boxShadow: combined
     };
 };
-const createGradientFillImage = (id) => {
-    const image = getImage(id);
+export const createGradientFillImage = (images, id) => {
+    const image = getImage(images, id);
     return {
-        background: `url(${image})`,
+        background: `url(${image.url})`,
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat'
     };
@@ -131,31 +126,27 @@ const createColorFill = (color) => {
     };
 };
 // NEED TYPES
-const createPatternDisplay = (pattern) => {
+export const createPatternDisplay = (pattern) => {
     switch (pattern.patternType) {
         case 'Fill':
             return {
                 backgroundSize: 'cover',
                 backgroundRepeat: 'no-repeat'
             };
-            break;
         case 'Fit':
             return {
                 backgroundSize: 'contain',
                 backgroundRepeat: 'no-repeat'
             };
-            break;
         case 'Stretch':
             return {
                 backgroundSize: '100% 100%',
                 backgroundRepeat: 'no-repeat'
             };
-            break;
         case 'Tile':
             return {
                 backgroundRepeat: 'repeat'
             };
-            break;
         default:
             return {
                 backgroundSize: 'cover',
@@ -165,14 +156,14 @@ const createPatternDisplay = (pattern) => {
     ;
 };
 // NEED TYPES
-const createPatternFill = (pattern) => {
-    const fillImageId = pattern.image.id;
-    const image = getImage(fillImageId);
+export const createPatternFill = (pattern, images) => {
+    const id = pattern.image.id;
+    const image = getImage(images, id);
     const displayStyle = createPatternDisplay(pattern);
-    return Object.assign({ background: `url(${image})` }, displayStyle);
+    return Object.assign({ background: `url(${image.url})` }, displayStyle);
 };
 // NEED TYPES
-const createBackground = (fills, id) => {
+export const createBackground = (fills, images, id) => {
     // get fills that are enabled
     const hasActiveFills = fills.some((fill) => fill.enabled);
     // create background if there are active fills
@@ -185,23 +176,18 @@ const createBackground = (fills, id) => {
         switch (topFill.fillType) {
             case 'Color':
                 return createColorFill(topFill.color);
-                break;
             case 'Gradient':
-                return createGradientFillImage(id);
-                break;
+                return createGradientFillImage(images, id);
             case 'Pattern':
-                return createPatternFill(topFill.pattern);
-                break;
+                return createPatternFill(topFill.pattern, images);
         }
         ;
     }
     else {
-        return {
-            background: 'none'
-        };
+        return {};
     }
 };
-const createVisibility = (hidden) => {
+export const createVisibility = (hidden) => {
     if (hidden) {
         return { visibility: 'hidden' };
     }
@@ -209,7 +195,7 @@ const createVisibility = (hidden) => {
         return { visibility: 'visible' };
     }
 };
-const createRotation = (transform) => {
+export const createRotation = (transform) => {
     const scaleX = transform.flippedHorizontally ? -1 : 1;
     const scaleY = transform.flippedVertically ? -1 : 1;
     const rotation = transform.rotation * scaleX * scaleY;
@@ -235,14 +221,29 @@ export const createArtboardStyles = (artboard) => {
     return Object.assign(Object.assign(Object.assign({}, width), height), bg);
 };
 // NEED TYPES
-export const createShapePathStyles = (layer) => {
+export const createShapePathStyles = (layer, images) => {
     const { style, shapeType, points } = layer;
     const baseStyles = createBaseLayerStyles(layer);
     const borderRadius = createBorderRadius(shapeType, points);
     const opacity = createOpacity(style.opacity);
-    const background = createBackground(style.fills, style.id);
+    const background = createBackground(style.fills, images, style.id);
     const bordersAndShadows = createBordersAndShadows(style.borders, style.shadows, style.innerShadows);
     return Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, baseStyles), borderRadius), opacity), background), bordersAndShadows);
+};
+// NEED TYPES
+export const createImageStyles = (layer, images) => {
+    const { style } = layer;
+    const baseStyles = createBaseLayerStyles(layer);
+    const opacity = createOpacity(style.opacity);
+    const background = createBackground(style.fills, images, style.id);
+    const bordersAndShadows = createBordersAndShadows(style.borders, style.shadows, style.innerShadows);
+    const baseImage = getImage(images, layer.image.id);
+    const baseImageBackground = {
+        background: `url(${baseImage.url})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+    };
+    return Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, baseStyles), baseImageBackground), opacity), background), bordersAndShadows);
 };
 export const createGroupStyles = (layer) => {
     const { style } = layer;

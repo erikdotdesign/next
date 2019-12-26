@@ -102,8 +102,10 @@ const generateBase64Gradients = (layers, images, sketch) => {
                 });
                 // generate gradient base64
                 if (hasActiveGradient) {
+                    // create duplicate
+                    const duplicate = layer.duplicate();
                     // create base64 from duplicate layer
-                    const base64Gradient = gradientToBase64(layer, layer.style.id, sketch);
+                    const base64Gradient = gradientToBase64(duplicate, layer.style.id, sketch);
                     // push base64 gradient to images
                     images.push(base64Gradient);
                 }

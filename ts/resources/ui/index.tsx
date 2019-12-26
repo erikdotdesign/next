@@ -4,9 +4,9 @@ import App from './components/App';
 
 // @ts-ignore
 // ignores window.renderApp
-window.renderApp = (artboard: any, layers: any) => {
+window.renderApp = (artboard: any, layers: any, images: any) => {
   ReactDOM.render(
-    <App artboard={artboard} layers={layers} />,
+    <App artboard={artboard} layers={layers} images={images} />,
     document.getElementById('root')
   );
 };

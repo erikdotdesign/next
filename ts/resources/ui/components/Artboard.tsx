@@ -10,6 +10,7 @@ class Artboard extends React.Component<ArtboardProps, {}> {
   render() {
     return (
       <div
+        data-layer-name={this.props.artboard.name}
         className='c-artboard'
         style={createArtboardStyles(this.props.artboard)}>
         {this.props.children}
