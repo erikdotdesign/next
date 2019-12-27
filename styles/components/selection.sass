@@ -1,0 +1,120 @@
+$selectionStroke: 1px
+$selectionBpOffset: $selectionStroke / 2
+$selectionColor: blue
+
+.c-layer--selection
+  z-index: 3
+  pointer-events: none
+
+.c-selection__points,
+.c-selection__rules
+  +absolute-full
+
+.c-selection__point
+  position: absolute
+  width: 5px
+  height: 5px
+  border-radius: 1px
+  border: 0.5px solid rgba(0,0,0,0.33)
+  background: white
+  box-shadow: 0 0px 10px 0 rgba(0,0,0,0.15), 0 1px 1px 0 rgba(0,0,0,0.5)
+
+.c-selection__point--tl
+  left: -$selectionBpOffset
+  top: -$selectionBpOffset
+  transform: translateX(-50%) translateY(-50%)
+
+.c-selection__point--tr
+  right: -$selectionBpOffset
+  top: -$selectionBpOffset
+  transform: translateX(50%) translateY(-50%)
+
+.c-selection__point--tc
+  left: 50%
+  transform: translateX(-50%) translateY(-50%)
+  top: -$selectionBpOffset
+
+.c-selection__point--lc
+  left: -$selectionBpOffset
+  top: 50%
+  transform: translateX(-50%) translateY(-50%)
+
+.c-selection__point--rc
+  right: -$selectionBpOffset
+  top: 50%
+  transform: translateX(50%) translateY(-50%)
+
+.c-selection__point--bl
+  left: -$selectionBpOffset
+  bottom: -$selectionBpOffset
+  transform: translateX(-50%) translateY(50%)
+
+.c-selection__point--bc
+  left: 50%
+  transform: translateX(-50%) translateY(50%)
+  bottom: -$selectionBpOffset
+
+.c-selection__point--br
+  right: -$selectionBpOffset
+  bottom: -$selectionBpOffset
+  transform: translateX(50%) translateY(50%)
+
+.c-selection__dim
+  position: absolute
+  height: 17px
+  background: $selectionColor
+  color: white
+  font-size: 12px
+  line-height: 17px
+  padding: 0 3px
+  border-radius: 3px
+
+.c-selection__rule
+  position: absolute
+
+.c-selection__rule--t,
+.c-selection__rule--r,
+.c-selection__rule--b,
+.c-selection__rule--l
+  &:after,
+  &:before
+    +content-block
+    background: $selectionColor
+
+.c-selection__rule--t,
+.c-selection__rule--b
+  +horizontal-center
+  width: 1px
+
+  &:after
+    +horizontal-center
+    height: 1px
+    width: 10px
+
+  .c-selection__dim
+    +vertical-center
+
+.c-selection__rule--t
+  &:after
+    top: 0
+
+.c-selection__rule--b
+  &:after
+    top: calc(100% - 1px)
+
+.c-selection__rule--r,
+.c-selection__rule--l
+  +vertical-center
+  height: 1px
+
+  &:after
+    +vertical-center
+    height: 10px
+    width: 1px
+
+  .c-selection__dim
+    +horizontal-center
+
+.c-selection__rule--r
+  &:after
+    left: calc(100% - 1px)
