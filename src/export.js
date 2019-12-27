@@ -9,8 +9,15 @@ import ui from 'sketch/ui';
 import * as utils from '../resources/utils/commandUtils';
 const webviewIdentifier = 'measure.webview';
 export default () => {
-    const store = utils.getStore(sketch);
-    if (store.artboard !== undefined) {
+    // get sketch document
+    const document = sketch.getSelectedDocument();
+    // get selected sketch artboard
+    let selectedArtboard = utils.getSelectedArtboard(document.selectedPage);
+    // load plugin if artboard selected
+    if (selectedArtboard !== undefined) {
+        // get store
+        const store = utils.getStore(sketch, selectedArtboard);
+        // set webview browser window
         const browserWindow = new BrowserWindow({
             identifier: webviewIdentifier,
             width: 1024,
@@ -21,24 +28,24 @@ export default () => {
             fullscreenable: false,
             show: false
         });
+        // set webview contents
         const webContents = browserWindow.webContents;
+        // load react app
         browserWindow.loadURL(require('../resources/ui/index.html'));
+        // show browser window when ready
         browserWindow.once('ready-to-show', () => {
             browserWindow.show();
         });
+        // render app once webview contents loaded
         webContents.on('did-finish-load', () => {
             webContents.executeJavaScript(`renderApp(
         ${JSON.stringify(store.artboard)},
-        ${JSON.stringify(store.layers)},
         ${JSON.stringify(store.images)}
       )`);
         });
-        // webContents.on('getImage', function(id: any) {
-        //   const image = store.images.find((img) => img.id === id);
-        //   return image.url;
-        // });
     }
     else {
+        // display alert if no artboard is selected
         ui.alert('Select artboard', 'Select an artboard to export.');
     }
 };

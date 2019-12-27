@@ -1,20 +1,25 @@
 import React from 'react';
-import { createSelectedStyles } from '../../utils/selectionStyles';
+import { createSelectionStyles } from '../../utils/selectionStyles';
+import SelectionPoints from './SelectionPoints';
+import SelectionRules from './SelectionRules';
 
 interface SelectionProps {
   layer: any;
+  hover: any;
   artboard: any;
 }
 
 class Selection extends React.Component<SelectionProps, {}> {
   render() {
-    const { layer } = this.props;
+    const { layer, hover } = this.props;
     return (
-      <div className='c-layer c-layer--selection' style={createSelectedStyles(layer)}>
-        <div className='c-selection-border c-selection-border--t' />
-        <div className='c-selection-border c-selection-border--r' />
-        <div className='c-selection-border c-selection-border--b' />
-        <div className='c-selection-border c-selection-border--l' />
+      <div className='c-layer c-layer--selection' style={createSelectionStyles(layer)}>
+        <SelectionPoints />
+        {
+          hover
+          ? <SelectionRules {...this.props} />
+          : null
+        }
       </div>
     );
   }

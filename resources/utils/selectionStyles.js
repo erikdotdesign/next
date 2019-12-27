@@ -1,94 +1,110 @@
 import { createPosition, createWidth, createHeight, createBorder } from './layerStyles';
-const getBorderOffset = (layer) => {
-    const hasBorders = layer.style.borders.length > 0;
-    const hasActiveBorders = layer.style.borders.some((border) => {
-        return border.enabled;
-    });
-    const activeBorders = layer.style.borders.filter((border) => {
-        return border.enabled;
-    });
-    if (hasBorders && hasActiveBorders) {
-        const bordersMap = activeBorders.map((border) => {
-            const { thickness, position } = border;
-            if (position === 'Inside') {
-                return 0;
-            }
-            else if (position === 'Center') {
-                return thickness / 2;
-            }
-            else if (position === 'Outside') {
-                return thickness;
-            }
-        });
-        return Math.max(...bordersMap);
-    }
-    else {
-        return 0;
-    }
-};
-export const createSelectedStyles = (layer) => {
+export const createSelectionStyles = (layer) => {
     const { frame } = layer;
     const position = createPosition(frame.x, frame.y);
     const width = createWidth(frame.width);
     const height = createHeight(frame.height);
-    //const borderOffset = getBorderOffset(layer);
-    const selectedBorder = createBorder({ thickness: 1, color: 'magenta', position: 'Outside' });
-    return Object.assign(Object.assign(Object.assign(Object.assign({}, position), width), height), { boxShadow: selectedBorder });
+    const border = createBorder({ thickness: 1, color: 'rgba(0,0,0,0.25)', position: 'Outside' });
+    return Object.assign(Object.assign(Object.assign(Object.assign({}, position), width), height), border);
 };
-export const createGroupSelectedStyles = (layer) => {
-    const { frame } = layer;
-    const position = createPosition(frame.x, frame.y);
-    const width = createWidth(frame.width);
-    const height = createHeight(frame.height);
-    //const borderOffset = getBorderOffset(layer);
-    const selectedBorder = createBorder({ thickness: 1, color: 'green', position: 'Outside' });
-    return Object.assign(Object.assign(Object.assign(Object.assign({}, position), width), height), { boxShadow: selectedBorder });
+const placeLeft = (layer, artboard) => {
+    const artboardCenter = artboard.frame.width / 2;
+    const layerCenter = layer.frame.x + (layer.frame.width / 2);
+    return layerCenter >= artboardCenter;
 };
-export const createDimWidthStyles = (layer, artboard) => {
-    const borderOffset = getBorderOffset(layer);
-    const layerOriginY = layer.frame.y + layer.frame.height / 2;
-    if (layerOriginY > artboard.frame.height / 2) {
+const placeTop = (layer, artboard) => {
+    const artboardCenter = artboard.frame.height / 2;
+    const layerCenter = layer.frame.y + (layer.frame.height / 2);
+    return layerCenter >= artboardCenter;
+};
+export const createRuleTStyles = (selection, hover) => {
+    const selectionTopOrigin = selection.frame.y;
+    const hoverBottomOrigin = hover.frame.y + hover.frame.height;
+    const belowSelection = selectionTopOrigin > hoverBottomOrigin;
+    let height = belowSelection ? selection.frame.y - hoverBottomOrigin : selection.frame.y - hover.frame.y;
+    return {
+        height: `${height}px`,
+        top: `-${height}px`
+    };
+};
+export const createRuleTBDimStyles = (layer, artboard) => {
+    if (placeLeft(layer, artboard)) {
         return {
-            left: '50%',
-            top: 0,
-            transform: `translateY(calc(-100% - ${10 + borderOffset}px)) translateX(-50%)`
+            right: '10px'
         };
     }
     else {
         return {
-            left: '50%',
-            bottom: 0,
-            transform: `translateY(calc(100% + ${10 + borderOffset}px)) translateX(-50%)`
+            left: '10px'
         };
     }
 };
-export const createDimHeightStyles = (layer, artboard) => {
-    const borderOffset = getBorderOffset(layer);
-    const layerOriginX = layer.frame.x + layer.frame.width / 2;
-    if (layerOriginX > artboard.frame.width / 2) {
+export const createRuleRStyles = (selection, hover) => {
+    const selectionRightOrigin = selection.frame.x + selection.frame.width;
+    const hoverLeftOrigin = hover.frame.x;
+    const hoverRightOrigin = hover.frame.x + hover.frame.width;
+    const rightOfHoverLeft = selectionRightOrigin > hoverLeftOrigin;
+    let width = rightOfHoverLeft ? hoverRightOrigin - selectionRightOrigin : hoverLeftOrigin - selectionRightOrigin;
+    return {
+        width: `${width}px`,
+        right: `-${width}px`
+    };
+};
+export const createRuleRLDimStyles = (layer, artboard) => {
+    if (placeTop(layer, artboard)) {
         return {
-            top: '50%',
-            left: 0,
-            transform: `translateX(calc(-100% - ${10 + borderOffset}px)) translateY(-50%)`
+            bottom: '10px'
         };
     }
     else {
         return {
-            top: '50%',
-            right: 0,
-            transform: `translateX(calc(100% + ${10 + borderOffset}px)) translateY(-50%)`
+            top: '10px'
         };
     }
 };
-export const createHoveredStyles = (layer) => {
-    const { frame } = layer;
-    const position = createPosition(frame.x, frame.y);
-    const width = createWidth(frame.width);
-    const height = createHeight(frame.height);
-    //const borderOffset = getBorderOffset(layer);
-    const hoveredBorder = createBorder({ thickness: 1, color: 'blue', position: 'Outside' });
-    return Object.assign(Object.assign(Object.assign(Object.assign({}, position), width), height), { boxShadow: hoveredBorder });
+export const createRuleBStyles = (selection, hover) => {
+    const selectionBottomOrigin = selection.frame.y + selection.frame.height;
+    const hoverTopOrigin = hover.frame.y;
+    const hoverBottomOrigin = hover.frame.y + hover.frame.height;
+    const belowHoverTop = selectionBottomOrigin > hoverTopOrigin;
+    let height = belowHoverTop ? hoverBottomOrigin - selectionBottomOrigin : hoverTopOrigin - selectionBottomOrigin;
+    return {
+        height: `${height}px`,
+        bottom: `-${height}px`
+    };
 };
-export const createHoveredTRuleStyles = (layer, selection, artboard) => {
-    return {};
+export const createRuleLStyles = (selection, hover) => {
+    const selectionLeftOrigin = selection.frame.x;
+    const hoverLeftOrigin = hover.frame.x;
+    const hoverRightOrigin = hover.frame.x + hover.frame.width;
+    const leftOfHoverRight = selectionLeftOrigin > hoverRightOrigin;
+    let width = leftOfHoverRight ? selectionLeftOrigin - hoverRightOrigin : selectionLeftOrigin - hoverLeftOrigin;
+    return {
+        width: `${width}px`,
+        left: `-${width}px`
+    };
 };
+// const getBorderOffset = (layer: any) => {
+//   const hasBorders = layer.style.borders.length > 0;
+//   const hasActiveBorders = layer.style.borders.some((border: any) => {
+//     return border.enabled;
+//   });
+//   const activeBorders = layer.style.borders.filter((border: any) => {
+//     return border.enabled;
+//   });
+//   if (hasBorders && hasActiveBorders) {
+//     const bordersMap = activeBorders.map((border: any) => {
+//       const { thickness, position } = border;
+//       if (position === 'Inside') {
+//         return 0
+//       } else if (position === 'Center') {
+//         return thickness / 2
+//       } else if (position === 'Outside') {
+//         return thickness
+//       }
+//     });
+//     return Math.max(...bordersMap);
+//   } else {
+//     return 0;
+//   }
+// }

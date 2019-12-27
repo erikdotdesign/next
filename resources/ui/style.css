@@ -102,36 +102,162 @@ button {
   flex-direction: column;
 }
 
-.c-layer--selection,
-.c-layer--hover {
+.c-layer--selection {
   z-index: 3;
   pointer-events: none;
 }
 
-.c-layer__dim {
+.c-selection__points,
+.c-selection__rules {
   position: absolute;
-  height: 20px;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.c-selection__point {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 1px;
+  border: 0.5px solid rgba(0, 0, 0, 0.33);
+  background: white;
+  box-shadow: 0 0px 10px 0 rgba(0, 0, 0, 0.15), 0 1px 1px 0 rgba(0, 0, 0, 0.5);
+}
+
+.c-selection__point--tl {
+  left: -0.5px;
+  top: -0.5px;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.c-selection__point--tr {
+  right: -0.5px;
+  top: -0.5px;
+  transform: translateX(50%) translateY(-50%);
+}
+
+.c-selection__point--tc {
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  top: -0.5px;
+}
+
+.c-selection__point--lc {
+  left: -0.5px;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.c-selection__point--rc {
+  right: -0.5px;
+  top: 50%;
+  transform: translateX(50%) translateY(-50%);
+}
+
+.c-selection__point--bl {
+  left: -0.5px;
+  bottom: -0.5px;
+  transform: translateX(-50%) translateY(50%);
+}
+
+.c-selection__point--bc {
+  left: 50%;
+  transform: translateX(-50%) translateY(50%);
+  bottom: -0.5px;
+}
+
+.c-selection__point--br {
+  right: -0.5px;
+  bottom: -0.5px;
+  transform: translateX(50%) translateY(50%);
+}
+
+.c-selection__dim {
+  position: absolute;
+  height: 17px;
   background: blue;
   color: white;
-  font-size: 16px;
-  line-height: 20px;
+  font-size: 12px;
+  line-height: 17px;
   padding: 0 3px;
-  border-radius: 2px;
+  border-radius: 3px;
 }
 
-.c-layer__rule {
+.c-selection__rule {
   position: absolute;
+}
+
+.c-selection__rule--t:after, .c-selection__rule--t:before,
+.c-selection__rule--r:after,
+.c-selection__rule--r:before,
+.c-selection__rule--b:after,
+.c-selection__rule--b:before,
+.c-selection__rule--l:after,
+.c-selection__rule--l:before {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  content: "";
+  width: 100%;
+  display: block;
   background: blue;
 }
 
-.c-layer__rule--t,
-.c-layer__rule--b {
-  width: 1px;
+.c-selection__rule--t,
+.c-selection__rule--b {
   left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+}
+.c-selection__rule--t:after,
+.c-selection__rule--b:after {
+  left: 50%;
+  transform: translateX(-50%);
+  height: 1px;
+  width: 10px;
+}
+.c-selection__rule--t .c-selection__dim,
+.c-selection__rule--b .c-selection__dim {
+  top: 50%;
+  transform: translateY(-50%);
 }
 
-.c-layer__rule--r,
-.c-layer__rule--l {
-  height: 1px;
+.c-selection__rule--t:after {
+  top: 0;
+}
+
+.c-selection__rule--b:after {
+  top: calc(100% - 1px);
+}
+
+.c-selection__rule--r,
+.c-selection__rule--l {
   top: 50%;
+  transform: translateY(-50%);
+  height: 1px;
+}
+.c-selection__rule--r:after,
+.c-selection__rule--l:after {
+  top: 50%;
+  transform: translateY(-50%);
+  height: 10px;
+  width: 1px;
+}
+.c-selection__rule--r .c-selection__dim,
+.c-selection__rule--l .c-selection__dim {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.c-selection__rule--r:after {
+  left: calc(100% - 1px);
+}
+
+.c-layer--hover {
+  z-index: 3;
+  pointer-events: none;
 }

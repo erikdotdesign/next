@@ -11,7 +11,6 @@ class Sidebar extends React.Component<SidebarProps, {}> {
       <div className='c-sidebar'>
         <span>{this.props.appState.selection.name}</span>
         <span>{this.props.appState.hover.name}</span>
-        <span>{this.props.appState.group.name}</span>
       </div>
     );
   }

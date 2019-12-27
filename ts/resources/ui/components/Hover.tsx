@@ -1,5 +1,5 @@
 import React from 'react';
-import { createHoveredStyles, createDimWidthStyles, createDimHeightStyles } from '../../utils/selectionStyles';
+import { createHoveredStyles, createDimWidthStyles, createDimHeightStyles } from '../../utils/hoverStyles';
 
 interface HoverProps {
   layer: any;
@@ -9,15 +9,25 @@ interface HoverProps {
 
 class Hover extends React.Component<HoverProps, {}> {
   render() {
-    const { layer, artboard } = this.props;
+    const { layer, selection, artboard } = this.props;
     return (
       <div className='c-layer c-layer--hover' style={createHoveredStyles(layer)}>
-        <div className='c-layer__dim c-layer__dim--width' style={createDimWidthStyles(layer, artboard)}>{layer.frame.width}px</div>
-        <div className='c-layer__dim c-layer__dim--height' style={createDimHeightStyles(layer, artboard)}>{layer.frame.height}px</div>
-        <div className='c-layer__rule c-layer__rule--t'></div>
-        <div className='c-layer__rule c-layer__rule--r'></div>
-        <div className='c-layer__rule c-layer__rule--b'></div>
-        <div className='c-layer__rule c-layer__rule--l'></div>
+        {
+          !selection
+          ? <div>
+              <div
+                className='c-selection__dim'
+                style={createDimWidthStyles(layer, artboard)}>
+                {layer.frame.width}px
+              </div>
+              <div
+                className='c-selection__dim'
+                style={createDimHeightStyles(layer, artboard)}>
+                {layer.frame.height}px
+              </div>
+            </div>
+          : null
+        }
       </div>
     );
   }

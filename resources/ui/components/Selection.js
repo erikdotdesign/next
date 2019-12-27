@@ -1,13 +1,15 @@
 import React from 'react';
-import { createSelectedStyles } from '../../utils/selectionStyles';
+import { createSelectionStyles } from '../../utils/selectionStyles';
+import SelectionPoints from './SelectionPoints';
+import SelectionRules from './SelectionRules';
 class Selection extends React.Component {
     render() {
-        const { layer } = this.props;
-        return (React.createElement("div", { className: 'c-layer c-layer--selection', style: createSelectedStyles(layer) },
-            React.createElement("div", { className: 'c-selection-border c-selection-border--t' }),
-            React.createElement("div", { className: 'c-selection-border c-selection-border--r' }),
-            React.createElement("div", { className: 'c-selection-border c-selection-border--b' }),
-            React.createElement("div", { className: 'c-selection-border c-selection-border--l' })));
+        const { layer, hover } = this.props;
+        return (React.createElement("div", { className: 'c-layer c-layer--selection', style: createSelectionStyles(layer) },
+            React.createElement(SelectionPoints, null),
+            hover
+                ? React.createElement(SelectionRules, Object.assign({}, this.props))
+                : null));
     }
 }
 export default Selection;

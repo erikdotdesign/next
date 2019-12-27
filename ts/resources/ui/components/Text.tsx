@@ -3,6 +3,9 @@ import { textContainerStyles, textStyles } from '../../utils/textStyles';
 
 interface TextProps {
   layer: any;
+  onClick(): void;
+  onMouseOver(): void;
+  onMouseOut(): void;
 }
 
 class Text extends React.Component<TextProps, {}> {
@@ -10,7 +13,9 @@ class Text extends React.Component<TextProps, {}> {
     const paragraphs = this.props.layer.text.split(/\n/g);
     return (
       <div
-        data-layer-name={this.props.layer.name}
+        onClick={this.props.onClick}
+        onMouseOver={this.props.onMouseOver}
+        onMouseOut={this.props.onMouseOut}
         className='c-layer c-layer--text'
         // @ts-ignore
         style={textContainerStyles(this.props.layer)}>

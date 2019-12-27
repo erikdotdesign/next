@@ -64,7 +64,30 @@ const detachSymbols = (layers: any) => {
   }
 };
 
-const getLayerImages = (layers: any, images: any) => {
+const flattenGroups = (layers: any, newLayers: any = []) => {
+  if (layers.length > 0) {
+    layers.forEach((layer: any) => {
+      if (layer.type === 'Group') {
+        layer.layers.forEach((childLayer: any) => {
+          childLayer.frame.x = Math.round(childLayer.frame.x + layer.frame.x);
+          childLayer.frame.y = Math.round(childLayer.frame.y + layer.frame.y);
+          childLayer.frame.width = Math.round(childLayer.frame.width);
+          childLayer.frame.height = Math.round(childLayer.frame.height);
+        });
+        flattenGroups(layer.layers, newLayers);
+      } else {
+        layer.frame.x = Math.round(layer.frame.x);
+        layer.frame.y = Math.round(layer.frame.y);
+        layer.frame.width = Math.round(layer.frame.width);
+        layer.frame.height = Math.round(layer.frame.height);
+        newLayers.push(layer);
+      }
+    });
+  }
+  return newLayers;
+};
+
+const getLayerImages = (layers: any, images: any = []) => {
   if (layers.length > 0) {
     layers.forEach((layer: any) => {
       if (layer.type === 'Group') {
@@ -77,7 +100,7 @@ const getLayerImages = (layers: any, images: any) => {
   return images;
 };
 
-const getFillImages = (layers: any, images: any) => {
+const getFillImages = (layers: any, images: any = []) => {
   if (layers.length > 0) {
     layers.forEach((layer: any) => {
       if (layer.type === 'Group') {
@@ -94,11 +117,11 @@ const getFillImages = (layers: any, images: any) => {
   return images;
 };
 
-const generateBase64Gradients = (layers: any, images: any, sketch: any) => {
+const generateBase64Gradients = (layers: any, sketch: any, images: any = []) => {
   if (layers.length > 0) {
     layers.forEach((layer: any) => {
       if (layer.type === 'Group') {
-        generateBase64Gradients(layer.layers, images, sketch);
+        generateBase64Gradients(layer.layers, sketch, images);
       } else if (layer.style.fills.length > 0 && !layer.hidden) {
         // check if fills contain any enabled gradients
         const hasActiveGradient = layer.style.fills.some((fill: any) => {
@@ -109,7 +132,7 @@ const generateBase64Gradients = (layers: any, images: any, sketch: any) => {
           // create duplicate
           const duplicate = layer.duplicate();
           // create base64 from duplicate layer
-          const base64Gradient = gradientToBase64(duplicate, layer.style.id, sketch);
+          const base64Gradient = gradientToBase64(duplicate, layer.id, sketch);
           // push base64 gradient to images
           images.push(base64Gradient);
         }
@@ -121,8 +144,8 @@ const generateBase64Gradients = (layers: any, images: any, sketch: any) => {
 
 const generateBase64Images = (layers: any) => {
   // get layers to turn into base64
-  const layerImages: any = getLayerImages(layers, []);
-  const fillImages: any = getFillImages(layers, []);
+  const layerImages: any = getLayerImages(layers);
+  const fillImages: any = getFillImages(layers);
   // generate base64 images from layers
   const base64LayerImages: any = base64ImageBatch(layerImages);
   const base64FillImages: any = base64ImageBatch(fillImages);
@@ -132,29 +155,29 @@ const generateBase64Images = (layers: any) => {
 
 const generateImageStore = (layers: any, sketch: any) => {
   const images = generateBase64Images(layers);
-  const gradients = generateBase64Gradients(layers, [], sketch)
+  const gradients = generateBase64Gradients(layers, sketch)
   return [...images, ...gradients];
 }
 
-export const getStore = (sketch: any) => {
-  // get sketch document and artboard
-  const document = sketch.getSelectedDocument();
-  const selectedPage = document.selectedPage;
-  const artboard = getSelectedArtboard(selectedPage);
+export const getStore = (sketch: any, selectedArtboard: any) => {
   // duplicate artboard
-  const artboardDuplicate = artboard.duplicate();
+  let artboard = selectedArtboard.duplicate();
+  // clear artboard frame
+  artboard.frame.x = 0;
+  artboard.frame.y = 0;
   // detach symbols from duplicate artboard layers
-  detachSymbols(artboardDuplicate.layers);
-  // set layers
-  const layers = artboardDuplicate.layers;
+  detachSymbols(artboard.layers);
+  // flatten artboard layer groups
+  const newLayers = flattenGroups(artboard.layers);
   // generate base64 images from layers
-  const images = generateImageStore(layers, sketch);
+  const images = generateImageStore(newLayers, sketch);
+  // set artboard layers
+  artboard.layers = newLayers;
   // delete duplicate artboard
-  artboardDuplicate.remove();
+  artboard.remove();
   // return final store
   return {
     artboard,
-    layers,
     images
   };
 };

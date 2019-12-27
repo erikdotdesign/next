@@ -41,74 +41,133 @@ export const createBorderRadius = (shapeType, points) => {
     }
     ;
 };
-export const createBorder = (border) => {
-    const { thickness, color, position } = border;
+export const createBorder = (sketchBorder) => {
+    const { thickness, color, position } = sketchBorder;
+    let border;
     switch (position) {
         case 'Outside':
-            return `0 0 0 ${thickness}px ${color}`;
+            border = `0 0 0 ${thickness}px ${color}`;
+            break;
         case 'Center':
-            return `0 0 0 ${thickness / 2}px ${color} inset, 0 0 0 ${thickness / 2}px ${color}`;
+            border = `0 0 0 ${thickness / 2}px ${color} inset, 0 0 0 ${thickness / 2}px ${color}`;
+            break;
         case 'Inside':
-            return `0 0 0 ${thickness}px ${color} inset`;
+            border = `0 0 0 ${thickness}px ${color} inset`;
+            break;
         default:
-            return `0 0 0 ${thickness / 2}px ${color} inset, 0 0 0 ${thickness / 2}px ${color}`;
-    }
-};
-// NEED TYPES
-export const createBorders = (borders) => {
-    const bordersMap = [];
-    borders.forEach((border) => {
-        if (border.enabled) {
-            bordersMap.unshift(createBorder(border));
-        }
-    });
-    return bordersMap;
-};
-export const createShadow = (shadow, inset) => {
-    const { x, y, blur, spread, color } = shadow;
-    if (inset) {
-        return `${x}px ${y}px ${blur}px ${spread}px ${color} inset`;
-    }
-    else {
-        return `${x}px ${y}px ${blur}px ${spread}px ${color}`;
-    }
-};
-// NEED TYPES
-export const createShadows = (shadows, innerShadows) => {
-    const shadowsMap = [];
-    shadows.forEach((shadow) => {
-        if (shadow.enabled) {
-            shadowsMap.push(createShadow(shadow, false));
-        }
-    });
-    innerShadows.forEach((shadow) => {
-        if (shadow.enabled) {
-            shadowsMap.push(createShadow(shadow, true));
-        }
-    });
-    return shadowsMap;
-};
-export const createBordersAndShadows = (borders, shadows, innerShadows) => {
-    let combined = null;
-    // generate shadows
-    const shadowsMap = createShadows(shadows, innerShadows);
-    // generate borders
-    const bordersMap = createBorders(borders);
-    // define combined
-    if (shadowsMap.length > 0 && bordersMap.length > 0) {
-        combined = `${bordersMap.join()}, ${shadowsMap.join()}`;
-    }
-    else if (shadowsMap.length > 0) {
-        combined = shadowsMap.join();
-    }
-    else if (bordersMap.length > 0) {
-        combined = bordersMap.join();
-    }
-    else {
-        combined = 'none';
+            border = `0 0 0 ${thickness / 2}px ${color} inset, 0 0 0 ${thickness / 2}px ${color}`;
     }
     return {
-        boxShadow: combined
+        boxShadow: border
+    };
+};
+// NEED TYPES
+export const createBorders = (sketchBorders) => {
+    const borders = sketchBorders.map((sketchBorder) => {
+        if (sketchBorder.enabled) {
+            const border = createBorder(sketchBorder);
+            return border.boxShadow;
+        }
+    });
+    if (borders.length > 0) {
+        return {
+            boxShadow: borders.join()
+        };
+    }
+    else {
+        return {};
+    }
+};
+export const createShadow = (sketchShadow, inset) => {
+    const { x, y, blur, spread, color } = sketchShadow;
+    const base = `${x}px ${y}px ${blur}px ${spread}px ${color}`;
+    const shadow = inset ? `${base} inset` : base;
+    return {
+        boxShadow: shadow
+    };
+};
+// NEED TYPES
+// export const createShadows = (sketchShadows: any, sketchInnerShadows: any) => {
+//   const shadowsMap: string[] = [];
+//   sketchShadows.forEach((sketchShadow: any) => {
+//     if (sketchShadow.enabled) {
+//       const shadow = createShadow(sketchShadow, false);
+//       shadowsMap.push(shadow.boxShadow);
+//     }
+//   });
+//   sketchInnerShadows.forEach((sketchInnerShadow: any) => {
+//     if (sketchInnerShadow.enabled) {
+//       const innerShadow = createShadow(sketchInnerShadow, true);
+//       shadowsMap.push(innerShadow.boxShadow);
+//     }
+//   });
+//   if (shadowsMap.length > 0) {
+//     return {
+//       boxShadow: shadowsMap.join()
+//     }
+//   } else {
+//     return {};
+//   }
+// };
+export const createShadows = (sketchShadows) => {
+    const shadows = sketchShadows.map((sketchShadow) => {
+        if (sketchShadow.enabled) {
+            const shadow = createShadow(sketchShadow, false);
+            return shadow.boxShadow;
+        }
+    });
+    if (shadows.length > 0) {
+        return {
+            boxShadow: shadows.join()
+        };
+    }
+    else {
+        return {};
+    }
+};
+export const createInnerShadows = (sketchInnerShadows) => {
+    const innerShadows = sketchInnerShadows.map((sketchInnerShadow) => {
+        if (sketchInnerShadow.enabled) {
+            const innerShadow = createShadow(sketchInnerShadow, true);
+            return innerShadow.boxShadow;
+        }
+    });
+    if (innerShadows.length > 0) {
+        return {
+            boxShadow: innerShadows.join()
+        };
+    }
+    else {
+        return {};
+    }
+};
+// export const createBordersAndShadows = (borders: any, shadows: any, innerShadows: any) => {
+//   let combined;
+//   // generate shadows
+//   const shadowsMap = createShadows(shadows, innerShadows);
+//   // generate borders
+//   const bordersMap = createBorders(borders);
+//   // define combined
+//   if (shadowsMap.boxShadow && bordersMap.boxShadow) {
+//     combined = `${bordersMap.boxShadow}, ${shadowsMap.boxShadow}`;
+//   } else if (shadowsMap.boxShadow) {
+//     combined = shadowsMap.boxShadow;
+//   } else if (bordersMap.boxShadow) {
+//     combined = bordersMap.boxShadow;
+//   } else {
+//     combined = null;
+//   }
+//   if (combined) {
+//   } else {
+//     return {};
+//   }
+// };
+export const combineBordersAndShadows = (borders, shadows, innerShadows) => {
+    const withBorders = borders.boxShadow ? `${borders.boxShadow},` : '';
+    const withShadows = shadows.boxShadow ? `${shadows.boxShadow},` : '';
+    const withInnerShadows = innerShadows.boxShadow ? `${innerShadows.boxShadow}` : '';
+    return {
+        boxShadow: `${withBorders} ${withShadows} ${withInnerShadows}`
     };
 };
 export const createGradientFillImage = (images, id) => {
@@ -160,7 +219,7 @@ export const createPatternFill = (pattern, images) => {
     const id = pattern.image.id;
     const image = getImage(images, id);
     const displayStyle = createPatternDisplay(pattern);
-    return Object.assign({ background: `url(${image.url})` }, displayStyle);
+    return Object.assign(Object.assign({}, displayStyle), { background: `url(${image.url})` });
 };
 // NEED TYPES
 export const createBackground = (fills, images, id) => {
@@ -196,12 +255,17 @@ export const createVisibility = (hidden) => {
     }
 };
 export const createRotation = (transform) => {
-    const scaleX = transform.flippedHorizontally ? -1 : 1;
-    const scaleY = transform.flippedVertically ? -1 : 1;
-    const rotation = transform.rotation * scaleX * scaleY;
-    return {
-        transform: `rotate(${rotation}deg) scale(${scaleX}, ${scaleY})`
-    };
+    if (transform) {
+        const scaleX = transform.flippedHorizontally ? -1 : 1;
+        const scaleY = transform.flippedVertically ? -1 : 1;
+        const rotation = transform.rotation * scaleX * scaleY;
+        return {
+            transform: `rotate(${rotation}deg) scale(${scaleX}, ${scaleY})`
+        };
+    }
+    else {
+        return {};
+    }
 };
 export const createBaseLayerStyles = (layer) => {
     const { frame, hidden, transform } = layer;
@@ -226,8 +290,11 @@ export const createShapePathStyles = (layer, images) => {
     const baseStyles = createBaseLayerStyles(layer);
     const borderRadius = createBorderRadius(shapeType, points);
     const opacity = createOpacity(style.opacity);
-    const background = createBackground(style.fills, images, style.id);
-    const bordersAndShadows = createBordersAndShadows(style.borders, style.shadows, style.innerShadows);
+    const background = createBackground(style.fills, images, layer.id);
+    const borders = createBorders(style.borders);
+    const shadows = createShadows(style.shadows);
+    const innerShadows = createInnerShadows(style.innerShadows);
+    const bordersAndShadows = combineBordersAndShadows(borders, shadows, innerShadows);
     return Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, baseStyles), borderRadius), opacity), background), bordersAndShadows);
 };
 // NEED TYPES
@@ -236,7 +303,10 @@ export const createImageStyles = (layer, images) => {
     const baseStyles = createBaseLayerStyles(layer);
     const opacity = createOpacity(style.opacity);
     const background = createBackground(style.fills, images, style.id);
-    const bordersAndShadows = createBordersAndShadows(style.borders, style.shadows, style.innerShadows);
+    const borders = createBorders(style.borders);
+    const shadows = createShadows(style.shadows);
+    const innerShadows = createInnerShadows(style.innerShadows);
+    const bordersAndShadows = combineBordersAndShadows(borders, shadows, innerShadows);
     const baseImage = getImage(images, layer.image.id);
     const baseImageBackground = {
         background: `url(${baseImage.url})`,
