@@ -13,6 +13,14 @@ const layerToBase64 = (layer: any, id: any, sketch: any) => {
   return createBase64Image(bufferImg.image, id);
 };
 
+const rotatePoint = (pointX: number, pointY: number, originX: number, originY: number, angle: number) => {
+  angle = angle * Math.PI / 180.0;
+  return {
+    x: Math.cos(angle) * (pointX - originX) - Math.sin(angle) * (pointY - originY) + originX,
+    y: Math.sin(angle) * (pointX - originX) + Math.cos(angle) * (pointY - originY) + originY
+  };
+}
+
 const gradientToBase64 = (layer: any, id: any, sketch: any) => {
   // get enabled gradients
   const activeGradients = layer.style.fills.filter((fill: any) => {
@@ -64,22 +72,43 @@ const detachSymbols = (layers: any) => {
   }
 };
 
+// const flattenGroups = (layers: any, newLayers: any = []) => {
+//   if (layers.length > 0) {
+//     layers.forEach((layer: any) => {
+//       if (layer.type === 'Group') {
+//         layer.layers.forEach((childLayer: any) => {
+//           childLayer.frame.x = Math.round(childLayer.frame.x + layer.frame.x);
+//           childLayer.frame.y = Math.round(childLayer.frame.y + layer.frame.y);
+//           childLayer.frame.width = Math.round(childLayer.frame.width);
+//           childLayer.frame.height = Math.round(childLayer.frame.height);
+//         });
+//         flattenGroups(layer.layers, newLayers);
+//       } else {
+//         layer.frame.x = Math.round(layer.frame.x);
+//         layer.frame.y = Math.round(layer.frame.y);
+//         layer.frame.width = Math.round(layer.frame.width);
+//         layer.frame.height = Math.round(layer.frame.height);
+//         newLayers.push(layer);
+//       }
+//     });
+//   }
+//   return newLayers;
+// };
+
 const flattenGroups = (layers: any, newLayers: any = []) => {
   if (layers.length > 0) {
     layers.forEach((layer: any) => {
       if (layer.type === 'Group') {
         layer.layers.forEach((childLayer: any) => {
-          childLayer.frame.x = Math.round(childLayer.frame.x + layer.frame.x);
-          childLayer.frame.y = Math.round(childLayer.frame.y + layer.frame.y);
-          childLayer.frame.width = Math.round(childLayer.frame.width);
-          childLayer.frame.height = Math.round(childLayer.frame.height);
+          const newBasis = childLayer.frame.changeBasis({
+            from: layer,
+            to: layer.parent
+          });
+          childLayer.frame.x = newBasis.x;
+          childLayer.frame.y = newBasis.y;
         });
         flattenGroups(layer.layers, newLayers);
       } else {
-        layer.frame.x = Math.round(layer.frame.x);
-        layer.frame.y = Math.round(layer.frame.y);
-        layer.frame.width = Math.round(layer.frame.width);
-        layer.frame.height = Math.round(layer.frame.height);
         newLayers.push(layer);
       }
     });

@@ -236,8 +236,8 @@ export const createPatternFill = (pattern: any, images: any) => {
   const displayStyle = createPatternDisplay(pattern);
 
   return {
-    ...displayStyle,
-    background: `url(${image.url})`
+    background: `url(${image.url})`,
+    ...displayStyle
   }
 };
 

@@ -219,7 +219,7 @@ export const createPatternFill = (pattern, images) => {
     const id = pattern.image.id;
     const image = getImage(images, id);
     const displayStyle = createPatternDisplay(pattern);
-    return Object.assign(Object.assign({}, displayStyle), { background: `url(${image.url})` });
+    return Object.assign({ background: `url(${image.url})` }, displayStyle);
 };
 // NEED TYPES
 export const createBackground = (fills, images, id) => {

@@ -97,28 +97,3 @@ export const createRuleLStyles = (selection: any, hover: any) => {
     left: `-${width}px`
   }
 }
-
-// const getBorderOffset = (layer: any) => {
-//   const hasBorders = layer.style.borders.length > 0;
-//   const hasActiveBorders = layer.style.borders.some((border: any) => {
-//     return border.enabled;
-//   });
-//   const activeBorders = layer.style.borders.filter((border: any) => {
-//     return border.enabled;
-//   });
-//   if (hasBorders && hasActiveBorders) {
-//     const bordersMap = activeBorders.map((border: any) => {
-//       const { thickness, position } = border;
-//       if (position === 'Inside') {
-//         return 0
-//       } else if (position === 'Center') {
-//         return thickness / 2
-//       } else if (position === 'Outside') {
-//         return thickness
-//       }
-//     });
-//     return Math.max(...bordersMap);
-//   } else {
-//     return 0;
-//   }
-// }
