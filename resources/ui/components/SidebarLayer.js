@@ -25,12 +25,10 @@ class SidebarLayer extends React.Component {
         return (React.createElement("div", { className: 'c-sidebar__layer' },
             React.createElement("h2", { className: 'c-sidebar-layer__name' }, layer.name),
             React.createElement("div", { className: 'c-sidebar-layer__styles' }, layerStyles
-                ? Object.keys(layerStyles).map((key, index) => {
-                    return (React.createElement("div", { className: 'c-sidebar-layer__css', key: index },
-                        React.createElement("div", { className: 'c-sidebar-layer__prop' }, hyphenate(key)),
-                        React.createElement("div", { className: 'c-sidebar-layer__value' },
-                            React.createElement("input", { type: 'text', readOnly: true, value: layerStyles[key] }))));
-                })
+                ? Object.keys(layerStyles).map((key, index) => (React.createElement("div", { className: 'c-sidebar-layer__css', key: index },
+                    React.createElement("div", { className: 'c-sidebar-layer__prop' }, hyphenate(key)),
+                    React.createElement("div", { className: 'c-sidebar-layer__value' },
+                        React.createElement("input", { type: 'text', readOnly: true, value: layerStyles[key] })))))
                 : null)));
     }
 }
