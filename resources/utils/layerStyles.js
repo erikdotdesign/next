@@ -292,8 +292,8 @@ export const createRotation = (transform) => {
     }
 };
 export const createTransform = (rotation, horizontalFlip, verticalFlip) => {
-    const rotate = rotation.transform ? `${rotation.transform},` : '';
-    const scaleX = horizontalFlip.transform ? `${horizontalFlip.transform},` : '';
+    const rotate = rotation.transform ? `${rotation.transform}` : '';
+    const scaleX = horizontalFlip.transform ? `${horizontalFlip.transform}` : '';
     const scaleY = verticalFlip.transform ? `${verticalFlip.transform}` : '';
     if (!rotate && !scaleX && !scaleY) {
         return {};
