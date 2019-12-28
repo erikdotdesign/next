@@ -5,7 +5,9 @@ class Artboard extends React.Component {
         console.log(this.props.artboard);
     }
     render() {
-        return (React.createElement("div", { "data-layer-name": this.props.artboard.name, className: 'c-artboard', style: createArtboardStyles(this.props.artboard) }, this.props.children));
+        return (React.createElement("div", { className: 'c-artboard', style: createArtboardStyles(this.props.artboard) },
+            this.props.children,
+            React.createElement("div", { className: 'c-artboard__click-area', onClick: this.props.onClick, onMouseOver: this.props.onMouseOver })));
     }
 }
 export default Artboard;

@@ -33,9 +33,14 @@ class App extends React.Component<AppProps, AppState> {
     return (
       <div className='c-app-wrap'>
         <div className='c-app'>
-          <Sidebar appState={this.state} />
-          <Canvas>
-            <Artboard artboard={this.props.artboard}>
+          <Sidebar appState={this.state} images={this.props.images} />
+          <Canvas
+            onClick={() => this.setState({selection: ''})}
+            onMouseOver={() => this.setState({hover: ''})}>
+            <Artboard
+              artboard={this.props.artboard}
+              onClick={() => this.setState({selection: this.props.artboard})}
+              onMouseOver={() => this.setState({hover: this.props.artboard})}>
               {
                 this.props.artboard.layers.map((layer: any, index: number) => (
                   <Layer
@@ -62,11 +67,6 @@ class App extends React.Component<AppProps, AppState> {
                     artboard={this.props.artboard} />
                 : null
               }
-              <div
-                className='c-app__escape'
-                onClick={this.cancelSelection}
-                onMouseOver={() => this.setState({hover: this.props.artboard})}
-                onMouseOut={() => this.setState({hover: ''})} />
             </Artboard>
           </Canvas>
         </div>

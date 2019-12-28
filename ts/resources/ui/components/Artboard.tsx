@@ -4,6 +4,8 @@ import { createArtboardStyles } from '../../utils/layerStyles';
 interface ArtboardProps {
   artboard: any;
   children?: React.ReactNode;
+  onClick(): void;
+  onMouseOver(): void;
 }
 
 class Artboard extends React.Component<ArtboardProps, {}> {
@@ -13,10 +15,13 @@ class Artboard extends React.Component<ArtboardProps, {}> {
   render() {
     return (
       <div
-        data-layer-name={this.props.artboard.name}
         className='c-artboard'
         style={createArtboardStyles(this.props.artboard)}>
         {this.props.children}
+        <div
+          className='c-artboard__click-area'
+          onClick={this.props.onClick}
+          onMouseOver={this.props.onMouseOver} />
       </div>
     );
   }

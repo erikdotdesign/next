@@ -20,6 +20,7 @@ class SelectionRules extends React.Component<SelectionRulesProps, {}> {
     return (
       <div className='c-selection__rules'>
         {
+          // Top rule
           layer.frame.y > hover.frame.y
           ? <div className='c-selection__rule c-selection__rule--t' style={createRuleTStyles(layer, hover)}>
               <div className='c-selection__dim' style={createRuleTBDimStyles(layer, artboard)}>
@@ -36,6 +37,7 @@ class SelectionRules extends React.Component<SelectionRulesProps, {}> {
           : null
         }
         {
+          // Right rule
           layer.frame.x + layer.frame.width < hover.frame.x + hover.frame.width
           ? <div className='c-selection__rule c-selection__rule--r' style={createRuleRStyles(layer, hover)}>
               <div className='c-selection__dim' style={createRuleRLDimStyles(layer, artboard)}>
@@ -52,6 +54,7 @@ class SelectionRules extends React.Component<SelectionRulesProps, {}> {
           : null
         }
         {
+          // Bottom rule
           layer.frame.y + layer.frame.height < hover.frame.y + hover.frame.height
           ? <div className='c-selection__rule c-selection__rule--b' style={createRuleBStyles(layer, hover)}>
               <div className='c-selection__dim' style={createRuleTBDimStyles(layer, artboard)}>
@@ -68,6 +71,7 @@ class SelectionRules extends React.Component<SelectionRulesProps, {}> {
           : null
         }
         {
+          // Left rule
           layer.frame.x > hover.frame.x
           ? <div className='c-selection__rule c-selection__rule--l' style={createRuleLStyles(layer, hover)}>
               <div className='c-selection__dim' style={createRuleRLDimStyles(layer, artboard)}>

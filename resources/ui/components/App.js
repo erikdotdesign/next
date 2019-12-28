@@ -24,17 +24,16 @@ class App extends React.Component {
     render() {
         return (React.createElement("div", { className: 'c-app-wrap' },
             React.createElement("div", { className: 'c-app' },
-                React.createElement(Sidebar, { appState: this.state }),
-                React.createElement(Canvas, null,
-                    React.createElement(Artboard, { artboard: this.props.artboard },
+                React.createElement(Sidebar, { appState: this.state, images: this.props.images }),
+                React.createElement(Canvas, { onClick: () => this.setState({ selection: '' }), onMouseOver: () => this.setState({ hover: '' }) },
+                    React.createElement(Artboard, { artboard: this.props.artboard, onClick: () => this.setState({ selection: this.props.artboard }), onMouseOver: () => this.setState({ hover: this.props.artboard }) },
                         this.props.artboard.layers.map((layer, index) => (React.createElement(Layer, { layer: layer, key: index, images: this.props.images, setAppState: this.setAppState, appState: this.state }))),
                         this.state.selection
                             ? React.createElement(Selection, { layer: this.state.selection, hover: this.state.hover, artboard: this.props.artboard })
                             : null,
                         this.state.hover
                             ? React.createElement(Hover, { layer: this.state.hover, selection: this.state.selection, artboard: this.props.artboard })
-                            : null,
-                        React.createElement("div", { className: 'c-app__escape', onClick: this.cancelSelection, onMouseOver: () => this.setState({ hover: this.props.artboard }), onMouseOut: () => this.setState({ hover: '' }) }))))));
+                            : null)))));
     }
 }
 export default App;

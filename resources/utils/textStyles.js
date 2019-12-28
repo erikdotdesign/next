@@ -1,46 +1,49 @@
-import { createBaseLayerStyles, createOpacity } from './layerStyles';
+import { createBaseLayerStyles, createOpacity, cssColor } from './layerStyles';
 const createTextTransform = (transform) => {
-    return {
-        textTransform: transform
-    };
+    if (transform === 'none') {
+        return {};
+    }
+    else {
+        return {
+            textTransform: transform
+        };
+    }
 };
 const createTextBorders = (borders) => {
     if (borders.length > 0 && borders[0].enabled) {
         const { thickness, color } = borders[0];
         return {
-            WebkitTextStrokeColor: color,
+            WebkitTextStrokeColor: cssColor(color),
             WebkitTextStrokeWidth: `${thickness * 2}px`,
-            MozTextStrokeColor: color,
+            MozTextStrokeColor: cssColor(color),
             MozTextStrokeWidth: `${thickness * 2}px`
         };
     }
     else {
-        return {
-            WebkitTextStrokeWidth: `0px`,
-            MozTextStrokeWidth: `0px`
-        };
+        return {};
     }
 };
-const createTextShadow = (shadow) => {
-    const { x, y, blur, color } = shadow;
-    return `${x}px ${y}px ${blur}px ${color}`;
+const createTextShadow = (sketchTextShadow) => {
+    const { x, y, blur, color } = sketchTextShadow;
+    const textShadow = `${x}px ${y}px ${blur}px ${cssColor(color)}`;
+    return {
+        textShadow
+    };
 };
 const createTextShadows = (shadows) => {
     if (shadows.length > 0) {
-        const shadowsMap = [];
-        shadows.forEach((shadow) => {
+        const textShadows = shadows.map((shadow) => {
             if (shadow.enabled) {
-                shadowsMap.push(createTextShadow(shadow));
+                const textShadow = createTextShadow(shadow);
+                return textShadow.textShadow;
             }
         });
         return {
-            textShadow: shadowsMap.join()
+            textShadow: textShadows.join(', ')
         };
     }
     else {
-        return {
-            textShadow: 'none'
-        };
+        return {};
     }
 };
 const createTextDecoration = (textStrikethrough, textUnderline) => {
@@ -55,9 +58,7 @@ const createTextDecoration = (textStrikethrough, textUnderline) => {
         };
     }
     else {
-        return {
-            textDecoration: 'none'
-        };
+        return {};
     }
 };
 const createLetterSpacing = (kerning) => {
@@ -67,9 +68,7 @@ const createLetterSpacing = (kerning) => {
         };
     }
     else {
-        return {
-            letterSpacing: 'normal'
-        };
+        return {};
     }
 };
 const createFontFamily = (fontFamily) => {
@@ -113,15 +112,13 @@ const createFontStretch = (fontStretch) => {
                 fontStretch: 'extra-expanded'
             };
         default:
-            return {
-                fontStretch: 'normal'
-            };
+            return {};
     }
     ;
 };
 const createFontColor = (color) => {
     return {
-        color: color
+        color: cssColor(color)
     };
 };
 const createLineHeight = (lineHeight) => {
@@ -131,27 +128,38 @@ const createLineHeight = (lineHeight) => {
         };
     }
     else {
-        return {
-            lineHeight: 'normal'
-        };
+        return {};
     }
 };
 const createParagraphSpacing = (paragraphSpacing, lastChild) => {
-    if (!lastChild) {
+    if (lastChild || paragraphSpacing === 0) {
+        return {};
+    }
+    else {
         return {
             paddingBottom: `${paragraphSpacing}px`
         };
     }
-    else {
-        return {
-            paddingBottom: `0px`
-        };
-    }
 };
 const createTextAlign = (alignment) => {
-    return {
-        textAlign: alignment
-    };
+    switch (alignment) {
+        case 'left':
+            return {
+                textAlign: 'left'
+            };
+        case 'right':
+            return {
+                textAlign: 'right'
+            };
+        case 'center':
+            return {
+                textAlign: 'center'
+            };
+        case 'justified':
+            return {
+                textAlign: 'justify'
+            };
+    }
 };
 const createFontStyle = (fontStyle) => {
     if (fontStyle === 'italic') {
@@ -160,9 +168,7 @@ const createFontStyle = (fontStyle) => {
         };
     }
     else {
-        return {
-            fontStyle: 'normal'
-        };
+        return {};
     }
 };
 const createVerticalAlignment = (alignment) => {
@@ -190,7 +196,19 @@ export const textContainerStyles = (layer) => {
     const verticalAlignment = createVerticalAlignment(layer.style.verticalAlignment);
     return Object.assign(Object.assign({}, baseStyles), verticalAlignment);
 };
-export const textStyles = (layer, lastChild) => {
+export const paragraphSpacing = (layer, lastChild) => {
+    const { style } = layer;
+    const paragraphSpacing = createParagraphSpacing(style.paragraphSpacing, lastChild);
+    return Object.assign({}, paragraphSpacing);
+};
+export const lineBreakStyles = (layer) => {
+    const { style } = layer;
+    const height = style.lineHeight ? style.lineHeight : style.fontSize * 1.2;
+    return {
+        height
+    };
+};
+export const textStyles = (layer) => {
     const { style } = layer;
     const textTransform = createTextTransform(style.textTransform);
     const fontFamily = createFontFamily(style.fontFamily);
@@ -202,10 +220,9 @@ export const textStyles = (layer, lastChild) => {
     const opacity = createOpacity(style.opacity);
     const textDecoration = createTextDecoration(style.textStrikethrough, style.textUnderline);
     const fontStretch = createFontStretch(style.fontStretch);
-    const paragraphSpacing = createParagraphSpacing(style.paragraphSpacing, lastChild);
     const textAlign = createTextAlign(style.alignment);
     const borders = createTextBorders(style.borders);
     const shadows = createTextShadows(style.shadows);
     const letterSpacing = createLetterSpacing(style.kerning);
-    return Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, textTransform), textAlign), fontFamily), fontSize), fontWeight), fontStretch), fontStyle), color), lineHeight), opacity), textDecoration), paragraphSpacing), borders), shadows), letterSpacing);
+    return Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, textTransform), textAlign), fontFamily), fontSize), fontWeight), fontStretch), fontStyle), color), lineHeight), opacity), textDecoration), borders), shadows), letterSpacing);
 };

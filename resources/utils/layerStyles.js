@@ -1,7 +1,11 @@
+import chroma from 'chroma-js';
 export const getImage = (images, id) => {
     return images.find((image) => {
         return image.id === id;
     });
+};
+export const cssColor = (color) => {
+    return chroma(color).css();
 };
 export const createPosition = (x, y) => {
     return {
@@ -20,29 +24,47 @@ export const createHeight = (height) => {
     };
 };
 export const createOpacity = (opacity) => {
-    return {
-        opacity
-    };
+    if (opacity === 1) {
+        return {};
+    }
+    else {
+        return {
+            opacity
+        };
+    }
 };
 export const createBorderRadius = (shapeType, points) => {
     switch (shapeType) {
         case 'Rectangle':
-            const borderRadius = [];
-            points.forEach((point, index) => {
-                if (index <= 3) {
-                    borderRadius.push(`${point.cornerRadius}px`);
-                }
+            const borderRadius = points.map((point) => {
+                return `${point.cornerRadius}px`;
             });
-            return { borderRadius: borderRadius.join(' ') };
+            const uniformRadius = borderRadius.every((radius) => {
+                return radius === borderRadius[0];
+            });
+            if (uniformRadius && borderRadius[0] !== '0px') {
+                return {
+                    borderRadius: borderRadius[0]
+                };
+            }
+            else if (!uniformRadius) {
+                return {
+                    borderRadius: borderRadius.join(' ')
+                };
+            }
+            else {
+                return {};
+            }
         case 'Oval':
             return { borderRadius: '100%' };
         default:
-            return { borderRadius: 0 };
+            return {};
     }
     ;
 };
 export const createBorder = (sketchBorder) => {
-    const { thickness, color, position } = sketchBorder;
+    const { thickness, position } = sketchBorder;
+    const color = cssColor(sketchBorder.color);
     let border;
     switch (position) {
         case 'Outside':
@@ -71,7 +93,7 @@ export const createBorders = (sketchBorders) => {
     });
     if (borders.length > 0) {
         return {
-            boxShadow: borders.join()
+            boxShadow: borders.join(', ')
         };
     }
     else {
@@ -80,35 +102,12 @@ export const createBorders = (sketchBorders) => {
 };
 export const createShadow = (sketchShadow, inset) => {
     const { x, y, blur, spread, color } = sketchShadow;
-    const base = `${x}px ${y}px ${blur}px ${spread}px ${color}`;
+    const base = `${x}px ${y}px ${blur}px ${spread}px ${cssColor(color)}`;
     const shadow = inset ? `${base} inset` : base;
     return {
         boxShadow: shadow
     };
 };
-// NEED TYPES
-// export const createShadows = (sketchShadows: any, sketchInnerShadows: any) => {
-//   const shadowsMap: string[] = [];
-//   sketchShadows.forEach((sketchShadow: any) => {
-//     if (sketchShadow.enabled) {
-//       const shadow = createShadow(sketchShadow, false);
-//       shadowsMap.push(shadow.boxShadow);
-//     }
-//   });
-//   sketchInnerShadows.forEach((sketchInnerShadow: any) => {
-//     if (sketchInnerShadow.enabled) {
-//       const innerShadow = createShadow(sketchInnerShadow, true);
-//       shadowsMap.push(innerShadow.boxShadow);
-//     }
-//   });
-//   if (shadowsMap.length > 0) {
-//     return {
-//       boxShadow: shadowsMap.join()
-//     }
-//   } else {
-//     return {};
-//   }
-// };
 export const createShadows = (sketchShadows) => {
     const shadows = sketchShadows.map((sketchShadow) => {
         if (sketchShadow.enabled) {
@@ -118,7 +117,7 @@ export const createShadows = (sketchShadows) => {
     });
     if (shadows.length > 0) {
         return {
-            boxShadow: shadows.join()
+            boxShadow: shadows.join(', ')
         };
     }
     else {
@@ -134,7 +133,7 @@ export const createInnerShadows = (sketchInnerShadows) => {
     });
     if (innerShadows.length > 0) {
         return {
-            boxShadow: innerShadows.join()
+            boxShadow: innerShadows.join(', ')
         };
     }
     else {
@@ -166,9 +165,14 @@ export const combineBordersAndShadows = (borders, shadows, innerShadows) => {
     const withBorders = borders.boxShadow ? `${borders.boxShadow},` : '';
     const withShadows = shadows.boxShadow ? `${shadows.boxShadow},` : '';
     const withInnerShadows = innerShadows.boxShadow ? `${innerShadows.boxShadow}` : '';
-    return {
-        boxShadow: `${withBorders} ${withShadows} ${withInnerShadows}`
-    };
+    if (!withBorders && !withShadows && !withInnerShadows) {
+        return {};
+    }
+    else {
+        return {
+            boxShadow: `${withBorders} ${withShadows} ${withInnerShadows}`
+        };
+    }
 };
 export const createGradientFillImage = (images, id) => {
     const image = getImage(images, id);
@@ -181,7 +185,7 @@ export const createGradientFillImage = (images, id) => {
 // NEED TYPES
 const createColorFill = (color) => {
     return {
-        background: color
+        background: cssColor(color)
     };
 };
 // NEED TYPES
@@ -251,30 +255,66 @@ export const createVisibility = (hidden) => {
         return { visibility: 'hidden' };
     }
     else {
-        return { visibility: 'visible' };
+        return {};
     }
 };
-export const createRotation = (transform) => {
-    if (transform) {
-        const scaleX = transform.flippedHorizontally ? -1 : 1;
-        const scaleY = transform.flippedVertically ? -1 : 1;
-        const rotation = transform.rotation * scaleX * scaleY;
+export const createHorizontalFlip = (transform) => {
+    if (transform && transform.flippedHorizontally) {
         return {
-            transform: `rotate(${rotation}deg) scale(${scaleX}, ${scaleY})`
+            transform: `scaleX(-1)`
         };
     }
     else {
         return {};
     }
 };
+export const createVerticalFlip = (transform) => {
+    if (transform && transform.flippedVertically) {
+        return {
+            transform: `scaleY(-1)`
+        };
+    }
+    else {
+        return {};
+    }
+};
+export const createRotation = (transform) => {
+    if (transform && transform.rotation !== 0) {
+        const scaleX = transform.flippedHorizontally ? -1 : 1;
+        const scaleY = transform.flippedVertically ? -1 : 1;
+        const rotation = transform.rotation * scaleX * scaleY;
+        return {
+            transform: `rotate(${rotation}deg)`
+        };
+    }
+    else {
+        return {};
+    }
+};
+export const createTransform = (rotation, horizontalFlip, verticalFlip) => {
+    const rotate = rotation.transform ? `${rotation.transform},` : '';
+    const scaleX = horizontalFlip.transform ? `${horizontalFlip.transform},` : '';
+    const scaleY = verticalFlip.transform ? `${verticalFlip.transform}` : '';
+    if (!rotate && !scaleX && !scaleY) {
+        return {};
+    }
+    else {
+        return {
+            transform: `${rotate} ${scaleX} ${scaleY}`
+        };
+    }
+};
 export const createBaseLayerStyles = (layer) => {
-    const { frame, hidden, transform } = layer;
+    const { frame, hidden } = layer;
     const visibility = createVisibility(hidden);
     const position = createPosition(frame.x, frame.y);
     const width = createWidth(frame.width);
     const height = createHeight(frame.height);
-    const rotation = createRotation(transform);
-    return Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, visibility), position), width), height), rotation);
+    const rotation = createRotation(layer.transform);
+    const horizontalFlip = createHorizontalFlip(layer.transform);
+    const verticalFlip = createVerticalFlip(layer.transform);
+    const transform = createTransform(rotation, horizontalFlip, verticalFlip);
+    return Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, visibility), position), width), height), transform);
 };
 export const createArtboardStyles = (artboard) => {
     const { frame, background } = artboard;

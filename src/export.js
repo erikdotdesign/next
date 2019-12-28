@@ -20,8 +20,8 @@ export default () => {
         // set webview browser window
         const browserWindow = new BrowserWindow({
             identifier: webviewIdentifier,
-            width: 1024,
-            height: 768,
+            width: 1200,
+            height: 900,
             minimizable: false,
             maximizable: false,
             resizable: false,

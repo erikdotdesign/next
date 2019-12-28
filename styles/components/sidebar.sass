@@ -1,4 +1,73 @@
 .c-sidebar
   background: #333
-  width: 278px
+  width: 33%
   height: 100%
+  z-index: 3
+  overflow: scroll
+
+.c-sidebar__section
+  position: relative
+
+.c-sidebar__placeholder
+  height: 150px
+  display: flex
+  align-items: center
+  justify-content: center
+
+  span
+    color: rgba(255,255,255,0.33)
+    font-size: 16px
+    line-height: 20px
+
+.c-sidebar__header
+  margin: 0
+  padding: 0
+  font-size: 18px
+  color: #fff
+  font-weight: 700
+  height: 22px
+  line-height: 22px
+  background: rgba(0,0,0,0.25)
+  padding: 20px
+
+.c-sidebar-layer__name
+  margin: 0
+  padding: 0
+  font-size: 18px
+  color: #fff
+  height: 22px
+  line-height: 22px
+  padding: 20px
+
+.c-sidebar-layer__styles
+  padding: 0 20px 20px 20px
+
+.c-sidebar-layer__css
+  display: flex
+  align-items: center
+  margin: 5px 0
+
+.c-sidebar-layer__prop
+  color: #fff
+  font-size: 14px
+  line-height: 20px
+  flex-grow: 2
+
+.c-sidebar-layer__value
+  input
+    background: rgba(0,0,0,0.25)
+    border: 1px solid transparent
+    height: 20px
+    font-size: 14px
+    line-height: 20px
+    color: #fff
+    max-width: 100px
+    padding: 5px
+    transition: all 0.25s
+
+    &:hover
+      border: 1px solid rgba(255,255,255,0.5)
+
+    &:focus
+      outline: none
+      border: 1px solid magenta

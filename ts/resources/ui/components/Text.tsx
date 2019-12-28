@@ -1,5 +1,5 @@
 import React from 'react';
-import { textContainerStyles, textStyles } from '../../utils/textStyles';
+import { textContainerStyles, textStyles, paragraphSpacing, lineBreakStyles } from '../../utils/textStyles';
 
 interface TextProps {
   layer: any;
@@ -11,21 +11,30 @@ interface TextProps {
 class Text extends React.Component<TextProps, {}> {
   render() {
     const paragraphs = this.props.layer.text.split(/\n/g);
+    const { layer, onClick, onMouseOver, onMouseOut } = this.props;
     return (
       <div
-        onClick={this.props.onClick}
-        onMouseOver={this.props.onMouseOver}
-        onMouseOut={this.props.onMouseOut}
+        onClick={onClick}
+        onMouseOver={onMouseOver}
+        onMouseOut={onMouseOut}
         className='c-layer c-layer--text'
         // @ts-ignore
-        style={textContainerStyles(this.props.layer)}>
+        style={textContainerStyles(layer)}>
         {
           paragraphs.map((string: string, index: number) => (
             <p
               key={index}
               className='c-layer__text'
-              style={textStyles(this.props.layer, index === paragraphs.length - 1)}>
-              {string}
+              // @ts-ignore
+              style={{
+                ...textStyles(layer),
+                ...paragraphSpacing(layer, index === paragraphs.length - 1)
+              }}>
+              {
+                string.length === 0
+                ? <span>&nbsp;</span>
+                : string
+              }
             </p>
           ))
         }

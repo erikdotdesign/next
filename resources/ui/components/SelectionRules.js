@@ -4,6 +4,7 @@ class SelectionRules extends React.Component {
     render() {
         const { layer, hover, artboard } = this.props;
         return (React.createElement("div", { className: 'c-selection__rules' },
+            // Top rule
             layer.frame.y > hover.frame.y
                 ? React.createElement("div", { className: 'c-selection__rule c-selection__rule--t', style: createRuleTStyles(layer, hover) },
                     React.createElement("div", { className: 'c-selection__dim', style: createRuleTBDimStyles(layer, artboard) }, 
@@ -14,6 +15,7 @@ class SelectionRules extends React.Component {
                         // else, display px from selection top to hover top
                         : `${layer.frame.y - hover.frame.y}px`))
                 : null,
+            // Right rule
             layer.frame.x + layer.frame.width < hover.frame.x + hover.frame.width
                 ? React.createElement("div", { className: 'c-selection__rule c-selection__rule--r', style: createRuleRStyles(layer, hover) },
                     React.createElement("div", { className: 'c-selection__dim', style: createRuleRLDimStyles(layer, artboard) }, 
@@ -24,6 +26,7 @@ class SelectionRules extends React.Component {
                         // else, display px from selection right to hover left
                         : `${hover.frame.x - (layer.frame.x + layer.frame.width)}px`))
                 : null,
+            // Bottom rule
             layer.frame.y + layer.frame.height < hover.frame.y + hover.frame.height
                 ? React.createElement("div", { className: 'c-selection__rule c-selection__rule--b', style: createRuleBStyles(layer, hover) },
                     React.createElement("div", { className: 'c-selection__dim', style: createRuleTBDimStyles(layer, artboard) }, 
@@ -34,6 +37,7 @@ class SelectionRules extends React.Component {
                         // else, display px from selection bottom to hover top
                         : `${hover.frame.y - (layer.frame.y + layer.frame.height)}px`))
                 : null,
+            // Left rule
             layer.frame.x > hover.frame.x
                 ? React.createElement("div", { className: 'c-selection__rule c-selection__rule--l', style: createRuleLStyles(layer, hover) },
                     React.createElement("div", { className: 'c-selection__dim', style: createRuleRLDimStyles(layer, artboard) }, 
