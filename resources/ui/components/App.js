@@ -26,7 +26,7 @@ class App extends React.Component {
             React.createElement("div", { className: 'c-app' },
                 React.createElement(Sidebar, { appState: this.state, images: this.props.images }),
                 React.createElement(Canvas, { onClick: () => this.setState({ selection: '' }), onMouseOver: () => this.setState({ hover: '' }) },
-                    React.createElement(Artboard, { artboard: this.props.artboard, onClick: () => this.setState({ selection: this.props.artboard }), onMouseOver: () => this.setState({ hover: this.props.artboard }) },
+                    React.createElement(Artboard, { artboard: this.props.artboard, onClick: () => this.setState({ selection: '' }), onMouseOver: () => this.setState({ hover: this.props.artboard }) },
                         this.props.artboard.layers.map((layer, index) => (React.createElement(Layer, { layer: layer, key: index, images: this.props.images, setAppState: this.setAppState, appState: this.state }))),
                         this.state.selection
                             ? React.createElement(Selection, { selection: this.state.selection, hover: this.state.hover, artboard: this.props.artboard })

@@ -39,7 +39,7 @@ class App extends React.Component<AppProps, AppState> {
             onMouseOver={() => this.setState({hover: ''})}>
             <Artboard
               artboard={this.props.artboard}
-              onClick={() => this.setState({selection: this.props.artboard})}
+              onClick={() => this.setState({selection: ''})}
               onMouseOver={() => this.setState({hover: this.props.artboard})}>
               {
                 this.props.artboard.layers.map((layer: any, index: number) => (
