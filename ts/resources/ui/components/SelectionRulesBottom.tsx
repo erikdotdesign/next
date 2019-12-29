@@ -5,15 +5,16 @@ interface SelectionRulesBottomProps {
   selectionOrigin: any;
   hoverOrigin: any;
   artboardFrame: any;
+  inset?: any;
 }
 
 class SelectionRulesBottom extends React.Component<SelectionRulesBottomProps, {}> {
   render() {
-    const { selectionOrigin, hoverOrigin, artboardFrame } = this.props;
+    const { selectionOrigin, hoverOrigin, artboardFrame, inset } = this.props;
     return (
       <div
         className='c-selection__rule c-selection__rule--b'
-        style={createRuleBottomStyles(selectionOrigin, hoverOrigin)}>
+        style={createRuleBottomStyles(selectionOrigin, hoverOrigin, inset)}>
         <div
           className='c-selection__dim'
           style={createDimTopBottomStyles(selectionOrigin, artboardFrame)}>

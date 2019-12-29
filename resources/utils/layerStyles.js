@@ -141,17 +141,32 @@ export const createInnerShadows = (sketchInnerShadows) => {
     }
 };
 export const combineBordersAndShadows = (borders, shadows, innerShadows) => {
-    const withBorders = borders.boxShadow ? `${borders.boxShadow},` : '';
-    const withShadows = shadows.boxShadow ? `${shadows.boxShadow},` : '';
-    const withInnerShadows = innerShadows.boxShadow ? `${innerShadows.boxShadow}` : '';
-    if (!withBorders && !withShadows && !withInnerShadows) {
-        return {};
+    let boxShadow = '';
+    const withBorders = borders.boxShadow ? borders.boxShadow : '';
+    const withShadows = shadows.boxShadow ? shadows.boxShadow : '';
+    const withInnerShadows = innerShadows.boxShadow ? innerShadows.boxShadow : '';
+    if (withBorders && withShadows && withInnerShadows) {
+        boxShadow = `${withBorders}, ${withShadows}, ${withInnerShadows}`;
     }
-    else {
-        return {
-            boxShadow: `${withBorders} ${withShadows} ${withInnerShadows}`
-        };
+    else if (withBorders && withShadows && !withInnerShadows) {
+        boxShadow = `${withBorders}, ${withShadows}`;
     }
+    else if (withBorders && !withShadows && withInnerShadows) {
+        boxShadow = `${withBorders}, ${withInnerShadows}`;
+    }
+    else if (withBorders && !withShadows && !withInnerShadows) {
+        boxShadow = `${withBorders}`;
+    }
+    else if (!withBorders && withShadows && withInnerShadows) {
+        boxShadow = `${withShadows}, ${withInnerShadows}`;
+    }
+    else if (!withBorders && withShadows && !withInnerShadows) {
+        boxShadow = `${withShadows}`;
+    }
+    else if (!withBorders && !withShadows && withInnerShadows) {
+        boxShadow = `${withInnerShadows}`;
+    }
+    return boxShadow ? { boxShadow } : {};
 };
 export const createGradientFillImage = (images, id) => {
     const image = getImage(images, id);

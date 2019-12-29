@@ -10,7 +10,6 @@ export interface Origin {
   right: number;
   bottom: number;
   left: number;
-  center: number;
   yCenter: number;
   xCenter: number;
 }

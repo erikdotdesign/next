@@ -7,17 +7,10 @@ export const getOrigin = (frame: Frame) => {
     right: x + width,
     bottom: y + height,
     left: x,
-    center: (y + height / 2) + (x + width / 2),
     yCenter: y + height / 2,
     xCenter: x + width / 2
   }
 }
-
-export const between = (number: number, a: number, b: number) => {
-  let min = Math.min.apply(Math, [a, b]),
-      max = Math.max.apply(Math, [a, b]);
-  return number >= min && number <= max;
-};
 
 export const placeLeft = (selectionOriginLeft: number, artboardWidth: number) => {
   if (selectionOriginLeft > artboardWidth / 2) {

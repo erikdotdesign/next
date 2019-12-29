@@ -5,15 +5,16 @@ interface SelectionRulesLeftProps {
   selectionOrigin: any;
   hoverOrigin: any;
   artboardFrame: any;
+  inset?: any
 }
 
 class SelectionRulesLeft extends React.Component<SelectionRulesLeftProps, {}> {
   render() {
-    const { selectionOrigin, hoverOrigin, artboardFrame } = this.props;
+    const { selectionOrigin, hoverOrigin, artboardFrame, inset } = this.props;
     return (
       <div
         className='c-selection__rule c-selection__rule--l'
-        style={createRuleLeftStyles(selectionOrigin, hoverOrigin)}>
+        style={createRuleLeftStyles(selectionOrigin, hoverOrigin, inset)}>
         <div
           className='c-selection__dim'
           style={createDimRightLeftStyles(selectionOrigin, artboardFrame)}>

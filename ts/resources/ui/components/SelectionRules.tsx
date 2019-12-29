@@ -50,6 +50,38 @@ class SelectionRules extends React.Component<SelectionRulesProps, {}> {
               artboardFrame={artboardFrame} />
           : null
         }
+        {
+          selectionOrigin.left < hoverOrigin.left && selectionOrigin.right > hoverOrigin.right
+          ? <div>
+              <SelectionRulesLeft
+                selectionOrigin={hoverOrigin}
+                hoverOrigin={selectionOrigin}
+                artboardFrame={artboardFrame}
+                inset />
+              <SelectionRulesRight
+                selectionOrigin={hoverOrigin}
+                hoverOrigin={selectionOrigin}
+                artboardFrame={artboardFrame}
+                inset />
+            </div>
+          : null
+        }
+        {
+          selectionOrigin.top < hoverOrigin.top && selectionOrigin.bottom > hoverOrigin.bottom
+          ? <div>
+              <SelectionRulesTop
+                selectionOrigin={hoverOrigin}
+                hoverOrigin={selectionOrigin}
+                artboardFrame={artboardFrame}
+                inset />
+              <SelectionRulesBottom
+                selectionOrigin={hoverOrigin}
+                hoverOrigin={selectionOrigin}
+                artboardFrame={artboardFrame}
+                inset />
+            </div>
+          : null
+        }
       </div>
     );
   }
