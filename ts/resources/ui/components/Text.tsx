@@ -1,5 +1,5 @@
 import React from 'react';
-import { textContainerStyles, textStyles, paragraphSpacing, lineBreakStyles } from '../../utils/textStyles';
+import { textContainerStyles, textStyles, paragraphSpacing } from '../../utils/textStyles';
 
 interface TextProps {
   layer: any;

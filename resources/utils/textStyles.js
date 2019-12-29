@@ -201,13 +201,6 @@ export const paragraphSpacing = (layer, lastChild) => {
     const paragraphSpacing = createParagraphSpacing(style.paragraphSpacing, lastChild);
     return Object.assign({}, paragraphSpacing);
 };
-export const lineBreakStyles = (layer) => {
-    const { style } = layer;
-    const height = style.lineHeight ? style.lineHeight : style.fontSize * 1.2;
-    return {
-        height
-    };
-};
 export const textStyles = (layer) => {
     const { style } = layer;
     const textTransform = createTextTransform(style.textTransform);

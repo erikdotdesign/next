@@ -1,5 +1,46 @@
-$hoverColor: blue
+$hoverColor: red
+$borderWidth: 1px
+$borderStyle: dashed
+$borderColor: $hoverColor
 
 .c-layer--hover
   z-index: 3
   pointer-events: none
+
+.c-hover__rules
+  +absolute-full
+
+.c-hover__rule
+  position: absolute
+
+.c-hover__rule--tl,
+.c-hover__rule--tr,
+.c-hover__rule--bl,
+.c-hover__rule--br
+  width: 1px
+
+.c-hover__rule--tl,
+.c-hover__rule--bl
+  border-left: $borderWidth $borderStyle $borderColor
+  left: -1px
+
+.c-hover__rule--tr,
+.c-hover__rule--br
+  border-right: $borderWidth $borderStyle $borderColor
+  right: -1px
+
+.c-hover__rule--rt,
+.c-hover__rule--rb,
+.c-hover__rule--lt,
+.c-hover__rule--lb
+  height: 1px
+
+.c-hover__rule--rt,
+.c-hover__rule--lt
+  border-top: $borderWidth $borderStyle $borderColor
+  top: -1px
+
+.c-hover__rule--rb,
+.c-hover__rule--lb
+  border-bottom: $borderWidth $borderStyle $borderColor
+  bottom: -1px

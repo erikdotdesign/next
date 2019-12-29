@@ -4,20 +4,25 @@ import SelectionPoints from './SelectionPoints';
 import SelectionRules from './SelectionRules';
 
 interface SelectionProps {
-  layer: any;
+  selection: any;
   hover: any;
   artboard: any;
 }
 
 class Selection extends React.Component<SelectionProps, {}> {
   render() {
-    const { layer, hover } = this.props;
+    const { selection, hover, artboard } = this.props;
     return (
-      <div className='c-layer c-layer--selection' style={createSelectionStyles(layer)}>
+      <div
+        className='c-layer c-layer--selection'
+        style={createSelectionStyles(selection.frame)}>
         <SelectionPoints />
         {
           hover
-          ? <SelectionRules {...this.props} />
+          ? <SelectionRules
+              selectionFrame={selection.frame}
+              hoverFrame={hover.frame}
+              artboardFrame={artboard.frame} />
           : null
         }
       </div>

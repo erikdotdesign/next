@@ -29,10 +29,10 @@ class App extends React.Component {
                     React.createElement(Artboard, { artboard: this.props.artboard, onClick: () => this.setState({ selection: this.props.artboard }), onMouseOver: () => this.setState({ hover: this.props.artboard }) },
                         this.props.artboard.layers.map((layer, index) => (React.createElement(Layer, { layer: layer, key: index, images: this.props.images, setAppState: this.setAppState, appState: this.state }))),
                         this.state.selection
-                            ? React.createElement(Selection, { layer: this.state.selection, hover: this.state.hover, artboard: this.props.artboard })
+                            ? React.createElement(Selection, { selection: this.state.selection, hover: this.state.hover, artboard: this.props.artboard })
                             : null,
                         this.state.hover
-                            ? React.createElement(Hover, { layer: this.state.hover, selection: this.state.selection, artboard: this.props.artboard })
+                            ? React.createElement(Hover, { hover: this.state.hover, selection: this.state.selection, artboard: this.props.artboard })
                             : null)))));
     }
 }

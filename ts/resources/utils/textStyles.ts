@@ -218,15 +218,6 @@ export const paragraphSpacing = (layer: any, lastChild: boolean) => {
   }
 }
 
-export const lineBreakStyles = (layer: any) => {
-  const { style } = layer;
-  const height = style.lineHeight ? style.lineHeight : style.fontSize * 1.2;
-
-  return {
-    height
-  }
-}
-
 export const textStyles = (layer: any) => {
   const { style } = layer;
   const textTransform = createTextTransform(style.textTransform);

@@ -140,27 +140,6 @@ export const createInnerShadows = (sketchInnerShadows) => {
         return {};
     }
 };
-// export const createBordersAndShadows = (borders: any, shadows: any, innerShadows: any) => {
-//   let combined;
-//   // generate shadows
-//   const shadowsMap = createShadows(shadows, innerShadows);
-//   // generate borders
-//   const bordersMap = createBorders(borders);
-//   // define combined
-//   if (shadowsMap.boxShadow && bordersMap.boxShadow) {
-//     combined = `${bordersMap.boxShadow}, ${shadowsMap.boxShadow}`;
-//   } else if (shadowsMap.boxShadow) {
-//     combined = shadowsMap.boxShadow;
-//   } else if (bordersMap.boxShadow) {
-//     combined = bordersMap.boxShadow;
-//   } else {
-//     combined = null;
-//   }
-//   if (combined) {
-//   } else {
-//     return {};
-//   }
-// };
 export const combineBordersAndShadows = (borders, shadows, innerShadows) => {
     const withBorders = borders.boxShadow ? `${borders.boxShadow},` : '';
     const withShadows = shadows.boxShadow ? `${shadows.boxShadow},` : '';
@@ -314,7 +293,7 @@ export const createBaseLayerStyles = (layer) => {
     const horizontalFlip = createHorizontalFlip(layer.transform);
     const verticalFlip = createVerticalFlip(layer.transform);
     const transform = createTransform(rotation, horizontalFlip, verticalFlip);
-    return Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, visibility), position), width), height), transform);
+    return Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, visibility), width), height), position), transform);
 };
 export const createArtboardStyles = (artboard) => {
     const { frame, background } = artboard;

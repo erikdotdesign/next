@@ -147,29 +147,6 @@ export const createInnerShadows = (sketchInnerShadows: any) => {
   }
 }
 
-// export const createBordersAndShadows = (borders: any, shadows: any, innerShadows: any) => {
-//   let combined;
-//   // generate shadows
-//   const shadowsMap = createShadows(shadows, innerShadows);
-//   // generate borders
-//   const bordersMap = createBorders(borders);
-//   // define combined
-//   if (shadowsMap.boxShadow && bordersMap.boxShadow) {
-//     combined = `${bordersMap.boxShadow}, ${shadowsMap.boxShadow}`;
-//   } else if (shadowsMap.boxShadow) {
-//     combined = shadowsMap.boxShadow;
-//   } else if (bordersMap.boxShadow) {
-//     combined = bordersMap.boxShadow;
-//   } else {
-//     combined = null;
-//   }
-//   if (combined) {
-
-//   } else {
-//     return {};
-//   }
-// };
-
 export const combineBordersAndShadows = (borders: any, shadows: any, innerShadows: any) => {
   const withBorders = borders.boxShadow ? `${borders.boxShadow},` : '';
   const withShadows = shadows.boxShadow ? `${shadows.boxShadow},` : '';
@@ -334,9 +311,9 @@ export const createBaseLayerStyles = (layer: any) => {
 
   return {
     ...visibility,
-    ...position,
     ...width,
     ...height,
+    ...position,
     ...transform
   }
 };

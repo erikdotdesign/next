@@ -279,22 +279,11 @@ button {
 
 .c-selection__rule {
   position: absolute;
+  background: blue;
 }
-
-.c-selection__rule--t:after, .c-selection__rule--t:before,
-.c-selection__rule--r:after,
-.c-selection__rule--r:before,
-.c-selection__rule--b:after,
-.c-selection__rule--b:before,
-.c-selection__rule--l:after,
-.c-selection__rule--l:before {
+.c-selection__rule:after {
   position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
   content: "";
-  width: 100%;
   display: block;
   background: blue;
 }
@@ -323,7 +312,7 @@ button {
 }
 
 .c-selection__rule--b:after {
-  top: calc(100% - 1px);
+  bottom: 0;
 }
 
 .c-selection__rule--r,
@@ -345,11 +334,65 @@ button {
   transform: translateX(-50%);
 }
 
+.c-selection__rule--l:after {
+  left: 0;
+}
+
 .c-selection__rule--r:after {
-  left: calc(100% - 1px);
+  right: 0;
 }
 
 .c-layer--hover {
   z-index: 3;
   pointer-events: none;
+}
+
+.c-hover__rules {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.c-hover__rule {
+  position: absolute;
+}
+
+.c-hover__rule--tl,
+.c-hover__rule--tr,
+.c-hover__rule--bl,
+.c-hover__rule--br {
+  width: 1px;
+}
+
+.c-hover__rule--tl,
+.c-hover__rule--bl {
+  border-left: 1px dashed red;
+  left: -1px;
+}
+
+.c-hover__rule--tr,
+.c-hover__rule--br {
+  border-right: 1px dashed red;
+  right: -1px;
+}
+
+.c-hover__rule--rt,
+.c-hover__rule--rb,
+.c-hover__rule--lt,
+.c-hover__rule--lb {
+  height: 1px;
+}
+
+.c-hover__rule--rt,
+.c-hover__rule--lt {
+  border-top: 1px dashed red;
+  top: -1px;
+}
+
+.c-hover__rule--rb,
+.c-hover__rule--lb {
+  border-bottom: 1px dashed red;
+  bottom: -1px;
 }

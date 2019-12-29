@@ -1,16 +1,42 @@
+import { placeLeft, placeTop } from './appUtils';
 import { createPosition, createWidth, createHeight, createBorder } from './layerStyles';
-export const createHoveredStyles = (layer) => {
-    const { frame } = layer;
-    const position = createPosition(frame.x, frame.y);
-    const width = createWidth(frame.width);
-    const height = createHeight(frame.height);
+export const createHoveredStyles = (hoverFrame) => {
+    const position = createPosition(hoverFrame.x, hoverFrame.y);
+    const width = createWidth(hoverFrame.width);
+    const height = createHeight(hoverFrame.height);
     const border = createBorder({ thickness: 1, color: 'blue', position: 'Outside' });
     return Object.assign(Object.assign(Object.assign(Object.assign({}, position), width), height), border);
 };
-export const createDimWidthStyles = (layer, artboard) => {
-    //const borderOffset = getBorderOffset(layer);
-    const layerOriginY = layer.frame.y + layer.frame.height / 2;
-    if (layerOriginY > artboard.frame.height / 2) {
+export const createRuleTopStyles = (hoverOrigin, selectionOrigin) => {
+    const height = hoverOrigin.top - selectionOrigin.top;
+    return {
+        height: `${height}px`,
+        top: `-${height}px`
+    };
+};
+export const createRuleRightStyles = (hoverOrigin, selectionOrigin) => {
+    const width = selectionOrigin.right - hoverOrigin.right;
+    return {
+        width: `${width}px`,
+        right: `-${width}px`
+    };
+};
+export const createRuleBottomStyles = (hoverOrigin, selectionOrigin) => {
+    const height = selectionOrigin.bottom - hoverOrigin.bottom;
+    return {
+        height: `${height}px`,
+        bottom: `-${height}px`
+    };
+};
+export const createRuleLeftStyles = (hoverOrigin, selectionOrigin) => {
+    const width = hoverOrigin.left - selectionOrigin.left;
+    return {
+        width: `${width}px`,
+        left: `-${width}px`
+    };
+};
+export const createDimWidthStyles = (hoverFrame, artboardFrame) => {
+    if (placeTop(hoverFrame.y, artboardFrame.height)) {
         return {
             left: '50%',
             top: 0,
@@ -25,10 +51,8 @@ export const createDimWidthStyles = (layer, artboard) => {
         };
     }
 };
-export const createDimHeightStyles = (layer, artboard) => {
-    //const borderOffset = getBorderOffset(layer);
-    const layerOriginX = layer.frame.x + layer.frame.width / 2;
-    if (layerOriginX > artboard.frame.width / 2) {
+export const createDimHeightStyles = (hoverFrame, artboardFrame) => {
+    if (placeLeft(hoverFrame.x, artboardFrame.width)) {
         return {
             top: '50%',
             left: 0,

@@ -54,7 +54,7 @@ class App extends React.Component<AppProps, AppState> {
               {
                 this.state.selection
                 ? <Selection
-                    layer={this.state.selection}
+                    selection={this.state.selection}
                     hover={this.state.hover}
                     artboard={this.props.artboard} />
                 : null
@@ -62,7 +62,7 @@ class App extends React.Component<AppProps, AppState> {
               {
                 this.state.hover
                 ? <Hover
-                    layer={this.state.hover}
+                    hover={this.state.hover}
                     selection={this.state.selection}
                     artboard={this.props.artboard} />
                 : null
