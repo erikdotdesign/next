@@ -11,4 +11,6 @@ export interface Origin {
   bottom: number;
   left: number;
   center: number;
+  yCenter: number;
+  xCenter: number;
 }

@@ -17,9 +17,9 @@ export const createSelectionStyles = (selectionFrame: Frame) => {
 }
 
 export const createRuleTopStyles = (selectionOrigin: Origin, hoverOrigin: Origin) => {
-  const height = selectionOrigin.top > hoverOrigin.bottom
-                  ? selectionOrigin.top - hoverOrigin.bottom
-                  : selectionOrigin.top - hoverOrigin.top;
+  const height = selectionOrigin.top <= hoverOrigin.bottom
+                  ? selectionOrigin.top - hoverOrigin.top
+                  : selectionOrigin.top - hoverOrigin.bottom;
   return {
     height: `${height}px`,
     top: `-${height}px`
@@ -27,7 +27,7 @@ export const createRuleTopStyles = (selectionOrigin: Origin, hoverOrigin: Origin
 }
 
 export const createRuleRightStyles = (selectionOrigin: Origin, hoverOrigin: Origin) => {
-  const width = selectionOrigin.right > hoverOrigin.left
+  const width = selectionOrigin.right >= hoverOrigin.left
                 ? hoverOrigin.right - selectionOrigin.right
                 : hoverOrigin.left - selectionOrigin.right;
   return {
@@ -37,7 +37,7 @@ export const createRuleRightStyles = (selectionOrigin: Origin, hoverOrigin: Orig
 }
 
 export const createRuleBottomStyles = (selectionOrigin: Origin, hoverOrigin: Origin) => {
-  const height = selectionOrigin.bottom > hoverOrigin.top
+  const height = selectionOrigin.bottom >= hoverOrigin.top
                   ? hoverOrigin.bottom - selectionOrigin.bottom
                   : hoverOrigin.top - selectionOrigin.bottom;
   return {
@@ -47,9 +47,9 @@ export const createRuleBottomStyles = (selectionOrigin: Origin, hoverOrigin: Ori
 }
 
 export const createRuleLeftStyles = (selectionOrigin: Origin, hoverOrigin: Origin) => {
-  const width = selectionOrigin.left > hoverOrigin.right
-                ? selectionOrigin.left - hoverOrigin.right
-                : selectionOrigin.left - hoverOrigin.left;
+  const width = selectionOrigin.left <= hoverOrigin.right
+                ? selectionOrigin.left - hoverOrigin.left
+                : selectionOrigin.left - hoverOrigin.right;
   return {
     width: `${width}px`,
     left: `-${width}px`

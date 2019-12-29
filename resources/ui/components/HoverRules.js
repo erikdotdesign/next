@@ -11,10 +11,18 @@ class HoverRules extends React.Component {
         const hoverOrigin = getOrigin(hoverFrame);
         const selectionOrigin = getOrigin(selectionFrame);
         return (React.createElement("div", { className: 'c-hover__rules' },
-            React.createElement(HoverRulesTop, { hoverOrigin: hoverOrigin, selectionOrigin: selectionOrigin }),
-            React.createElement(HoverRulesRight, { hoverOrigin: hoverOrigin, selectionOrigin: selectionOrigin }),
-            React.createElement(HoverRulesBottom, { hoverOrigin: hoverOrigin, selectionOrigin: selectionOrigin }),
-            React.createElement(HoverRulesLeft, { hoverOrigin: hoverOrigin, selectionOrigin: selectionOrigin })));
+            selectionOrigin.yCenter < hoverOrigin.top
+                ? React.createElement(HoverRulesTop, { hoverOrigin: hoverOrigin, selectionOrigin: selectionOrigin })
+                : null,
+            selectionOrigin.xCenter > hoverOrigin.right
+                ? React.createElement(HoverRulesRight, { hoverOrigin: hoverOrigin, selectionOrigin: selectionOrigin })
+                : null,
+            selectionOrigin.yCenter > hoverOrigin.bottom
+                ? React.createElement(HoverRulesBottom, { hoverOrigin: hoverOrigin, selectionOrigin: selectionOrigin })
+                : null,
+            selectionOrigin.xCenter < hoverOrigin.left
+                ? React.createElement(HoverRulesLeft, { hoverOrigin: hoverOrigin, selectionOrigin: selectionOrigin })
+                : null));
     }
 }
 export default HoverRules;

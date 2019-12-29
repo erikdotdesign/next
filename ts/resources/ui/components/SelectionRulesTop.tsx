@@ -18,12 +18,9 @@ class SelectionRulesTop extends React.Component<SelectionRulesTopProps, {}> {
           className='c-selection__dim'
           style={createDimTopBottomStyles(selectionOrigin, artboardFrame)}>
           {
-            // check if selection top origin is below hover bottom origin
-            selectionOrigin.top > hoverOrigin.bottom
-            // if so, display px from selection top to hover bottom
-            ? `${selectionOrigin.top - hoverOrigin.bottom}px`
-            // else, display px from selection top to hover top
-            : `${selectionOrigin.top - hoverOrigin.top}px`
+            selectionOrigin.top <= hoverOrigin.bottom
+            ? `${selectionOrigin.top - hoverOrigin.top}px`
+            : `${selectionOrigin.top - hoverOrigin.bottom}px`
           }
         </div>
       </div>

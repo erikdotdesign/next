@@ -18,12 +18,9 @@ class SelectionRulesLeft extends React.Component<SelectionRulesLeftProps, {}> {
           className='c-selection__dim'
           style={createDimRightLeftStyles(selectionOrigin, artboardFrame)}>
           {
-            // check if selection left origin is right hover right origin
-            selectionOrigin.left > hoverOrigin.right
-            // if so, display px from selection left to hover right
-            ? `${selectionOrigin.left - hoverOrigin.right}px`
-            // else, display px from selection left to hover left
-            : `${selectionOrigin.left - hoverOrigin.left}px`
+            selectionOrigin.left <= hoverOrigin.right
+            ? `${selectionOrigin.left - hoverOrigin.left}px`
+            : `${selectionOrigin.left - hoverOrigin.right}px`
           }
         </div>
       </div>

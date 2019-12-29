@@ -7,7 +7,9 @@ export const getOrigin = (frame: Frame) => {
     right: x + width,
     bottom: y + height,
     left: x,
-    center: (y + height / 2) + (x + width / 2)
+    center: (y + height / 2) + (x + width / 2),
+    yCenter: y + height / 2,
+    xCenter: x + width / 2
   }
 }
 

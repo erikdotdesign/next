@@ -11,12 +11,24 @@ class HoverRulesBottom extends React.Component<HoverRulesBottomProps, {}> {
     const { hoverOrigin, selectionOrigin } = this.props;
     return (
       <div>
-        <div
-          className='c-hover__rule c-hover__rule--bl'
-          style={createRuleBottomStyles(hoverOrigin, selectionOrigin)} />
-        <div
-          className='c-hover__rule c-hover__rule--br'
-          style={createRuleBottomStyles(hoverOrigin, selectionOrigin)} />
+        {
+          selectionOrigin.right < hoverOrigin.left
+          || selectionOrigin.left <= hoverOrigin.right && selectionOrigin.left > hoverOrigin.left
+          || selectionOrigin.left < hoverOrigin.left && selectionOrigin.right > hoverOrigin.right
+          ? <div
+              className='c-hover__rule c-hover__rule--bl'
+              style={createRuleBottomStyles(hoverOrigin, selectionOrigin)} />
+          : null
+        }
+        {
+          selectionOrigin.left > hoverOrigin.right
+          || selectionOrigin.right >= hoverOrigin.left && selectionOrigin.right < hoverOrigin.right
+          || selectionOrigin.left < hoverOrigin.left && selectionOrigin.right > hoverOrigin.right
+          ? <div
+              className='c-hover__rule c-hover__rule--br'
+              style={createRuleBottomStyles(hoverOrigin, selectionOrigin)} />
+          : null
+        }
       </div>
     );
   }

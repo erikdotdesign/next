@@ -8,16 +8,16 @@ export const createSelectionStyles = (selectionFrame) => {
     return Object.assign(Object.assign(Object.assign(Object.assign({}, position), width), height), border);
 };
 export const createRuleTopStyles = (selectionOrigin, hoverOrigin) => {
-    const height = selectionOrigin.top > hoverOrigin.bottom
-        ? selectionOrigin.top - hoverOrigin.bottom
-        : selectionOrigin.top - hoverOrigin.top;
+    const height = selectionOrigin.top <= hoverOrigin.bottom
+        ? selectionOrigin.top - hoverOrigin.top
+        : selectionOrigin.top - hoverOrigin.bottom;
     return {
         height: `${height}px`,
         top: `-${height}px`
     };
 };
 export const createRuleRightStyles = (selectionOrigin, hoverOrigin) => {
-    const width = selectionOrigin.right > hoverOrigin.left
+    const width = selectionOrigin.right >= hoverOrigin.left
         ? hoverOrigin.right - selectionOrigin.right
         : hoverOrigin.left - selectionOrigin.right;
     return {
@@ -26,7 +26,7 @@ export const createRuleRightStyles = (selectionOrigin, hoverOrigin) => {
     };
 };
 export const createRuleBottomStyles = (selectionOrigin, hoverOrigin) => {
-    const height = selectionOrigin.bottom > hoverOrigin.top
+    const height = selectionOrigin.bottom >= hoverOrigin.top
         ? hoverOrigin.bottom - selectionOrigin.bottom
         : hoverOrigin.top - selectionOrigin.bottom;
     return {
@@ -35,9 +35,9 @@ export const createRuleBottomStyles = (selectionOrigin, hoverOrigin) => {
     };
 };
 export const createRuleLeftStyles = (selectionOrigin, hoverOrigin) => {
-    const width = selectionOrigin.left > hoverOrigin.right
-        ? selectionOrigin.left - hoverOrigin.right
-        : selectionOrigin.left - hoverOrigin.left;
+    const width = selectionOrigin.left <= hoverOrigin.right
+        ? selectionOrigin.left - hoverOrigin.left
+        : selectionOrigin.left - hoverOrigin.right;
     return {
         width: `${width}px`,
         left: `-${width}px`
