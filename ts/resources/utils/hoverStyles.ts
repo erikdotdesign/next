@@ -48,7 +48,7 @@ export const createRuleLeftStyles = (hoverOrigin: Origin, selectionOrigin: Origi
   }
 }
 
-export const createDimWidthStyles = (hoverFrame: any, artboardFrame: any) => {
+export const createDimWidthStyles = (hoverFrame: Frame, artboardFrame: Frame) => {
   if (placeTop(hoverFrame.y, artboardFrame.height)) {
     return {
       left: '50%',
@@ -64,7 +64,7 @@ export const createDimWidthStyles = (hoverFrame: any, artboardFrame: any) => {
   }
 }
 
-export const createDimHeightStyles = (hoverFrame: any, artboardFrame: any) => {
+export const createDimHeightStyles = (hoverFrame: Frame, artboardFrame: Frame) => {
   if (placeLeft(hoverFrame.x, artboardFrame.width)) {
     return {
       top: '50%',
