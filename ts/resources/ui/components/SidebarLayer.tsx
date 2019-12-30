@@ -1,11 +1,13 @@
 import React from 'react';
 // @ts-ignore
 import hyphenate from 'hyphenate-style-name';
+
 import {
   createShapePathStyles,
   createArtboardStyles,
   createImageStyles
 } from '../../utils/layerStyles';
+
 import {
   textContainerStyles,
   textStyles
@@ -31,7 +33,7 @@ class SidebarLayer extends React.Component<SidebarProps, {}> {
   }
   render() {
     const { layer } = this.props;
-    const layerStyles = this.getLayerStyles(layer);
+    const layerStyles: any = this.getLayerStyles(layer);
     return (
       <div className='c-sidebar__layer'>
         <h2 className='c-sidebar-layer__name'>{layer.name}</h2>

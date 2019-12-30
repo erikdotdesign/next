@@ -1,6 +1,9 @@
 # build artefacts
 measure.sketchplugin
 
+src
+resources
+
 # npm
 node_modules
 .npm

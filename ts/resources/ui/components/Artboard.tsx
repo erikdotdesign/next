@@ -1,27 +1,59 @@
 import React from 'react';
+import Layers from './Layers';
+import Selection from './Selection';
+import Hover from './Hover';
 import { createArtboardStyles } from '../../utils/layerStyles';
 
 interface ArtboardProps {
   artboard: any;
-  children?: React.ReactNode;
-  onClick(): void;
-  onMouseOver(): void;
+  images: any;
+  appState: any;
+  setAppState: any;
 }
 
 class Artboard extends React.Component<ArtboardProps, {}> {
-  componentDidMount() {
-    console.log(this.props.artboard);
+  onClick = () => {
+    this.props.setAppState({
+      selection: ''
+    });
+  }
+  onMouseOver = () => {
+    this.props.setAppState({
+      hover: this.props.artboard
+    });
   }
   render() {
+    const { artboard, images, setAppState, appState } = this.props;
+    const { selection, hover } = appState;
     return (
       <div
         className='c-artboard'
-        style={createArtboardStyles(this.props.artboard)}>
-        {this.props.children}
+        style={createArtboardStyles(artboard)}>
+        <Layers
+          layers={artboard.layers}
+          images={images}
+          setAppState={setAppState}
+          appState={appState} />
+        {
+          selection
+          ? <Selection
+              selection={selection}
+              hover={hover}
+              artboard={artboard} />
+          : null
+        }
+        {
+          hover
+          ? <Hover
+              hover={hover}
+              selection={selection}
+              artboard={artboard} />
+          : null
+        }
         <div
           className='c-artboard__click-area'
-          onClick={this.props.onClick}
-          onMouseOver={this.props.onMouseOver} />
+          onClick={this.onClick}
+          onMouseOver={this.onMouseOver} />
       </div>
     );
   }

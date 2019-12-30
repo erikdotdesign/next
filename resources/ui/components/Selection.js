@@ -1,7 +1,7 @@
 import React from 'react';
-import { createSelectionStyles } from '../../utils/selectionStyles';
 import SelectionPoints from './SelectionPoints';
 import SelectionRules from './SelectionRules';
+import { createSelectionStyles } from '../../utils/selectionStyles';
 class Selection extends React.Component {
     render() {
         const { selection, hover, artboard } = this.props;
