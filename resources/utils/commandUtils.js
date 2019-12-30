@@ -131,8 +131,7 @@ export const getImages = (layers, sketch) => {
 };
 export const validSelection = (selection) => {
     const notEmpty = selection.count() == 1;
-    const isArtboard = selection.firstObject().class() == 'MSArtboardGroup';
-    if (notEmpty && isArtboard) {
+    if (notEmpty && selection.firstObject().class() == 'MSArtboardGroup') {
         return true;
     }
     else {
