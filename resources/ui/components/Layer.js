@@ -29,22 +29,6 @@ class Layer extends React.Component {
                 return (React.createElement(ShapePath, Object.assign({}, this.props, { onClick: this.onClick, onMouseOver: this.onMouseOver, onMouseOut: this.onMouseOut })));
             case 'Text':
                 return (React.createElement(Text, Object.assign({}, this.props, { onClick: this.onClick, onMouseOver: this.onMouseOver, onMouseOut: this.onMouseOut })));
-            // case 'Shape':
-            //   return (
-            //     <Shape
-            //       {...this.props}
-            //       onClick={this.onClick}
-            //       onMouseOver={this.onMouseOver}
-            //       onMouseOut={this.onMouseOut} />
-            //   )
-            // case 'Slice':
-            //   return (
-            //     <Slice
-            //       {...this.props}
-            //       onClick={this.onClick}
-            //       onMouseOver={this.onMouseOver}
-            //       onMouseOut={this.onMouseOut} />
-            //   )
             default:
                 return React.createElement("div", { className: 'c-layer' });
         }

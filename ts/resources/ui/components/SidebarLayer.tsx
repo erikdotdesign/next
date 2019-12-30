@@ -40,7 +40,9 @@ class SidebarLayer extends React.Component<SidebarProps, {}> {
             layerStyles
             ? Object.keys(layerStyles).map((key: any, index: number) => (
                 <div className='c-sidebar-layer__css' key={index}>
-                  <div className='c-sidebar-layer__prop'>{hyphenate(key)}</div>
+                  <div className='c-sidebar-layer__prop'>
+                    {hyphenate(key)}
+                  </div>
                   <div className='c-sidebar-layer__value'>
                     <input type='text' readOnly value={layerStyles[key]} />
                   </div>

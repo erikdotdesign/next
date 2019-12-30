@@ -139,16 +139,9 @@ export const validSelection = (selection) => {
     }
 };
 // from sketch automate
-export const safeToUngroup = (group) => {
-    let noOpacity = (group.style().contextSettings().opacity() == 1), noBlending = (group.style().hasBlending() == 0), noShadows = (group.style().hasEnabledShadow() == 0), noExportOptions = (group.exportOptions().exportFormats().count() == 0), noResizingConstraint = (group.resizingConstraint() == 63);
-    return noOpacity && noBlending && noShadows && noResizingConstraint && noExportOptions;
-};
-// from sketch automate
 export const flattenGroup = (layer) => {
     if (layer.class() == "MSLayerGroup") {
-        if (safeToUngroup(layer)) {
-            layer.ungroup();
-        }
+        layer.ungroup();
         for (let i = 0; i < layer.layers().count(); i++) {
             let childLayer = layer.layers().objectAtIndex(i);
             flattenGroup(childLayer);

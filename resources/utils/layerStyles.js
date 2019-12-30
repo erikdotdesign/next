@@ -1,8 +1,6 @@
 import chroma from 'chroma-js';
 export const getImage = (images, id) => {
-    return images.find((image) => {
-        return image.id === id;
-    });
+    return images.find((image) => image.id === id);
 };
 export const cssColor = (color) => {
     return chroma(color).css();
@@ -36,27 +34,29 @@ export const createOpacity = (opacity) => {
 export const createBorderRadius = (shapeType, points) => {
     switch (shapeType) {
         case 'Rectangle':
-            const borderRadius = points.map((point) => {
+            const borderRadii = points.map((point) => {
                 return `${point.cornerRadius}px`;
             });
-            const uniformRadius = borderRadius.every((radius) => {
-                return radius === borderRadius[0];
+            const uniformRadius = borderRadii.every((radius) => {
+                return radius === borderRadii[0];
             });
-            if (uniformRadius && borderRadius[0] !== '0px') {
+            if (uniformRadius && borderRadii[0] !== '0px') {
                 return {
-                    borderRadius: borderRadius[0]
+                    borderRadius: borderRadii[0]
                 };
             }
             else if (!uniformRadius) {
                 return {
-                    borderRadius: borderRadius.join(' ')
+                    borderRadius: borderRadii.join(' ')
                 };
             }
             else {
                 return {};
             }
         case 'Oval':
-            return { borderRadius: '100%' };
+            return {
+                borderRadius: '100%'
+            };
         default:
             return {};
     }
@@ -83,7 +83,6 @@ export const createBorder = (sketchBorder) => {
         boxShadow: border
     };
 };
-// NEED TYPES
 export const createBorders = (sketchBorders) => {
     const borders = sketchBorders.map((sketchBorder) => {
         if (sketchBorder.enabled) {
@@ -141,32 +140,19 @@ export const createInnerShadows = (sketchInnerShadows) => {
     }
 };
 export const combineBordersAndShadows = (borders, shadows, innerShadows) => {
-    let boxShadow = '';
-    const withBorders = borders.boxShadow ? borders.boxShadow : '';
-    const withShadows = shadows.boxShadow ? shadows.boxShadow : '';
-    const withInnerShadows = innerShadows.boxShadow ? innerShadows.boxShadow : '';
-    if (withBorders && withShadows && withInnerShadows) {
-        boxShadow = `${withBorders}, ${withShadows}, ${withInnerShadows}`;
+    const withBorders = borders.boxShadow ? borders.boxShadow : null;
+    const withShadows = shadows.boxShadow ? shadows.boxShadow : null;
+    const withInnerShadows = innerShadows.boxShadow ? innerShadows.boxShadow : null;
+    const combined = [withBorders, withShadows, withInnerShadows];
+    const filtered = combined.filter((item) => item !== null);
+    if (filtered.length > 0) {
+        return {
+            boxShadow: filtered.join(', ')
+        };
     }
-    else if (withBorders && withShadows && !withInnerShadows) {
-        boxShadow = `${withBorders}, ${withShadows}`;
+    else {
+        return {};
     }
-    else if (withBorders && !withShadows && withInnerShadows) {
-        boxShadow = `${withBorders}, ${withInnerShadows}`;
-    }
-    else if (withBorders && !withShadows && !withInnerShadows) {
-        boxShadow = `${withBorders}`;
-    }
-    else if (!withBorders && withShadows && withInnerShadows) {
-        boxShadow = `${withShadows}, ${withInnerShadows}`;
-    }
-    else if (!withBorders && withShadows && !withInnerShadows) {
-        boxShadow = `${withShadows}`;
-    }
-    else if (!withBorders && !withShadows && withInnerShadows) {
-        boxShadow = `${withInnerShadows}`;
-    }
-    return boxShadow ? { boxShadow } : {};
 };
 export const createGradientFillImage = (images, id) => {
     const image = getImage(images, id);
@@ -176,13 +162,11 @@ export const createGradientFillImage = (images, id) => {
         backgroundRepeat: 'no-repeat'
     };
 };
-// NEED TYPES
 const createColorFill = (color) => {
     return {
         background: cssColor(color)
     };
 };
-// NEED TYPES
 export const createPatternDisplay = (pattern) => {
     switch (pattern.patternType) {
         case 'Fill':
@@ -212,10 +196,8 @@ export const createPatternDisplay = (pattern) => {
     }
     ;
 };
-// NEED TYPES
 export const createPatternFill = (pattern, images) => {
-    const id = pattern.image.id;
-    const image = getImage(images, id);
+    const image = getImage(images, pattern.image.id);
     const displayStyle = createPatternDisplay(pattern);
     return Object.assign({ background: `url(${image.url})` }, displayStyle);
 };
@@ -286,16 +268,18 @@ export const createRotation = (transform) => {
     }
 };
 export const createTransform = (rotation, horizontalFlip, verticalFlip) => {
-    const rotate = rotation.transform ? `${rotation.transform}` : '';
-    const scaleX = horizontalFlip.transform ? `${horizontalFlip.transform}` : '';
-    const scaleY = verticalFlip.transform ? `${verticalFlip.transform}` : '';
-    if (!rotate && !scaleX && !scaleY) {
-        return {};
+    const rotate = rotation.transform ? rotation.transform : null;
+    const scaleX = horizontalFlip.transform ? horizontalFlip.transform : null;
+    const scaleY = verticalFlip.transform ? verticalFlip.transform : null;
+    const combined = [rotate, scaleX, scaleY];
+    const filtered = combined.filter((item) => item !== null);
+    if (filtered.length > 0) {
+        return {
+            transform: filtered.join(' ')
+        };
     }
     else {
-        return {
-            transform: `${rotate} ${scaleX} ${scaleY}`
-        };
+        return {};
     }
 };
 export const createBaseLayerStyles = (layer) => {
@@ -318,7 +302,6 @@ export const createArtboardStyles = (artboard) => {
     const bg = enabled ? createColorFill(color) : { background: 'transparent' };
     return Object.assign(Object.assign(Object.assign({}, width), height), bg);
 };
-// NEED TYPES
 export const createShapePathStyles = (layer, images) => {
     const { style, shapeType, points } = layer;
     const baseStyles = createBaseLayerStyles(layer);
@@ -331,7 +314,6 @@ export const createShapePathStyles = (layer, images) => {
     const bordersAndShadows = combineBordersAndShadows(borders, shadows, innerShadows);
     return Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, baseStyles), borderRadius), opacity), background), bordersAndShadows);
 };
-// NEED TYPES
 export const createImageStyles = (layer, images) => {
     const { style } = layer;
     const baseStyles = createBaseLayerStyles(layer);
