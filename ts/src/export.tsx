@@ -11,15 +11,15 @@ import * as utils from '../resources/utils/commandUtils';
 
 const webviewIdentifier = 'measure.webview';
 
-export default () => {
-  // get sketch document
-  const document = sketch.getSelectedDocument();
-  // get selected sketch artboard
-  let selectedArtboard = utils.getSelectedArtboard(document.selectedPage);
-  // load plugin if artboard selected
-  if (selectedArtboard !== undefined) {
-    // get store
-    const store = utils.getStore(sketch, selectedArtboard);
+export default (context: any) => {
+  const selection = context.selection;
+  const validSelection =  utils.validSelection(selection);
+
+  if (validSelection) {
+    // get artboard
+    const artboard = utils.getArtboard(sketch, context);
+    // get images from artboard
+    const images = utils.getImages(artboard.layers, sketch);
     // set webview browser window
     const browserWindow = new BrowserWindow({
       identifier: webviewIdentifier,
@@ -42,8 +42,8 @@ export default () => {
     // render app once webview contents loaded
     webContents.on('did-finish-load', () => {
       webContents.executeJavaScript(`renderApp(
-        ${JSON.stringify(store.artboard)},
-        ${JSON.stringify(store.images)}
+        ${JSON.stringify(artboard)},
+        ${JSON.stringify(images)}
       )`);
     });
   } else {

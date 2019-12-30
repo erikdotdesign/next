@@ -13,14 +13,6 @@ const layerToBase64 = (layer: any, id: any, sketch: any) => {
   return createBase64Image(bufferImg.image, id);
 };
 
-const rotatePoint = (pointX: number, pointY: number, originX: number, originY: number, angle: number) => {
-  angle = angle * Math.PI / 180.0;
-  return {
-    x: Math.cos(angle) * (pointX - originX) - Math.sin(angle) * (pointY - originY) + originX,
-    y: Math.sin(angle) * (pointX - originX) + Math.cos(angle) * (pointY - originY) + originY
-  };
-}
-
 const gradientToBase64 = (layer: any, id: any, sketch: any) => {
   // get enabled gradients
   const activeGradients = layer.style.fills.filter((fill: any) => {
@@ -70,50 +62,6 @@ const detachSymbols = (layers: any) => {
       }
     });
   }
-};
-
-// const flattenGroups = (layers: any, newLayers: any = []) => {
-//   if (layers.length > 0) {
-//     layers.forEach((layer: any) => {
-//       if (layer.type === 'Group') {
-//         layer.layers.forEach((childLayer: any) => {
-//           childLayer.frame.x = Math.round(childLayer.frame.x + layer.frame.x);
-//           childLayer.frame.y = Math.round(childLayer.frame.y + layer.frame.y);
-//           childLayer.frame.width = Math.round(childLayer.frame.width);
-//           childLayer.frame.height = Math.round(childLayer.frame.height);
-//         });
-//         flattenGroups(layer.layers, newLayers);
-//       } else {
-//         layer.frame.x = Math.round(layer.frame.x);
-//         layer.frame.y = Math.round(layer.frame.y);
-//         layer.frame.width = Math.round(layer.frame.width);
-//         layer.frame.height = Math.round(layer.frame.height);
-//         newLayers.push(layer);
-//       }
-//     });
-//   }
-//   return newLayers;
-// };
-
-const flattenGroups = (layers: any, newLayers: any = []) => {
-  if (layers.length > 0) {
-    layers.forEach((layer: any) => {
-      if (layer.type === 'Group') {
-        layer.layers.forEach((childLayer: any) => {
-          const newBasis = childLayer.frame.changeBasis({
-            from: layer,
-            to: layer.parent
-          });
-          childLayer.frame.x = newBasis.x;
-          childLayer.frame.y = newBasis.y;
-        });
-        flattenGroups(layer.layers, newLayers);
-      } else {
-        newLayers.push(layer);
-      }
-    });
-  }
-  return newLayers;
 };
 
 const getLayerImages = (layers: any, images: any = []) => {
@@ -182,94 +130,70 @@ const generateBase64Images = (layers: any) => {
   return [...base64LayerImages, ...base64FillImages];
 };
 
-const generateImageStore = (layers: any, sketch: any) => {
+export const getImages = (layers: any, sketch: any) => {
   const images = generateBase64Images(layers);
   const gradients = generateBase64Gradients(layers, sketch)
   return [...images, ...gradients];
-}
-
-export const getStore = (sketch: any, selectedArtboard: any) => {
-  // duplicate artboard
-  let artboard = selectedArtboard.duplicate();
-  // clear artboard frame
-  artboard.frame.x = 0;
-  artboard.frame.y = 0;
-  // detach symbols from duplicate artboard layers
-  detachSymbols(artboard.layers);
-  // flatten artboard layer groups
-  const newLayers = flattenGroups(artboard.layers);
-  // generate base64 images from layers
-  const images = generateImageStore(newLayers, sketch);
-  // set artboard layers
-  artboard.layers = newLayers;
-  // delete duplicate artboard
-  artboard.remove();
-  // return final store
-  return {
-    artboard,
-    images
-  };
 };
 
+export const validSelection = (selection: any) => {
+  const notEmpty = selection.count() == 1;
+  const isArtboard = selection.firstObject().class() == 'MSArtboardGroup';
+  if (notEmpty && isArtboard) {
+    return true;
+  } else {
+    return false;
+  }
+};
 
-// export const flattenGroups = (layers: any, newArray: any) => {
-//   if (layers.length > 0) {
-//     layers.forEach((layer: any) => {
-//       if (layer.type === 'Group') {
-//         flattenGroups(layer.layers, newArray);
-//       } else {
-//         newArray.push(layer);
-//       }
-//     });
-//   }
-//   return newArray;
-// };
+// from sketch automate
+export const safeToUngroup = (group: any) => {
+  let noOpacity = (group.style().contextSettings().opacity() == 1),
+      noBlending = (group.style().hasBlending() == 0),
+      noShadows = (group.style().hasEnabledShadow() == 0),
+      noExportOptions = (group.exportOptions().exportFormats().count() == 0),
+      noResizingConstraint = (group.resizingConstraint() == 63);
 
-// const getLayerImages = (layers: any) => {
-//   const layerImages: any = [];
-//   layers.forEach((layer: any) => {
-//     if (layer.type === 'Image' && !layer.hidden) {
-//       layerImages.push(layer.image);
-//     }
-//   });
-//   return layerImages;
-// };
+  return noOpacity && noBlending && noShadows && noResizingConstraint && noExportOptions;
+};
 
-// const getFillImages = (layers: any) => {
-//   const fillImages: any = [];
-//   layers.forEach((layer: any) => {
-//     if (layer.style.fills.length > 0 && !layer.hidden) {
-//       layer.style.fills.forEach((fill: any) => {
-//         if (fill.pattern.image !== null && fill.enabled) {
-//           fillImages.push(fill.pattern.image);
-//         }
-//       });
-//     }
-//   });
-//   return fillImages;
-// };
+// from sketch automate
+export const flattenGroup = (layer: any) => {
+  if (layer.class() == "MSLayerGroup") {
+    if (safeToUngroup(layer)) {
+      layer.ungroup();
+    }
+    for (let i = 0; i < layer.layers().count(); i++) {
+      let childLayer = layer.layers().objectAtIndex(i);
+      flattenGroup(childLayer);
+    }
+  }
+};
 
-// export const generateBase64Gradients = (layers: any, dom: any) => {
-//   const base64Gradients: any = [];
-//   //const flattendLayers = flattenGroups(layers, []);
-//   layers.forEach((layer: any) => {
-//     const { style } = layer;
-//     // check if fills contain any enabled gradients
-//     const hasActiveGradient = style.fills.some((fill: any) => {
-//       return fill.fillType === 'Gradient' && fill.enabled;
-//     });
-//     // generate gradient base64
-//     if (hasActiveGradient) {
-//       // duplicate layer
-//       const gradientDuplicate = layer.duplicate();
-//       // remove all styles but the gradient fill
-//       // create base64 from duplicate layer
-//       const base64Gradient = gradientToBase64(gradientDuplicate, style.id, dom);
-//       // push base64 gradient to master
-//       base64Gradients.push(base64Gradient);
-//       // remove duplicate layer
-//       gradientDuplicate.remove();
-//     }
-//   });
-//   return base64Gradients;
-// };
+// from sketch automate
+export const flattenGroups = (selection: any) => {
+  let loop = selection.objectEnumerator();
+  let layer;
+  while (layer = loop.nextObject()) {
+    flattenGroup(layer);
+  }
+};
+
+export const getArtboard = (sketch: any, context: any) => {
+  // get native selection and artboard
+  let selection = context.selection;
+  let artboard = selection.firstObject();
+  // duplicate native artboard
+  let artboardDuplicate = artboard.duplicate();
+  // reset duplicated artboard position
+  artboardDuplicate.frame().setX(0);
+  artboardDuplicate.frame().setY(0);
+  // detach all symbols from duplicated artboard, returns layer groups
+  detachSymbols(sketch.fromNative(artboardDuplicate).layers);
+  // flatten all groups within duplicated artboard
+  flattenGroups(artboardDuplicate.layers());
+  // remove duplicated artboard
+  sketch.fromNative(artboardDuplicate).remove();
+  // return final artboard
+  return sketch.fromNative(artboardDuplicate);
+}
