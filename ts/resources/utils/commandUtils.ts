@@ -201,9 +201,9 @@ export const getShapeSVGs = (layers: any, svgs: any = []) => {
   return svgs;
 };
 
-const maskToImage = (layer: any, sketch: any) => {
+const maskGroupToImageLayer = (maskGroup: any, sketch: any) => {
   // create image buffer from layer
-  const buffer = sketch.export(layer, {
+  const buffer = sketch.export(maskGroup, {
     formats: 'png',
     output: false,
     ['save-for-web']: true
@@ -214,8 +214,8 @@ const maskToImage = (layer: any, sketch: any) => {
     image: buffer
   });
   // set dims
-  imageLayer.frame.width = layer.frame.width;
-  imageLayer.frame.height = layer.frame.height;
+  imageLayer.frame.width = maskGroup.frame.width;
+  imageLayer.frame.height = maskGroup.frame.height;
   // return image layer
   return imageLayer;
 };
@@ -226,7 +226,7 @@ export const masksToImages = (layers: any, sketch: any) => {
       if (layer.type === 'Group') {
         masksToImages(layer.layers, sketch);
       } else if (layer.sketchObject.hasClippingMask() && layer.parent.type === 'Group') {
-        const imageLayer = maskToImage(layer.parent, sketch);
+        const imageLayer = maskGroupToImageLayer(layer.parent, sketch);
         layer.parent.layers.unshift(imageLayer);
         layer.parent.layers.forEach((layer: any, index: any) => {
           if (index !== 0) {
@@ -236,6 +236,15 @@ export const masksToImages = (layers: any, sketch: any) => {
       }
     });
   }
+};
+
+export const roundDims = (layers: any) => {
+  layers.forEach((layer: any) => {
+    layer.frame.x = Math.round(layer.frame.x);
+    layer.frame.y = Math.round(layer.frame.y);
+    layer.frame.width = Math.round(layer.frame.width);
+    layer.frame.height = Math.round(layer.frame.height);
+  });
 }
 
 export const getArtboard = (sketch: any) => {
@@ -257,6 +266,8 @@ export const getArtboard = (sketch: any) => {
   flattenShapes(artboardDuplicate.layers, sketch);
   // flatten all groups within duplicated artboard
   flattenGroups(artboardDuplicate.layers);
+  // round dims
+  roundDims(artboardDuplicate.layers);
   // return final artboard
   return artboardDuplicate;
 };
@@ -276,7 +287,7 @@ export const getStore = (sketch: any) => {
     images: [...images, ...gradients],
     svgs: svgs
   }
-}
+};
 
 
 // export const shapesToImages = (layers: any, sketch: any) => {
