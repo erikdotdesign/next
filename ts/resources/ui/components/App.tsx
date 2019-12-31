@@ -5,6 +5,7 @@ import Canvas from './Canvas';
 interface AppProps {
   artboard: any;
   images: any;
+  svgs: any;
 }
 
 interface AppState {

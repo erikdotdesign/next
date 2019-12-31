@@ -157,7 +157,7 @@ export const combineBordersAndShadows = (borders, shadows, innerShadows) => {
 export const createGradientFillImage = (images, id) => {
     const image = getImage(images, id);
     return {
-        background: `url(${image.url})`,
+        background: `url(${image.src})`,
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat'
     };
@@ -199,16 +199,17 @@ export const createPatternDisplay = (pattern) => {
 export const createPatternFill = (pattern, images) => {
     const image = getImage(images, pattern.image.id);
     const displayStyle = createPatternDisplay(pattern);
-    return Object.assign({ background: `url(${image.url})` }, displayStyle);
+    return Object.assign({ background: `url(${image.src})` }, displayStyle);
 };
 // NEED TYPES
-export const createBackground = (fills, images, id) => {
+export const createBackground = (layer, images) => {
+    const { style, id } = layer;
     // get fills that are enabled
-    const hasActiveFills = fills.some((fill) => fill.enabled);
+    const hasActiveFills = style.fills.some((fill) => fill.enabled);
     // create background if there are active fills
     if (hasActiveFills) {
         // get all active fills
-        const activeFills = fills.filter((fill) => fill.enabled);
+        const activeFills = style.fills.filter((fill) => fill.enabled);
         // return active fill with highest index
         const topFill = activeFills[activeFills.length - 1];
         // create background by fillType
@@ -221,14 +222,6 @@ export const createBackground = (fills, images, id) => {
                 return createPatternFill(topFill.pattern, images);
         }
         ;
-    }
-    else {
-        return {};
-    }
-};
-export const createVisibility = (hidden) => {
-    if (hidden) {
-        return { visibility: 'hidden' };
     }
     else {
         return {};
@@ -283,8 +276,7 @@ export const createTransform = (rotation, horizontalFlip, verticalFlip) => {
     }
 };
 export const createBaseLayerStyles = (layer) => {
-    const { frame, hidden } = layer;
-    const visibility = createVisibility(hidden);
+    const { frame } = layer;
     const position = createPosition(frame.x, frame.y);
     const width = createWidth(frame.width);
     const height = createHeight(frame.height);
@@ -292,7 +284,7 @@ export const createBaseLayerStyles = (layer) => {
     const horizontalFlip = createHorizontalFlip(layer.transform);
     const verticalFlip = createVerticalFlip(layer.transform);
     const transform = createTransform(rotation, horizontalFlip, verticalFlip);
-    return Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, visibility), width), height), position), transform);
+    return Object.assign(Object.assign(Object.assign(Object.assign({}, width), height), position), transform);
 };
 export const createArtboardStyles = (artboard) => {
     const { frame, background } = artboard;
@@ -307,25 +299,43 @@ export const createShapePathStyles = (layer, images) => {
     const baseStyles = createBaseLayerStyles(layer);
     const borderRadius = createBorderRadius(shapeType, points);
     const opacity = createOpacity(style.opacity);
-    const background = createBackground(style.fills, images, layer.id);
+    const background = createBackground(layer, images);
     const borders = createBorders(style.borders);
     const shadows = createShadows(style.shadows);
     const innerShadows = createInnerShadows(style.innerShadows);
     const bordersAndShadows = combineBordersAndShadows(borders, shadows, innerShadows);
     return Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, baseStyles), borderRadius), opacity), background), bordersAndShadows);
 };
+// export const createShapeStyles = (layer: any, images: any) => {
+//   const { style, shapeType, points } = layer;
+//   const baseStyles = createBaseLayerStyles(layer);
+//   const borderRadius = createBorderRadius(shapeType, points);
+//   const opacity = createOpacity(style.opacity);
+//   const background = createBackground(layer, images);
+//   const borders = createBorders(style.borders);
+//   const shadows = createShadows(style.shadows);
+//   const innerShadows = createInnerShadows(style.innerShadows);
+//   const bordersAndShadows = combineBordersAndShadows(borders, shadows, innerShadows);
+//   return {
+//     ...baseStyles,
+//     ...borderRadius,
+//     ...opacity,
+//     ...background,
+//     ...bordersAndShadows
+//   }
+// };
 export const createImageStyles = (layer, images) => {
     const { style } = layer;
     const baseStyles = createBaseLayerStyles(layer);
     const opacity = createOpacity(style.opacity);
-    const background = createBackground(style.fills, images, style.id);
+    const background = createBackground(layer, images);
     const borders = createBorders(style.borders);
     const shadows = createShadows(style.shadows);
     const innerShadows = createInnerShadows(style.innerShadows);
     const bordersAndShadows = combineBordersAndShadows(borders, shadows, innerShadows);
     const baseImage = getImage(images, layer.image.id);
     const baseImageBackground = {
-        background: `url(${baseImage.url})`,
+        background: `url(${baseImage.src})`,
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
     };

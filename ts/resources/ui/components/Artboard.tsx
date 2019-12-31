@@ -7,6 +7,7 @@ import { createArtboardStyles } from '../../utils/layerStyles';
 interface ArtboardProps {
   artboard: any;
   images: any;
+  svgs: any;
   appState: any;
   setAppState: any;
 }
@@ -23,7 +24,7 @@ class Artboard extends React.Component<ArtboardProps, {}> {
     });
   }
   render() {
-    const { artboard, images, setAppState, appState } = this.props;
+    const { artboard, images, svgs, setAppState, appState } = this.props;
     const { selection, hover } = appState;
     return (
       <div
@@ -32,6 +33,7 @@ class Artboard extends React.Component<ArtboardProps, {}> {
         <Layers
           layers={artboard.layers}
           images={images}
+          svgs={svgs}
           setAppState={setAppState}
           appState={appState} />
         {

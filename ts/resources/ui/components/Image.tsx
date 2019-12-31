@@ -17,7 +17,6 @@ class Image extends React.Component<ImageProps, {}> {
         onMouseOver={this.props.onMouseOver}
         onMouseOut={this.props.onMouseOut}
         className='c-layer c-layer--image'
-        // @ts-ignore
         style={createImageStyles(this.props.layer, this.props.images)} />
     );
   }

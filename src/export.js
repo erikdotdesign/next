@@ -6,12 +6,12 @@ import ui from 'sketch/ui';
 import BrowserWindow from 'sketch-module-web-view';
 // @ts-ignore
 import { getWebview } from 'sketch-module-web-view/remote';
-import { validSelection, getArtboard, getImages } from '../resources/utils/commandUtils';
+import { validSelection, getStore } from '../resources/utils/commandUtils';
 const webviewIdentifier = 'measure.webview';
 export default (context) => {
     if (validSelection(context.selection)) {
-        const artboard = getArtboard(sketch, context);
-        const images = getImages(artboard.layers, sketch);
+        // get store
+        const store = getStore(sketch, context);
         // set webview browser window
         const browserWindow = new BrowserWindow({
             identifier: webviewIdentifier,
@@ -34,8 +34,9 @@ export default (context) => {
         // render app once webview contents loaded
         webContents.on('did-finish-load', () => {
             webContents.executeJavaScript(`renderApp(
-        ${JSON.stringify(artboard)},
-        ${JSON.stringify(images)}
+        ${JSON.stringify(store.artboard)},
+        ${JSON.stringify(store.images)},
+        ${JSON.stringify(store.svgs)}
       )`);
         });
     }

@@ -21,16 +21,6 @@ class SelectionRules extends React.Component {
                 : null,
             selectionOrigin.left > hoverOrigin.left
                 ? React.createElement(SelectionRulesLeft, { selectionOrigin: selectionOrigin, hoverOrigin: hoverOrigin, artboardFrame: artboardFrame })
-                : null,
-            selectionOrigin.left < hoverOrigin.left && selectionOrigin.right > hoverOrigin.right
-                ? React.createElement("div", null,
-                    React.createElement(SelectionRulesLeft, { selectionOrigin: hoverOrigin, hoverOrigin: selectionOrigin, artboardFrame: artboardFrame, inset: true }),
-                    React.createElement(SelectionRulesRight, { selectionOrigin: hoverOrigin, hoverOrigin: selectionOrigin, artboardFrame: artboardFrame, inset: true }))
-                : null,
-            selectionOrigin.top < hoverOrigin.top && selectionOrigin.bottom > hoverOrigin.bottom
-                ? React.createElement("div", null,
-                    React.createElement(SelectionRulesTop, { selectionOrigin: hoverOrigin, hoverOrigin: selectionOrigin, artboardFrame: artboardFrame, inset: true }),
-                    React.createElement(SelectionRulesBottom, { selectionOrigin: hoverOrigin, hoverOrigin: selectionOrigin, artboardFrame: artboardFrame, inset: true }))
                 : null));
     }
 }

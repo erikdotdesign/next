@@ -4,6 +4,7 @@ import Layer from './Layer';
 interface LayersProps {
   layers: any;
   images: any;
+  svgs: any;
   setAppState: any;
   appState: any;
 }
@@ -18,6 +19,7 @@ class Layers extends React.Component<LayersProps, {}> {
               layer={layer}
               key={index}
               images={this.props.images}
+              svgs={this.props.svgs}
               setAppState={this.props.setAppState}
               appState={this.props.appState} />
           ))

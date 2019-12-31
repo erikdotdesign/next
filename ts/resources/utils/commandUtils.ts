@@ -1,11 +1,11 @@
-const layerToBase64 = (layer: any, id: any, sketch: any) => {
+const layerToBase64 = (layer: any, id: string, sketch: any) => {
   // create image buffer from layer
   const buffer = sketch.export(layer, {
     formats: 'png',
     output: false,
     ['save-for-web']: true
   });
-  // create image form buffer data
+  // create image from buffer data
   const bufferImg = new sketch.Image({
     image: buffer
   });
@@ -13,7 +13,7 @@ const layerToBase64 = (layer: any, id: any, sketch: any) => {
   return createBase64Image(bufferImg.image, id);
 };
 
-const gradientToBase64 = (layer: any, id: any, sketch: any) => {
+const gradientToBase64 = (layer: any, id: string, sketch: any) => {
   // get enabled gradients
   const activeGradients = layer.style.fills.filter((fill: any) => {
     return fill.enabled && fill.fillType === 'Gradient';
@@ -34,7 +34,7 @@ const createBase64Image = (image: any, id: string) => {
   let newImage = 'data:image/png;base64,' + newImageBase64;
   return {
     id: id,
-    url: newImage
+    src: newImage
   }
 };
 
@@ -65,57 +65,47 @@ const detachSymbols = (layers: any) => {
 };
 
 const getLayerImages = (layers: any, images: any = []) => {
-  if (layers.length > 0) {
-    layers.forEach((layer: any) => {
-      if (layer.type === 'Group') {
-        getLayerImages(layer.layers, images);
-      } else if (layer.type === 'Image' && !layer.hidden) {
-        images.push(layer.image);
-      }
-    });
-  }
+  layers.forEach((layer: any) => {
+    if (layer.type === 'Image') {
+      images.push(layer.image);
+    }
+  });
   return images;
 };
 
 const getFillImages = (layers: any, images: any = []) => {
-  if (layers.length > 0) {
-    layers.forEach((layer: any) => {
-      if (layer.type === 'Group') {
-        getFillImages(layer.layers, images);
-      } else if (layer.style.fills.length > 0 && !layer.hidden) {
-        layer.style.fills.forEach((fill: any) => {
-          if (fill.pattern.image !== null && fill.enabled) {
-            images.push(fill.pattern.image);
-          }
-        });
-      }
-    });
-  }
+  layers.forEach((layer: any) => {
+    if (layer.style.fills.length > 0) {
+      layer.style.fills.forEach((fill: any) => {
+        if (fill.pattern.image !== null && fill.enabled) {
+          images.push(fill.pattern.image);
+        }
+      });
+    }
+  });
   return images;
 };
 
 const generateBase64Gradients = (layers: any, sketch: any, images: any = []) => {
-  if (layers.length > 0) {
-    layers.forEach((layer: any) => {
-      if (layer.type === 'Group') {
-        generateBase64Gradients(layer.layers, sketch, images);
-      } else if (layer.style.fills.length > 0 && !layer.hidden) {
-        // check if fills contain any enabled gradients
-        const hasActiveGradient = layer.style.fills.some((fill: any) => {
-          return fill.fillType === 'Gradient' && fill.enabled;
-        });
-        // generate gradient base64
-        if (hasActiveGradient) {
-          // create duplicate
-          const duplicate = layer.duplicate();
-          // create base64 from duplicate layer
-          const base64Gradient = gradientToBase64(duplicate, layer.id, sketch);
-          // push base64 gradient to images
-          images.push(base64Gradient);
-        }
+  layers.forEach((layer: any) => {
+    if (layer.style.fills.length > 0 && !layer.hidden) {
+      // check if fills contain any enabled gradients
+      const hasActiveGradient = layer.style.fills.some((fill: any) => {
+        return fill.fillType === 'Gradient' && fill.enabled;
+      });
+      // generate gradient base64
+      if (hasActiveGradient) {
+        // create duplicate
+        const layerDuplicate = layer.duplicate();
+        // create base64 from duplicate layer
+        const base64Gradient = gradientToBase64(layerDuplicate, layer.id, sketch);
+        // push base64 gradient to images
+        images.push(base64Gradient);
+        // remove duplicate
+        layerDuplicate.remove();
       }
-    });
-  }
+    }
+  });
   return images;
 };
 
@@ -130,12 +120,6 @@ const generateBase64Images = (layers: any) => {
   return [...base64LayerImages, ...base64FillImages];
 };
 
-export const getImages = (layers: any, sketch: any) => {
-  const images = generateBase64Images(layers);
-  const gradients = generateBase64Gradients(layers, sketch)
-  return [...images, ...gradients];
-};
-
 export const validSelection = (selection: any) => {
   const notEmpty = selection.count() == 1;
   if (notEmpty && selection.firstObject().class() == 'MSArtboardGroup') {
@@ -145,24 +129,76 @@ export const validSelection = (selection: any) => {
   }
 };
 
-// from sketch automate
-export const flattenGroup = (layer: any) => {
-  if (layer.class() == "MSLayerGroup") {
-    layer.ungroup();
-    for (let i = 0; i < layer.layers().count(); i++) {
-      let childLayer = layer.layers().objectAtIndex(i);
-      flattenGroup(childLayer);
-    }
+const flattenGroups = (layers: any) => {
+  if (layers.count() != 0) {
+    layers.forEach((layer: any) => {
+      if (layer.class() == "MSLayerGroup") {
+        layer.ungroup();
+        flattenGroups(layer.layers());
+      }
+    });
   }
 };
 
-// from sketch automate
-export const flattenGroups = (selection: any) => {
-  let loop = selection.objectEnumerator();
-  let layer;
-  while (layer = loop.nextObject()) {
-    flattenGroup(layer);
+export const removeHiddenLayers = (layers: any) => {
+  if (layers.length > 0) {
+    layers.forEach((layer: any) => {
+      const hidden = layer.hidden;
+      const transparent = layer.style.opacity === 0;
+      if (layer.type === 'Group') {
+        if (hidden || transparent) {
+          layer.remove();
+        } else {
+          removeHiddenLayers(layer.layers);
+        }
+      } else {
+        if (hidden || transparent) {
+          layer.remove();
+        }
+      }
+    });
   }
+};
+
+export const flattenShapes = (layers: any, sketch: any) => {
+  if (layers.length > 0) {
+    layers.forEach((layer: any, index: number) => {
+      if (layer.type === 'Group') {
+        flattenShapes(layer.layers, sketch);
+      } else if (layer.type === 'Shape') {
+        // create svg buffer
+        const buffer = sketch.export(layer, {
+          formats: 'svg',
+          output: false
+        });
+        // create layer from buffer
+        const shapeGroup = sketch.createLayerFromData(buffer, 'svg');
+        // set group layer position to match original layer
+        shapeGroup.layers.forEach((svg: any) => {
+          svg.frame.x = layer.frame.x;
+          svg.frame.y = layer.frame.y;
+        });
+        // splice out old layer, splice in new group
+        layers.splice(index, 1, shapeGroup);
+      }
+    });
+  }
+};
+
+export const getShapeSVGs = (layers: any, svgs: any = []) => {
+  layers.forEach((layer: any) => {
+    if (layer.type === 'Shape') {
+      layer.layers.forEach((shapePath: any) => {
+        const path = shapePath.getSVGPath();
+        svgs.push({
+          parentId: layer.id,
+          shapePath: shapePath,
+          svgPath: path
+        });
+      });
+    }
+  });
+  return svgs;
 };
 
 export const getArtboard = (sketch: any, context: any) => {
@@ -176,10 +212,61 @@ export const getArtboard = (sketch: any, context: any) => {
   artboardDuplicate.frame().setY(0);
   // detach all symbols from duplicated artboard, returns layer groups
   detachSymbols(sketch.fromNative(artboardDuplicate).layers);
+  // remove hidden layers
+  removeHiddenLayers(sketch.fromNative(artboardDuplicate).layers);
+  // flatten shapes for future svgs
+  flattenShapes(sketch.fromNative(artboardDuplicate).layers, sketch);
   // flatten all groups within duplicated artboard
   flattenGroups(artboardDuplicate.layers());
-  // remove duplicated artboard
-  sketch.fromNative(artboardDuplicate).remove();
   // return final artboard
   return sketch.fromNative(artboardDuplicate);
+};
+
+export const getStore = (sketch: any, context: any) => {
+  // get artboard
+  let artboard = getArtboard(sketch, context);
+  // get images
+  let images = generateBase64Images(artboard.layers);
+  let gradients = generateBase64Gradients(artboard.layers, sketch);
+  let svgs = getShapeSVGs(artboard.layers);
+  // remove duplicate artboard
+  artboard.remove();
+  // return final store
+  return {
+    artboard: artboard,
+    images: [...images, ...gradients],
+    svgs: svgs
+  }
 }
+
+
+// export const shapesToImages = (layers: any, sketch: any) => {
+//   layers.forEach((layer: any, index: number) => {
+//     if (layer.type === 'Shape') {
+//       // create image layer
+//       const imageLayer = layerToImageLayer(layer, sketch);
+//       // push image layer to original layer index
+//       layers.splice(index, 0, imageLayer);
+//       // remove original layer
+//       layer.remove();
+//     }
+//   });
+// }
+
+
+// const layerToImageLayer = (layer: any, sketch: any) => {
+//   // create image buffer from layer
+//   const buffer = sketch.export(layer, {
+//     formats: 'png',
+//     output: false,
+//     ['save-for-web']: true
+//   });
+//   // create image layer from buffer data
+//   const imageLayer = new sketch.Image({
+//     image: buffer
+//   });
+//   // set image layer frame and index to original layer
+//   imageLayer.frame = layer.frame;
+//   // return image layer
+//   return imageLayer;
+// };

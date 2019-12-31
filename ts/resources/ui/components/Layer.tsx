@@ -1,11 +1,13 @@
 import React from 'react';
 import Image from './Image';
 import ShapePath from './ShapePath';
+import Shape from './Shape';
 import Text from './Text';
 
 interface LayerProps {
   layer: any;
   images: any;
+  svgs: any;
   setAppState: any;
   appState: any;
 }
@@ -16,6 +18,9 @@ interface LayerState {
 }
 
 class Layer extends React.Component<LayerProps, LayerState> {
+  componentDidMount() {
+    console.log(this.props.layer);
+  }
   onClick = () => {
     this.props.setAppState({
       selection: this.props.layer
@@ -32,11 +37,23 @@ class Layer extends React.Component<LayerProps, LayerState> {
     });
   }
   render() {
-    switch(this.props.layer.type) {
+    const { layer, images, svgs } = this.props;
+    switch(layer.type) {
       case 'Image':
         return (
           <Image
-            {...this.props}
+            layer={layer}
+            images={images}
+            onClick={this.onClick}
+            onMouseOver={this.onMouseOver}
+            onMouseOut={this.onMouseOut} />
+        )
+      case 'Shape':
+        return (
+          <Shape
+            layer={layer}
+            images={images}
+            svgs={svgs}
             onClick={this.onClick}
             onMouseOver={this.onMouseOver}
             onMouseOut={this.onMouseOut} />
@@ -44,7 +61,8 @@ class Layer extends React.Component<LayerProps, LayerState> {
       case 'ShapePath':
         return  (
           <ShapePath
-            {...this.props}
+            layer={layer}
+            images={images}
             onClick={this.onClick}
             onMouseOver={this.onMouseOver}
             onMouseOut={this.onMouseOut} />
@@ -52,7 +70,7 @@ class Layer extends React.Component<LayerProps, LayerState> {
       case 'Text':
         return (
           <Text
-            {...this.props}
+            layer={layer}
             onClick={this.onClick}
             onMouseOver={this.onMouseOver}
             onMouseOut={this.onMouseOut} />

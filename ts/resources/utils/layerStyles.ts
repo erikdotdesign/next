@@ -165,7 +165,7 @@ export const combineBordersAndShadows = (borders: any, shadows: any, innerShadow
 export const createGradientFillImage = (images: any, id: any) => {
   const image = getImage(images, id);
   return {
-    background: `url(${image.url})`,
+    background: `url(${image.src})`,
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat'
   }
@@ -211,19 +211,20 @@ export const createPatternFill = (pattern: any, images: any) => {
   const displayStyle = createPatternDisplay(pattern);
 
   return {
-    background: `url(${image.url})`,
+    background: `url(${image.src})`,
     ...displayStyle
   }
 };
 
 // NEED TYPES
-export const createBackground = (fills: any, images: any, id: any) => {
+export const createBackground = (layer: any, images: any) => {
+  const { style, id } = layer;
   // get fills that are enabled
-  const hasActiveFills = fills.some((fill: any) => fill.enabled);
+  const hasActiveFills = style.fills.some((fill: any) => fill.enabled);
   // create background if there are active fills
   if (hasActiveFills) {
     // get all active fills
-    const activeFills = fills.filter((fill: any) => fill.enabled);
+    const activeFills = style.fills.filter((fill: any) => fill.enabled);
     // return active fill with highest index
     const topFill = activeFills[activeFills.length - 1];
     // create background by fillType
@@ -235,14 +236,6 @@ export const createBackground = (fills: any, images: any, id: any) => {
       case 'Pattern':
         return createPatternFill(topFill.pattern, images);
     };
-  } else {
-    return {}
-  }
-};
-
-export const createVisibility = (hidden: boolean) => {
-  if (hidden) {
-    return { visibility: 'hidden' };
   } else {
     return {}
   }
@@ -298,8 +291,7 @@ export const createTransform = (rotation: any, horizontalFlip: any, verticalFlip
 };
 
 export const createBaseLayerStyles = (layer: any) => {
-  const { frame, hidden } = layer;
-  const visibility = createVisibility(hidden);
+  const { frame } = layer;
   const position = createPosition(frame.x, frame.y);
   const width = createWidth(frame.width);
   const height = createHeight(frame.height);
@@ -309,7 +301,6 @@ export const createBaseLayerStyles = (layer: any) => {
   const transform = createTransform(rotation, horizontalFlip, verticalFlip);
 
   return {
-    ...visibility,
     ...width,
     ...height,
     ...position,
@@ -336,7 +327,7 @@ export const createShapePathStyles = (layer: any, images: any) => {
   const baseStyles = createBaseLayerStyles(layer);
   const borderRadius = createBorderRadius(shapeType, points);
   const opacity = createOpacity(style.opacity);
-  const background = createBackground(style.fills, images, layer.id);
+  const background = createBackground(layer, images);
   const borders = createBorders(style.borders);
   const shadows = createShadows(style.shadows);
   const innerShadows = createInnerShadows(style.innerShadows);
@@ -351,11 +342,31 @@ export const createShapePathStyles = (layer: any, images: any) => {
   }
 };
 
+// export const createShapeStyles = (layer: any, images: any) => {
+//   const { style, shapeType, points } = layer;
+//   const baseStyles = createBaseLayerStyles(layer);
+//   const borderRadius = createBorderRadius(shapeType, points);
+//   const opacity = createOpacity(style.opacity);
+//   const background = createBackground(layer, images);
+//   const borders = createBorders(style.borders);
+//   const shadows = createShadows(style.shadows);
+//   const innerShadows = createInnerShadows(style.innerShadows);
+//   const bordersAndShadows = combineBordersAndShadows(borders, shadows, innerShadows);
+
+//   return {
+//     ...baseStyles,
+//     ...borderRadius,
+//     ...opacity,
+//     ...background,
+//     ...bordersAndShadows
+//   }
+// };
+
 export const createImageStyles = (layer: any, images: any) => {
   const { style } = layer;
   const baseStyles = createBaseLayerStyles(layer);
   const opacity = createOpacity(style.opacity);
-  const background = createBackground(style.fills, images, style.id);
+  const background = createBackground(layer, images);
   const borders = createBorders(style.borders);
   const shadows = createShadows(style.shadows);
   const innerShadows = createInnerShadows(style.innerShadows);
@@ -363,7 +374,7 @@ export const createImageStyles = (layer: any, images: any) => {
 
   const baseImage = getImage(images, layer.image.id);
   const baseImageBackground = {
-    background: `url(${baseImage.url})`,
+    background: `url(${baseImage.src})`,
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
   };

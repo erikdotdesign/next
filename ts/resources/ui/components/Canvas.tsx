@@ -6,6 +6,7 @@ interface CanvasProps {
   setAppState: any;
   artboard: any;
   images: any;
+  svgs: any;
 }
 
 class Canvas extends React.Component<CanvasProps, {}> {

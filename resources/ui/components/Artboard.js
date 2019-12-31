@@ -18,10 +18,10 @@ class Artboard extends React.Component {
         };
     }
     render() {
-        const { artboard, images, setAppState, appState } = this.props;
+        const { artboard, images, svgs, setAppState, appState } = this.props;
         const { selection, hover } = appState;
         return (React.createElement("div", { className: 'c-artboard', style: createArtboardStyles(artboard) },
-            React.createElement(Layers, { layers: artboard.layers, images: images, setAppState: setAppState, appState: appState }),
+            React.createElement(Layers, { layers: artboard.layers, images: images, svgs: svgs, setAppState: setAppState, appState: appState }),
             selection
                 ? React.createElement(Selection, { selection: selection, hover: hover, artboard: artboard })
                 : null,

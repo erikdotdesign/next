@@ -50,7 +50,7 @@ class SelectionRules extends React.Component<SelectionRulesProps, {}> {
               artboardFrame={artboardFrame} />
           : null
         }
-        {
+        {/* {
           selectionOrigin.left < hoverOrigin.left && selectionOrigin.right > hoverOrigin.right
           ? <div>
               <SelectionRulesLeft
@@ -81,7 +81,7 @@ class SelectionRules extends React.Component<SelectionRulesProps, {}> {
                 inset />
             </div>
           : null
-        }
+        } */}
       </div>
     );
   }

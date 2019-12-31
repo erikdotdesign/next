@@ -17,7 +17,6 @@ class ShapePath extends React.Component<ShapePathProps, {}> {
         onMouseOver={this.props.onMouseOver}
         onMouseOut={this.props.onMouseOut}
         className='c-layer c-layer--shape-path'
-        // @ts-ignore
         style={createShapePathStyles(this.props.layer, this.props.images)}>
       </div>
     );
