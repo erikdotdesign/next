@@ -40,8 +40,8 @@ const base64ImageBatch = (images) => {
         return createBase64Image(image, image.id);
     });
 };
-export const getSelectedArtboard = (selectedPage) => {
-    return selectedPage.layers.find((layer) => {
+export const getSelectedArtboard = (selectedLayers) => {
+    return selectedLayers.layers.find((layer) => {
         return layer.type === 'Artboard' && layer.selected;
     });
 };
@@ -121,11 +121,11 @@ export const validSelection = (selection) => {
     }
 };
 const flattenGroups = (layers) => {
-    if (layers.count() != 0) {
+    if (layers.length > 0) {
         layers.forEach((layer) => {
-            if (layer.class() == "MSLayerGroup") {
-                layer.ungroup();
-                flattenGroups(layer.layers());
+            if (layer.type === "Group") {
+                layer.sketchObject.ungroup();
+                flattenGroups(layer.layers);
             }
         });
     }
@@ -191,29 +191,67 @@ export const getShapeSVGs = (layers, svgs = []) => {
     });
     return svgs;
 };
-export const getArtboard = (sketch, context) => {
-    // get native selection and artboard
-    let selection = context.selection;
-    let artboard = selection.firstObject();
+const maskToImage = (layer, sketch) => {
+    // create image buffer from layer
+    const buffer = sketch.export(layer, {
+        formats: 'png',
+        output: false,
+        ['save-for-web']: true
+    });
+    // create image layer from buffer data
+    const imageLayer = new sketch.Image({
+        name: 'mask-image',
+        image: buffer
+    });
+    // set dims
+    imageLayer.frame.width = layer.frame.width;
+    imageLayer.frame.height = layer.frame.height;
+    // return image layer
+    return imageLayer;
+};
+export const masksToImages = (layers, sketch) => {
+    if (layers.length > 0) {
+        layers.forEach((layer) => {
+            if (layer.type === 'Group') {
+                masksToImages(layer.layers, sketch);
+            }
+            else if (layer.sketchObject.hasClippingMask() && layer.parent.type === 'Group') {
+                const imageLayer = maskToImage(layer.parent, sketch);
+                layer.parent.layers.unshift(imageLayer);
+                layer.parent.layers.forEach((layer, index) => {
+                    if (index !== 0) {
+                        layer.remove();
+                    }
+                });
+            }
+        });
+    }
+};
+export const getArtboard = (sketch) => {
+    let document = sketch.getSelectedDocument();
+    let selectedLayers = document.selectedLayers;
+    let artboard = getSelectedArtboard(selectedLayers);
     // duplicate native artboard
     let artboardDuplicate = artboard.duplicate();
     // reset duplicated artboard position
-    artboardDuplicate.frame().setX(0);
-    artboardDuplicate.frame().setY(0);
+    artboardDuplicate.frame.x = 0;
+    artboardDuplicate.frame.y = 0;
     // detach all symbols from duplicated artboard, returns layer groups
-    detachSymbols(sketch.fromNative(artboardDuplicate).layers);
+    detachSymbols(artboardDuplicate.layers);
     // remove hidden layers
-    removeHiddenLayers(sketch.fromNative(artboardDuplicate).layers);
+    removeHiddenLayers(artboardDuplicate.layers);
+    // get masks
+    masksToImages(artboardDuplicate.layers, sketch);
     // flatten shapes for future svgs
-    flattenShapes(sketch.fromNative(artboardDuplicate).layers, sketch);
+    flattenShapes(artboardDuplicate.layers, sketch);
     // flatten all groups within duplicated artboard
-    flattenGroups(artboardDuplicate.layers());
+    flattenGroups(artboardDuplicate.layers);
     // return final artboard
-    return sketch.fromNative(artboardDuplicate);
+    return artboardDuplicate;
 };
-export const getStore = (sketch, context) => {
+export const getStore = (sketch) => {
     // get artboard
-    let artboard = getArtboard(sketch, context);
+    let artboard = getArtboard(sketch);
     // get images
     let images = generateBase64Images(artboard.layers);
     let gradients = generateBase64Gradients(artboard.layers, sketch);

@@ -11,7 +11,7 @@ const webviewIdentifier = 'measure.webview';
 export default (context) => {
     if (validSelection(context.selection)) {
         // get store
-        const store = getStore(sketch, context);
+        const store = getStore(sketch);
         // set webview browser window
         const browserWindow = new BrowserWindow({
             identifier: webviewIdentifier,
