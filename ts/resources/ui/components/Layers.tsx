@@ -9,24 +9,20 @@ interface LayersProps {
   appState: any;
 }
 
-class Layers extends React.Component<LayersProps, {}> {
-  render() {
-    return (
-      <div className='c-layers'>
-        {
-          this.props.layers.map((layer: any, index: number) => (
-            <Layer
-              layer={layer}
-              key={index}
-              images={this.props.images}
-              svgs={this.props.svgs}
-              setAppState={this.props.setAppState}
-              appState={this.props.appState} />
-          ))
-        }
-      </div>
-    );
-  }
-}
+const Layers = (props: LayersProps) => (
+  <div className='c-layers'>
+    {
+      props.layers.map((layer: any, index: number) => (
+        <Layer
+          layer={layer}
+          key={index}
+          images={props.images}
+          svgs={props.svgs}
+          setAppState={props.setAppState}
+          appState={props.appState} />
+      ))
+    }
+  </div>
+);
 
 export default Layers;

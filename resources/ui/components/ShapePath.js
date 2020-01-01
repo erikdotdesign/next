@@ -1,8 +1,4 @@
 import React from 'react';
 import { createShapePathStyles } from '../../utils/layerStyles';
-class ShapePath extends React.Component {
-    render() {
-        return (React.createElement("div", { onClick: this.props.onClick, onMouseOver: this.props.onMouseOver, onMouseOut: this.props.onMouseOut, className: 'c-layer c-layer--shape-path', style: createShapePathStyles(this.props.layer, this.props.images) }));
-    }
-}
+const ShapePath = (props) => (React.createElement("div", { onClick: props.onClick, onMouseOver: props.onMouseOver, onMouseOut: props.onMouseOut, className: 'c-layer c-layer--shape-path', style: createShapePathStyles(props.layer, props.images) }));
 export default ShapePath;

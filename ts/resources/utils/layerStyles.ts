@@ -75,13 +75,18 @@ export const createBorder = (sketchBorder: any) => {
       border = `0 0 0 ${thickness}px ${color}`;
       break;
     case 'Center':
-      border = `0 0 0 ${thickness / 2}px ${color} inset, 0 0 0 ${thickness / 2}px ${color}`;
+      // webkit does not like half pixel values
+      if (thickness % 2 == 0) {
+        border = `0 0 0 ${thickness / 2}px ${color} inset, 0 0 0 ${thickness / 2}px ${color}`;
+      } else {
+        border = `0 0 0 ${thickness}px ${color}`;
+      }
       break;
     case 'Inside':
       border = `0 0 0 ${thickness}px ${color} inset`;
       break;
     default:
-      border = `0 0 0 ${thickness / 2}px ${color} inset, 0 0 0 ${thickness / 2}px ${color}`;
+      border = `0 0 0 ${thickness}px ${color}`;
   }
   return {
     boxShadow: border
@@ -98,6 +103,17 @@ export const createBorders = (sketchBorders: any) => {
   if (borders.length > 0) {
     return {
       boxShadow: borders.join(', ')
+    }
+  } else {
+    return {}
+  }
+};
+
+export const createGaussianBlur = (blur: any) => {
+  const { enabled, blurType, radius } = blur;
+  if (enabled && blurType === 'Gaussian') {
+    return {
+      filter: `blur(${radius}px)`
     }
   } else {
     return {}
@@ -182,12 +198,14 @@ export const createPatternDisplay = (pattern: any) => {
     case 'Fill':
       return {
         backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat'
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center center'
       }
     case 'Fit':
       return {
         backgroundSize: 'contain',
-        backgroundRepeat: 'no-repeat'
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center'
       }
     case 'Stretch':
       return {
@@ -239,6 +257,100 @@ export const createBackground = (layer: any, images: any) => {
   } else {
     return {}
   }
+};
+
+export const createSVGFill = (layer: any) => {
+  const { style } = layer;
+  // get fills that are enabled
+  const hasActiveFills = style.fills.some((fill: any) => fill.enabled);
+  // create background if there are active fills
+  if (hasActiveFills) {
+    // get all active fills
+    const activeFills = style.fills.filter((fill: any) => fill.enabled);
+    // return active fill with highest index
+    const topFill = activeFills[activeFills.length - 1];
+    // return fill
+    return cssColor(topFill.color);
+  } else {
+    return 'transparent'
+  }
+};
+
+export const createSVGStrokeWidth = (layer: any) => {
+  const { style } = layer;
+  // get borders that are enabled
+  const hasActiveBorders = style.borders.some((border: any) => border.enabled);
+  // create border if there are active borders
+  if (hasActiveBorders) {
+    // get all active borders
+    const activeBorders = style.borders.filter((border: any) => border.enabled);
+    // return active border with highest index
+    const topBorder = activeBorders[activeBorders.length - 1];
+    // create stroke from border
+    const { thickness } = topBorder;
+    // return thickness
+    return thickness;
+  } else {
+    return 0
+  }
+};
+
+export const createSVGStroke = (layer: any) => {
+  const { style } = layer;
+  // get borders that are enabled
+  const hasActiveBorders = style.borders.some((border: any) => border.enabled);
+  // create border if there are active borders
+  if (hasActiveBorders) {
+    // get all active borders
+    const activeBorders = style.borders.filter((border: any) => border.enabled);
+    // return active border with highest index
+    const topBorder = activeBorders[activeBorders.length - 1];
+    // return color
+    return cssColor(topBorder.color);
+  } else {
+    return 'transparent'
+  }
+};
+
+export const svgStrokeOffset = (layer: any) => {
+  // get stroke
+  const stroke = createSVGStrokeWidth(layer);
+  // return offset
+  return stroke / 2;
+};
+
+export const createSVGTransform = (layer: any) => {
+  // get stroke offset
+  const strokeOffset = svgStrokeOffset(layer);
+  // return offset so stroke isnt cut off by viewbox
+  return `translate(${strokeOffset}, ${strokeOffset})`
+};
+
+export const createSVGWidth = (layer: any) => {
+  // get frame
+  const { frame } = layer;
+  // get stroke offset
+  const strokeOffset = svgStrokeOffset(layer);
+  // return width plus double stroke offset
+  return frame.width + strokeOffset * 2;
+};
+
+export const createSVGHeight = (layer: any) => {
+  // get frame
+  const { frame } = layer;
+  // get stroke offset
+  const strokeOffset = svgStrokeOffset(layer);
+  // return height plus double stroke offset
+  return frame.height + strokeOffset * 2;
+};
+
+export const createSVGViewbox = (layer: any) => {
+  // get svg width
+  const width = createSVGWidth(layer);
+  // get svg height
+  const height = createSVGHeight(layer);
+  // return viewbox
+  return `0 0 ${width} ${height}`;
 };
 
 export const createHorizontalFlip = (transform: any) => {
@@ -299,12 +411,14 @@ export const createBaseLayerStyles = (layer: any) => {
   const horizontalFlip = createHorizontalFlip(layer.transform);
   const verticalFlip = createVerticalFlip(layer.transform);
   const transform = createTransform(rotation, horizontalFlip, verticalFlip);
+  const gaussianBlur = createGaussianBlur(layer.style.blur);
 
   return {
     ...width,
     ...height,
     ...position,
-    ...transform
+    ...transform,
+    ...gaussianBlur
   }
 };
 
@@ -342,25 +456,19 @@ export const createShapePathStyles = (layer: any, images: any) => {
   }
 };
 
-// export const createShapeStyles = (layer: any, images: any) => {
-//   const { style, shapeType, points } = layer;
-//   const baseStyles = createBaseLayerStyles(layer);
-//   const borderRadius = createBorderRadius(shapeType, points);
-//   const opacity = createOpacity(style.opacity);
-//   const background = createBackground(layer, images);
-//   const borders = createBorders(style.borders);
-//   const shadows = createShadows(style.shadows);
-//   const innerShadows = createInnerShadows(style.innerShadows);
-//   const bordersAndShadows = combineBordersAndShadows(borders, shadows, innerShadows);
+export const createShapeStyles = (layer: any) => {
+  const baseStyles = createBaseLayerStyles(layer);
+  const svgWidth = createSVGWidth(layer);
+  const svgHeight = createSVGHeight(layer);
+  const width = createWidth(svgWidth);
+  const height = createHeight(svgHeight);
 
-//   return {
-//     ...baseStyles,
-//     ...borderRadius,
-//     ...opacity,
-//     ...background,
-//     ...bordersAndShadows
-//   }
-// };
+  return {
+    ...baseStyles,
+    ...width,
+    ...height
+  }
+};
 
 export const createImageStyles = (layer: any, images: any) => {
   const { style } = layer;
@@ -376,7 +484,7 @@ export const createImageStyles = (layer: any, images: any) => {
   const baseImageBackground = {
     background: `url(${baseImage.src})`,
     backgroundRepeat: 'no-repeat',
-    backgroundSize: 'cover',
+    backgroundSize: 'contain',
   };
 
   return {
@@ -388,18 +496,16 @@ export const createImageStyles = (layer: any, images: any) => {
   }
 };
 
-export const createGroupStyles = (layer: any) => {
-  const { style } = layer;
-  const baseStyles = createBaseLayerStyles(layer);
-  const opacity = createOpacity(style.opacity);
+// export const createGroupStyles = (layer: any) => {
+//   const { style } = layer;
+//   const baseStyles = createBaseLayerStyles(layer);
+//   const opacity = createOpacity(style.opacity);
 
-  return {
-    ...baseStyles,
-    ...opacity
-  }
-};
-
-
+//   return {
+//     ...baseStyles,
+//     ...opacity
+//   }
+// };
 
 // NEED TYPES
 // const createLinearGradient = (gradient: any) => {

@@ -9,17 +9,13 @@ interface ImageProps {
   onMouseOut(): void;
 }
 
-class Image extends React.Component<ImageProps, {}> {
-  render() {
-    return (
-      <div
-        onClick={this.props.onClick}
-        onMouseOver={this.props.onMouseOver}
-        onMouseOut={this.props.onMouseOut}
-        className='c-layer c-layer--image'
-        style={createImageStyles(this.props.layer, this.props.images)} />
-    );
-  }
-}
+const Image = (props: ImageProps) => (
+  <div
+    onClick={props.onClick}
+    onMouseOver={props.onMouseOver}
+    onMouseOut={props.onMouseOut}
+    className='c-layer c-layer--image'
+    style={createImageStyles(props.layer, props.images)} />
+);
 
 export default Image;

@@ -1,8 +1,4 @@
 import React from 'react';
 import Layer from './Layer';
-class Layers extends React.Component {
-    render() {
-        return (React.createElement("div", { className: 'c-layers' }, this.props.layers.map((layer, index) => (React.createElement(Layer, { layer: layer, key: index, images: this.props.images, svgs: this.props.svgs, setAppState: this.props.setAppState, appState: this.props.appState })))));
-    }
-}
+const Layers = (props) => (React.createElement("div", { className: 'c-layers' }, props.layers.map((layer, index) => (React.createElement(Layer, { layer: layer, key: index, images: props.images, svgs: props.svgs, setAppState: props.setAppState, appState: props.appState })))));
 export default Layers;

@@ -1,8 +1,9 @@
 import React from 'react';
-// @ts-ignore
-import hyphenate from 'hyphenate-style-name';
+import SidebarLayerValue from './SidebarLayerValue';
+import SidebarLayerProp from './SidebarLayerProp';
 
 import {
+  createShapeStyles,
   createShapePathStyles,
   createArtboardStyles,
   createImageStyles
@@ -18,44 +19,37 @@ interface SidebarProps {
   images: any;
 }
 
-class SidebarLayer extends React.Component<SidebarProps, {}> {
-  getLayerStyles = (layer: any) => {
-    switch(layer.type) {
+const SidebarLayer = (props: SidebarProps) => {
+  const getLayerStyles = () => {
+    switch(props.layer.type) {
+      case 'Shape':
+        return createShapeStyles(props.layer);
       case 'ShapePath':
-        return createShapePathStyles(layer, this.props.images);
+        return createShapePathStyles(props.layer, props.images);
       case 'Image':
-        return createImageStyles(layer, this.props.images);
+        return createImageStyles(props.layer, props.images);
       case 'Text':
-        return {...textContainerStyles(layer), ...textStyles(layer)};
+        return {...textContainerStyles(props.layer), ...textStyles(props.layer)};
       case 'Artboard':
-        return createArtboardStyles(layer);
+        return createArtboardStyles(props.layer);
     }
   }
-  render() {
-    const { layer } = this.props;
-    const layerStyles: any = this.getLayerStyles(layer);
-    return (
-      <div className='c-sidebar__layer'>
-        <h2 className='c-sidebar-layer__name'>{layer.name}</h2>
-        <div className='c-sidebar-layer__styles'>
-          {
-            layerStyles
-            ? Object.keys(layerStyles).map((key: any, index: number) => (
-                <div className='c-sidebar-layer__css' key={index}>
-                  <div className='c-sidebar-layer__prop'>
-                    {hyphenate(key)}
-                  </div>
-                  <div className='c-sidebar-layer__value'>
-                    <input type='text' readOnly value={layerStyles[key]} />
-                  </div>
-                </div>
-              ))
-            : null
-          }
-        </div>
+  const layerStyles: any = getLayerStyles();
+  return (
+    <div className='c-sidebar__layer'>
+      <h2 className='c-sidebar-layer__name'>{props.layer.name}</h2>
+      <div className='c-sidebar-layer__styles'>
+        {
+          Object.keys(layerStyles).map((key: any, index: number) => (
+            <div className='c-sidebar-layer__css' key={index}>
+              <SidebarLayerProp prop={key} />
+              <SidebarLayerValue value={layerStyles[key]} />
+            </div>
+          ))
+        }
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 export default SidebarLayer;

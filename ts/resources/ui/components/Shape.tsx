@@ -1,6 +1,6 @@
 import React from 'react';
-import { createShapePathStyles, createBaseLayerStyles } from '../../utils/layerStyles';
-import Layer from './Layer';
+import LayerSVG from './LayerSVG';
+import { createShapeStyles } from '../../utils/layerStyles';
 
 interface ShapeProps {
   layer: any;
@@ -11,31 +11,20 @@ interface ShapeProps {
   onMouseOut(): void;
 }
 
-class Shape extends React.Component<ShapeProps, {}> {
-  render() {
-    const shapeSvgs = this.props.svgs.filter((svg: any) => {
-      return svg.parentId === this.props.layer.id;
-    });
-    return (
-      <div
-        onClick={this.props.onClick}
-        onMouseOver={this.props.onMouseOver}
-        onMouseOut={this.props.onMouseOut}
-        className='c-layer c-layer--shape'
-        style={createBaseLayerStyles(this.props.layer)}>
-        <svg
-          viewBox={`0 0 ${this.props.layer.frame.width} ${this.props.layer.frame.height}`}
-          width={this.props.layer.frame.width}
-          height={this.props.layer.frame.height}>
-          {
-            shapeSvgs.map((svg: any, index: number) => (
-              <path key={index} d={svg.svgPath} />
-            ))
-          }
-        </svg>
-      </div>
-    );
-  }
+const Shape = (props: ShapeProps) => {
+  const { layer, svgs } = props;
+  return (
+    <div
+      onClick={props.onClick}
+      onMouseOver={props.onMouseOver}
+      onMouseOut={props.onMouseOut}
+      className='c-layer c-layer--shape'
+      style={createShapeStyles(props.layer)}>
+      <LayerSVG
+        layer={layer}
+        path={svgs[`${layer.id}`]} />
+    </div>
+  );
 }
 
 export default Shape;

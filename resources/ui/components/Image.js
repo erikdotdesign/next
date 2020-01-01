@@ -1,8 +1,4 @@
 import React from 'react';
 import { createImageStyles } from '../../utils/layerStyles';
-class Image extends React.Component {
-    render() {
-        return (React.createElement("div", { onClick: this.props.onClick, onMouseOver: this.props.onMouseOver, onMouseOut: this.props.onMouseOut, className: 'c-layer c-layer--image', style: createImageStyles(this.props.layer, this.props.images) }));
-    }
-}
+const Image = (props) => (React.createElement("div", { onClick: props.onClick, onMouseOver: props.onMouseOver, onMouseOut: props.onMouseOut, className: 'c-layer c-layer--image', style: createImageStyles(props.layer, props.images) }));
 export default Image;

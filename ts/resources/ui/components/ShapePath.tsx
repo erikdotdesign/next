@@ -9,18 +9,14 @@ interface ShapePathProps {
   onMouseOut(): void;
 }
 
-class ShapePath extends React.Component<ShapePathProps, {}> {
-  render() {
-    return (
-      <div
-        onClick={this.props.onClick}
-        onMouseOver={this.props.onMouseOver}
-        onMouseOut={this.props.onMouseOut}
-        className='c-layer c-layer--shape-path'
-        style={createShapePathStyles(this.props.layer, this.props.images)}>
-      </div>
-    );
-  }
-}
+const ShapePath = (props: ShapePathProps) => (
+  <div
+    onClick={props.onClick}
+    onMouseOver={props.onMouseOver}
+    onMouseOut={props.onMouseOut}
+    className='c-layer c-layer--shape-path'
+    style={createShapePathStyles(props.layer, props.images)}>
+  </div>
+);
 
 export default ShapePath;

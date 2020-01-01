@@ -161,41 +161,33 @@ export const removeHiddenLayers = (layers: any) => {
 };
 
 export const flattenShapes = (layers: any, sketch: any) => {
-  if (layers.length > 0) {
-    layers.forEach((layer: any, index: number) => {
-      if (layer.type === 'Group') {
-        flattenShapes(layer.layers, sketch);
-      } else if (layer.type === 'Shape') {
-        // create svg buffer
-        const buffer = sketch.export(layer, {
-          formats: 'svg',
-          output: false
-        });
-        // create layer from buffer
-        const shapeGroup = sketch.createLayerFromData(buffer, 'svg');
-        // set group layer position to match original layer
-        shapeGroup.layers.forEach((svg: any) => {
-          svg.frame.x = layer.frame.x;
-          svg.frame.y = layer.frame.y;
-        });
-        // splice out old layer, splice in new group
-        layers.splice(index, 1, shapeGroup);
-      }
-    });
-  }
+  layers.forEach((layer: any, index: number) => {
+    if (layer.type === 'Shape') {
+      // create svg buffer
+      const buffer = sketch.export(layer, {
+        formats: 'svg',
+        output: false
+      });
+      // create layer from buffer
+      const shapeGroup = sketch.createLayerFromData(buffer, 'svg');
+      // find new shape
+      const newShape = sketch.find(`Shape`, shapeGroup)[0];
+      // set new shape frame and style to match old
+      newShape.frame = layer.frame;
+      newShape.style = layer.style;
+      // splice in new shape, splice out old shape
+      layers.splice(index, 1, newShape);
+    }
+  });
 };
 
-export const getShapeSVGs = (layers: any, svgs: any = []) => {
+export const getShapeSVGs = (layers: any, svgs: any = {}) => {
   layers.forEach((layer: any) => {
     if (layer.type === 'Shape') {
-      layer.layers.forEach((shapePath: any) => {
-        const path = shapePath.getSVGPath();
-        svgs.push({
-          parentId: layer.id,
-          shapePath: shapePath,
-          svgPath: path
-        });
+      const paths = layer.layers.map((shapePath: any) => {
+        return shapePath.getSVGPath();
       });
+      svgs[`${layer.id}`] = paths.join(' ');
     }
   });
   return svgs;
@@ -210,12 +202,11 @@ const maskGroupToImageLayer = (maskGroup: any, sketch: any) => {
   });
   // create image layer from buffer data
   const imageLayer = new sketch.Image({
-    name: 'mask-image',
+    name: 'masked-group',
     image: buffer
   });
-  // set dims
-  imageLayer.frame.width = maskGroup.frame.width;
-  imageLayer.frame.height = maskGroup.frame.height;
+  // set image layer frame to match mask group frame
+  imageLayer.frame = maskGroup.frame;
   // return image layer
   return imageLayer;
 };
@@ -223,22 +214,23 @@ const maskGroupToImageLayer = (maskGroup: any, sketch: any) => {
 export const masksToImages = (layers: any, sketch: any) => {
   if (layers.length > 0) {
     layers.forEach((layer: any) => {
+      const hasClippingMask = layer.sketchObject.hasClippingMask();
+      const hasParentGroup = layer.parent && layer.parent.type === 'Group';
       if (layer.type === 'Group') {
         masksToImages(layer.layers, sketch);
-      } else if (layer.sketchObject.hasClippingMask() && layer.parent.type === 'Group') {
-        const imageLayer = maskGroupToImageLayer(layer.parent, sketch);
-        layer.parent.layers.unshift(imageLayer);
-        layer.parent.layers.forEach((layer: any, index: any) => {
-          if (index !== 0) {
-            layer.remove();
-          }
-        });
+      } else if (hasClippingMask && hasParentGroup) {
+        const parent = layer.parent;
+        const parentIndex = parent.index;
+        const parentsParent = parent.parent;
+        const imageLayer = maskGroupToImageLayer(parent, sketch);
+        // splice in new image, splice out old mask group
+        parentsParent.layers.splice(parentIndex, 1, imageLayer);
       }
     });
   }
 };
 
-export const roundDims = (layers: any) => {
+export const roundFrameDimensions = (layers: any) => {
   layers.forEach((layer: any) => {
     layer.frame.x = Math.round(layer.frame.x);
     layer.frame.y = Math.round(layer.frame.y);
@@ -256,18 +248,18 @@ export const getArtboard = (sketch: any) => {
   // reset duplicated artboard position
   artboardDuplicate.frame.x = 0;
   artboardDuplicate.frame.y = 0;
-  // detach all symbols from duplicated artboard, returns layer groups
+  // detach all symbols from artboard, returns layer groups
   detachSymbols(artboardDuplicate.layers);
   // remove hidden layers
   removeHiddenLayers(artboardDuplicate.layers);
-  // get masks
+  // turn masks into image layers
   masksToImages(artboardDuplicate.layers, sketch);
+  // flatten all groups
+  flattenGroups(artboardDuplicate.layers);
   // flatten shapes for future svgs
   flattenShapes(artboardDuplicate.layers, sketch);
-  // flatten all groups within duplicated artboard
-  flattenGroups(artboardDuplicate.layers);
-  // round dims
-  roundDims(artboardDuplicate.layers);
+  // round layer frame dimensions
+  roundFrameDimensions(artboardDuplicate.layers);
   // return final artboard
   return artboardDuplicate;
 };
