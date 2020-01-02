@@ -138,6 +138,9 @@ button {
   flex-grow: 2;
 }
 
+.c-sidebar-layer__value {
+  position: relative;
+}
 .c-sidebar-layer__value input {
   background: rgba(0, 0, 0, 0.25);
   border: 1px solid transparent;
@@ -155,6 +158,27 @@ button {
 .c-sidebar-layer__value input:focus {
   outline: none;
   border: 1px solid magenta;
+}
+
+.c-sidebar-layer__swatch-group {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 20px;
+  z-index: -1;
+  left: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.c-sidebar-layer__swatch {
+  width: 3.3px;
+}
+
+.c-sidebar-layer__swatch--image {
+  width: 100%;
 }
 
 .c-canvas {

@@ -54,6 +54,8 @@
   flex-grow: 2
 
 .c-sidebar-layer__value
+  position: relative
+
   input
     background: rgba(0,0,0,0.25)
     border: 1px solid transparent
@@ -71,3 +73,17 @@
     &:focus
       outline: none
       border: 1px solid magenta
+
+.c-sidebar-layer__swatch-group
+  +absolute-full
+  width: 20px
+  z-index: -1
+  left: 100%
+  display: flex
+  justify-content: flex-end
+
+.c-sidebar-layer__swatch
+  width: 3.3px
+
+.c-sidebar-layer__swatch--image
+  width: 100%
