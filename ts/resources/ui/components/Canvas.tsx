@@ -9,28 +9,26 @@ interface CanvasProps {
   svgs: any;
 }
 
-class Canvas extends React.Component<CanvasProps, {}> {
-  onClick = () => {
-    this.props.setAppState({
+const Canvas = (props: CanvasProps) => {
+  const onClick = () => {
+    props.setAppState({
       selection: ''
     });
   }
-  onMouseOver = () => {
-    this.props.setAppState({
+  const onMouseOver = () => {
+    props.setAppState({
       hover: ''
     });
   }
-  render() {
-    return (
-      <div className='c-canvas'>
-        <Artboard {...this.props} />
-        <div
-          className='c-canvas__escape'
-          onClick={this.onClick}
-          onMouseOver={this.onMouseOver} />
-      </div>
-    );
-  }
+  return (
+    <div className='c-canvas'>
+      <Artboard {...props} />
+      <div
+        className='c-canvas__escape'
+        onClick={onClick}
+        onMouseOver={onMouseOver} />
+    </div>
+  );
 }
 
 export default Canvas;

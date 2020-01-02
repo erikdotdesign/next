@@ -9,25 +9,20 @@ interface SelectionProps {
   artboard: any;
 }
 
-class Selection extends React.Component<SelectionProps, {}> {
-  render() {
-    const { selection, hover, artboard } = this.props;
-    return (
-      <div
-        className='c-layer c-layer--selection'
-        style={createSelectionStyles(selection.frame)}>
-        <SelectionPoints />
-        {
-          hover
-          ? <SelectionRules
-              selectionFrame={selection.frame}
-              hoverFrame={hover.frame}
-              artboardFrame={artboard.frame} />
-          : null
-        }
-      </div>
-    );
-  }
-}
+const Selection = (props: SelectionProps) => (
+  <div
+    className='c-layer c-layer--selection'
+    style={createSelectionStyles(props.selection.frame)}>
+    <SelectionPoints />
+    {
+      props.hover
+      ? <SelectionRules
+          selectionFrame={props.selection.frame}
+          hoverFrame={props.hover.frame}
+          artboardFrame={props.artboard.frame} />
+      : null
+    }
+  </div>
+);
 
 export default Selection;

@@ -9,21 +9,16 @@ interface HoverProps {
   artboard: any;
 }
 
-class Hover extends React.Component<HoverProps, {}> {
-  render() {
-    const { hover, selection, artboard } = this.props;
-    return (
-      <div
-        className='c-layer c-layer--hover'
-        style={createHoveredStyles(hover.frame)}>
-        {
-          selection
-          ? <HoverRules hover={hover} selection={selection} />
-          : <HoverDims hover={hover} artboard={artboard} />
-        }
-      </div>
-    );
-  }
-}
+const Hover = (props: HoverProps) => (
+  <div
+    className='c-layer c-layer--hover'
+    style={createHoveredStyles(props.hover.frame)}>
+    {
+      props.selection
+      ? <HoverRules hover={props.hover} selection={props.selection} />
+      : <HoverDims hover={props.hover} artboard={props.artboard} />
+    }
+  </div>
+);
 
 export default Hover;

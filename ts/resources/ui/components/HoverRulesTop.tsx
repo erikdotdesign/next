@@ -6,32 +6,30 @@ interface HoverRulesTopProps {
   selectionOrigin: any;
 }
 
-class HoverRulesTop extends React.Component<HoverRulesTopProps, {}> {
-  render() {
-    const { hoverOrigin, selectionOrigin } = this.props;
-    return (
-      <div>
-        {
-          selectionOrigin.right < hoverOrigin.left
-          || selectionOrigin.left <= hoverOrigin.right && selectionOrigin.left > hoverOrigin.left
-          || selectionOrigin.left < hoverOrigin.left && selectionOrigin.right > hoverOrigin.right
-          ? <div
-              className='c-hover__rule c-hover__rule--tl'
-              style={createRuleTopStyles(hoverOrigin, selectionOrigin)} />
-          : null
-        }
-        {
-          selectionOrigin.left > hoverOrigin.right
-          || selectionOrigin.right >= hoverOrigin.left && selectionOrigin.right < hoverOrigin.right
-          || selectionOrigin.left < hoverOrigin.left && selectionOrigin.right > hoverOrigin.right
-          ? <div
-              className='c-hover__rule c-hover__rule--tr'
-              style={createRuleTopStyles(hoverOrigin, selectionOrigin)} />
-          : null
-        }
-      </div>
-    );
-  }
+const HoverRulesTop = (props: HoverRulesTopProps) => {
+  const { hoverOrigin, selectionOrigin } = props;
+  return (
+    <div>
+      {
+        selectionOrigin.right < hoverOrigin.left
+        || selectionOrigin.left <= hoverOrigin.right && selectionOrigin.left > hoverOrigin.left
+        || selectionOrigin.left < hoverOrigin.left && selectionOrigin.right > hoverOrigin.right
+        ? <div
+            className='c-hover__rule c-hover__rule--tl'
+            style={createRuleTopStyles(hoverOrigin, selectionOrigin)} />
+        : null
+      }
+      {
+        selectionOrigin.left > hoverOrigin.right
+        || selectionOrigin.right >= hoverOrigin.left && selectionOrigin.right < hoverOrigin.right
+        || selectionOrigin.left < hoverOrigin.left && selectionOrigin.right > hoverOrigin.right
+        ? <div
+            className='c-hover__rule c-hover__rule--tr'
+            style={createRuleTopStyles(hoverOrigin, selectionOrigin)} />
+        : null
+      }
+    </div>
+  );
 }
 
 export default HoverRulesTop;

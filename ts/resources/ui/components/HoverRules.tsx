@@ -10,45 +10,43 @@ interface HoverRulesProps {
   selection: any;
 }
 
-class HoverRules extends React.Component<HoverRulesProps, {}> {
-  render() {
-    const hoverFrame = this.props.hover.frame;
-    const selectionFrame = this.props.selection.frame;
-    const hoverOrigin = getOrigin(hoverFrame);
-    const selectionOrigin = getOrigin(selectionFrame);
-    return (
-      <div className='c-hover__rules'>
-        {
-          selectionOrigin.yCenter < hoverOrigin.top
-          ? <HoverRulesTop
-              hoverOrigin={hoverOrigin}
-              selectionOrigin={selectionOrigin} />
-          : null
-        }
-        {
-          selectionOrigin.xCenter > hoverOrigin.right
-          ? <HoverRulesRight
-              hoverOrigin={hoverOrigin}
-              selectionOrigin={selectionOrigin} />
-          : null
-        }
-        {
-          selectionOrigin.yCenter > hoverOrigin.bottom
-          ? <HoverRulesBottom
-              hoverOrigin={hoverOrigin}
-              selectionOrigin={selectionOrigin} />
-          : null
-        }
-        {
-          selectionOrigin.xCenter < hoverOrigin.left
-          ? <HoverRulesLeft
-              hoverOrigin={hoverOrigin}
-              selectionOrigin={selectionOrigin} />
-          : null
-        }
-      </div>
-    );
-  }
+const HoverRules = (props: HoverRulesProps) => {
+  const hoverFrame = props.hover.frame;
+  const selectionFrame = props.selection.frame;
+  const hoverOrigin = getOrigin(hoverFrame);
+  const selectionOrigin = getOrigin(selectionFrame);
+  return (
+    <div className='c-hover__rules'>
+      {
+        selectionOrigin.yCenter < hoverOrigin.top
+        ? <HoverRulesTop
+            hoverOrigin={hoverOrigin}
+            selectionOrigin={selectionOrigin} />
+        : null
+      }
+      {
+        selectionOrigin.xCenter > hoverOrigin.right
+        ? <HoverRulesRight
+            hoverOrigin={hoverOrigin}
+            selectionOrigin={selectionOrigin} />
+        : null
+      }
+      {
+        selectionOrigin.yCenter > hoverOrigin.bottom
+        ? <HoverRulesBottom
+            hoverOrigin={hoverOrigin}
+            selectionOrigin={selectionOrigin} />
+        : null
+      }
+      {
+        selectionOrigin.xCenter < hoverOrigin.left
+        ? <HoverRulesLeft
+            hoverOrigin={hoverOrigin}
+            selectionOrigin={selectionOrigin} />
+        : null
+      }
+    </div>
+  );
 }
 
 export default HoverRules;

@@ -2,12 +2,7 @@ import React from 'react';
 import HoverDims from './HoverDims';
 import HoverRules from './HoverRules';
 import { createHoveredStyles } from '../../utils/hoverStyles';
-class Hover extends React.Component {
-    render() {
-        const { hover, selection, artboard } = this.props;
-        return (React.createElement("div", { className: 'c-layer c-layer--hover', style: createHoveredStyles(hover.frame) }, selection
-            ? React.createElement(HoverRules, { hover: hover, selection: selection })
-            : React.createElement(HoverDims, { hover: hover, artboard: artboard })));
-    }
-}
+const Hover = (props) => (React.createElement("div", { className: 'c-layer c-layer--hover', style: createHoveredStyles(props.hover.frame) }, props.selection
+    ? React.createElement(HoverRules, { hover: props.hover, selection: props.selection })
+    : React.createElement(HoverDims, { hover: props.hover, artboard: props.artboard })));
 export default Hover;
