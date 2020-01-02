@@ -1,9 +1,9 @@
 import React from 'react';
-import ShapePathOdd from './ShapePathOdd';
+import Shape from './Shape';
 import ShapePathClosed from './ShapePathClosed';
 const ShapePath = (props) => {
     return (props.layer.closed
         ? React.createElement(ShapePathClosed, Object.assign({}, props))
-        : React.createElement(ShapePathOdd, Object.assign({}, props)));
+        : React.createElement(Shape, Object.assign({}, props)));
 };
 export default ShapePath;

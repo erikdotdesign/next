@@ -246,94 +246,125 @@ export const createBackground = (layer, images) => {
         return {};
     }
 };
-export const createSVGFill = (layer) => {
-    const { style } = layer;
+export const createSVGFill = (fills) => {
     // get fills that are enabled
-    const hasActiveFills = style.fills.some((fill) => fill.enabled);
+    const hasActiveFills = fills.some((fill) => fill.enabled);
     // create background if there are active fills
     if (hasActiveFills) {
         // get all active fills
-        const activeFills = style.fills.filter((fill) => fill.enabled);
+        const activeFills = fills.filter((fill) => fill.enabled);
         // return active fill with highest index
         const topFill = activeFills[activeFills.length - 1];
         // return fill
-        return cssColor(topFill.color);
+        return {
+            fill: cssColor(topFill.color)
+        };
     }
     else {
-        return 'transparent';
+        return {
+            fill: 'transparent'
+        };
     }
 };
-export const createSVGStrokeWidth = (layer) => {
-    const { style } = layer;
+export const createSVGStrokeWidth = (borders) => {
     // get borders that are enabled
-    const hasActiveBorders = style.borders.some((border) => border.enabled);
+    const hasActiveBorders = borders.some((border) => border.enabled);
     // create border if there are active borders
     if (hasActiveBorders) {
         // get all active borders
-        const activeBorders = style.borders.filter((border) => border.enabled);
+        const activeBorders = borders.filter((border) => border.enabled);
         // return active border with highest index
         const topBorder = activeBorders[activeBorders.length - 1];
         // create stroke from border
         const { thickness } = topBorder;
         // return thickness
-        return thickness;
+        return {
+            strokeWidth: thickness
+        };
     }
     else {
-        return 0;
+        return {};
     }
 };
-export const createSVGStroke = (layer) => {
-    const { style } = layer;
+export const createSVGStroke = (borders) => {
     // get borders that are enabled
-    const hasActiveBorders = style.borders.some((border) => border.enabled);
+    const hasActiveBorders = borders.some((border) => border.enabled);
     // create border if there are active borders
     if (hasActiveBorders) {
         // get all active borders
-        const activeBorders = style.borders.filter((border) => border.enabled);
+        const activeBorders = borders.filter((border) => border.enabled);
         // return active border with highest index
         const topBorder = activeBorders[activeBorders.length - 1];
         // return color
-        return cssColor(topBorder.color);
+        return {
+            stroke: cssColor(topBorder.color)
+        };
     }
     else {
-        return 'transparent';
+        return {
+            stroke: 'transparent'
+        };
     }
 };
-export const svgStrokeOffset = (layer) => {
-    // get stroke
-    const stroke = createSVGStrokeWidth(layer);
-    // return offset
-    return stroke / 2;
+export const createSVGStrokeLineJoin = (sketchLineJoin) => {
+    let lineJoin;
+    switch (sketchLineJoin) {
+        case 'Miter':
+            lineJoin = 'miter';
+            break;
+        case 'Round':
+            lineJoin = 'round';
+            break;
+        case 'Bevel':
+            lineJoin = 'bevel';
+            break;
+        default:
+            lineJoin = 'miter';
+    }
+    ;
+    return {
+        strokeLinejoin: lineJoin
+    };
 };
-export const createSVGTransform = (layer) => {
-    // get stroke offset
-    const strokeOffset = svgStrokeOffset(layer);
-    // return offset so stroke isnt cut off by viewbox
-    return `translate(${strokeOffset}, ${strokeOffset})`;
+export const createSVGStrokeDashArray = (sketchDashPattern) => {
+    if (sketchDashPattern.length > 0) {
+        return {
+            strokeDasharray: sketchDashPattern.join(', ')
+        };
+    }
+    else {
+        return {};
+    }
 };
-export const createSVGWidth = (layer) => {
-    // get frame
-    const { frame } = layer;
-    // get stroke offset
-    const strokeOffset = svgStrokeOffset(layer);
-    // return width plus double stroke offset
-    return frame.width + strokeOffset * 2;
+export const createSVGStrokeLineCap = (sketchLineEnd) => {
+    let lineCap;
+    switch (sketchLineEnd) {
+        case 'Butt':
+            lineCap = 'butt';
+            break;
+        case 'Round':
+            lineCap = 'round';
+            break;
+        case 'Projecting':
+            lineCap = 'square';
+            break;
+        default:
+            lineCap = 'butt';
+    }
+    ;
+    return {
+        strokeLinecap: lineCap
+    };
 };
-export const createSVGHeight = (layer) => {
-    // get frame
-    const { frame } = layer;
-    // get stroke offset
-    const strokeOffset = svgStrokeOffset(layer);
-    // return height plus double stroke offset
-    return frame.height + strokeOffset * 2;
-};
-export const createSVGViewbox = (layer) => {
-    // get svg width
-    const width = createSVGWidth(layer);
-    // get svg height
-    const height = createSVGHeight(layer);
-    // return viewbox
-    return `0 0 ${width} ${height}`;
+export const createSVGPath = (d) => {
+    if (d) {
+        return {
+            d: `path(${d})`
+        };
+    }
+    else {
+        return {};
+    }
 };
 export const createHorizontalFlip = (transform) => {
     if (transform && transform.flippedHorizontally) {
@@ -419,22 +450,26 @@ export const createShapePathStyles = (layer, images) => {
     const shadows = createShadows(style.shadows);
     const innerShadows = createInnerShadows(style.innerShadows);
     const bordersAndShadows = combineBordersAndShadows(borders, shadows, innerShadows);
-    // if shape is open or odd, it will be an svg with base styles
+    // if shape is open or odd, it will be an svg with shape styles
     // else it will be a div with full styles
     if (hasOpenPath || isOddShape) {
-        return Object.assign({}, baseStyles);
+        return createShapeStyles(layer);
     }
     else {
         return Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, baseStyles), borderRadius), opacity), background), bordersAndShadows);
     }
 };
 export const createShapeStyles = (layer) => {
+    const { style } = layer;
     const baseStyles = createBaseLayerStyles(layer);
-    // const svgWidth = createSVGWidth(layer);
-    // const svgHeight = createSVGHeight(layer);
-    // const width = createWidth(svgWidth);
-    // const height = createHeight(svgHeight);
-    return Object.assign({}, baseStyles);
+    const opacity = createOpacity(style.opacity);
+    const fill = createSVGFill(style.fills);
+    const stroke = createSVGStroke(style.borders);
+    const strokeWidth = createSVGStrokeWidth(style.borders);
+    const strokeDashArray = createSVGStrokeDashArray(style.borderOptions.dashPattern);
+    const lineJoin = createSVGStrokeLineJoin(style.borderOptions.lineJoin);
+    const lineCap = createSVGStrokeLineCap(style.borderOptions.lineEnd);
+    return Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, baseStyles), opacity), fill), stroke), strokeWidth), strokeDashArray), lineJoin), lineCap);
 };
 export const createImageStyles = (layer, images) => {
     const { style } = layer;

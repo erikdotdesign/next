@@ -6,7 +6,8 @@ import {
   createShapeStyles,
   createShapePathStyles,
   createArtboardStyles,
-  createImageStyles
+  createImageStyles,
+  createSVGPath
 } from '../../utils/layerStyles';
 
 import {
@@ -17,6 +18,7 @@ import {
 interface SidebarProps {
   layer: any;
   images: any;
+  svgs: any;
 }
 
 const SidebarLayer = (props: SidebarProps) => {
@@ -34,6 +36,11 @@ const SidebarLayer = (props: SidebarProps) => {
         return createArtboardStyles(props.layer);
     }
   }
+  const getSVGPath = () => {
+    const path = props.svgs[`${props.layer.id}`];
+    return createSVGPath(path);
+  }
+  const svgPath: any = getSVGPath();
   const layerStyles: any = getLayerStyles();
   return (
     <div className='c-sidebar__layer'>
@@ -46,6 +53,14 @@ const SidebarLayer = (props: SidebarProps) => {
               <SidebarLayerValue value={layerStyles[key]} />
             </div>
           ))
+        }
+        {
+          svgPath.d
+          ? <div className='c-sidebar-layer__css'>
+              <SidebarLayerProp prop={'d'} />
+              <SidebarLayerValue value={`${svgPath.d}`} />
+            </div>
+          : null
         }
       </div>
     </div>

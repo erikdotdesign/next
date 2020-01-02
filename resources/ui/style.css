@@ -180,6 +180,7 @@ button {
 
 .c-layer {
   position: absolute;
+  display: block;
   box-sizing: content-box;
   z-index: 2;
 }
@@ -188,6 +189,10 @@ button {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+}
+
+.c-layer--shape {
+  overflow: visible;
 }
 
 .c-layer__text {

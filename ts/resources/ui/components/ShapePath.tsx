@@ -1,5 +1,5 @@
 import React from 'react';
-import ShapePathOdd from './ShapePathOdd';
+import Shape from './Shape';
 import ShapePathClosed from './ShapePathClosed';
 
 interface ShapePathProps {
@@ -15,7 +15,7 @@ const ShapePath = (props: ShapePathProps) => {
   return (
     props.layer.closed
     ? <ShapePathClosed {...props} />
-    : <ShapePathOdd {...props} />
+    : <Shape {...props} />
   )
 };
 

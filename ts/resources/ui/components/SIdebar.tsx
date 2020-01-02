@@ -5,6 +5,7 @@ interface SidebarProps {
   children?: React.ReactNode;
   appState: any;
   images: any;
+  svgs: any;
 }
 
 class Sidebar extends React.Component<SidebarProps, {}> {
@@ -17,7 +18,8 @@ class Sidebar extends React.Component<SidebarProps, {}> {
             this.props.appState.selection
             ? <SidebarLayer
                 layer={this.props.appState.selection}
-                images={this.props.images} />
+                images={this.props.images}
+                svgs={this.props.svgs} />
             : <div className='c-sidebar__placeholder'>
                 <span>Click layer to see properties</span>
               </div>
@@ -29,7 +31,8 @@ class Sidebar extends React.Component<SidebarProps, {}> {
             this.props.appState.hover
             ? <SidebarLayer
                 layer={this.props.appState.hover}
-                images={this.props.images} />
+                images={this.props.images}
+                svgs={this.props.svgs} />
             : <div className='c-sidebar__placeholder'>
                 <span>Mouseover layer to see properties</span>
               </div>

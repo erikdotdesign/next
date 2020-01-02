@@ -162,8 +162,10 @@ export const flattenShapes = (layers, sketch) => {
             });
             // create layer from buffer
             const shapeGroup = sketch.createLayerFromData(buffer, 'svg');
-            // find new shape
-            const newShape = sketch.find(`Shape`, shapeGroup)[0];
+            // set layer name
+            const layerName = layer.name.replace(/ /g, '-');
+            // find new shape with layer name
+            const newShape = sketch.find(`[name="${layerName}"]`, shapeGroup)[0];
             // set new shape frame and style to match old
             newShape.frame = layer.frame;
             newShape.style = layer.style;
@@ -182,8 +184,11 @@ export const getOddShapePathSVGs = (layers, svgs = {}) => {
             if (hasOpenPath || isOddShape) {
                 // duplicate layer
                 const newLayer = layer.duplicate();
-                // set frame position to 0 0
-                // this insures svg path starts at 0 0
+                // reset transforms
+                newLayer.transform.rotation = 0;
+                newLayer.transform.flippedHorizontally = false;
+                newLayer.transform.flippedVertically = false;
+                // reset position
                 newLayer.frame.x = 0;
                 newLayer.frame.y = 0;
                 // get path from duplicated layer

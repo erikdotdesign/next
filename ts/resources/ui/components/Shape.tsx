@@ -1,5 +1,4 @@
 import React from 'react';
-import LayerSVG from './LayerSVG';
 import { createShapeStyles } from '../../utils/layerStyles';
 
 interface ShapeProps {
@@ -13,17 +12,17 @@ interface ShapeProps {
 
 const Shape = (props: ShapeProps) => {
   const { layer, svgs } = props;
+  const path = svgs[`${layer.id}`];
   return (
-    <div
+    <svg
+      className='c-layer c-layer--shape'
+      // @ts-ignore
+      style={createShapeStyles(layer, svgs)}
       onClick={props.onClick}
       onMouseOver={props.onMouseOver}
-      onMouseOut={props.onMouseOut}
-      className='c-layer c-layer--shape'
-      style={createShapeStyles(props.layer)}>
-      <LayerSVG
-        layer={layer}
-        path={svgs[`${layer.id}`]} />
-    </div>
+      onMouseOut={props.onMouseOut}>
+      <path d={path} />
+    </svg>
   );
 }
 

@@ -18,6 +18,9 @@ class App extends React.Component<AppProps, AppState> {
     selection: '',
     hover: ''
   }
+  componentDidMount() {
+    console.log(this.props.artboard.layers);
+  }
   setAppState = (args: any) => {
     this.setState(args);
   }
@@ -27,7 +30,8 @@ class App extends React.Component<AppProps, AppState> {
         <div className='c-app'>
           <Sidebar
             appState={this.state}
-            images={this.props.images} />
+            images={this.props.images}
+            svgs={this.props.svgs} />
           <Canvas
             {...this.props}
             appState={this.state}
