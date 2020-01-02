@@ -438,6 +438,12 @@ export const createArtboardStyles = (artboard: any) => {
 
 export const createShapePathStyles = (layer: any, images: any) => {
   const { style, shapeType, points } = layer;
+  // get shape path and type
+  const hasOpenPath = !layer.closed;
+  const notRectangle = layer.shapeType !== 'Rectangle';
+  const notOval = layer.shapeType !== 'Oval';
+  const isOddShape = notRectangle && notOval;
+  // get styles
   const baseStyles = createBaseLayerStyles(layer);
   const borderRadius = createBorderRadius(shapeType, points);
   const opacity = createOpacity(style.opacity);
@@ -447,26 +453,32 @@ export const createShapePathStyles = (layer: any, images: any) => {
   const innerShadows = createInnerShadows(style.innerShadows);
   const bordersAndShadows = combineBordersAndShadows(borders, shadows, innerShadows);
 
-  return {
-    ...baseStyles,
-    ...borderRadius,
-    ...opacity,
-    ...background,
-    ...bordersAndShadows
+  // if shape is open or odd, it will be an svg with base styles
+  // else it will be a div with full styles
+  if (hasOpenPath || isOddShape) {
+    return {
+      ...baseStyles
+    }
+  } else {
+    return {
+      ...baseStyles,
+      ...borderRadius,
+      ...opacity,
+      ...background,
+      ...bordersAndShadows
+    }
   }
 };
 
 export const createShapeStyles = (layer: any) => {
   const baseStyles = createBaseLayerStyles(layer);
-  const svgWidth = createSVGWidth(layer);
-  const svgHeight = createSVGHeight(layer);
-  const width = createWidth(svgWidth);
-  const height = createHeight(svgHeight);
+  // const svgWidth = createSVGWidth(layer);
+  // const svgHeight = createSVGHeight(layer);
+  // const width = createWidth(svgWidth);
+  // const height = createHeight(svgHeight);
 
   return {
-    ...baseStyles,
-    ...width,
-    ...height
+    ...baseStyles
   }
 };
 

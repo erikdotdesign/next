@@ -1,22 +1,22 @@
 import React from 'react';
-import { createShapePathStyles } from '../../utils/layerStyles';
+import ShapePathOdd from './ShapePathOdd';
+import ShapePathClosed from './ShapePathClosed';
 
 interface ShapePathProps {
   layer: any;
+  svgs: any;
   images: any;
   onClick(): void;
   onMouseOver(): void;
   onMouseOut(): void;
 }
 
-const ShapePath = (props: ShapePathProps) => (
-  <div
-    onClick={props.onClick}
-    onMouseOver={props.onMouseOver}
-    onMouseOut={props.onMouseOut}
-    className='c-layer c-layer--shape-path'
-    style={createShapePathStyles(props.layer, props.images)}>
-  </div>
-);
+const ShapePath = (props: ShapePathProps) => {
+  return (
+    props.layer.closed
+    ? <ShapePathClosed {...props} />
+    : <ShapePathOdd {...props} />
+  )
+};
 
 export default ShapePath;

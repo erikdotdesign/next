@@ -24,7 +24,7 @@ const gradientToBase64 = (layer, id, sketch) => {
     layer.style.borders = [];
     layer.style.shadows = [];
     layer.style.innerShadows = [];
-    // turn layer into base64
+    // return base64 image
     return layerToBase64(layer, id, sketch);
 };
 const createBase64Image = (image, id) => {
@@ -88,7 +88,8 @@ const generateBase64Gradients = (layers, sketch, images = []) => {
             });
             // generate gradient base64
             if (hasActiveGradient) {
-                // create duplicate
+                // duplicate layer
+                // all styles but the gradient will be removed
                 const layerDuplicate = layer.duplicate();
                 // create base64 from duplicate layer
                 const base64Gradient = gradientToBase64(layerDuplicate, layer.id, sketch);
@@ -171,12 +172,40 @@ export const flattenShapes = (layers, sketch) => {
         }
     });
 };
+export const getOddShapePathSVGs = (layers, svgs = {}) => {
+    layers.forEach((layer) => {
+        if (layer.type === 'ShapePath') {
+            const hasOpenPath = !layer.closed;
+            const notRectangle = layer.shapeType !== 'Rectangle';
+            const notOval = layer.shapeType !== 'Oval';
+            const isOddShape = notRectangle && notOval;
+            if (hasOpenPath || isOddShape) {
+                // duplicate layer
+                const newLayer = layer.duplicate();
+                // set frame position to 0 0
+                // this insures svg path starts at 0 0
+                newLayer.frame.x = 0;
+                newLayer.frame.y = 0;
+                // get path from duplicated layer
+                const path = newLayer.getSVGPath();
+                // add path to svgs
+                svgs[`${layer.id}`] = path;
+                // remove duplicated layer
+                newLayer.remove();
+            }
+        }
+    });
+    return svgs;
+};
 export const getShapeSVGs = (layers, svgs = {}) => {
     layers.forEach((layer) => {
         if (layer.type === 'Shape') {
+            // a shape is composed on many shapePaths
+            // get all the svg paths of the shape's shapePaths
             const paths = layer.layers.map((shapePath) => {
                 return shapePath.getSVGPath();
             });
+            // return the combined path of all the shapePaths
             svgs[`${layer.id}`] = paths.join(' ');
         }
     });
@@ -229,26 +258,26 @@ export const roundFrameDimensions = (layers) => {
 export const getArtboard = (sketch) => {
     let document = sketch.getSelectedDocument();
     let selectedLayers = document.selectedLayers;
-    let artboard = getSelectedArtboard(selectedLayers);
-    // duplicate native artboard
-    let artboardDuplicate = artboard.duplicate();
+    let baseArtboard = getSelectedArtboard(selectedLayers);
+    // duplicate artboard
+    let artboard = baseArtboard.duplicate();
     // reset duplicated artboard position
-    artboardDuplicate.frame.x = 0;
-    artboardDuplicate.frame.y = 0;
+    artboard.frame.x = 0;
+    artboard.frame.y = 0;
     // detach all symbols from artboard, returns layer groups
-    detachSymbols(artboardDuplicate.layers);
+    detachSymbols(artboard.layers);
     // remove hidden layers
-    removeHiddenLayers(artboardDuplicate.layers);
+    removeHiddenLayers(artboard.layers);
     // turn masks into image layers
-    masksToImages(artboardDuplicate.layers, sketch);
+    masksToImages(artboard.layers, sketch);
     // flatten all groups
-    flattenGroups(artboardDuplicate.layers);
-    // flatten shapes for future svgs
-    flattenShapes(artboardDuplicate.layers, sketch);
+    flattenGroups(artboard.layers);
+    // flatten shapes
+    flattenShapes(artboard.layers, sketch);
     // round layer frame dimensions
-    roundFrameDimensions(artboardDuplicate.layers);
+    roundFrameDimensions(artboard.layers);
     // return final artboard
-    return artboardDuplicate;
+    return artboard;
 };
 export const getStore = (sketch) => {
     // get artboard
@@ -256,14 +285,15 @@ export const getStore = (sketch) => {
     // get images
     let images = generateBase64Images(artboard.layers);
     let gradients = generateBase64Gradients(artboard.layers, sketch);
-    let svgs = getShapeSVGs(artboard.layers);
+    let shapeSvgs = getShapeSVGs(artboard.layers);
+    let oddShapePathSvgs = getOddShapePathSVGs(artboard.layers);
     // remove duplicate artboard
     artboard.remove();
     // return final store
     return {
         artboard: artboard,
         images: [...images, ...gradients],
-        svgs: svgs
+        svgs: Object.assign(Object.assign({}, shapeSvgs), oddShapePathSvgs)
     };
 };
 // export const shapesToImages = (layers: any, sketch: any) => {
@@ -272,12 +302,26 @@ export const getStore = (sketch) => {
 //       // create image layer
 //       const imageLayer = layerToImageLayer(layer, sketch);
 //       // push image layer to original layer index
-//       layers.splice(index, 0, imageLayer);
-//       // remove original layer
-//       layer.remove();
+//       layers.splice(index, 1, imageLayer);
 //     }
 //   });
 // }
+// export const oddShapePathsToImages = (layers: any, sketch: any) => {
+//   layers.forEach((layer: any, index: number) => {
+//     if (layer.type === 'ShapePath') {
+//       const hasOpenPath = !layer.closed;
+//       const notRectangle = layer.shapeType !== 'Rectangle';
+//       const notOval = layer.shapeType !== 'Oval';
+//       const isOddShape = notRectangle && notOval;
+//       if (hasOpenPath || isOddShape) {
+//         // create image layer
+//         const imageLayer = layerToImageLayer(layer, sketch);
+//         // push image layer to original layer index
+//         layers.splice(index, 1, imageLayer);
+//       }
+//     }
+//   });
+// };
 // const layerToImageLayer = (layer: any, sketch: any) => {
 //   // create image buffer from layer
 //   const buffer = sketch.export(layer, {
@@ -287,6 +331,7 @@ export const getStore = (sketch) => {
 //   });
 //   // create image layer from buffer data
 //   const imageLayer = new sketch.Image({
+//     name: 'shape-image',
 //     image: buffer
 //   });
 //   // set image layer frame and index to original layer

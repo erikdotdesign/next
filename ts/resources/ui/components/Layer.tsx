@@ -54,6 +54,7 @@ const Layer = (props: LayerProps) => {
         <ShapePath
           layer={layer}
           images={images}
+          svgs={svgs}
           onClick={onClick}
           onMouseOver={onMouseOver}
           onMouseOut={onMouseOut} />

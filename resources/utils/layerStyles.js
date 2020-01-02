@@ -405,6 +405,12 @@ export const createArtboardStyles = (artboard) => {
 };
 export const createShapePathStyles = (layer, images) => {
     const { style, shapeType, points } = layer;
+    // get shape path and type
+    const hasOpenPath = !layer.closed;
+    const notRectangle = layer.shapeType !== 'Rectangle';
+    const notOval = layer.shapeType !== 'Oval';
+    const isOddShape = notRectangle && notOval;
+    // get styles
     const baseStyles = createBaseLayerStyles(layer);
     const borderRadius = createBorderRadius(shapeType, points);
     const opacity = createOpacity(style.opacity);
@@ -413,15 +419,22 @@ export const createShapePathStyles = (layer, images) => {
     const shadows = createShadows(style.shadows);
     const innerShadows = createInnerShadows(style.innerShadows);
     const bordersAndShadows = combineBordersAndShadows(borders, shadows, innerShadows);
-    return Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, baseStyles), borderRadius), opacity), background), bordersAndShadows);
+    // if shape is open or odd, it will be an svg with base styles
+    // else it will be a div with full styles
+    if (hasOpenPath || isOddShape) {
+        return Object.assign({}, baseStyles);
+    }
+    else {
+        return Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, baseStyles), borderRadius), opacity), background), bordersAndShadows);
+    }
 };
 export const createShapeStyles = (layer) => {
     const baseStyles = createBaseLayerStyles(layer);
-    const svgWidth = createSVGWidth(layer);
-    const svgHeight = createSVGHeight(layer);
-    const width = createWidth(svgWidth);
-    const height = createHeight(svgHeight);
-    return Object.assign(Object.assign(Object.assign({}, baseStyles), width), height);
+    // const svgWidth = createSVGWidth(layer);
+    // const svgHeight = createSVGHeight(layer);
+    // const width = createWidth(svgWidth);
+    // const height = createHeight(svgHeight);
+    return Object.assign({}, baseStyles);
 };
 export const createImageStyles = (layer, images) => {
     const { style } = layer;
