@@ -588,6 +588,21 @@ export const createShapeSVGMarkerStyles = (layer: any, arrowHead: string) => {
   }
 }
 
+export const createShapeSVGMarkerPosition = (arrowHead: string) => {
+  switch(arrowHead) {
+    case 'OpenCircle':
+    case 'OpenSquare':
+    case 'FilledCircle':
+    case 'FilledSquare':
+    case 'Line':
+    case 'None':
+      return 0;
+    case 'OpenArrow':
+    case 'FilledArrow':
+      return 3;
+  }
+}
+
 export const createImageStyles = (layer: any, images: any) => {
   const { style } = layer;
   const baseStyles = createBaseLayerStyles(layer);

@@ -529,6 +529,20 @@ export const createShapeSVGMarkerStyles = (layer, arrowHead) => {
             return createShapeSVGNoMarkerStyles();
     }
 };
+export const createShapeSVGMarkerPosition = (arrowHead) => {
+    switch (arrowHead) {
+        case 'OpenCircle':
+        case 'OpenSquare':
+        case 'FilledCircle':
+        case 'FilledSquare':
+        case 'Line':
+        case 'None':
+            return 0;
+        case 'OpenArrow':
+        case 'FilledArrow':
+            return 3;
+    }
+};
 export const createImageStyles = (layer, images) => {
     const { style } = layer;
     const baseStyles = createBaseLayerStyles(layer);

@@ -3,7 +3,8 @@ import {
   createShapeStyles,
   createShapeSVGPathStyles,
   createShapeSVGMarkerShape,
-  createShapeSVGMarkerStyles
+  createShapeSVGMarkerStyles,
+  createShapeSVGMarkerPosition
  } from '../../utils/layerStyles';
 
 interface ShapeProps {
@@ -20,8 +21,6 @@ const Shape = (props: ShapeProps) => {
   const path = svgs[`${layer.id}`];
   const endArrowhead = layer.style.borderOptions.endArrowhead;
   const startArrowhead = layer.style.borderOptions.startArrowhead;
-  const openArrowEnd = layer.style.borderOptions.endArrowhead === 'OpenArrow';
-  const openArrowStart = layer.style.borderOptions.startArrowhead === 'OpenArrow';
   return (
     <svg
       className='c-layer c-layer--shape'
@@ -35,7 +34,7 @@ const Shape = (props: ShapeProps) => {
           orient='auto-start-reverse'
           markerWidth='5'
           markerHeight='5'
-          refX={`${openArrowStart ? 3 : 0}`}
+          refX={createShapeSVGMarkerPosition(startArrowhead)}
           refY='2.5'>
           <path
             style={createShapeSVGMarkerStyles(layer, startArrowhead)}
@@ -46,7 +45,7 @@ const Shape = (props: ShapeProps) => {
           orient='auto'
           markerWidth='5'
           markerHeight='5'
-          refX={`${openArrowEnd ? 3 : 0}`}
+          refX={createShapeSVGMarkerPosition(endArrowhead)}
           refY='2.5'>
           <path
             style={createShapeSVGMarkerStyles(layer, endArrowhead)}
