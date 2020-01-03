@@ -453,7 +453,7 @@ export const createShapePathStyles = (layer, images) => {
     // if shape is open or odd, it will be an svg with shape styles
     // else it will be a div with full styles
     if (hasOpenPath || isOddShape) {
-        return createShapeStyles(layer);
+        return Object.assign(Object.assign({}, createShapeStyles(layer)), createShapeSVGPathStyles(layer));
     }
     else {
         return Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, baseStyles), borderRadius), opacity), background), bordersAndShadows);
