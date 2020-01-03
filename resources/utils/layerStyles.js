@@ -262,7 +262,7 @@ export const createSVGFill = (fills) => {
     }
     else {
         return {
-            fill: 'transparent'
+            fill: 'none'
         };
     }
 };
@@ -302,7 +302,7 @@ export const createSVGStroke = (borders) => {
     }
     else {
         return {
-            stroke: 'transparent'
+            stroke: 'none'
         };
     }
 };
@@ -484,7 +484,7 @@ export const createShapeSVGMarkerPosition = (arrowHead) => {
         case 'None':
             return 0;
         case 'Line':
-            return 1;
+            return 0.5;
         case 'OpenArrow':
         case 'FilledArrow':
             return 3;
@@ -493,21 +493,29 @@ export const createShapeSVGMarkerPosition = (arrowHead) => {
 export const createShapeSVGMarkerShape = (arrowHead) => {
     switch (arrowHead) {
         case 'OpenArrow':
-            return 'M0.35260086,-3.45328119e-16 L5,2.5 L0.35260086,5 L-8.8817842e-16,4.24129422 L3.23702251,2.5 L0,0.758705776 L0.35260086,-3.45328119e-16 Z';
+            return `M0.35260086,-3.45328119e-16 L5,2.5 L0.35260086,5
+      L-8.8817842e-16,4.24129422 L3.23702251,2.5 L0,0.758705776
+      L0.35260086,-3.45328119e-16 Z`;
         case 'FilledArrow':
-            return 'M5,2.5 L-8.8817842e-16,5 L0,-4.5924255e-16 L5,2.5 Z';
+            return `M5,2.5 L-8.8817842e-16,5 L0,-4.5924255e-16 L5,2.5 Z`;
         case 'Line':
-            return 'M0,0 L1,0 L1,5 L0,5 L0,0 Z';
+            return `M0,0 L1,0 L1,5 L0,5 L0,0 Z`;
         case 'OpenCircle':
-            return 'M2.5,0 C3.88071187,0 5,1.11928813 5,2.5 C5,3.88071187 3.88071187,5 2.5,5 C1.11928813,5 0,3.88071187 0,2.5 C0,1.11928813 1.11928813,0 2.5,0 Z M2.5,1 C1.67157288,1 1,1.67157288 1,2.5 C1,3.32842712 1.67157288,4 2.5,4 C3.32842712,4 4,3.32842712 4,2.5 C4,1.67157288 3.32842712,1 2.5,1 Z';
+            return `M2.5,0 C3.88071187,0 5,1.11928813 5,2.5 C5,3.88071187
+      3.88071187,5 2.5,5 C1.11928813,5 0,3.88071187 0,2.5 C0,1.11928813
+      1.11928813,0 2.5,0 Z M2.5,1 C1.67157288,1 1,1.67157288 1,2.5
+      C1,3.32842712 1.67157288,4 2.5,4 C3.32842712,4 4,3.32842712
+      4,2.5 C4,1.67157288 3.32842712,1 2.5,1 Z`;
         case 'FilledCircle':
-            return 'M2.5,0 C3.88071187,-2.53632657e-16 5,1.11928813 5,2.5 C5,3.88071187 3.88071187,5 2.5,5 C1.11928813,5 1.69088438e-16,3.88071187 0,2.5 C-1.69088438e-16,1.11928813 1.11928813,2.53632657e-16 2.5,0 Z';
+            return `M2.5,0 C3.88071187,-2.53632657e-16 5,1.11928813 5,2.5
+      C5,3.88071187 3.88071187,5 2.5,5 C1.11928813,5 1.69088438e-16,3.88071187
+      0,2.5 C-1.69088438e-16,1.11928813 1.11928813,2.53632657e-16 2.5,0 Z`;
         case 'OpenSquare':
-            return 'M5,0 L5,5 L0,5 L0,0 L5,0 Z M4,1 L1,1 L1,4 L4,4 L4,1 Z';
+            return `M5,0 L5,5 L0,5 L0,0 L5,0 Z M4,1 L1,1 L1,4 L4,4 L4,1 Z`;
         case 'FilledSquare':
-            return 'M0,0 L5,0 L5,5 L0,5 L0,0 Z';
+            return `M0,0 L5,0 L5,5 L0,5 L0,0 Z`;
         default:
-            return '';
+            return ``;
     }
 };
 export const createShapeSVGMarkerStyles = (layer, arrowHead) => {
@@ -549,150 +557,3 @@ export const createImageStyles = (layer, images) => {
     };
     return Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, baseStyles), baseImageBackground), opacity), background), bordersAndShadows);
 };
-// export const createGroupStyles = (layer: any) => {
-//   const { style } = layer;
-//   const baseStyles = createBaseLayerStyles(layer);
-//   const opacity = createOpacity(style.opacity);
-//   return {
-//     ...baseStyles,
-//     ...opacity
-//   }
-// };
-// NEED TYPES
-// const createLinearGradient = (gradient: any) => {
-//   const stops: any = [];
-//   const positions = {
-//     from: {
-//       x: Math.round(Number(gradient.from.x.toFixed(1)) * 2) / 2,
-//       y: Math.round(Number(gradient.from.y.toFixed(1)) * 2) / 2
-//     },
-//     to: {
-//       x: Math.round(Number(gradient.to.x.toFixed(1)) * 2) / 2,
-//       y: Math.round(Number(gradient.to.y.toFixed(1)) * 2) / 2
-//     }
-//   }
-//   // start directions
-//   const topStart = (positions.from.y <= 0 && positions.from.x === 0.5);
-//   const bottomStart = (positions.from.y >= 1 && positions.from.x === 0.5);
-//   const leftStart = (positions.from.y === 0.5 && positions.from.x <= 0);
-//   const rightStart = (positions.from.y === 0.5 && positions.from.x >= 1);
-//   const topLeftStart = (positions.from.y <= 0 && positions.from.x <= 0);
-//   const topRightStart = (positions.from.y <= 0 && positions.from.x >= 1);
-//   const bottomLeftStart = (positions.from.y >= 1 && positions.from.x === 0);
-//   const bottomRightStart = (positions.from.y >= 1 && positions.from.x >= 1);
-//   // end directions
-//   const topLeftEnd = (positions.to.y <= 0 && positions.to.x <= 0);
-//   const topRightEnd = (positions.to.y <= 0 && positions.to.x >= 1);
-//   const bottomLeftEnd = (positions.to.y >= 1 && positions.to.x <= 0);
-//   const bottomRightEnd = (positions.to.y >= 1 && positions.to.x >= 1);
-//   let direction = null;
-//   if (topLeftStart && bottomRightEnd) {
-//     direction = 'to bottom right';
-//   } else if (topRightStart && bottomLeftEnd) {
-//     direction = 'to bottom left';
-//   } else if (bottomLeftStart && topRightEnd) {
-//     direction = 'to top right';
-//   } else if (bottomRightStart && topLeftEnd) {
-//     direction = 'to top left';
-//   } else if (topStart) {
-//     direction = 'to bottom';
-//   } else if (bottomStart) {
-//     direction = 'to top';
-//   } else if (leftStart) {
-//     direction = 'to right';
-//   } else if (rightStart) {
-//     direction = 'to left';
-//   } else {
-//     direction = 'to right';
-//   }
-//   // stops
-//   gradient.stops.map((stop: any) => {
-//     stops.push(`${stop.color} ${(stop.position * 100).toFixed(2)}%`);
-//   });
-//   // final gradient
-//   const linearGradient = `linear-gradient(${direction}, ${stops.join()})`;
-//   // return gradient
-//   return {
-//     background: linearGradient
-//   };
-// }
-// NEED TYPES
-// const createAngularGradient = (gradient: any) => {
-//   const stops: any = [];
-//   const firstStop = gradient.stops[0];
-//   const lastStop = gradient.stops[gradient.stops.length - 1];
-//   const midColor = chroma.mix(firstStop.color, lastStop.color, 0.5);
-//   // add first stop
-//   stops.push(`${midColor} 0turn`);
-//   // add layer stops
-//   gradient.stops.map((stop: any) => {
-//     stops.push(`${stop.color} ${(stop.position).toFixed(2)}turn`);
-//   });
-//   // add last stop
-//   stops.push(`${midColor} 1turn`);
-//   // default sketch angular gradient starts at 3:00
-//   // default css conic-gradient starts at 12:00
-//   // add 0.25turn to translate properly
-//   const angularGradient = `conic-gradient(from 0.25turn, ${stops.join()})`;
-//   // return gradient
-//   return {
-//     background: angularGradient
-//   };
-// };
-// NEED TYPES
-// const createRadialGradient = (gradient: any, dims: any) => {
-//   const stops: any = [];
-//   // shape
-//   const shape = gradient.aspectRatio === 0 ? 'circle' : 'ellipse';
-//   // position
-//   const position = {
-//     start: {
-//       x: dims.width * gradient.from.x.toFixed(2),
-//       y: dims.height * gradient.from.y.toFixed(2)
-//     },
-//     end: {
-//       x: dims.width * gradient.to.x.toFixed(2),
-//       y: dims.height * gradient.to.y.toFixed(2)
-//     }
-//   }
-//   // radius
-//   let length1 = null;
-//   if (position.end.y - position.start.y > position.end.x - position.start.x) {
-//     length1 = position.end.y - position.start.y;
-//   } else {
-//     length1 = position.end.x - position.start.x;
-//   }
-//   // rotation
-//   // length if ellipse
-//   const length2 = length1 * gradient.aspectRatio;
-//   // size
-//   const size = shape === 'circle' ? `${length1}px` : `${length1}px ${length2}px`;
-//   // stops
-//   gradient.stops.map((stop: any) => {
-//     stops.push(`${stop.color} ${(stop.position * 100).toFixed(2)}%`);
-//   });
-//   // final gradient
-//   const radialGradient = `radial-gradient(${shape} ${size} at ${position.start.x}px ${position.start.y}px, ${stops.join()})`;
-//   // return gradient
-//   return {
-//     background: radialGradient
-//   };
-// };
-// NEED TYPES
-// const createGradientFill = (gradient: any, dims: any) => {
-//   switch(gradient.gradientType) {
-//     case 'Linear':
-//       return createLinearGradient(gradient);
-//       break;
-//     // does not support gradient rotation
-//     case 'Radial':
-//       return createRadialGradient(gradient, dims);
-//       break;
-//     // limited browser support for conic-gradients
-//     case 'Angular':
-//       return createAngularGradient(gradient);
-//       break;
-//     default:
-//       return;
-//   };
-// }

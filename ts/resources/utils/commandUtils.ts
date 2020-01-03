@@ -274,12 +274,11 @@ export const roundFrameDimensions = (layers: any) => {
   });
 }
 
-export const getArtboard = (sketch: any) => {
-  let document = sketch.getSelectedDocument();
-  let selectedLayers = document.selectedLayers;
-  let baseArtboard = getSelectedArtboard(selectedLayers);
+export const getArtboard = (sketch: any): srm.Artboard => {
+  let document: srm.Document = sketch.getSelectedDocument();
+  let baseArtboard: srm.Artboard = getSelectedArtboard(document.selectedLayers);
   // duplicate artboard
-  let artboard = baseArtboard.duplicate();
+  let artboard: srm.Artboard = baseArtboard.duplicate();
   // reset duplicated artboard position
   artboard.frame.x = 0;
   artboard.frame.y = 0;

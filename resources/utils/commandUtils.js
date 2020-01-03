@@ -264,6 +264,7 @@ export const getArtboard = (sketch) => {
     let document = sketch.getSelectedDocument();
     let selectedLayers = document.selectedLayers;
     let baseArtboard = getSelectedArtboard(selectedLayers);
+    console.log(baseArtboard);
     // duplicate artboard
     let artboard = baseArtboard.duplicate();
     // reset duplicated artboard position
