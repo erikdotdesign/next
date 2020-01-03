@@ -194,6 +194,10 @@ export const getOddShapePathSVGs = (layers: any, svgs: any = {}) => {
       if (hasOpenPath || isOddShape) {
         // duplicate layer
         const newLayer = layer.duplicate();
+        // reset transforms
+        newLayer.transform.rotation = 0;
+        newLayer.transform.flippedHorizontally = false;
+        newLayer.transform.flippedVertically = false;
         // reset position
         newLayer.frame.x = 0;
         newLayer.frame.y = 0;
