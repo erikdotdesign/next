@@ -356,10 +356,10 @@ export const createSVGStrokeLineCap = (sketchLineEnd) => {
         strokeLinecap: lineCap
     };
 };
-export const createSVGPath = (d) => {
-    if (d) {
+export const createSVGPath = (path) => {
+    if (path) {
         return {
-            d: `path(${d})`
+            d: path
         };
     }
     else {
@@ -463,13 +463,71 @@ export const createShapeStyles = (layer) => {
     const { style } = layer;
     const baseStyles = createBaseLayerStyles(layer);
     const opacity = createOpacity(style.opacity);
+    return Object.assign(Object.assign({}, baseStyles), opacity);
+};
+export const createShapeSVGPathStyles = (layer) => {
+    const { style } = layer;
     const fill = createSVGFill(style.fills);
     const stroke = createSVGStroke(style.borders);
     const strokeWidth = createSVGStrokeWidth(style.borders);
     const strokeDashArray = createSVGStrokeDashArray(style.borderOptions.dashPattern);
     const lineJoin = createSVGStrokeLineJoin(style.borderOptions.lineJoin);
     const lineCap = createSVGStrokeLineCap(style.borderOptions.lineEnd);
-    return Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, baseStyles), opacity), fill), stroke), strokeWidth), strokeDashArray), lineJoin), lineCap);
+    return Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, fill), stroke), strokeWidth), strokeDashArray), lineJoin), lineCap);
+};
+export const createShapeSVGMarkerShape = (arrowHead) => {
+    switch (arrowHead) {
+        case 'OpenArrow':
+            return 'M0.35260086,-3.45328119e-16 L5,2.5 L0.35260086,5 L-8.8817842e-16,4.24129422 L3.23702251,2.5 L0,0.758705776 L0.35260086,-3.45328119e-16 Z';
+        case 'FilledArrow':
+            return 'M5,2.5 L-8.8817842e-16,5 L0,-4.5924255e-16 L5,2.5 Z';
+        case 'Line':
+            return 'M0,0 L1,0 L1,5 L0,5 L0,0 Z';
+        case 'OpenCircle':
+            return 'M2.5,0 C3.88071187,0 5,1.11928813 5,2.5 C5,3.88071187 3.88071187,5 2.5,5 C1.11928813,5 0,3.88071187 0,2.5 C0,1.11928813 1.11928813,0 2.5,0 Z M2.5,1 C1.67157288,1 1,1.67157288 1,2.5 C1,3.32842712 1.67157288,4 2.5,4 C3.32842712,4 4,3.32842712 4,2.5 C4,1.67157288 3.32842712,1 2.5,1 Z';
+        case 'FilledCircle':
+            return 'M2.5,0 C3.88071187,-2.53632657e-16 5,1.11928813 5,2.5 C5,3.88071187 3.88071187,5 2.5,5 C1.11928813,5 1.69088438e-16,3.88071187 0,2.5 C-1.69088438e-16,1.11928813 1.11928813,2.53632657e-16 2.5,0 Z';
+        case 'OpenSquare':
+            return 'M5,0 L5,5 L0,5 L0,0 L5,0 Z M4,1 L1,1 L1,4 L4,4 L4,1 Z';
+        case 'FilledSquare':
+            return 'M0,0 L5,0 L5,5 L0,5 L0,0 Z';
+        default:
+            return '';
+    }
+};
+export const createShapeSVGOpenMarkerStyles = (layer) => {
+    const { style } = layer;
+    const stroke = createSVGStroke(style.borders);
+    return Object.assign({ fill: 'none' }, stroke);
+};
+export const createShapeSVGClosedMarkerStyles = (layer) => {
+    const { style } = layer;
+    const stroke = createSVGStroke(style.borders);
+    return {
+        fill: stroke.stroke,
+        stroke: 'none'
+    };
+};
+export const createShapeSVGNoMarkerStyles = () => {
+    return {
+        stroke: 'none',
+        fill: 'none'
+    };
+};
+export const createShapeSVGMarkerStyles = (layer, arrowHead) => {
+    switch (arrowHead) {
+        case 'OpenArrow':
+        case 'OpenCircle':
+        case 'OpenSquare':
+            return createShapeSVGClosedMarkerStyles(layer);
+        case 'FilledArrow':
+        case 'FilledCircle':
+        case 'FilledSquare':
+        case 'Line':
+            return createShapeSVGClosedMarkerStyles(layer);
+        case 'None':
+            return createShapeSVGNoMarkerStyles();
+    }
 };
 export const createImageStyles = (layer, images) => {
     const { style } = layer;

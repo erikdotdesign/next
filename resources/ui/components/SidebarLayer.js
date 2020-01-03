@@ -1,13 +1,13 @@
 import React from 'react';
 import SidebarLayerValue from './SidebarLayerValue';
 import SidebarLayerProp from './SidebarLayerProp';
-import { createShapeStyles, createShapePathStyles, createArtboardStyles, createImageStyles, createSVGPath } from '../../utils/layerStyles';
+import { createShapeStyles, createShapeSVGPathStyles, createShapePathStyles, createArtboardStyles, createImageStyles, createSVGPath } from '../../utils/layerStyles';
 import { textContainerStyles, textStyles } from '../../utils/textStyles';
 const SidebarLayer = (props) => {
     const getLayerStyles = () => {
         switch (props.layer.type) {
             case 'Shape':
-                return createShapeStyles(props.layer);
+                return Object.assign(Object.assign({}, createShapeStyles(props.layer)), createShapeSVGPathStyles(props.layer));
             case 'ShapePath':
                 return createShapePathStyles(props.layer, props.images);
             case 'Image':

@@ -4,6 +4,7 @@ import SidebarLayerProp from './SidebarLayerProp';
 
 import {
   createShapeStyles,
+  createShapeSVGPathStyles,
   createShapePathStyles,
   createArtboardStyles,
   createImageStyles,
@@ -25,7 +26,7 @@ const SidebarLayer = (props: SidebarProps) => {
   const getLayerStyles = () => {
     switch(props.layer.type) {
       case 'Shape':
-        return createShapeStyles(props.layer);
+        return {...createShapeStyles(props.layer), ...createShapeSVGPathStyles(props.layer)};
       case 'ShapePath':
         return createShapePathStyles(props.layer, props.images);
       case 'Image':
