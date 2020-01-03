@@ -524,6 +524,22 @@ export const createShapeSVGPathStyles = (layer: any) => {
   }
 }
 
+export const createShapeSVGMarkerPosition = (arrowHead: string) => {
+  switch(arrowHead) {
+    case 'OpenCircle':
+    case 'OpenSquare':
+    case 'FilledCircle':
+    case 'FilledSquare':
+    case 'None':
+      return 0;
+    case 'Line':
+      return 1;
+    case 'OpenArrow':
+    case 'FilledArrow':
+      return 3;
+  }
+}
+
 export const createShapeSVGMarkerShape = (arrowHead: string) => {
   switch(arrowHead) {
     case 'OpenArrow':
@@ -545,61 +561,27 @@ export const createShapeSVGMarkerShape = (arrowHead: string) => {
   }
 }
 
-export const createShapeSVGOpenMarkerStyles = (layer: any) => {
-  const { style } = layer;
-  const stroke = createSVGStroke(style.borders);
-
-  return {
-    fill: 'none',
-    ...stroke
-  }
-}
-
-export const createShapeSVGClosedMarkerStyles = (layer: any) => {
-  const { style } = layer;
-  const stroke = createSVGStroke(style.borders);
-
-  return {
-    fill: stroke.stroke,
-    stroke: 'none'
-  }
-}
-
-export const createShapeSVGNoMarkerStyles = () => {
-  return {
-    stroke: 'none',
-    fill: 'none'
-  }
-}
-
 export const createShapeSVGMarkerStyles = (layer: any, arrowHead: string) => {
-  switch(arrowHead) {
-    case 'OpenArrow':
-    case 'OpenCircle':
-    case 'OpenSquare':
-      return createShapeSVGClosedMarkerStyles(layer);
-    case 'FilledArrow':
-    case 'FilledCircle':
-    case 'FilledSquare':
-    case 'Line':
-      return createShapeSVGClosedMarkerStyles(layer);
-    case 'None':
-      return createShapeSVGNoMarkerStyles();
-  }
-}
+  const { style } = layer;
+  const stroke = createSVGStroke(style.borders);
 
-export const createShapeSVGMarkerPosition = (arrowHead: string) => {
   switch(arrowHead) {
+    case 'OpenArrow':
     case 'OpenCircle':
     case 'OpenSquare':
+    case 'FilledArrow':
     case 'FilledCircle':
     case 'FilledSquare':
     case 'Line':
+      return {
+        fill: stroke.stroke,
+        stroke: 'none'
+      }
     case 'None':
-      return 0;
-    case 'OpenArrow':
-    case 'FilledArrow':
-      return 3;
+      return {
+        stroke: 'none',
+        fill: 'none'
+      }
   }
 }
 

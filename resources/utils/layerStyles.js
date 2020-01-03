@@ -475,6 +475,21 @@ export const createShapeSVGPathStyles = (layer) => {
     const lineCap = createSVGStrokeLineCap(style.borderOptions.lineEnd);
     return Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, fill), stroke), strokeWidth), strokeDashArray), lineJoin), lineCap);
 };
+export const createShapeSVGMarkerPosition = (arrowHead) => {
+    switch (arrowHead) {
+        case 'OpenCircle':
+        case 'OpenSquare':
+        case 'FilledCircle':
+        case 'FilledSquare':
+        case 'None':
+            return 0;
+        case 'Line':
+            return 1;
+        case 'OpenArrow':
+        case 'FilledArrow':
+            return 3;
+    }
+};
 export const createShapeSVGMarkerShape = (arrowHead) => {
     switch (arrowHead) {
         case 'OpenArrow':
@@ -495,52 +510,26 @@ export const createShapeSVGMarkerShape = (arrowHead) => {
             return '';
     }
 };
-export const createShapeSVGOpenMarkerStyles = (layer) => {
-    const { style } = layer;
-    const stroke = createSVGStroke(style.borders);
-    return Object.assign({ fill: 'none' }, stroke);
-};
-export const createShapeSVGClosedMarkerStyles = (layer) => {
-    const { style } = layer;
-    const stroke = createSVGStroke(style.borders);
-    return {
-        fill: stroke.stroke,
-        stroke: 'none'
-    };
-};
-export const createShapeSVGNoMarkerStyles = () => {
-    return {
-        stroke: 'none',
-        fill: 'none'
-    };
-};
 export const createShapeSVGMarkerStyles = (layer, arrowHead) => {
+    const { style } = layer;
+    const stroke = createSVGStroke(style.borders);
     switch (arrowHead) {
         case 'OpenArrow':
         case 'OpenCircle':
         case 'OpenSquare':
-            return createShapeSVGClosedMarkerStyles(layer);
         case 'FilledArrow':
         case 'FilledCircle':
         case 'FilledSquare':
         case 'Line':
-            return createShapeSVGClosedMarkerStyles(layer);
+            return {
+                fill: stroke.stroke,
+                stroke: 'none'
+            };
         case 'None':
-            return createShapeSVGNoMarkerStyles();
-    }
-};
-export const createShapeSVGMarkerPosition = (arrowHead) => {
-    switch (arrowHead) {
-        case 'OpenCircle':
-        case 'OpenSquare':
-        case 'FilledCircle':
-        case 'FilledSquare':
-        case 'Line':
-        case 'None':
-            return 0;
-        case 'OpenArrow':
-        case 'FilledArrow':
-            return 3;
+            return {
+                stroke: 'none',
+                fill: 'none'
+            };
     }
 };
 export const createImageStyles = (layer, images) => {
