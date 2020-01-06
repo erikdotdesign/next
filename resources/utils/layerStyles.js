@@ -203,10 +203,7 @@ export const createGradientFillImage = (images, id) => {
     }
     else {
         return {
-            background: 'none',
-            backgroundSize: 'auto',
-            backgroundRepeat: 'repeat',
-            backgroundPosition: 'initial'
+            background: 'none'
         };
     }
 };
