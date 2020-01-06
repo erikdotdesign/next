@@ -72,6 +72,19 @@ export const createBorderRadius = (shapeType, points) => {
     }
     ;
 };
+export const createGaussianBlur = (blur) => {
+    const { enabled, blurType, radius } = blur;
+    if (enabled && blurType === 'Gaussian') {
+        return {
+            filter: `blur(${radius}px)`
+        };
+    }
+    else {
+        return {
+            filter: 'none'
+        };
+    }
+};
 export const createBorder = (sketchBorder) => {
     const { thickness, position } = sketchBorder;
     const color = cssColor(sketchBorder.color);
@@ -100,10 +113,11 @@ export const createBorder = (sketchBorder) => {
     };
 };
 export const createBorders = (sketchBorders) => {
-    const borders = sketchBorders.map((sketchBorder) => {
+    const borders = [];
+    sketchBorders.forEach((sketchBorder) => {
         if (sketchBorder.enabled) {
             const border = createBorder(sketchBorder);
-            return border.boxShadow;
+            return borders.push(border.boxShadow);
         }
     });
     if (borders.length > 0) {
@@ -117,19 +131,6 @@ export const createBorders = (sketchBorders) => {
         };
     }
 };
-export const createGaussianBlur = (blur) => {
-    const { enabled, blurType, radius } = blur;
-    if (enabled && blurType === 'Gaussian') {
-        return {
-            filter: `blur(${radius}px)`
-        };
-    }
-    else {
-        return {
-            filter: 'none'
-        };
-    }
-};
 export const createShadow = (sketchShadow, inset) => {
     const { x, y, blur, spread, color } = sketchShadow;
     const base = `${x}px ${y}px ${blur}px ${spread}px ${cssColor(color)}`;
@@ -139,10 +140,11 @@ export const createShadow = (sketchShadow, inset) => {
     };
 };
 export const createShadows = (sketchShadows) => {
-    const shadows = sketchShadows.map((sketchShadow) => {
+    const shadows = [];
+    sketchShadows.forEach((sketchShadow) => {
         if (sketchShadow.enabled) {
             const shadow = createShadow(sketchShadow, false);
-            return shadow.boxShadow;
+            return shadows.push(shadow.boxShadow);
         }
     });
     if (shadows.length > 0) {
@@ -157,10 +159,11 @@ export const createShadows = (sketchShadows) => {
     }
 };
 export const createInnerShadows = (sketchInnerShadows) => {
-    const innerShadows = sketchInnerShadows.map((sketchInnerShadow) => {
+    const innerShadows = [];
+    sketchInnerShadows.forEach((sketchInnerShadow) => {
         if (sketchInnerShadow.enabled) {
             const innerShadow = createShadow(sketchInnerShadow, true);
-            return innerShadow.boxShadow;
+            return innerShadows.push(innerShadow.boxShadow);
         }
     });
     if (innerShadows.length > 0) {

@@ -77,6 +77,19 @@ export const createBorderRadius = (shapeType: srm.ShapeType, points: srm.CurvePo
   };
 };
 
+export const createGaussianBlur = (blur: srm.Blur): srm.css.GaussianBlur => {
+  const { enabled, blurType, radius } = blur;
+  if (enabled && blurType === 'Gaussian') {
+    return {
+      filter: `blur(${radius}px)`
+    }
+  } else {
+    return {
+      filter: 'none'
+    }
+  }
+};
+
 export const createBorder = (sketchBorder: srm.Border): srm.css.BoxShadow => {
   const { thickness, position } = sketchBorder;
   const color = cssColor(sketchBorder.color);
@@ -105,10 +118,11 @@ export const createBorder = (sketchBorder: srm.Border): srm.css.BoxShadow => {
 };
 
 export const createBorders = (sketchBorders: srm.Border[]): srm.css.BoxShadow => {
-  const borders = sketchBorders.map((sketchBorder: srm.Border) => {
+  const borders: string[] = [];
+  sketchBorders.forEach((sketchBorder: srm.Border) => {
     if (sketchBorder.enabled) {
       const border = createBorder(sketchBorder);
-      return border.boxShadow;
+      return borders.push(border.boxShadow);
     }
   });
   if (borders.length > 0) {
@@ -118,19 +132,6 @@ export const createBorders = (sketchBorders: srm.Border[]): srm.css.BoxShadow =>
   } else {
     return {
       boxShadow: 'none'
-    }
-  }
-};
-
-export const createGaussianBlur = (blur: srm.Blur): srm.css.GaussianBlur => {
-  const { enabled, blurType, radius } = blur;
-  if (enabled && blurType === 'Gaussian') {
-    return {
-      filter: `blur(${radius}px)`
-    }
-  } else {
-    return {
-      filter: 'none'
     }
   }
 };
@@ -146,10 +147,11 @@ export const createShadow = (sketchShadow: srm.Shadow, inset: boolean): srm.css.
 };
 
 export const createShadows = (sketchShadows: srm.Shadow[]): srm.css.BoxShadow => {
-  const shadows = sketchShadows.map((sketchShadow: srm.Shadow) => {
+  const shadows: string[] = [];
+  sketchShadows.forEach((sketchShadow: srm.Shadow) => {
     if (sketchShadow.enabled) {
       const shadow = createShadow(sketchShadow, false);
-      return shadow.boxShadow;
+      return shadows.push(shadow.boxShadow);
     }
   });
   if (shadows.length > 0) {
@@ -164,10 +166,11 @@ export const createShadows = (sketchShadows: srm.Shadow[]): srm.css.BoxShadow =>
 };
 
 export const createInnerShadows = (sketchInnerShadows: srm.Shadow[]): srm.css.BoxShadow => {
-  const innerShadows = sketchInnerShadows.map((sketchInnerShadow: srm.Shadow) => {
+  const innerShadows: string[] = [];
+  sketchInnerShadows.forEach((sketchInnerShadow: srm.Shadow) => {
     if (sketchInnerShadow.enabled) {
       const innerShadow = createShadow(sketchInnerShadow, true);
-      return innerShadow.boxShadow;
+      return innerShadows.push(innerShadow.boxShadow);
     }
   });
   if (innerShadows.length > 0) {
