@@ -13,6 +13,7 @@ const Canvas = (props) => {
     };
     return (React.createElement("div", { className: 'c-canvas' },
         React.createElement(Artboard, Object.assign({}, props)),
+        React.createElement("div", { className: 'c-canvas__layer-count' }, props.artboard.layers.length),
         React.createElement("div", { className: 'c-canvas__escape', onClick: onClick, onMouseOver: onMouseOver })));
 };
 export default Canvas;

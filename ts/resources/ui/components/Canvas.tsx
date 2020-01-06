@@ -23,6 +23,9 @@ const Canvas = (props: CanvasProps) => {
   return (
     <div className='c-canvas'>
       <Artboard {...props} />
+      <div className='c-canvas__layer-count'>
+        {props.artboard.layers.length}
+      </div>
       <div
         className='c-canvas__escape'
         onClick={onClick}
