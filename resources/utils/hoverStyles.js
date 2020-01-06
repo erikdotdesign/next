@@ -1,11 +1,11 @@
 import { placeLeft, placeTop } from './appUtils';
-import { createPosition, createWidth, createHeight, createBorder } from './layerStyles';
+import { createLeft, createTop, createWidth, createHeight } from './layerStyles';
 export const createHoveredStyles = (hoverFrame) => {
-    const position = createPosition(hoverFrame.x, hoverFrame.y);
     const width = createWidth(hoverFrame.width);
     const height = createHeight(hoverFrame.height);
-    const border = createBorder({ thickness: 1, color: 'blue', position: 'Outside' });
-    return Object.assign(Object.assign(Object.assign(Object.assign({}, position), width), height), border);
+    const top = createTop(hoverFrame.y);
+    const left = createLeft(hoverFrame.x);
+    return Object.assign(Object.assign(Object.assign(Object.assign({}, width), height), top), left);
 };
 export const createRuleTopStyles = (hoverOrigin, selectionOrigin) => {
     const height = hoverOrigin.top - selectionOrigin.top;

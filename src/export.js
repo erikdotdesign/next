@@ -33,11 +33,7 @@ export default (context) => {
         });
         // render app once webview contents loaded
         webContents.on('did-finish-load', () => {
-            webContents.executeJavaScript(`renderApp(
-        ${JSON.stringify(store.artboard)},
-        ${JSON.stringify(store.images)},
-        ${JSON.stringify(store.svgs)}
-      )`);
+            webContents.executeJavaScript(`renderApp(${JSON.stringify(store)})`);
         });
     }
     else {

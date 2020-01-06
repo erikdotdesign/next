@@ -1,40 +1,52 @@
 import { createBaseLayerStyles, createOpacity, cssColor } from './layerStyles';
 
-const createTextTransform = (transform: any) => {
-  if (transform === 'none') {
-    return {}
+const createTextTransform = (transform: srm.TextTransform) => {
+  return {
+    textTransform: transform
+  }
+};
+
+const createTextStroke = (borders: srm.Border[]) => {
+  if (borders.length > 0 && borders[0].enabled) {
+    const { color } = borders[0];
+    return {
+      WebkitTextStrokeColor: cssColor(color),
+      MozTextStrokeColor: cssColor(color)
+    }
   } else {
     return {
-      textTransform: transform
+      WebkitTextStrokeColor: 'none',
+      MozTextStrokeColor: 'none',
     }
   }
 };
 
-const createTextBorders = (borders: any) => {
+const createTextStrokeWidth = (borders: srm.Border[]) => {
   if (borders.length > 0 && borders[0].enabled) {
-    const { thickness, color } = borders[0];
+    const { thickness } = borders[0];
     return {
-      WebkitTextStrokeColor: cssColor(color),
       WebkitTextStrokeWidth: `${thickness * 2}px`,
-      MozTextStrokeColor: cssColor(color),
       MozTextStrokeWidth: `${thickness * 2}px`
     }
   } else {
-    return {}
+    return {
+      WebkitTextStrokeWidth: 'none',
+      MozTextStrokeWidth: 'none'
+    }
   }
 };
 
-const createTextShadow = (sketchTextShadow: any) => {
-  const { x, y, blur, color } = sketchTextShadow;
+const createTextShadow = (sketchShadow: srm.Shadow) => {
+  const { x, y, blur, color } = sketchShadow;
   const textShadow = `${x}px ${y}px ${blur}px ${cssColor(color)}`;
   return {
     textShadow
   }
 };
 
-const createTextShadows = (shadows: any) => {
+const createTextShadows = (shadows: srm.Shadow[]) => {
   if (shadows.length > 0) {
-    const textShadows = shadows.map((shadow: any) => {
+    const textShadows = shadows.map((shadow: srm.Shadow) => {
       if (shadow.enabled) {
         const textShadow = createTextShadow(shadow);
         return textShadow.textShadow;
@@ -44,11 +56,13 @@ const createTextShadows = (shadows: any) => {
       textShadow: textShadows.join(', ')
     }
   } else {
-    return {}
+    return {
+      textShadow: 'none'
+    }
   }
 };
 
-const createTextDecoration = (textStrikethrough: any, textUnderline: any) => {
+const createTextDecoration = (textStrikethrough: srm.TextStrikethrough, textUnderline: srm.TextUnderline) => {
   if (textStrikethrough) {
     return {
       textDecoration: 'line-through'
@@ -58,7 +72,9 @@ const createTextDecoration = (textStrikethrough: any, textUnderline: any) => {
       textDecoration: 'underline'
     }
   } else {
-    return {}
+    return {
+      textDecoration: 'none'
+    }
   }
 };
 
@@ -68,7 +84,9 @@ const createLetterSpacing = (kerning: number | null) => {
       letterSpacing: `${kerning}px`
     }
   } else {
-    return {}
+    return {
+      letterSpacing: 'none'
+    }
   }
 };
 
@@ -78,7 +96,7 @@ const createFontFamily = (fontFamily: string) => {
   }
 };
 
-const createFontWeight = (fontWeight: number) => {
+const createFontWeight = (fontWeight: srm.FontWeight) => {
   const sketchRatio = fontWeight / 12;
   const domScale = [100, 200, 300, 400, 500, 600, 700, 800, 900];
   const weight = domScale[Math.round(sketchRatio * domScale.length)];
@@ -93,8 +111,7 @@ const createFontSize = (fontSize: number) => {
   }
 };
 
-
-const createFontStretch = (fontStretch: string) => {
+const createFontStretch = (fontStretch: srm.FontStretch) => {
   switch(fontStretch) {
     case 'compressed':
       return {
@@ -112,12 +129,14 @@ const createFontStretch = (fontStretch: string) => {
       return {
         fontStretch: 'expanded'
       }
-    case 'poser':
+    case 'poster':
       return {
         fontStretch: 'extra-expanded'
       }
     default:
-      return {}
+      return {
+        fontStretch: 'normal'
+      }
   };
 };
 
@@ -133,13 +152,17 @@ const createLineHeight = (lineHeight: number | null) => {
       lineHeight: `${lineHeight}px`
     }
   } else {
-    return {}
+    return {
+      lineHeight: 'normal'
+    }
   }
 };
 
 const createParagraphSpacing = (paragraphSpacing: number, lastChild: boolean) => {
   if (lastChild || paragraphSpacing === 0) {
-    return {}
+    return {
+      paddingBottom: 'none'
+    }
   } else {
     return {
       paddingBottom: `${paragraphSpacing}px`
@@ -147,7 +170,7 @@ const createParagraphSpacing = (paragraphSpacing: number, lastChild: boolean) =>
   }
 };
 
-const createTextAlign = (alignment: any) => {
+const createTextAlign = (alignment: srm.Alignment) => {
   switch(alignment) {
     case 'left':
       return {
@@ -165,20 +188,26 @@ const createTextAlign = (alignment: any) => {
       return {
         textAlign: 'justify'
       }
+    default:
+      return {
+        textAlign: 'left'
+      }
   }
 };
 
-const createFontStyle = (fontStyle: string | undefined) => {
+const createFontStyle = (fontStyle: srm.FontStyle) => {
   if (fontStyle === 'italic') {
     return {
       fontStyle: 'italic'
     }
   } else {
-    return {}
+    return {
+      fontStyle: 'normal'
+    }
   }
 };
 
-const createVerticalAlignment = (alignment: string) => {
+const createVerticalAlignment = (alignment: srm.VerticalAlignment) => {
   switch(alignment) {
     case 'top':
       return {
@@ -199,7 +228,7 @@ const createVerticalAlignment = (alignment: string) => {
   }
 };
 
-export const textContainerStyles = (layer: any) => {
+export const textContainerStyles = (layer: srm.Text) => {
   const baseStyles = createBaseLayerStyles(layer);
   const verticalAlignment = createVerticalAlignment(layer.style.verticalAlignment);
 
@@ -209,16 +238,16 @@ export const textContainerStyles = (layer: any) => {
   }
 };
 
-export const paragraphSpacing = (layer: any, lastChild: boolean) => {
+export const paragraphSpacing = (layer: srm.Text, lastChild: boolean) => {
   const { style } = layer;
   const paragraphSpacing = createParagraphSpacing(style.paragraphSpacing, lastChild);
 
   return {
     ...paragraphSpacing
   }
-}
+};
 
-export const textStyles = (layer: any) => {
+export const textStyles = (layer: srm.Text) => {
   const { style } = layer;
   const textTransform = createTextTransform(style.textTransform);
   const fontFamily = createFontFamily(style.fontFamily);
@@ -231,7 +260,8 @@ export const textStyles = (layer: any) => {
   const textDecoration = createTextDecoration(style.textStrikethrough, style.textUnderline);
   const fontStretch = createFontStretch(style.fontStretch);
   const textAlign = createTextAlign(style.alignment);
-  const borders = createTextBorders(style.borders);
+  const textStroke = createTextStroke(style.borders);
+  const textStrokeWidth = createTextStrokeWidth(style.borders);
   const shadows = createTextShadows(style.shadows);
   const letterSpacing = createLetterSpacing(style.kerning);
 
@@ -247,8 +277,9 @@ export const textStyles = (layer: any) => {
     ...lineHeight,
     ...opacity,
     ...textDecoration,
-    ...borders,
+    ...textStroke,
+    ...textStrokeWidth,
     ...shadows,
     ...letterSpacing
   }
-}
+};

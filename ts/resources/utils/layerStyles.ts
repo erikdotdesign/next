@@ -1,46 +1,65 @@
 import chroma from 'chroma-js';
 
-export const getImage = (images: any, id: any) => {
-  return images.find((image: any) => image.id === id);
-};
+type Background = string;
+type BackgroundSize = string;
+type BackgroundRepeat = string;
+type BackgroundPosition = string;
 
-export const cssColor = (color: string) => {
-  return chroma(color).css();
+interface FullBackground {
+  background: Background;
+  backgroundSize: BackgroundSize;
+  backgroundRepeat: BackgroundRepeat;
+  backgroundPosition: BackgroundPosition;
 }
 
-export const createPosition = (x: number, y: number) => {
+export const getImage = (images: srm.Base64Image[], id: string): srm.Base64Image | undefined  => {
+  return images.find((image: srm.Base64Image) => image.id === id);
+};
+
+export const cssColor = (color: string): string => {
+  return chroma(color).css();
+};
+
+export const createLeft = (x: number): srm.css.Left => {
   return {
-    left: `${x}px`,
+    left: `${x}px`
+  }
+};
+
+export const createTop = (y: number): srm.css.Top => {
+  return {
     top: `${y}px`
   }
 };
 
-export const createWidth = (width: number) => {
+export const createWidth = (width: number): srm.css.Width => {
   return {
     width: `${width}px`
   }
 };
 
-export const createHeight = (height: number) => {
+export const createHeight = (height: number): srm.css.Height => {
   return {
     height: `${height}px`
   }
 };
 
-export const createOpacity = (opacity: number) => {
-  if (opacity === 1) {
-    return {}
-  } else {
+export const createOpacity = (opacity: number): srm.css.Opacity => {
+  if (opacity < 1) {
     return {
       opacity
     }
+  } else {
+    return {
+      opacity: 1
+    };
   }
 };
 
-export const createBorderRadius = (shapeType: any, points: any) => {
+export const createBorderRadius = (shapeType: srm.ShapeType, points: srm.CurvePoint[]): srm.css.BorderRadius => {
   switch(shapeType) {
     case 'Rectangle':
-      const borderRadii = points.map((point: any) => {
+      const borderRadii = points.map((point: srm.CurvePoint) => {
         return `${point.cornerRadius}px`;
       });
       const uniformRadius = borderRadii.every((radius: string) => {
@@ -55,18 +74,22 @@ export const createBorderRadius = (shapeType: any, points: any) => {
           borderRadius: borderRadii.join(' ')
         }
       } else {
-        return {}
+        return {
+          borderRadius: 'none'
+        }
       }
     case 'Oval':
       return {
         borderRadius: '100%'
       }
     default:
-      return {}
+      return {
+        borderRadius: 'none'
+      }
   };
 };
 
-export const createBorder = (sketchBorder: any) => {
+export const createBorder = (sketchBorder: srm.Border): srm.css.BoxShadow => {
   const { thickness, position } = sketchBorder;
   const color = cssColor(sketchBorder.color);
   let border;
@@ -93,8 +116,8 @@ export const createBorder = (sketchBorder: any) => {
   }
 };
 
-export const createBorders = (sketchBorders: any) => {
-  const borders = sketchBorders.map((sketchBorder: any) => {
+export const createBorders = (sketchBorders: srm.Border[]): srm.css.BoxShadow => {
+  const borders = sketchBorders.map((sketchBorder: srm.Border) => {
     if (sketchBorder.enabled) {
       const border = createBorder(sketchBorder);
       return border.boxShadow;
@@ -105,22 +128,26 @@ export const createBorders = (sketchBorders: any) => {
       boxShadow: borders.join(', ')
     }
   } else {
-    return {}
+    return {
+      boxShadow: 'none'
+    }
   }
 };
 
-export const createGaussianBlur = (blur: any) => {
+export const createGaussianBlur = (blur: srm.Blur): srm.css.GaussianBlur => {
   const { enabled, blurType, radius } = blur;
   if (enabled && blurType === 'Gaussian') {
     return {
       filter: `blur(${radius}px)`
     }
   } else {
-    return {}
+    return {
+      filter: 'none'
+    }
   }
 };
 
-export const createShadow = (sketchShadow: any, inset: boolean) => {
+export const createShadow = (sketchShadow: srm.Shadow, inset: boolean): srm.css.BoxShadow => {
   const { x, y, blur, spread, color } = sketchShadow;
   const base = `${x}px ${y}px ${blur}px ${spread}px ${cssColor(color)}`;
   const shadow = inset ? `${base} inset` : base;
@@ -130,8 +157,8 @@ export const createShadow = (sketchShadow: any, inset: boolean) => {
   }
 };
 
-export const createShadows = (sketchShadows: any) => {
-  const shadows = sketchShadows.map((sketchShadow: any) => {
+export const createShadows = (sketchShadows: srm.Shadow[]): srm.css.BoxShadow => {
+  const shadows = sketchShadows.map((sketchShadow: srm.Shadow) => {
     if (sketchShadow.enabled) {
       const shadow = createShadow(sketchShadow, false);
       return shadow.boxShadow;
@@ -142,12 +169,14 @@ export const createShadows = (sketchShadows: any) => {
       boxShadow: shadows.join(', ')
     }
   } else {
-    return {}
+    return {
+      boxShadow: 'none'
+    }
   }
 };
 
-export const createInnerShadows = (sketchInnerShadows: any) => {
-  const innerShadows = sketchInnerShadows.map((sketchInnerShadow: any) => {
+export const createInnerShadows = (sketchInnerShadows: srm.Shadow[]): srm.css.BoxShadow => {
+  const innerShadows = sketchInnerShadows.map((sketchInnerShadow: srm.Shadow) => {
     if (sketchInnerShadow.enabled) {
       const innerShadow = createShadow(sketchInnerShadow, true);
       return innerShadow.boxShadow;
@@ -158,43 +187,57 @@ export const createInnerShadows = (sketchInnerShadows: any) => {
       boxShadow: innerShadows.join(', ')
     }
   } else {
-    return {}
+    return {
+      boxShadow: 'none'
+    }
   }
 }
 
-export const combineBordersAndShadows = (borders: any, shadows: any, innerShadows: any) => {
-  const withBorders = borders.boxShadow ? borders.boxShadow : null;
-  const withShadows = shadows.boxShadow ? shadows.boxShadow : null;
-  const withInnerShadows = innerShadows.boxShadow ? innerShadows.boxShadow : null;
+export const combineBordersAndShadows = (borders: srm.css.BoxShadow, shadows: srm.css.BoxShadow, innerShadows: srm.css.BoxShadow): srm.css.BoxShadow => {
+  const withBorders = borders.boxShadow;
+  const withShadows = shadows.boxShadow;
+  const withInnerShadows = innerShadows.boxShadow;
   const combined = [withBorders, withShadows, withInnerShadows];
-  const filtered = combined.filter((item: string | null) => item !== null);
+  const filtered = combined.filter((boxShadow: string) => boxShadow !== 'none');
 
   if (filtered.length > 0) {
     return {
       boxShadow: filtered.join(', ')
     }
   } else {
-    return {}
+    return {
+      boxShadow: 'none'
+    }
   }
 };
 
-export const createGradientFillImage = (images: any, id: any) => {
+export const createGradientFillImage = (images: srm.Base64Image[], id: string): FullBackground => {
   const image = getImage(images, id);
-  return {
-    background: `url(${image.src})`,
-    backgroundSize: 'cover',
-    backgroundRepeat: 'no-repeat'
+  if (image) {
+    return {
+      background: `url(${image.src})`,
+      backgroundSize: 'cover',
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'center center'
+    }
+  } else {
+    return {
+      background: 'none',
+      backgroundSize: 'auto',
+      backgroundRepeat: 'repeat',
+      backgroundPosition: 'initial'
+    }
   }
 };
 
-const createColorFill = (color: any) => {
+const createColorFill = (color: string): Pick<FullBackground, 'background'> => {
   return {
     background: cssColor(color)
   };
 };
 
-export const createPatternDisplay = (pattern: any) => {
-  switch(pattern.patternType) {
+export const createPatternDisplay = (patternType: srm.PatternFillType): Omit<FullBackground, 'background'>  => {
+  switch(patternType) {
     case 'Fill':
       return {
         backgroundSize: 'cover',
@@ -210,39 +253,55 @@ export const createPatternDisplay = (pattern: any) => {
     case 'Stretch':
       return {
         backgroundSize: '100% 100%',
-        backgroundRepeat: 'no-repeat'
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'initial'
       }
     case 'Tile':
       return {
-        backgroundRepeat: 'repeat'
+        backgroundSize: 'auto',
+        backgroundRepeat: 'repeat',
+        backgroundPosition: 'initial'
       }
     default:
       return {
-        backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat'
+        backgroundSize: 'auto',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'initial'
       }
   };
 };
 
-export const createPatternFill = (pattern: any, images: any) => {
-  const image = getImage(images, pattern.image.id);
-  const displayStyle = createPatternDisplay(pattern);
-
-  return {
-    background: `url(${image.src})`,
-    ...displayStyle
+export const createPatternFill = (pattern: srm.Pattern, images: srm.Base64Image[]): FullBackground => {
+  const displayStyle = createPatternDisplay(pattern.patternType);
+  if (pattern.image) {
+    const image = getImage(images, pattern.image.id);
+    if (image) {
+      return {
+        background: `url(${image.src})`,
+        ...displayStyle
+      }
+    } else {
+      return {
+        background: 'none',
+        ...displayStyle
+      }
+    }
+  } else {
+    return {
+      background: 'none',
+      ...displayStyle
+    }
   }
 };
 
-// NEED TYPES
-export const createBackground = (layer: any, images: any) => {
+export const createBackground = (layer: srm.ShapePath | srm.ShapePath | srm.Image, images: srm.Base64Image[]): FullBackground | Pick<FullBackground, 'background'> => {
   const { style, id } = layer;
   // get fills that are enabled
-  const hasActiveFills = style.fills.some((fill: any) => fill.enabled);
+  const hasActiveFills = style.fills.some((fill: srm.Fill) => fill.enabled);
   // create background if there are active fills
   if (hasActiveFills) {
     // get all active fills
-    const activeFills = style.fills.filter((fill: any) => fill.enabled);
+    const activeFills = style.fills.filter((fill: srm.Fill) => fill.enabled);
     // return active fill with highest index
     const topFill = activeFills[activeFills.length - 1];
     // create background by fillType
@@ -253,19 +312,23 @@ export const createBackground = (layer: any, images: any) => {
         return createGradientFillImage(images, id);
       case 'Pattern':
         return createPatternFill(topFill.pattern, images);
+      default:
+        return createColorFill(topFill.color);
     };
   } else {
-    return {}
+    return {
+      background: 'none'
+    }
   }
 };
 
-export const createSVGFill = (fills: any) => {
+export const createSVGFill = (fills: srm.Fill[]): srm.css.Fill => {
   // get fills that are enabled
-  const hasActiveFills = fills.some((fill: any) => fill.enabled);
+  const hasActiveFills = fills.some((fill: srm.Fill) => fill.enabled);
   // create background if there are active fills
   if (hasActiveFills) {
     // get all active fills
-    const activeFills = fills.filter((fill: any) => fill.enabled);
+    const activeFills = fills.filter((fill: srm.Fill) => fill.enabled);
     // return active fill with highest index
     const topFill = activeFills[activeFills.length - 1];
     // return fill
@@ -279,13 +342,13 @@ export const createSVGFill = (fills: any) => {
   }
 };
 
-export const createSVGStrokeWidth = (borders: any) => {
+export const createSVGStrokeWidth = (borders: srm.Border[]): srm.css.StrokeWidth => {
   // get borders that are enabled
-  const hasActiveBorders = borders.some((border: any) => border.enabled);
+  const hasActiveBorders = borders.some((border: srm.Border) => border.enabled);
   // create border if there are active borders
   if (hasActiveBorders) {
     // get all active borders
-    const activeBorders = borders.filter((border: any) => border.enabled);
+    const activeBorders = borders.filter((border: srm.Border) => border.enabled);
     // return active border with highest index
     const topBorder = activeBorders[activeBorders.length - 1];
     // create stroke from border
@@ -295,17 +358,19 @@ export const createSVGStrokeWidth = (borders: any) => {
       strokeWidth: thickness
     }
   } else {
-    return {}
+    return {
+      strokeWidth: 'none'
+    }
   }
 };
 
-export const createSVGStroke = (borders: any) => {
+export const createSVGStroke = (borders: srm.Border[]): srm.css.Stroke => {
   // get borders that are enabled
-  const hasActiveBorders = borders.some((border: any) => border.enabled);
+  const hasActiveBorders = borders.some((border: srm.Border) => border.enabled);
   // create border if there are active borders
   if (hasActiveBorders) {
     // get all active borders
-    const activeBorders = borders.filter((border: any) => border.enabled);
+    const activeBorders = borders.filter((border: srm.Border) => border.enabled);
     // return active border with highest index
     const topBorder = activeBorders[activeBorders.length - 1];
     // return color
@@ -319,7 +384,7 @@ export const createSVGStroke = (borders: any) => {
   }
 };
 
-export const createSVGStrokeLineJoin = (sketchLineJoin: string) => {
+export const createSVGStrokeLineJoin = (sketchLineJoin: string): srm.css.StrokeLineJoin => {
   let lineJoin;
   switch(sketchLineJoin) {
     case 'Miter':
@@ -339,17 +404,19 @@ export const createSVGStrokeLineJoin = (sketchLineJoin: string) => {
   }
 };
 
-export const createSVGStrokeDashArray = (sketchDashPattern: number[]) => {
+export const createSVGStrokeDashArray = (sketchDashPattern: number[]): srm.css.StrokeDashArray => {
   if (sketchDashPattern.length > 0) {
     return {
       strokeDasharray: sketchDashPattern.join(', ')
     }
   } else {
-    return {}
+    return {
+      strokeDasharray: 'none'
+    }
   }
 };
 
-export const createSVGStrokeLineCap = (sketchLineEnd: string) => {
+export const createSVGStrokeLineCap = (sketchLineEnd: string): srm.css.StrokeLineCap => {
   let lineCap;
   switch(sketchLineEnd) {
     case 'Butt':
@@ -369,37 +436,89 @@ export const createSVGStrokeLineCap = (sketchLineEnd: string) => {
   }
 };
 
-export const createSVGPath = (path: any) => {
+export const createSVGPath = (path: string): srm.css.D => {
   if (path) {
     return {
       d: path
     }
   } else {
-    return {}
+    return {
+      d: 'none'
+    }
   }
 };
 
-export const createHorizontalFlip = (transform: any) => {
+export const createShapeSVGMarkerPosition = (arrowHead: string): number => {
+  switch(arrowHead) {
+    case 'OpenArrow':
+    case 'FilledArrow':
+      return 3;
+    case 'Line':
+      return 0.5;
+    case 'OpenCircle':
+    case 'OpenSquare':
+    case 'FilledCircle':
+    case 'FilledSquare':
+    case 'None':
+    default:
+      return 0;
+  }
+};
+
+export const createShapeSVGMarkerShape = (arrowHead: string): string => {
+  switch(arrowHead) {
+    case 'OpenArrow':
+      return `M0.35260086,-3.45328119e-16 L5,2.5 L0.35260086,5
+      L-8.8817842e-16,4.24129422 L3.23702251,2.5 L0,0.758705776
+      L0.35260086,-3.45328119e-16 Z`;
+    case 'FilledArrow':
+      return `M5,2.5 L-8.8817842e-16,5 L0,-4.5924255e-16 L5,2.5 Z`;
+    case 'Line':
+      return `M0,0 L1,0 L1,5 L0,5 L0,0 Z`;
+    case 'OpenCircle':
+      return `M2.5,0 C3.88071187,0 5,1.11928813 5,2.5 C5,3.88071187
+      3.88071187,5 2.5,5 C1.11928813,5 0,3.88071187 0,2.5 C0,1.11928813
+      1.11928813,0 2.5,0 Z M2.5,1 C1.67157288,1 1,1.67157288 1,2.5
+      C1,3.32842712 1.67157288,4 2.5,4 C3.32842712,4 4,3.32842712
+      4,2.5 C4,1.67157288 3.32842712,1 2.5,1 Z`;
+    case 'FilledCircle':
+      return `M2.5,0 C3.88071187,-2.53632657e-16 5,1.11928813 5,2.5
+      C5,3.88071187 3.88071187,5 2.5,5 C1.11928813,5 1.69088438e-16,3.88071187
+      0,2.5 C-1.69088438e-16,1.11928813 1.11928813,2.53632657e-16 2.5,0 Z`;
+    case 'OpenSquare':
+      return `M5,0 L5,5 L0,5 L0,0 L5,0 Z M4,1 L1,1 L1,4 L4,4 L4,1 Z`;
+    case 'FilledSquare':
+      return `M0,0 L5,0 L5,5 L0,5 L0,0 Z`;
+    default:
+      return ``;
+  }
+};
+
+export const createHorizontalFlip = (transform: srm.Transform): srm.css.Transform => {
   if (transform && transform.flippedHorizontally) {
     return {
       transform: `scaleX(-1)`
     }
   } else {
-    return {}
+    return {
+      transform: 'none'
+    }
   }
 };
 
-export const createVerticalFlip = (transform: any) => {
+export const createVerticalFlip = (transform: srm.Transform): srm.css.Transform => {
   if (transform && transform.flippedVertically) {
     return {
       transform: `scaleY(-1)`
     }
   } else {
-    return {}
+    return {
+      transform: 'none'
+    }
   }
 };
 
-export const createRotation = (transform: any) => {
+export const createRotation = (transform: srm.Transform): srm.css.Transform => {
   if (transform && transform.rotation !== 0) {
     const scaleX = transform.flippedHorizontally ? -1 : 1;
     const scaleY = transform.flippedVertically ? -1 : 1;
@@ -408,31 +527,36 @@ export const createRotation = (transform: any) => {
       transform: `rotate(${rotation}deg)`
     }
   } else {
-    return {}
+    return {
+      transform: 'none'
+    }
   }
 };
 
-export const createTransform = (rotation: any, horizontalFlip: any, verticalFlip: any) => {
-  const rotate = rotation.transform ? rotation.transform : null;
-  const scaleX = horizontalFlip.transform ? horizontalFlip.transform : null;
-  const scaleY = verticalFlip.transform ? verticalFlip.transform : null;
+export const createTransform = (rotation: srm.css.Transform, horizontalFlip: srm.css.Transform, verticalFlip: srm.css.Transform): srm.css.Transform => {
+  const rotate = rotation.transform;
+  const scaleX = horizontalFlip.transform;
+  const scaleY = verticalFlip.transform;
   const combined = [rotate, scaleX, scaleY];
-  const filtered = combined.filter((item: string | null) => item !== null);
+  const filtered = combined.filter((transform) => transform !== 'none');
 
   if (filtered.length > 0) {
     return {
       transform: filtered.join(' ')
     }
   } else {
-    return {}
+    return {
+      transform: 'none'
+    }
   }
 };
 
-export const createBaseLayerStyles = (layer: any) => {
+export const createBaseLayerStyles = (layer: srm.Shape | srm.ShapePath | srm.Image | srm.Text) => {
   const { frame } = layer;
-  const position = createPosition(frame.x, frame.y);
   const width = createWidth(frame.width);
   const height = createHeight(frame.height);
+  const left = createLeft(frame.x);
+  const top = createTop(frame.y);
   const rotation = createRotation(layer.transform);
   const horizontalFlip = createHorizontalFlip(layer.transform);
   const verticalFlip = createVerticalFlip(layer.transform);
@@ -442,13 +566,14 @@ export const createBaseLayerStyles = (layer: any) => {
   return {
     ...width,
     ...height,
-    ...position,
+    ...left,
+    ...top,
     ...transform,
     ...gaussianBlur
   }
 };
 
-export const createArtboardStyles = (artboard: any) => {
+export const createArtboardStyles = (artboard: srm.Artboard) => {
   const { frame, background } = artboard;
   const { color, enabled } = background;
   const width = createWidth(frame.width);
@@ -462,7 +587,7 @@ export const createArtboardStyles = (artboard: any) => {
   }
 };
 
-export const createShapePathStyles = (layer: any, images: any) => {
+export const createShapePathStyles = (layer: srm.ShapePath, images: srm.Base64Image[]) => {
   const { style, shapeType, points } = layer;
   // get shape path and type
   const hasOpenPath = !layer.closed;
@@ -494,7 +619,7 @@ export const createShapePathStyles = (layer: any, images: any) => {
   }
 };
 
-export const createShapeStyles = (layer: any) => {
+export const createShapeStyles = (layer: srm.Shape | srm.ShapePath) => {
   const { style } = layer;
   const baseStyles = createBaseLayerStyles(layer);
   const opacity = createOpacity(style.opacity);
@@ -505,7 +630,7 @@ export const createShapeStyles = (layer: any) => {
   }
 };
 
-export const createShapeSVGPathStyles = (layer: any) => {
+export const createShapeSVGPathStyles = (layer: srm.ShapePath) => {
   const { style } = layer;
   const fill = createSVGFill(style.fills);
   const stroke = createSVGStroke(style.borders);
@@ -522,54 +647,9 @@ export const createShapeSVGPathStyles = (layer: any) => {
     ...lineJoin,
     ...lineCap
   }
-}
+};
 
-export const createShapeSVGMarkerPosition = (arrowHead: string) => {
-  switch(arrowHead) {
-    case 'OpenCircle':
-    case 'OpenSquare':
-    case 'FilledCircle':
-    case 'FilledSquare':
-    case 'None':
-      return 0;
-    case 'Line':
-      return 0.5;
-    case 'OpenArrow':
-    case 'FilledArrow':
-      return 3;
-  }
-}
-
-export const createShapeSVGMarkerShape = (arrowHead: string) => {
-  switch(arrowHead) {
-    case 'OpenArrow':
-      return `M0.35260086,-3.45328119e-16 L5,2.5 L0.35260086,5
-      L-8.8817842e-16,4.24129422 L3.23702251,2.5 L0,0.758705776
-      L0.35260086,-3.45328119e-16 Z`;
-    case 'FilledArrow':
-      return `M5,2.5 L-8.8817842e-16,5 L0,-4.5924255e-16 L5,2.5 Z`;
-    case 'Line':
-      return `M0,0 L1,0 L1,5 L0,5 L0,0 Z`;
-    case 'OpenCircle':
-      return `M2.5,0 C3.88071187,0 5,1.11928813 5,2.5 C5,3.88071187
-      3.88071187,5 2.5,5 C1.11928813,5 0,3.88071187 0,2.5 C0,1.11928813
-      1.11928813,0 2.5,0 Z M2.5,1 C1.67157288,1 1,1.67157288 1,2.5
-      C1,3.32842712 1.67157288,4 2.5,4 C3.32842712,4 4,3.32842712
-      4,2.5 C4,1.67157288 3.32842712,1 2.5,1 Z`;
-    case 'FilledCircle':
-      return `M2.5,0 C3.88071187,-2.53632657e-16 5,1.11928813 5,2.5
-      C5,3.88071187 3.88071187,5 2.5,5 C1.11928813,5 1.69088438e-16,3.88071187
-      0,2.5 C-1.69088438e-16,1.11928813 1.11928813,2.53632657e-16 2.5,0 Z`;
-    case 'OpenSquare':
-      return `M5,0 L5,5 L0,5 L0,0 L5,0 Z M4,1 L1,1 L1,4 L4,4 L4,1 Z`;
-    case 'FilledSquare':
-      return `M0,0 L5,0 L5,5 L0,5 L0,0 Z`;
-    default:
-      return ``;
-  }
-}
-
-export const createShapeSVGMarkerStyles = (layer: any, arrowHead: string) => {
+export const createShapeSVGMarkerStyles = (layer: srm.ShapePath, arrowHead: string) => {
   const { style } = layer;
   const stroke = createSVGStroke(style.borders);
   switch(arrowHead) {
@@ -590,28 +670,35 @@ export const createShapeSVGMarkerStyles = (layer: any, arrowHead: string) => {
         fill: 'none'
       }
   }
-}
+};
 
-export const createImageStyles = (layer: any, images: any) => {
+export const createImageStyles = (layer: srm.Image, images: srm.Base64Image[]) => {
   const { style } = layer;
+  const baseImage = getImage(images, layer.image.id);
   const baseStyles = createBaseLayerStyles(layer);
   const opacity = createOpacity(style.opacity);
-  const background = createBackground(layer, images);
+  const fillBackground = createBackground(layer, images);
   const borders = createBorders(style.borders);
   const shadows = createShadows(style.shadows);
   const innerShadows = createInnerShadows(style.innerShadows);
   const bordersAndShadows = combineBordersAndShadows(borders, shadows, innerShadows);
 
-  const baseImage = getImage(images, layer.image.id);
-  const baseImageBackground = {
-    background: `url(${baseImage.src})`,
+  let background;
+
+  const imageBackground = {
+    background: `url(${baseImage ? baseImage.src : ''})`,
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'contain',
   };
 
+  if (fillBackground.background === 'none') {
+    background = imageBackground;
+  } else {
+    background = fillBackground;
+  }
+
   return {
     ...baseStyles,
-    ...baseImageBackground,
     ...opacity,
     ...background,
     ...bordersAndShadows

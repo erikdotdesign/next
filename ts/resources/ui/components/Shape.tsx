@@ -1,11 +1,6 @@
 import React from 'react';
-import {
-  createShapeStyles,
-  createShapeSVGPathStyles,
-  createShapeSVGMarkerShape,
-  createShapeSVGMarkerStyles,
-  createShapeSVGMarkerPosition
- } from '../../utils/layerStyles';
+import ShapeMarkers from './ShapeMarkers';
+import { createShapeStyles, createShapeSVGPathStyles } from '../../utils/layerStyles';
 
 interface ShapeProps {
   layer: any;
@@ -18,9 +13,7 @@ interface ShapeProps {
 
 const Shape = (props: ShapeProps) => {
   const { layer, svgs } = props;
-  const path = svgs[`${layer.id}`];
-  const endArrowhead = layer.style.borderOptions.endArrowhead;
-  const startArrowhead = layer.style.borderOptions.startArrowhead;
+  const svg = svgs.find((svg: any) => svg.id === layer.id);
   return (
     <svg
       className='c-layer c-layer--shape'
@@ -28,36 +21,13 @@ const Shape = (props: ShapeProps) => {
       onClick={props.onClick}
       onMouseOver={props.onMouseOver}
       onMouseOut={props.onMouseOut}>
-      <defs>
-        <marker
-          id='head'
-          orient='auto-start-reverse'
-          markerWidth='5'
-          markerHeight='5'
-          refX={createShapeSVGMarkerPosition(startArrowhead)}
-          refY='2.5'>
-          <path
-            style={createShapeSVGMarkerStyles(layer, startArrowhead)}
-            d={`${createShapeSVGMarkerShape(startArrowhead)}`} />
-        </marker>
-        <marker
-          id='tail'
-          orient='auto'
-          markerWidth='5'
-          markerHeight='5'
-          refX={createShapeSVGMarkerPosition(endArrowhead)}
-          refY='2.5'>
-          <path
-            style={createShapeSVGMarkerStyles(layer, endArrowhead)}
-            d={`${createShapeSVGMarkerShape(endArrowhead)}`} />
-        </marker>
-      </defs>
+      <ShapeMarkers layer={layer} />
       <path
         //@ts-ignore
         style={createShapeSVGPathStyles(layer)}
         markerEnd='url(#tail)'
         markerStart='url(#head)'
-        d={path} />
+        d={svg.path} />
     </svg>
   );
 }

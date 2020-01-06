@@ -4,12 +4,12 @@ import App from './components/App';
 
 // @ts-ignore
 // ignores window.renderApp
-window.renderApp = (artboard: any, images: any, svgs: any) => {
+window.renderApp = (store: any) => {
   ReactDOM.render(
     <App
-      artboard={artboard}
-      images={images}
-      svgs={svgs} />,
+      artboard={store.artboard}
+      images={store.images}
+      svgs={store.svgs} />,
     document.getElementById('root')
   );
 };

@@ -19,8 +19,14 @@ const SidebarLayer = (props) => {
         }
     };
     const getSVGPath = () => {
-        const path = props.svgs[`${props.layer.id}`];
-        return createSVGPath(path);
+        const { svgs, layer } = props;
+        const svg = svgs.find((svg) => svg.id === layer.id);
+        if (svg) {
+            return createSVGPath(svg.path);
+        }
+        else {
+            return null;
+        }
     };
     const svgPath = getSVGPath();
     const layerStyles = getLayerStyles();
@@ -30,7 +36,7 @@ const SidebarLayer = (props) => {
             Object.keys(layerStyles).map((key, index) => (React.createElement("div", { className: 'c-sidebar-layer__css', key: index },
                 React.createElement(SidebarLayerProp, { prop: key }),
                 React.createElement(SidebarLayerValue, { value: layerStyles[key] })))),
-            svgPath.d
+            svgPath
                 ? React.createElement("div", { className: 'c-sidebar-layer__css' },
                     React.createElement(SidebarLayerProp, { prop: 'd' }),
                     React.createElement(SidebarLayerValue, { value: `${svgPath.d}` }))

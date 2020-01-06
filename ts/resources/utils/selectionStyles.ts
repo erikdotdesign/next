@@ -1,22 +1,21 @@
-import { Origin, Frame } from './appTypes';
 import { placeLeft, placeTop } from './appUtils';
-import { createPosition, createWidth, createHeight, createBorder } from './layerStyles';
+import { createLeft, createTop, createWidth, createHeight } from './layerStyles';
 
-export const createSelectionStyles = (selectionFrame: Frame) => {
-  const position = createPosition(selectionFrame.x, selectionFrame.y);
+export const createSelectionStyles = (selectionFrame: srm.Rectangle) => {
   const width = createWidth(selectionFrame.width);
   const height = createHeight(selectionFrame.height);
-  const border = createBorder({thickness: 1, color: 'rgba(0,0,0,0.25)', position: 'Outside'});
+  const top = createTop(selectionFrame.y);
+  const left = createLeft(selectionFrame.x);
 
   return {
-    ...position,
     ...width,
     ...height,
-    ...border
+    ...top,
+    ...left
   }
 }
 
-export const createRuleTopStyles = (selectionOrigin: Origin, hoverOrigin: Origin, inset: boolean) => {
+export const createRuleTopStyles = (selectionOrigin: srm.Origin, hoverOrigin: srm.Origin, inset: boolean) => {
   const height = selectionOrigin.top <= hoverOrigin.bottom
                   ? selectionOrigin.top - hoverOrigin.top
                   : selectionOrigin.top - hoverOrigin.bottom;
@@ -27,7 +26,7 @@ export const createRuleTopStyles = (selectionOrigin: Origin, hoverOrigin: Origin
   }
 }
 
-export const createRuleRightStyles = (selectionOrigin: Origin, hoverOrigin: Origin, inset: boolean) => {
+export const createRuleRightStyles = (selectionOrigin: srm.Origin, hoverOrigin: srm.Origin, inset: boolean) => {
   const width = selectionOrigin.right >= hoverOrigin.left
                 ? hoverOrigin.right - selectionOrigin.right
                 : hoverOrigin.left - selectionOrigin.right;
@@ -38,7 +37,7 @@ export const createRuleRightStyles = (selectionOrigin: Origin, hoverOrigin: Orig
   }
 }
 
-export const createRuleBottomStyles = (selectionOrigin: Origin, hoverOrigin: Origin, inset: boolean) => {
+export const createRuleBottomStyles = (selectionOrigin: srm.Origin, hoverOrigin: srm.Origin, inset: boolean) => {
   const height = selectionOrigin.bottom >= hoverOrigin.top
                   ? hoverOrigin.bottom - selectionOrigin.bottom
                   : hoverOrigin.top - selectionOrigin.bottom;
@@ -49,7 +48,7 @@ export const createRuleBottomStyles = (selectionOrigin: Origin, hoverOrigin: Ori
   }
 }
 
-export const createRuleLeftStyles = (selectionOrigin: Origin, hoverOrigin: Origin, inset: boolean) => {
+export const createRuleLeftStyles = (selectionOrigin: srm.Origin, hoverOrigin: srm.Origin, inset: boolean) => {
   const width = selectionOrigin.left <= hoverOrigin.right
                 ? selectionOrigin.left - hoverOrigin.left
                 : selectionOrigin.left - hoverOrigin.right;
@@ -60,7 +59,7 @@ export const createRuleLeftStyles = (selectionOrigin: Origin, hoverOrigin: Origi
   }
 }
 
-export const createDimTopBottomStyles = (selectionOrigin: Origin, artboardFrame: Frame) => {
+export const createDimTopBottomStyles = (selectionOrigin: srm.Origin, artboardFrame: srm.Rectangle) => {
   if (placeLeft(selectionOrigin.left, artboardFrame.width)) {
     return {
       right: '10px'
@@ -72,7 +71,7 @@ export const createDimTopBottomStyles = (selectionOrigin: Origin, artboardFrame:
   }
 }
 
-export const createDimRightLeftStyles = (selectionOrigin: Origin, artboardFrame: Frame) => {
+export const createDimRightLeftStyles = (selectionOrigin: srm.Origin, artboardFrame: srm.Rectangle) => {
   if (placeTop(selectionOrigin.top, artboardFrame.height)) {
     return {
       bottom: '10px'

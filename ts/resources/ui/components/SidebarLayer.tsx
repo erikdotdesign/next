@@ -38,8 +38,13 @@ const SidebarLayer = (props: SidebarProps) => {
     }
   }
   const getSVGPath = () => {
-    const path = props.svgs[`${props.layer.id}`];
-    return createSVGPath(path);
+    const { svgs, layer } = props;
+    const svg = svgs.find((svg: any) => svg.id === layer.id);
+    if (svg) {
+      return createSVGPath(svg.path);
+    } else {
+      return null;
+    }
   }
   const svgPath: any = getSVGPath();
   const layerStyles: any = getLayerStyles();
@@ -56,7 +61,7 @@ const SidebarLayer = (props: SidebarProps) => {
           ))
         }
         {
-          svgPath.d
+          svgPath
           ? <div className='c-sidebar-layer__css'>
               <SidebarLayerProp prop={'d'} />
               <SidebarLayerValue value={`${svgPath.d}`} />

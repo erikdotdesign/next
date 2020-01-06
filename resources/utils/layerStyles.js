@@ -5,9 +5,13 @@ export const getImage = (images, id) => {
 export const cssColor = (color) => {
     return chroma(color).css();
 };
-export const createPosition = (x, y) => {
+export const createLeft = (x) => {
     return {
-        left: `${x}px`,
+        left: `${x}px`
+    };
+};
+export const createTop = (y) => {
+    return {
         top: `${y}px`
     };
 };
@@ -22,12 +26,14 @@ export const createHeight = (height) => {
     };
 };
 export const createOpacity = (opacity) => {
-    if (opacity === 1) {
-        return {};
+    if (opacity < 1) {
+        return {
+            opacity
+        };
     }
     else {
         return {
-            opacity
+            opacity: 1
         };
     }
 };
@@ -51,14 +57,18 @@ export const createBorderRadius = (shapeType, points) => {
                 };
             }
             else {
-                return {};
+                return {
+                    borderRadius: 'none'
+                };
             }
         case 'Oval':
             return {
                 borderRadius: '100%'
             };
         default:
-            return {};
+            return {
+                borderRadius: 'none'
+            };
     }
     ;
 };
@@ -102,7 +112,9 @@ export const createBorders = (sketchBorders) => {
         };
     }
     else {
-        return {};
+        return {
+            boxShadow: 'none'
+        };
     }
 };
 export const createGaussianBlur = (blur) => {
@@ -113,7 +125,9 @@ export const createGaussianBlur = (blur) => {
         };
     }
     else {
-        return {};
+        return {
+            filter: 'none'
+        };
     }
 };
 export const createShadow = (sketchShadow, inset) => {
@@ -137,7 +151,9 @@ export const createShadows = (sketchShadows) => {
         };
     }
     else {
-        return {};
+        return {
+            boxShadow: 'none'
+        };
     }
 };
 export const createInnerShadows = (sketchInnerShadows) => {
@@ -153,39 +169,54 @@ export const createInnerShadows = (sketchInnerShadows) => {
         };
     }
     else {
-        return {};
+        return {
+            boxShadow: 'none'
+        };
     }
 };
 export const combineBordersAndShadows = (borders, shadows, innerShadows) => {
-    const withBorders = borders.boxShadow ? borders.boxShadow : null;
-    const withShadows = shadows.boxShadow ? shadows.boxShadow : null;
-    const withInnerShadows = innerShadows.boxShadow ? innerShadows.boxShadow : null;
+    const withBorders = borders.boxShadow;
+    const withShadows = shadows.boxShadow;
+    const withInnerShadows = innerShadows.boxShadow;
     const combined = [withBorders, withShadows, withInnerShadows];
-    const filtered = combined.filter((item) => item !== null);
+    const filtered = combined.filter((boxShadow) => boxShadow !== 'none');
     if (filtered.length > 0) {
         return {
             boxShadow: filtered.join(', ')
         };
     }
     else {
-        return {};
+        return {
+            boxShadow: 'none'
+        };
     }
 };
 export const createGradientFillImage = (images, id) => {
     const image = getImage(images, id);
-    return {
-        background: `url(${image.src})`,
-        backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat'
-    };
+    if (image) {
+        return {
+            background: `url(${image.src})`,
+            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center center'
+        };
+    }
+    else {
+        return {
+            background: 'none',
+            backgroundSize: 'auto',
+            backgroundRepeat: 'repeat',
+            backgroundPosition: 'initial'
+        };
+    }
 };
 const createColorFill = (color) => {
     return {
         background: cssColor(color)
     };
 };
-export const createPatternDisplay = (pattern) => {
-    switch (pattern.patternType) {
+export const createPatternDisplay = (patternType) => {
+    switch (patternType) {
         case 'Fill':
             return {
                 backgroundSize: 'cover',
@@ -201,26 +232,39 @@ export const createPatternDisplay = (pattern) => {
         case 'Stretch':
             return {
                 backgroundSize: '100% 100%',
-                backgroundRepeat: 'no-repeat'
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'initial'
             };
         case 'Tile':
             return {
-                backgroundRepeat: 'repeat'
+                backgroundSize: 'auto',
+                backgroundRepeat: 'repeat',
+                backgroundPosition: 'initial'
             };
         default:
             return {
-                backgroundSize: 'cover',
-                backgroundRepeat: 'no-repeat'
+                backgroundSize: 'auto',
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'initial'
             };
     }
     ;
 };
 export const createPatternFill = (pattern, images) => {
-    const image = getImage(images, pattern.image.id);
-    const displayStyle = createPatternDisplay(pattern);
-    return Object.assign({ background: `url(${image.src})` }, displayStyle);
+    const displayStyle = createPatternDisplay(pattern.patternType);
+    if (pattern.image) {
+        const image = getImage(images, pattern.image.id);
+        if (image) {
+            return Object.assign({ background: `url(${image.src})` }, displayStyle);
+        }
+        else {
+            return Object.assign({ background: 'none' }, displayStyle);
+        }
+    }
+    else {
+        return Object.assign({ background: 'none' }, displayStyle);
+    }
 };
-// NEED TYPES
 export const createBackground = (layer, images) => {
     const { style, id } = layer;
     // get fills that are enabled
@@ -239,11 +283,15 @@ export const createBackground = (layer, images) => {
                 return createGradientFillImage(images, id);
             case 'Pattern':
                 return createPatternFill(topFill.pattern, images);
+            default:
+                return createColorFill(topFill.color);
         }
         ;
     }
     else {
-        return {};
+        return {
+            background: 'none'
+        };
     }
 };
 export const createSVGFill = (fills) => {
@@ -283,7 +331,9 @@ export const createSVGStrokeWidth = (borders) => {
         };
     }
     else {
-        return {};
+        return {
+            strokeWidth: 'none'
+        };
     }
 };
 export const createSVGStroke = (borders) => {
@@ -333,7 +383,9 @@ export const createSVGStrokeDashArray = (sketchDashPattern) => {
         };
     }
     else {
-        return {};
+        return {
+            strokeDasharray: 'none'
+        };
     }
 };
 export const createSVGStrokeLineCap = (sketchLineEnd) => {
@@ -363,7 +415,53 @@ export const createSVGPath = (path) => {
         };
     }
     else {
-        return {};
+        return {
+            d: 'none'
+        };
+    }
+};
+export const createShapeSVGMarkerPosition = (arrowHead) => {
+    switch (arrowHead) {
+        case 'OpenArrow':
+        case 'FilledArrow':
+            return 3;
+        case 'Line':
+            return 0.5;
+        case 'OpenCircle':
+        case 'OpenSquare':
+        case 'FilledCircle':
+        case 'FilledSquare':
+        case 'None':
+        default:
+            return 0;
+    }
+};
+export const createShapeSVGMarkerShape = (arrowHead) => {
+    switch (arrowHead) {
+        case 'OpenArrow':
+            return `M0.35260086,-3.45328119e-16 L5,2.5 L0.35260086,5
+      L-8.8817842e-16,4.24129422 L3.23702251,2.5 L0,0.758705776
+      L0.35260086,-3.45328119e-16 Z`;
+        case 'FilledArrow':
+            return `M5,2.5 L-8.8817842e-16,5 L0,-4.5924255e-16 L5,2.5 Z`;
+        case 'Line':
+            return `M0,0 L1,0 L1,5 L0,5 L0,0 Z`;
+        case 'OpenCircle':
+            return `M2.5,0 C3.88071187,0 5,1.11928813 5,2.5 C5,3.88071187
+      3.88071187,5 2.5,5 C1.11928813,5 0,3.88071187 0,2.5 C0,1.11928813
+      1.11928813,0 2.5,0 Z M2.5,1 C1.67157288,1 1,1.67157288 1,2.5
+      C1,3.32842712 1.67157288,4 2.5,4 C3.32842712,4 4,3.32842712
+      4,2.5 C4,1.67157288 3.32842712,1 2.5,1 Z`;
+        case 'FilledCircle':
+            return `M2.5,0 C3.88071187,-2.53632657e-16 5,1.11928813 5,2.5
+      C5,3.88071187 3.88071187,5 2.5,5 C1.11928813,5 1.69088438e-16,3.88071187
+      0,2.5 C-1.69088438e-16,1.11928813 1.11928813,2.53632657e-16 2.5,0 Z`;
+        case 'OpenSquare':
+            return `M5,0 L5,5 L0,5 L0,0 L5,0 Z M4,1 L1,1 L1,4 L4,4 L4,1 Z`;
+        case 'FilledSquare':
+            return `M0,0 L5,0 L5,5 L0,5 L0,0 Z`;
+        default:
+            return ``;
     }
 };
 export const createHorizontalFlip = (transform) => {
@@ -373,7 +471,9 @@ export const createHorizontalFlip = (transform) => {
         };
     }
     else {
-        return {};
+        return {
+            transform: 'none'
+        };
     }
 };
 export const createVerticalFlip = (transform) => {
@@ -383,7 +483,9 @@ export const createVerticalFlip = (transform) => {
         };
     }
     else {
-        return {};
+        return {
+            transform: 'none'
+        };
     }
 };
 export const createRotation = (transform) => {
@@ -396,35 +498,40 @@ export const createRotation = (transform) => {
         };
     }
     else {
-        return {};
+        return {
+            transform: 'none'
+        };
     }
 };
 export const createTransform = (rotation, horizontalFlip, verticalFlip) => {
-    const rotate = rotation.transform ? rotation.transform : null;
-    const scaleX = horizontalFlip.transform ? horizontalFlip.transform : null;
-    const scaleY = verticalFlip.transform ? verticalFlip.transform : null;
+    const rotate = rotation.transform;
+    const scaleX = horizontalFlip.transform;
+    const scaleY = verticalFlip.transform;
     const combined = [rotate, scaleX, scaleY];
-    const filtered = combined.filter((item) => item !== null);
+    const filtered = combined.filter((transform) => transform !== 'none');
     if (filtered.length > 0) {
         return {
             transform: filtered.join(' ')
         };
     }
     else {
-        return {};
+        return {
+            transform: 'none'
+        };
     }
 };
 export const createBaseLayerStyles = (layer) => {
     const { frame } = layer;
-    const position = createPosition(frame.x, frame.y);
     const width = createWidth(frame.width);
     const height = createHeight(frame.height);
+    const left = createLeft(frame.x);
+    const top = createTop(frame.y);
     const rotation = createRotation(layer.transform);
     const horizontalFlip = createHorizontalFlip(layer.transform);
     const verticalFlip = createVerticalFlip(layer.transform);
     const transform = createTransform(rotation, horizontalFlip, verticalFlip);
     const gaussianBlur = createGaussianBlur(layer.style.blur);
-    return Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, width), height), position), transform), gaussianBlur);
+    return Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, width), height), left), top), transform), gaussianBlur);
 };
 export const createArtboardStyles = (artboard) => {
     const { frame, background } = artboard;
@@ -475,49 +582,6 @@ export const createShapeSVGPathStyles = (layer) => {
     const lineCap = createSVGStrokeLineCap(style.borderOptions.lineEnd);
     return Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, fill), stroke), strokeWidth), strokeDashArray), lineJoin), lineCap);
 };
-export const createShapeSVGMarkerPosition = (arrowHead) => {
-    switch (arrowHead) {
-        case 'OpenCircle':
-        case 'OpenSquare':
-        case 'FilledCircle':
-        case 'FilledSquare':
-        case 'None':
-            return 0;
-        case 'Line':
-            return 0.5;
-        case 'OpenArrow':
-        case 'FilledArrow':
-            return 3;
-    }
-};
-export const createShapeSVGMarkerShape = (arrowHead) => {
-    switch (arrowHead) {
-        case 'OpenArrow':
-            return `M0.35260086,-3.45328119e-16 L5,2.5 L0.35260086,5
-      L-8.8817842e-16,4.24129422 L3.23702251,2.5 L0,0.758705776
-      L0.35260086,-3.45328119e-16 Z`;
-        case 'FilledArrow':
-            return `M5,2.5 L-8.8817842e-16,5 L0,-4.5924255e-16 L5,2.5 Z`;
-        case 'Line':
-            return `M0,0 L1,0 L1,5 L0,5 L0,0 Z`;
-        case 'OpenCircle':
-            return `M2.5,0 C3.88071187,0 5,1.11928813 5,2.5 C5,3.88071187
-      3.88071187,5 2.5,5 C1.11928813,5 0,3.88071187 0,2.5 C0,1.11928813
-      1.11928813,0 2.5,0 Z M2.5,1 C1.67157288,1 1,1.67157288 1,2.5
-      C1,3.32842712 1.67157288,4 2.5,4 C3.32842712,4 4,3.32842712
-      4,2.5 C4,1.67157288 3.32842712,1 2.5,1 Z`;
-        case 'FilledCircle':
-            return `M2.5,0 C3.88071187,-2.53632657e-16 5,1.11928813 5,2.5
-      C5,3.88071187 3.88071187,5 2.5,5 C1.11928813,5 1.69088438e-16,3.88071187
-      0,2.5 C-1.69088438e-16,1.11928813 1.11928813,2.53632657e-16 2.5,0 Z`;
-        case 'OpenSquare':
-            return `M5,0 L5,5 L0,5 L0,0 L5,0 Z M4,1 L1,1 L1,4 L4,4 L4,1 Z`;
-        case 'FilledSquare':
-            return `M0,0 L5,0 L5,5 L0,5 L0,0 Z`;
-        default:
-            return ``;
-    }
-};
 export const createShapeSVGMarkerStyles = (layer, arrowHead) => {
     const { style } = layer;
     const stroke = createSVGStroke(style.borders);
@@ -542,18 +606,25 @@ export const createShapeSVGMarkerStyles = (layer, arrowHead) => {
 };
 export const createImageStyles = (layer, images) => {
     const { style } = layer;
+    const baseImage = getImage(images, layer.image.id);
     const baseStyles = createBaseLayerStyles(layer);
     const opacity = createOpacity(style.opacity);
-    const background = createBackground(layer, images);
+    const fillBackground = createBackground(layer, images);
     const borders = createBorders(style.borders);
     const shadows = createShadows(style.shadows);
     const innerShadows = createInnerShadows(style.innerShadows);
     const bordersAndShadows = combineBordersAndShadows(borders, shadows, innerShadows);
-    const baseImage = getImage(images, layer.image.id);
-    const baseImageBackground = {
-        background: `url(${baseImage.src})`,
+    let background;
+    const imageBackground = {
+        background: `url(${baseImage ? baseImage.src : ''})`,
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'contain',
     };
-    return Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, baseStyles), baseImageBackground), opacity), background), bordersAndShadows);
+    if (fillBackground.background === 'none') {
+        background = imageBackground;
+    }
+    else {
+        background = fillBackground;
+    }
+    return Object.assign(Object.assign(Object.assign(Object.assign({}, baseStyles), opacity), background), bordersAndShadows);
 };

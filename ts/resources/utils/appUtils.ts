@@ -1,6 +1,4 @@
-import { Frame } from './appTypes';
-
-export const getOrigin = (frame: Frame) => {
+export const getOrigin = (frame: srm.Rectangle) => {
   const { x, y, width, height } = frame;
   return {
     top: y,
@@ -10,7 +8,7 @@ export const getOrigin = (frame: Frame) => {
     yCenter: y + height / 2,
     xCenter: x + width / 2
   }
-}
+};
 
 export const placeLeft = (selectionOriginLeft: number, artboardWidth: number) => {
   if (selectionOriginLeft > artboardWidth / 2) {
@@ -18,7 +16,7 @@ export const placeLeft = (selectionOriginLeft: number, artboardWidth: number) =>
   } else {
     return false;
   }
-}
+};
 
 export const placeTop = (selectionOriginTop: number, artboardHeight: number) => {
   if (selectionOriginTop > artboardHeight / 2) {
@@ -26,4 +24,4 @@ export const placeTop = (selectionOriginTop: number, artboardHeight: number) => 
   } else {
     return false;
   }
-}
+};
