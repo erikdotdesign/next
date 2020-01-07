@@ -12,8 +12,10 @@ interface CanvasProps {
 const Canvas = (props: CanvasProps) => {
   const canvas = useRef<HTMLDivElement>(null);
   const [zoom, setZoom] = useState(1);
-
   const onClick = () => {
+    if (canvas.current) {
+      canvas.current.focus();
+    }
     props.setAppState({
       selection: ''
     });
@@ -25,6 +27,7 @@ const Canvas = (props: CanvasProps) => {
   }
   const zoomOut = () => {
     if (canvas.current && zoom >= 0.2) {
+      canvas.current.focus();
       const newZoom = zoom - 0.1;
       canvas.current.style.zoom = `${newZoom}`;
       setZoom(newZoom);
@@ -32,9 +35,18 @@ const Canvas = (props: CanvasProps) => {
   }
   const zoomIn = () => {
     if (canvas.current && zoom <= 2) {
+      canvas.current.focus();
       const newZoom = zoom + 0.1;
       canvas.current.style.zoom = `${newZoom}`;
       setZoom(newZoom);
+    }
+  }
+  const handleKeyPress = (e: any) => {
+    e.preventDefault();
+    if (e.key === '-' && e.metaKey && e.altKey && e.ctrlKey) {
+      zoomOut();
+    } else if (e.key === '=' && e.metaKey && e.altKey && e.ctrlKey) {
+      zoomIn();
     }
   }
   return (
@@ -42,16 +54,26 @@ const Canvas = (props: CanvasProps) => {
       <div className='c-canvas__controls'>
         <div className='c-canvas-control c-canvas-control--zoom'>
           <div className='c-canvas-zoom__buttons'>
-            <div className='c-canvas-zoom-button c-canvas-zoom-button--in' onClick={zoomIn} />
-            <div className='c-canvas-zoom-button c-canvas-zoom-button--out' onClick={zoomOut} />
+            <div
+              className='c-canvas-zoom-button c-canvas-zoom-button--in'
+              onClick={zoomIn} />
+            <div
+              className='c-canvas-zoom-button c-canvas-zoom-button--out'
+              onClick={zoomOut} />
           </div>
-          <div className='c-canvas-zoom__status'>{`${Math.round(zoom * 100)}%`}</div>
+          <div className='c-canvas-zoom__status'>
+            {`${Math.round(zoom * 100)}%`}
+          </div>
         </div>
         <div className='c-canvas-control c-canvas-control--layers'>
           {props.artboard.layers.length}
         </div>
       </div>
-      <div className='c-canvas__canvas' ref={canvas}>
+      <div
+        className='c-canvas__canvas'
+        ref={canvas}
+        onKeyDown={handleKeyPress}
+        tabIndex={-1}>
         <Artboard {...props} />
         <div
           className='c-canvas__escape'
