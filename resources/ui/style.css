@@ -56,7 +56,7 @@ button {
   width: 100%;
   height: 100%;
   display: flex;
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: Menlo, Helvetica, Arial, sans-serif;
 }
 
 .c-app__sidebar-spacer {
@@ -382,11 +382,11 @@ button {
 
 .c-selection__dim {
   position: absolute;
-  height: 17px;
+  height: 16px;
   background: blue;
   color: white;
-  font-size: 12px;
-  line-height: 17px;
+  font-size: 11px;
+  line-height: 16px;
   padding: 0 3px;
   border-radius: 3px;
 }
