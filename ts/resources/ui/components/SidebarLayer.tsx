@@ -54,10 +54,12 @@ const SidebarLayer = (props: SidebarProps) => {
       <div className='c-sidebar-layer__styles'>
         {
           Object.keys(layerStyles).map((key: any, index: number) => (
-            <div className='c-sidebar-layer__css' key={index}>
-              <SidebarLayerProp prop={key} />
-              <SidebarLayerValue value={layerStyles[key]} />
-            </div>
+            layerStyles[key] !== 'none' && layerStyles[key] !== 'normal'
+            ? <div className='c-sidebar-layer__css' key={index}>
+                <SidebarLayerProp prop={key} />
+                <SidebarLayerValue value={layerStyles[key]} />
+              </div>
+            : null
           ))
         }
         {
