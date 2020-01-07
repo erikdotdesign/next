@@ -17,18 +17,14 @@ const Canvas = (props) => {
         });
     };
     const zoomOut = () => {
-        if (canvas.current && zoom >= 0.2) {
-            canvas.current.focus();
-            const newZoom = zoom - 0.1;
-            canvas.current.style.zoom = `${newZoom}`;
+        if (canvas.current && zoom > 0.1) {
+            const newZoom = parseFloat((zoom - 0.1).toFixed(1));
             setZoom(newZoom);
         }
     };
     const zoomIn = () => {
-        if (canvas.current && zoom <= 2) {
-            canvas.current.focus();
-            const newZoom = zoom + 0.1;
-            canvas.current.style.zoom = `${newZoom}`;
+        if (canvas.current && zoom < 2) {
+            const newZoom = parseFloat((zoom + 0.1).toFixed(1));
             setZoom(newZoom);
         }
     };
@@ -41,7 +37,7 @@ const Canvas = (props) => {
             zoomIn();
         }
     };
-    return (React.createElement("div", { className: 'c-canvas' },
+    return (React.createElement("div", { className: 'c-canvas', ref: canvas, onKeyDown: handleKeyPress, tabIndex: -1 },
         React.createElement("div", { className: 'c-canvas__controls' },
             React.createElement("div", { className: 'c-canvas-control c-canvas-control--zoom' },
                 React.createElement("div", { className: 'c-canvas-zoom__buttons' },
@@ -49,8 +45,8 @@ const Canvas = (props) => {
                     React.createElement("div", { className: 'c-canvas-zoom-button c-canvas-zoom-button--out', onClick: zoomOut })),
                 React.createElement("div", { className: 'c-canvas-zoom__status' }, `${Math.round(zoom * 100)}%`)),
             React.createElement("div", { className: 'c-canvas-control c-canvas-control--layers' }, props.artboard.layers.length)),
-        React.createElement("div", { className: 'c-canvas__canvas', ref: canvas, onKeyDown: handleKeyPress, tabIndex: -1 },
-            React.createElement(Artboard, Object.assign({}, props)),
-            React.createElement("div", { className: 'c-canvas__escape', onClick: onClick, onMouseOver: onMouseOver }))));
+        React.createElement("div", { className: 'c-canvas__canvas' },
+            React.createElement(Artboard, Object.assign({}, props, { zoom: zoom }))),
+        React.createElement("div", { className: 'c-canvas__escape', onClick: onClick, onMouseOver: onMouseOver })));
 };
 export default Canvas;

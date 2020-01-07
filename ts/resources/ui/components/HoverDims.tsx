@@ -4,18 +4,19 @@ import { createDimWidthStyles, createDimHeightStyles } from '../../utils/hoverSt
 interface HoverDimsProps {
   hover: any;
   artboard: any;
+  zoom: number;
 }
 
 const HoverDims = (props: HoverDimsProps) => (
   <div>
     <div
       className='c-selection__dim'
-      style={createDimWidthStyles(props.hover.frame, props.artboard.frame)}>
+      style={createDimWidthStyles(props.hover.frame, props.artboard.frame, props.zoom)}>
       {props.hover.frame.width}px
     </div>
     <div
       className='c-selection__dim'
-      style={createDimHeightStyles(props.hover.frame, props.artboard.frame)}>
+      style={createDimHeightStyles(props.hover.frame, props.artboard.frame, props.zoom)}>
       {props.hover.frame.height}px
     </div>
   </div>

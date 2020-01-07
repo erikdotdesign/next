@@ -1,4 +1,4 @@
-import { placeLeft, placeTop } from './appUtils';
+import { placeLeft, placeTop, getDimScale, getDimOrigin } from './appUtils';
 import { createLeft, createTop, createWidth, createHeight } from './layerStyles';
 
 export const createHoveredStyles = (hoverFrame: srm.Rectangle) => {
@@ -47,34 +47,46 @@ export const createRuleLeftStyles = (hoverOrigin: srm.Origin, selectionOrigin: s
   }
 }
 
-export const createDimWidthStyles = (hoverFrame: srm.Rectangle, artboardFrame: srm.Rectangle) => {
+export const createDimWidthStyles = (hoverFrame: srm.Rectangle, artboardFrame: srm.Rectangle, zoom: number) => {
+  const scale = getDimScale(zoom);
+  const origin = Math.round(getDimOrigin(zoom) * 100);
   if (placeTop(hoverFrame.y, artboardFrame.height)) {
+    // displays on top of element
     return {
       left: '50%',
-      top: 0,
-      transform: `translateY(calc(-100% - 10px)) translateX(-50%)`
+      bottom: 'calc(100% + 10px)',
+      transformOrigin: `${origin}% bottom`,
+      transform: `scale(${scale}) translateX(-${100 - origin}%)`
     }
   } else {
+    // displays on bottom of element
     return {
       left: '50%',
-      bottom: 0,
-      transform: `translateY(calc(100% + 10px)) translateX(-50%)`
+      top: 'calc(100% + 10px)',
+      transformOrigin: `${origin}% top`,
+      transform: `scale(${scale}) translateX(-${100 - origin}%)`
     }
   }
 }
 
-export const createDimHeightStyles = (hoverFrame: srm.Rectangle, artboardFrame: srm.Rectangle) => {
+export const createDimHeightStyles = (hoverFrame: srm.Rectangle, artboardFrame: srm.Rectangle, zoom: number) => {
+  const scale = getDimScale(zoom);
+  const origin = Math.round(getDimOrigin(zoom) * 100);
   if (placeLeft(hoverFrame.x, artboardFrame.width)) {
+    // displays on left of element
     return {
       top: '50%',
-      left: 0,
-      transform: `translateX(calc(-100% - 10px)) translateY(-50%)`
+      right: 'calc(100% + 10px)',
+      transformOrigin: `right ${origin}%`,
+      transform: `scale(${scale}) translateY(-${100 - origin}%)`
     }
   } else {
+    // displays on right of element
     return {
       top: '50%',
-      right: 0,
-      transform: `translateX(calc(100% + 10px)) translateY(-50%)`
+      left: 'calc(100% + 10px)',
+      transformOrigin: `left ${origin}%`,
+      transform: `scale(${scale}) translateY(-${100 - origin}%)`
     }
   }
 }

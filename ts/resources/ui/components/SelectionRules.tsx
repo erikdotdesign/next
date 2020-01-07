@@ -9,10 +9,11 @@ interface SelectionRulesProps {
   selectionFrame: any;
   hoverFrame: any;
   artboardFrame: any;
+  zoom: number;
 }
 
 const SelectionRules = (props: SelectionRulesProps) => {
-  const { selectionFrame, hoverFrame, artboardFrame } = props;
+  const { selectionFrame, hoverFrame, artboardFrame, zoom } = props;
   const selectionOrigin = getOrigin(selectionFrame);
   const hoverOrigin = getOrigin(hoverFrame);
   return (
@@ -22,7 +23,8 @@ const SelectionRules = (props: SelectionRulesProps) => {
         ? <SelectionRulesTop
             selectionOrigin={selectionOrigin}
             hoverOrigin={hoverOrigin}
-            artboardFrame={artboardFrame} />
+            artboardFrame={artboardFrame}
+            zoom={zoom} />
         : null
       }
       {
@@ -30,7 +32,8 @@ const SelectionRules = (props: SelectionRulesProps) => {
         ? <SelectionRulesRight
             selectionOrigin={selectionOrigin}
             hoverOrigin={hoverOrigin}
-            artboardFrame={artboardFrame} />
+            artboardFrame={artboardFrame}
+            zoom={zoom} />
         : null
       }
       {
@@ -38,7 +41,8 @@ const SelectionRules = (props: SelectionRulesProps) => {
         ? <SelectionRulesBottom
             selectionOrigin={selectionOrigin}
             hoverOrigin={hoverOrigin}
-            artboardFrame={artboardFrame} />
+            artboardFrame={artboardFrame}
+            zoom={zoom} />
         : null
       }
       {
@@ -46,7 +50,8 @@ const SelectionRules = (props: SelectionRulesProps) => {
         ? <SelectionRulesLeft
             selectionOrigin={selectionOrigin}
             hoverOrigin={hoverOrigin}
-            artboardFrame={artboardFrame} />
+            artboardFrame={artboardFrame}
+            zoom={zoom} />
         : null
       }
       {/* {

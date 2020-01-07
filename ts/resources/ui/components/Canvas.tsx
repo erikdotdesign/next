@@ -26,18 +26,14 @@ const Canvas = (props: CanvasProps) => {
     });
   }
   const zoomOut = () => {
-    if (canvas.current && zoom >= 0.2) {
-      canvas.current.focus();
-      const newZoom = zoom - 0.1;
-      canvas.current.style.zoom = `${newZoom}`;
+    if (canvas.current && zoom > 0.1) {
+      const newZoom = parseFloat((zoom - 0.1).toFixed(1));
       setZoom(newZoom);
     }
   }
   const zoomIn = () => {
-    if (canvas.current && zoom <= 2) {
-      canvas.current.focus();
-      const newZoom = zoom + 0.1;
-      canvas.current.style.zoom = `${newZoom}`;
+    if (canvas.current && zoom < 2) {
+      const newZoom = parseFloat((zoom + 0.1).toFixed(1));
       setZoom(newZoom);
     }
   }
@@ -50,7 +46,11 @@ const Canvas = (props: CanvasProps) => {
     }
   }
   return (
-    <div className='c-canvas'>
+    <div
+      className='c-canvas'
+      ref={canvas}
+      onKeyDown={handleKeyPress}
+      tabIndex={-1}>
       <div className='c-canvas__controls'>
         <div className='c-canvas-control c-canvas-control--zoom'>
           <div className='c-canvas-zoom__buttons'>
@@ -69,17 +69,13 @@ const Canvas = (props: CanvasProps) => {
           {props.artboard.layers.length}
         </div>
       </div>
-      <div
-        className='c-canvas__canvas'
-        ref={canvas}
-        onKeyDown={handleKeyPress}
-        tabIndex={-1}>
-        <Artboard {...props} />
-        <div
-          className='c-canvas__escape'
-          onClick={onClick}
-          onMouseOver={onMouseOver} />
+      <div className='c-canvas__canvas'>
+        <Artboard {...props} zoom={zoom} />
       </div>
+      <div
+        className='c-canvas__escape'
+        onClick={onClick}
+        onMouseOver={onMouseOver} />
     </div>
   );
 }

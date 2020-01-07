@@ -7,6 +7,7 @@ interface SelectionProps {
   selection: any;
   hover: any;
   artboard: any;
+  zoom: number;
 }
 
 const Selection = (props: SelectionProps) => (
@@ -19,7 +20,8 @@ const Selection = (props: SelectionProps) => (
       ? <SelectionRules
           selectionFrame={props.selection.frame}
           hoverFrame={props.hover.frame}
-          artboardFrame={props.artboard.frame} />
+          artboardFrame={props.artboard.frame}
+          zoom={props.zoom} />
       : null
     }
   </div>

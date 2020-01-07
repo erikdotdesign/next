@@ -10,10 +10,11 @@ interface ArtboardProps {
   svgs: any;
   appState: any;
   setAppState: any;
+  zoom: number;
 }
 
 const Artboard = (props: ArtboardProps) => {
-  const { artboard, images, svgs, setAppState, appState } = props;
+  const { artboard, images, svgs, setAppState, appState, zoom } = props;
   const { selection, hover } = appState;
   const onClick = () => {
     props.setAppState({
@@ -28,7 +29,10 @@ const Artboard = (props: ArtboardProps) => {
   return (
     <div
       className='c-artboard'
-      style={createArtboardStyles(artboard)}>
+      style={{
+        ...createArtboardStyles(artboard),
+        transform: `scale(${zoom})`
+      }}>
       <Layers
         layers={artboard.layers}
         images={images}
@@ -40,7 +44,8 @@ const Artboard = (props: ArtboardProps) => {
         ? <Selection
             selection={selection}
             hover={hover}
-            artboard={artboard} />
+            artboard={artboard}
+            zoom={zoom} />
         : null
       }
       {
@@ -48,7 +53,8 @@ const Artboard = (props: ArtboardProps) => {
         ? <Hover
             hover={hover}
             selection={selection}
-            artboard={artboard} />
+            artboard={artboard}
+            zoom={zoom} />
         : null
       }
       <div

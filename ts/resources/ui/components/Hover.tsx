@@ -7,6 +7,7 @@ interface HoverProps {
   hover: any;
   selection: any;
   artboard: any;
+  zoom: number;
 }
 
 const Hover = (props: HoverProps) => (
@@ -16,7 +17,7 @@ const Hover = (props: HoverProps) => (
     {
       props.selection
       ? <HoverRules hover={props.hover} selection={props.selection} />
-      : <HoverDims hover={props.hover} artboard={props.artboard} />
+      : <HoverDims hover={props.hover} artboard={props.artboard} zoom={props.zoom} />
     }
   </div>
 );

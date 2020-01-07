@@ -1,4 +1,4 @@
-import { placeLeft, placeTop } from './appUtils';
+import { placeLeft, placeTop, getDimScale, getDimOrigin } from './appUtils';
 import { createLeft, createTop, createWidth, createHeight } from './layerStyles';
 export const createSelectionStyles = (selectionFrame) => {
     const width = createWidth(selectionFrame.width);
@@ -47,27 +47,47 @@ export const createRuleLeftStyles = (selectionOrigin, hoverOrigin, inset) => {
         left: `${left}px`
     };
 };
-export const createDimTopBottomStyles = (selectionOrigin, artboardFrame) => {
-    if (placeLeft(selectionOrigin.left, artboardFrame.width)) {
+export const createDimRightLeftStyles = (selectionOrigin, artboardFrame, zoom) => {
+    const scale = getDimScale(zoom);
+    const origin = Math.round(getDimOrigin(zoom) * 100);
+    if (placeTop(selectionOrigin.top, artboardFrame.height)) {
+        // displays above rule
         return {
-            right: '10px'
+            bottom: '10px',
+            left: '50%',
+            transformOrigin: `${origin}% bottom`,
+            transform: `scale(${scale}) translateX(-${100 - origin}%)`
         };
     }
     else {
+        // displays below rule
         return {
-            left: '10px'
+            top: '10px',
+            left: '50%',
+            transformOrigin: `${origin}% top`,
+            transform: `scale(${scale}) translateX(-${100 - origin}%)`
         };
     }
 };
-export const createDimRightLeftStyles = (selectionOrigin, artboardFrame) => {
-    if (placeTop(selectionOrigin.top, artboardFrame.height)) {
+export const createDimTopBottomStyles = (selectionOrigin, artboardFrame, zoom) => {
+    const scale = getDimScale(zoom);
+    const origin = Math.round(getDimOrigin(zoom) * 100);
+    if (placeLeft(selectionOrigin.left, artboardFrame.width)) {
+        // displays left of rule
         return {
-            bottom: '10px'
+            top: '50%',
+            right: '10px',
+            transformOrigin: `right ${origin}%`,
+            transform: `scale(${scale}) translateY(-${100 - origin}%)`
         };
     }
     else {
+        // displays right of rule
         return {
-            top: '10px'
+            top: '50%',
+            left: '10px',
+            transformOrigin: `left ${origin}%`,
+            transform: `scale(${scale}) translateY(-${100 - origin}%)`
         };
     }
 };

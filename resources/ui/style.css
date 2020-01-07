@@ -213,6 +213,9 @@ button {
   justify-content: center;
   overflow: scroll;
 }
+.c-canvas__canvas:focus {
+  outline: none;
+}
 
 .c-canvas__escape {
   position: absolute;
@@ -307,7 +310,7 @@ button {
 .c-layer--selection {
   z-index: 3;
   pointer-events: none;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25) inset;
 }
 
 .c-selection__points,
@@ -412,11 +415,6 @@ button {
   height: 1px;
   width: 10px;
 }
-.c-selection__rule--t .c-selection__dim,
-.c-selection__rule--b .c-selection__dim {
-  top: 50%;
-  transform: translateY(-50%);
-}
 
 .c-selection__rule--t:after {
   top: 0;
@@ -439,11 +437,6 @@ button {
   height: 10px;
   width: 1px;
 }
-.c-selection__rule--r .c-selection__dim,
-.c-selection__rule--l .c-selection__dim {
-  left: 50%;
-  transform: translateX(-50%);
-}
 
 .c-selection__rule--l:after {
   left: 0;
@@ -456,7 +449,7 @@ button {
 .c-layer--hover {
   z-index: 3;
   pointer-events: none;
-  box-shadow: 0 0 0 1px blue;
+  box-shadow: 0 0 0 1px blue inset;
 }
 
 .c-hover__rules {
