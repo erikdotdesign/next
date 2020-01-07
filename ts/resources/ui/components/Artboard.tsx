@@ -38,7 +38,8 @@ const Artboard = (props: ArtboardProps) => {
         images={images}
         svgs={svgs}
         setAppState={setAppState}
-        appState={appState} />
+        appState={appState}
+        style={{maxHeight: `${artboard.frame.height}px`, maxWidth: `${artboard.frame.width}px`}} />
       {
         selection
         ? <Selection

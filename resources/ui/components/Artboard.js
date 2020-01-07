@@ -17,7 +17,7 @@ const Artboard = (props) => {
         });
     };
     return (React.createElement("div", { className: 'c-artboard', style: Object.assign(Object.assign({}, createArtboardStyles(artboard)), { transform: `scale(${zoom})` }) },
-        React.createElement(Layers, { layers: artboard.layers, images: images, svgs: svgs, setAppState: setAppState, appState: appState }),
+        React.createElement(Layers, { layers: artboard.layers, images: images, svgs: svgs, setAppState: setAppState, appState: appState, style: { maxHeight: `${artboard.frame.height}px`, maxWidth: `${artboard.frame.width}px` } }),
         selection
             ? React.createElement(Selection, { selection: selection, hover: hover, artboard: artboard, zoom: zoom })
             : null,
