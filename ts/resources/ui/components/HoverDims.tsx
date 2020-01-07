@@ -12,12 +12,12 @@ const HoverDims = (props: HoverDimsProps) => (
     <div
       className='c-selection__dim'
       style={createDimWidthStyles(props.hover.frame, props.artboard.frame, props.zoom)}>
-      {props.hover.frame.width}px
+      {props.hover.frame.width}
     </div>
     <div
       className='c-selection__dim'
       style={createDimHeightStyles(props.hover.frame, props.artboard.frame, props.zoom)}>
-      {props.hover.frame.height}px
+      {props.hover.frame.height}
     </div>
   </div>
 );

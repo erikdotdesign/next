@@ -20,8 +20,8 @@ const SelectionRulesTop = (props: SelectionRulesTopProps) => {
         style={createDimTopBottomStyles(selectionOrigin, artboardFrame, zoom)}>
         {
           selectionOrigin.top <= hoverOrigin.bottom
-          ? `${selectionOrigin.top - hoverOrigin.top}px`
-          : `${selectionOrigin.top - hoverOrigin.bottom}px`
+          ? selectionOrigin.top - hoverOrigin.top
+          : selectionOrigin.top - hoverOrigin.bottom
         }
       </div>
     </div>

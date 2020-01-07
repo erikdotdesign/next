@@ -20,8 +20,8 @@ const SelectionRulesRight = (props: SelectionRulesRightProps) => {
         style={createDimRightLeftStyles(selectionOrigin, artboardFrame, zoom)}>
         {
           selectionOrigin.right >= hoverOrigin.left
-          ? `${hoverOrigin.right - selectionOrigin.right}px`
-          : `${hoverOrigin.left - selectionOrigin.right}px`
+          ? hoverOrigin.right - selectionOrigin.right
+          : hoverOrigin.left - selectionOrigin.right
         }
       </div>
     </div>

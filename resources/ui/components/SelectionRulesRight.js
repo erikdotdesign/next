@@ -4,7 +4,7 @@ const SelectionRulesRight = (props) => {
     const { selectionOrigin, hoverOrigin, artboardFrame, inset, zoom } = props;
     return (React.createElement("div", { className: 'c-selection__rule c-selection__rule--r', style: createRuleRightStyles(selectionOrigin, hoverOrigin, inset) },
         React.createElement("div", { className: 'c-selection__dim', style: createDimRightLeftStyles(selectionOrigin, artboardFrame, zoom) }, selectionOrigin.right >= hoverOrigin.left
-            ? `${hoverOrigin.right - selectionOrigin.right}px`
-            : `${hoverOrigin.left - selectionOrigin.right}px`)));
+            ? hoverOrigin.right - selectionOrigin.right
+            : hoverOrigin.left - selectionOrigin.right)));
 };
 export default SelectionRulesRight;

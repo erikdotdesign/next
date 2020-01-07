@@ -1,5 +1,4 @@
 $selectionStroke: 1px
-$selectionBpOffset: $selectionStroke / 2
 
 .c-layer--selection
   z-index: 3
@@ -20,54 +19,48 @@ $selectionBpOffset: $selectionStroke / 2
   box-shadow: 0 0px 10px 0 rgba(0,0,0,0.15), 0 1px 1px 0 rgba(0,0,0,0.5)
 
 .c-selection__point--tl
-  left: -$selectionBpOffset
-  top: -$selectionBpOffset
-  transform: translateX(-50%) translateY(-50%)
+  left: 0
+  top: 0
 
 .c-selection__point--tr
-  right: -$selectionBpOffset
-  top: -$selectionBpOffset
-  transform: translateX(50%) translateY(-50%)
+  right: 0
+  top: 0
 
 .c-selection__point--tc
   left: 50%
-  transform: translateX(-50%) translateY(-50%)
-  top: -$selectionBpOffset
+  top: 0
 
 .c-selection__point--lc
-  left: -$selectionBpOffset
+  left: 0
   top: 50%
-  transform: translateX(-50%) translateY(-50%)
 
 .c-selection__point--rc
-  right: -$selectionBpOffset
+  right: 0
   top: 50%
-  transform: translateX(50%) translateY(-50%)
 
 .c-selection__point--bl
-  left: -$selectionBpOffset
-  bottom: -$selectionBpOffset
-  transform: translateX(-50%) translateY(50%)
+  left: 0
+  bottom: 0
 
 .c-selection__point--bc
   left: 50%
-  transform: translateX(-50%) translateY(50%)
-  bottom: -$selectionBpOffset
+  bottom: 0
 
 .c-selection__point--br
-  right: -$selectionBpOffset
-  bottom: -$selectionBpOffset
-  transform: translateX(50%) translateY(50%)
+  right: 0
+  bottom: 0
 
 .c-selection__dim
   position: absolute
   height: 16px
   background: $selectionColor
   color: white
-  font-size: 11px
+  font-size: 10px
   line-height: 16px
-  padding: 0 3px
-  border-radius: 3px
+  padding: 0 6px
+  border-radius: 12px
+  text-align: center
+  z-index: 5
 
 .c-selection__rule
   position: absolute
