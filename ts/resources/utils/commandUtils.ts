@@ -11,17 +11,17 @@ export const validSelection = (selection: any): boolean => {
   }
 };
 
-export const getStore = (sketch: srm.Sketch): srm.Store => {
+export const getStore = (sketch: srm.Sketch, callback: any): void => {
   // get final store items
   const artboard: srm.Artboard = getArtboard(sketch);
   const images: srm.Base64Image[] = getImages(artboard.layers, sketch);
   const svgs: srm.SvgPath[] = getSVGs(artboard.layers);
   // remove duplicate artboard
   artboard.remove();
-  // return final store
-  return {
+  // run callback
+  callback({
     artboard,
     images,
     svgs
-  }
+  });
 };

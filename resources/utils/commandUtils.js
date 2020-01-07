@@ -10,17 +10,17 @@ export const validSelection = (selection) => {
         return false;
     }
 };
-export const getStore = (sketch) => {
+export const getStore = (sketch, callback) => {
     // get final store items
     const artboard = getArtboard(sketch);
     const images = getImages(artboard.layers, sketch);
     const svgs = getSVGs(artboard.layers);
     // remove duplicate artboard
     artboard.remove();
-    // return final store
-    return {
+    // run callback
+    callback({
         artboard,
         images,
         svgs
-    };
+    });
 };

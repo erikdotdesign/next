@@ -28,6 +28,7 @@ class App extends React.Component<AppProps, AppState> {
     return (
       <div className='c-app-wrap'>
         <div className='c-app'>
+          <div className='c-app__sidebar-spacer' />
           <Sidebar
             appState={this.state}
             images={this.props.images}

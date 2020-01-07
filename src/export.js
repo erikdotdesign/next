@@ -10,30 +10,27 @@ import { validSelection, getStore } from '../resources/utils/commandUtils';
 const webviewIdentifier = 'measure.webview';
 export default (context) => {
     if (validSelection(context.selection)) {
-        // get store
-        const store = getStore(sketch);
         // set webview browser window
         const browserWindow = new BrowserWindow({
             identifier: webviewIdentifier,
             width: 1200,
             height: 900,
-            minimizable: false,
-            maximizable: false,
-            resizable: false,
             fullscreenable: false,
             show: false
         });
+        //browserWindow.setAspectRatio(1.33);
+        browserWindow.maximize();
+        browserWindow.center();
+        browserWindow.show();
         // set webview contents
         const webContents = browserWindow.webContents;
         // load react app
         browserWindow.loadURL(require('../resources/ui/index.html'));
-        // show browser window when ready
-        browserWindow.once('ready-to-show', () => {
-            browserWindow.show();
-        });
         // render app once webview contents loaded
         webContents.on('did-finish-load', () => {
-            webContents.executeJavaScript(`renderApp(${JSON.stringify(store)})`);
+            getStore(sketch, (store) => {
+                webContents.executeJavaScript(`renderApp(${JSON.stringify(store)})`);
+            });
         });
     }
     else {

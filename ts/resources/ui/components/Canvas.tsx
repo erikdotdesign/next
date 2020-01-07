@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import Artboard from './Artboard';
 
 interface CanvasProps {
@@ -10,6 +10,9 @@ interface CanvasProps {
 }
 
 const Canvas = (props: CanvasProps) => {
+  const canvas = useRef<HTMLDivElement>(null);
+  const [zoom, setZoom] = useState(1);
+
   const onClick = () => {
     props.setAppState({
       selection: ''
@@ -20,16 +23,41 @@ const Canvas = (props: CanvasProps) => {
       hover: ''
     });
   }
+  const zoomOut = () => {
+    if (canvas.current && zoom >= 0.2) {
+      const newZoom = zoom - 0.1;
+      canvas.current.style.zoom = `${newZoom}`;
+      setZoom(newZoom);
+    }
+  }
+  const zoomIn = () => {
+    if (canvas.current && zoom <= 2) {
+      const newZoom = zoom + 0.1;
+      canvas.current.style.zoom = `${newZoom}`;
+      setZoom(newZoom);
+    }
+  }
   return (
     <div className='c-canvas'>
-      <Artboard {...props} />
-      <div className='c-canvas__layer-count'>
-        {props.artboard.layers.length}
+      <div className='c-canvas__controls'>
+        <div className='c-canvas-control c-canvas-control--zoom'>
+          <div className='c-canvas-zoom__buttons'>
+            <div className='c-canvas-zoom-button c-canvas-zoom-button--in' onClick={zoomIn} />
+            <div className='c-canvas-zoom-button c-canvas-zoom-button--out' onClick={zoomOut} />
+          </div>
+          <div className='c-canvas-zoom__status'>{`${Math.round(zoom * 100)}%`}</div>
+        </div>
+        <div className='c-canvas-control c-canvas-control--layers'>
+          {props.artboard.layers.length}
+        </div>
       </div>
-      <div
-        className='c-canvas__escape'
-        onClick={onClick}
-        onMouseOver={onMouseOver} />
+      <div className='c-canvas__canvas' ref={canvas}>
+        <Artboard {...props} />
+        <div
+          className='c-canvas__escape'
+          onClick={onClick}
+          onMouseOver={onMouseOver} />
+      </div>
     </div>
   );
 }

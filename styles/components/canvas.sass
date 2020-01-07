@@ -1,24 +1,65 @@
+$control-bar-height: 33px
+
 .c-canvas
-  display: flex
+  position: relative
   width: 100%
   height: 100%
+  z-index: 2
+
+.c-canvas__canvas
+  +aspect-fill
+  display: flex
   align-items: center
   justify-content: center
+  overflow: scroll
 
 .c-canvas__escape
   +aspect-fill
   z-index: 1
 
-.c-canvas__layer-count
-  position: absolute
+.c-canvas__controls
+  position: abolute
+  top: 0
+  left: 0
+  width: 100%
+  height: 33px
+  display: flex
+  justify-content: space-between
+  z-index: 999999999999999999
+
+.c-canvas-control
+  height: 100%
   background: black
   color: white
-  font-family: Helvetica, Arial, sans-serif
-  line-height: 20px
+  line-height: $control-bar-height
   font-size: 14px
-  top: 0
-  right: 0
-  height: 20px
-  padding: 5px
-  min-width: 50px
   text-align: center
+  z-index: 999999999999999999
+
+.c-canvas-control--layers
+  width: 66px
+  height: 100%
+
+.c-canvas-control--zoom
+  display: flex
+  width: 132px
+  height: 100%
+
+.c-canvas-zoom__status
+  width: 50%
+  height: 100%
+
+.c-canvas-zoom__buttons
+  display: flex
+  width: 50%
+  height: 100%
+
+.c-canvas-zoom-button
+  width: 50%
+  height: 100%
+
+.c-canvas-zoom-button--out
+  background: red
+
+.c-canvas-zoom-button--in
+  background: yellow
