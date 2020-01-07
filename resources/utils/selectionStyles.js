@@ -50,13 +50,14 @@ export const createRuleLeftStyles = (selectionOrigin, hoverOrigin, inset) => {
 export const createDimRightLeftStyles = (selectionOrigin, artboardFrame, zoom) => {
     const scale = getDimScale(zoom);
     const origin = Math.round(getDimOrigin(zoom) * 100);
+    const translate = Math.round(100 - origin) * -1;
     if (placeTop(selectionOrigin.top, artboardFrame.height)) {
         // displays above rule
         return {
             bottom: '10px',
             left: '50%',
             transformOrigin: `${origin}% bottom`,
-            transform: `scale(${scale}) translateX(-${100 - origin}%)`
+            transform: `scale(${scale}) translateX(${translate}%)`
         };
     }
     else {
@@ -65,20 +66,21 @@ export const createDimRightLeftStyles = (selectionOrigin, artboardFrame, zoom) =
             top: '10px',
             left: '50%',
             transformOrigin: `${origin}% top`,
-            transform: `scale(${scale}) translateX(-${100 - origin}%)`
+            transform: `scale(${scale}) translateX(${translate}%)`
         };
     }
 };
 export const createDimTopBottomStyles = (selectionOrigin, artboardFrame, zoom) => {
     const scale = getDimScale(zoom);
     const origin = Math.round(getDimOrigin(zoom) * 100);
+    const translate = Math.round(100 - origin) * -1;
     if (placeLeft(selectionOrigin.left, artboardFrame.width)) {
         // displays left of rule
         return {
             top: '50%',
             right: '10px',
             transformOrigin: `right ${origin}%`,
-            transform: `scale(${scale}) translateY(-${100 - origin}%)`
+            transform: `scale(${scale}) translateY(${translate}%)`
         };
     }
     else {
@@ -87,7 +89,7 @@ export const createDimTopBottomStyles = (selectionOrigin, artboardFrame, zoom) =
             top: '50%',
             left: '10px',
             transformOrigin: `left ${origin}%`,
-            transform: `scale(${scale}) translateY(-${100 - origin}%)`
+            transform: `scale(${scale}) translateY(${translate}%)`
         };
     }
 };

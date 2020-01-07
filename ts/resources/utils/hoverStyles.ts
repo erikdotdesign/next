@@ -50,13 +50,14 @@ export const createRuleLeftStyles = (hoverOrigin: srm.Origin, selectionOrigin: s
 export const createDimWidthStyles = (hoverFrame: srm.Rectangle, artboardFrame: srm.Rectangle, zoom: number) => {
   const scale = getDimScale(zoom);
   const origin = Math.round(getDimOrigin(zoom) * 100);
+  const translate = Math.round(100 - origin) * -1;
   if (placeTop(hoverFrame.y, artboardFrame.height)) {
     // displays on top of element
     return {
       left: '50%',
       bottom: 'calc(100% + 10px)',
       transformOrigin: `${origin}% bottom`,
-      transform: `scale(${scale}) translateX(-${100 - origin}%)`
+      transform: `scale(${scale}) translateX(${translate}%)`
     }
   } else {
     // displays on bottom of element
@@ -64,7 +65,7 @@ export const createDimWidthStyles = (hoverFrame: srm.Rectangle, artboardFrame: s
       left: '50%',
       top: 'calc(100% + 10px)',
       transformOrigin: `${origin}% top`,
-      transform: `scale(${scale}) translateX(-${100 - origin}%)`
+      transform: `scale(${scale}) translateX(${translate}%)`
     }
   }
 }
@@ -72,13 +73,14 @@ export const createDimWidthStyles = (hoverFrame: srm.Rectangle, artboardFrame: s
 export const createDimHeightStyles = (hoverFrame: srm.Rectangle, artboardFrame: srm.Rectangle, zoom: number) => {
   const scale = getDimScale(zoom);
   const origin = Math.round(getDimOrigin(zoom) * 100);
+  const translate = Math.round(100 - origin) * -1;
   if (placeLeft(hoverFrame.x, artboardFrame.width)) {
     // displays on left of element
     return {
       top: '50%',
       right: 'calc(100% + 10px)',
       transformOrigin: `right ${origin}%`,
-      transform: `scale(${scale}) translateY(-${100 - origin}%)`
+      transform: `scale(${scale}) translateY(${translate}%)`
     }
   } else {
     // displays on right of element
@@ -86,7 +88,7 @@ export const createDimHeightStyles = (hoverFrame: srm.Rectangle, artboardFrame: 
       top: '50%',
       left: 'calc(100% + 10px)',
       transformOrigin: `left ${origin}%`,
-      transform: `scale(${scale}) translateY(-${100 - origin}%)`
+      transform: `scale(${scale}) translateY(${translate}%)`
     }
   }
 }

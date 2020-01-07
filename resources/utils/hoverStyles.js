@@ -38,13 +38,14 @@ export const createRuleLeftStyles = (hoverOrigin, selectionOrigin) => {
 export const createDimWidthStyles = (hoverFrame, artboardFrame, zoom) => {
     const scale = getDimScale(zoom);
     const origin = Math.round(getDimOrigin(zoom) * 100);
+    const translate = Math.round(100 - origin) * -1;
     if (placeTop(hoverFrame.y, artboardFrame.height)) {
         // displays on top of element
         return {
             left: '50%',
             bottom: 'calc(100% + 10px)',
             transformOrigin: `${origin}% bottom`,
-            transform: `scale(${scale}) translateX(-${100 - origin}%)`
+            transform: `scale(${scale}) translateX(${translate}%)`
         };
     }
     else {
@@ -53,20 +54,21 @@ export const createDimWidthStyles = (hoverFrame, artboardFrame, zoom) => {
             left: '50%',
             top: 'calc(100% + 10px)',
             transformOrigin: `${origin}% top`,
-            transform: `scale(${scale}) translateX(-${100 - origin}%)`
+            transform: `scale(${scale}) translateX(${translate}%)`
         };
     }
 };
 export const createDimHeightStyles = (hoverFrame, artboardFrame, zoom) => {
     const scale = getDimScale(zoom);
     const origin = Math.round(getDimOrigin(zoom) * 100);
+    const translate = Math.round(100 - origin) * -1;
     if (placeLeft(hoverFrame.x, artboardFrame.width)) {
         // displays on left of element
         return {
             top: '50%',
             right: 'calc(100% + 10px)',
             transformOrigin: `right ${origin}%`,
-            transform: `scale(${scale}) translateY(-${100 - origin}%)`
+            transform: `scale(${scale}) translateY(${translate}%)`
         };
     }
     else {
@@ -75,7 +77,7 @@ export const createDimHeightStyles = (hoverFrame, artboardFrame, zoom) => {
             top: '50%',
             left: 'calc(100% + 10px)',
             transformOrigin: `left ${origin}%`,
-            transform: `scale(${scale}) translateY(-${100 - origin}%)`
+            transform: `scale(${scale}) translateY(${translate}%)`
         };
     }
 };

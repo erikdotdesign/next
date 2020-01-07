@@ -62,13 +62,14 @@ export const createRuleLeftStyles = (selectionOrigin: srm.Origin, hoverOrigin: s
 export const createDimRightLeftStyles = (selectionOrigin: srm.Origin, artboardFrame: srm.Rectangle, zoom: number) => {
   const scale = getDimScale(zoom);
   const origin = Math.round(getDimOrigin(zoom) * 100);
+  const translate = Math.round(100 - origin) * -1;
   if (placeTop(selectionOrigin.top, artboardFrame.height)) {
     // displays above rule
     return {
       bottom: '10px',
       left: '50%',
       transformOrigin: `${origin}% bottom`,
-      transform: `scale(${scale}) translateX(-${100 - origin}%)`
+      transform: `scale(${scale}) translateX(${translate}%)`
     }
   } else {
     // displays below rule
@@ -76,7 +77,7 @@ export const createDimRightLeftStyles = (selectionOrigin: srm.Origin, artboardFr
       top: '10px',
       left: '50%',
       transformOrigin: `${origin}% top`,
-      transform: `scale(${scale}) translateX(-${100 - origin}%)`
+      transform: `scale(${scale}) translateX(${translate}%)`
     }
   }
 }
@@ -84,13 +85,14 @@ export const createDimRightLeftStyles = (selectionOrigin: srm.Origin, artboardFr
 export const createDimTopBottomStyles = (selectionOrigin: srm.Origin, artboardFrame: srm.Rectangle, zoom: number) => {
   const scale = getDimScale(zoom);
   const origin = Math.round(getDimOrigin(zoom) * 100);
+  const translate = Math.round(100 - origin) * -1;
   if (placeLeft(selectionOrigin.left, artboardFrame.width)) {
     // displays left of rule
     return {
       top: '50%',
       right: '10px',
       transformOrigin: `right ${origin}%`,
-      transform: `scale(${scale}) translateY(-${100 - origin}%)`
+      transform: `scale(${scale}) translateY(${translate}%)`
     }
   } else {
     // displays right of rule
@@ -98,7 +100,7 @@ export const createDimTopBottomStyles = (selectionOrigin: srm.Origin, artboardFr
       top: '50%',
       left: '10px',
       transformOrigin: `left ${origin}%`,
-      transform: `scale(${scale}) translateY(-${100 - origin}%)`
+      transform: `scale(${scale}) translateY(${translate}%)`
     }
   }
 }
