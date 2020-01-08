@@ -1,5 +1,6 @@
 import React from 'react';
-import { createImageStyles } from '../../utils/layerStyles';
+import imageStyles from '../styles/imageStyles';
+//import { createImageStyles } from '../../utils/layerStyles';
 
 interface ImageProps {
   layer: any;
@@ -15,7 +16,7 @@ const Image = (props: ImageProps) => (
     onMouseOver={props.onMouseOver}
     onMouseOut={props.onMouseOut}
     className='c-layer c-layer--image'
-    style={createImageStyles(props.layer, props.images)} />
+    style={imageStyles(props.layer, props.images)} />
 );
 
 export default Image;

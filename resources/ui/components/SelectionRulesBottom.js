@@ -1,5 +1,5 @@
 import React from 'react';
-import { createRuleBottomStyles, createDimTopBottomStyles } from '../../utils/selectionStyles';
+import { createRuleBottomStyles, createDimTopBottomStyles } from '../styles/selectionStyles';
 const SelectionRulesBottom = (props) => {
     const { selectionOrigin, hoverOrigin, artboardFrame, inset, zoom } = props;
     return (React.createElement("div", { className: 'c-selection__rule c-selection__rule--b', style: createRuleBottomStyles(selectionOrigin, hoverOrigin, inset) },

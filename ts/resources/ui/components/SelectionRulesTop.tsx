@@ -1,5 +1,5 @@
 import React from 'react';
-import { createRuleTopStyles, createDimTopBottomStyles } from '../../utils/selectionStyles';
+import { createRuleTopStyles, createDimTopBottomStyles } from '../styles/selectionStyles';
 
 interface SelectionRulesTopProps {
   selectionOrigin: any;

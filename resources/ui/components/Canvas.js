@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import Artboard from './Artboard';
-import { throttle } from '../../utils/appUtils';
+import { throttle } from '../utils';
 const Canvas = (props) => {
     const canvas = useRef(null);
     const [zoom, setZoom] = useState(1);
@@ -50,8 +50,7 @@ const Canvas = (props) => {
                     React.createElement("svg", { width: "24", height: "24", viewBox: "0 0 24 24" },
                         React.createElement("path", { fill: "none", d: "M0 0h24v24H0V0z" }),
                         React.createElement("path", { fill: "#fff", d: "M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" }))))),
-        React.createElement("div", { className: 'c-canvas__artboard' },
-            React.createElement(Artboard, Object.assign({}, props, { zoom: zoom }))),
+        React.createElement(Artboard, Object.assign({}, props, { zoom: zoom })),
         React.createElement("div", { className: 'c-canvas__escape', onClick: onClick, onMouseOver: onMouseOver })));
 };
 export default Canvas;

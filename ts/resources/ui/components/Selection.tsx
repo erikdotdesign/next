@@ -1,7 +1,7 @@
 import React from 'react';
 import SelectionPoints from './SelectionPoints';
 import SelectionRules from './SelectionRules';
-import { createSelectionStyles } from '../../utils/selectionStyles';
+import { createSelectionStyles } from '../styles/selectionStyles';
 
 interface SelectionProps {
   selection: any;

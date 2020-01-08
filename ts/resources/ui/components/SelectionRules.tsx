@@ -3,7 +3,7 @@ import SelectionRulesTop from './SelectionRulesTop';
 import SelectionRulesRight from './SelectionRulesRight';
 import SelectionRulesBottom from './SelectionRulesBottom';
 import SelectionRulesLeft from './SelectionRulesLeft';
-import { getOrigin } from '../../utils/appUtils';
+import { getOrigin } from '../utils';
 
 interface SelectionRulesProps {
   selectionFrame: any;

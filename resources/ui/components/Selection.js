@@ -1,7 +1,7 @@
 import React from 'react';
 import SelectionPoints from './SelectionPoints';
 import SelectionRules from './SelectionRules';
-import { createSelectionStyles } from '../../utils/selectionStyles';
+import { createSelectionStyles } from '../styles/selectionStyles';
 const Selection = (props) => (React.createElement("div", { className: 'c-layer c-layer--selection', style: createSelectionStyles(props.selection.frame) },
     React.createElement(SelectionPoints, { zoom: props.zoom }),
     props.hover

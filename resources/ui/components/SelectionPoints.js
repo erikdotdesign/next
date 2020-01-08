@@ -1,5 +1,5 @@
 import React from 'react';
-import { getDimScale, getDimOrigin } from '../../utils/appUtils';
+import { getDimScale, getDimOrigin } from '../utils';
 const SelectionPoints = (props) => {
     const scale = getDimScale(props.zoom);
     const origin = Math.round(getDimOrigin(props.zoom) * 100);

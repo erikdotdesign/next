@@ -1,5 +1,5 @@
 import React from 'react';
-import { createDimWidthStyles, createDimHeightStyles } from '../../utils/hoverStyles';
+import { createDimWidthStyles, createDimHeightStyles } from '../styles/hoverStyles';
 
 interface HoverDimsProps {
   hover: any;

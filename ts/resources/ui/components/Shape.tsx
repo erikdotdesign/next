@@ -1,6 +1,7 @@
 import React from 'react';
 import ShapeMarkers from './ShapeMarkers';
-import { createShapeStyles, createShapeSVGPathStyles } from '../../utils/layerStyles';
+import shapeStyles from '../styles/shapeStyles';
+import pathStyles from '../styles/pathStyles';
 
 interface ShapeProps {
   layer: any;
@@ -17,14 +18,13 @@ const Shape = (props: ShapeProps) => {
   return (
     <svg
       className='c-layer c-layer--shape'
-      style={createShapeStyles(layer)}
+      style={shapeStyles(layer)}
       onClick={props.onClick}
       onMouseOver={props.onMouseOver}
       onMouseOut={props.onMouseOut}>
       <ShapeMarkers layer={layer} />
       <path
-        //@ts-ignore
-        style={createShapeSVGPathStyles(layer)}
+        style={pathStyles(layer, svgs)}
         markerEnd='url(#tail)'
         markerStart='url(#head)'
         d={svg.path} />

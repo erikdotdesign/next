@@ -3,7 +3,7 @@ import HoverRulesTop from './HoverRulesTop';
 import HoverRulesRight from './HoverRulesRight';
 import HoverRulesBottom from './HoverRulesBottom';
 import HoverRulesLeft from './HoverRulesLeft';
-import { getOrigin } from '../../utils/appUtils';
+import { getOrigin } from '../utils';
 
 interface HoverRulesProps {
   hover: any;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { createRuleRightStyles, createDimRightLeftStyles } from '../../utils/selectionStyles';
+import { createRuleRightStyles, createDimRightLeftStyles } from '../styles/selectionStyles';
 const SelectionRulesRight = (props) => {
     const { selectionOrigin, hoverOrigin, artboardFrame, inset, zoom } = props;
     return (React.createElement("div", { className: 'c-selection__rule c-selection__rule--r', style: createRuleRightStyles(selectionOrigin, hoverOrigin, inset) },

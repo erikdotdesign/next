@@ -1,5 +1,5 @@
 import React from 'react';
-import { getDimScale, getDimOrigin } from '../../utils/appUtils';
+import { getDimScale, getDimOrigin } from '../utils';
 
 interface SelectionPointsProps {
   zoom: number;

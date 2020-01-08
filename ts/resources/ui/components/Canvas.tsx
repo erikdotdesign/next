@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import Artboard from './Artboard';
-import { throttle } from '../../utils/appUtils';
+import { throttle } from '../utils';
 
 interface CanvasProps {
   appState: any;
@@ -78,9 +78,7 @@ const Canvas = (props: CanvasProps) => {
           {props.artboard.layers.length}
         </div> */}
       </div>
-      <div className='c-canvas__artboard'>
-        <Artboard {...props} zoom={zoom} />
-      </div>
+      <Artboard {...props} zoom={zoom} />
       <div
         className='c-canvas__escape'
         onClick={onClick}

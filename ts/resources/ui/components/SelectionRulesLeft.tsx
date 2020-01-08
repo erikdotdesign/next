@@ -1,5 +1,5 @@
 import React from 'react';
-import { createRuleLeftStyles, createDimRightLeftStyles } from '../../utils/selectionStyles';
+import { createRuleLeftStyles, createDimRightLeftStyles } from '../styles/selectionStyles';
 
 interface SelectionRulesLeftProps {
   selectionOrigin: any;

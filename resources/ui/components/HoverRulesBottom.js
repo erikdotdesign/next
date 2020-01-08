@@ -1,5 +1,5 @@
 import React from 'react';
-import { createRuleBottomStyles } from '../../utils/hoverStyles';
+import { createRuleBottomStyles } from '../styles/hoverStyles';
 const HoverRulesBottom = (props) => {
     const { hoverOrigin, selectionOrigin } = props;
     return (React.createElement("div", null,

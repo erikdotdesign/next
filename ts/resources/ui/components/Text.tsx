@@ -1,5 +1,5 @@
 import React from 'react';
-import { textContainerStyles, textStyles, paragraphSpacing } from '../../utils/textStyles';
+import { textContainerStyles, textStyles, paragraphSpacing } from '../styles/textStyles';
 
 interface TextProps {
   layer: any;
@@ -23,7 +23,6 @@ const Text = (props: TextProps) => {
           <p
             key={index}
             className='c-layer__text'
-            // @ts-ignore
             style={{
               ...textStyles(layer),
               ...paragraphSpacing(layer, index === paragraphs.length - 1)

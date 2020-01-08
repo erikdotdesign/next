@@ -2,8 +2,7 @@ import React from 'react';
 import Layers from './Layers';
 import Selection from './Selection';
 import Hover from './Hover';
-import { createArtboardStyles } from '../../utils/layerStyles';
-//import { getOrigin } from '../../utils/appUtils';
+import artboardStyles from '../styles/artboardStyles';
 
 interface ArtboardProps {
   artboard: any;
@@ -31,11 +30,8 @@ const Artboard = (props: ArtboardProps) => {
     <div
       className='c-artboard'
       style={{
-        ...createArtboardStyles(artboard),
-        transform: `scale(${zoom})`,
-        // transformOrigin: selection
-        // ? `${getOrigin(selection.frame).xCenter}px ${getOrigin(selection.frame).yCenter}px`
-        // : `${getOrigin(artboard.frame).xCenter}px ${getOrigin(artboard.frame).yCenter}px`
+        ...artboardStyles(artboard),
+        transform: `scale(${zoom})`
       }}>
       <Layers
         layers={artboard.layers}

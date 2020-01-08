@@ -6,10 +6,17 @@ import ui from 'sketch/ui';
 import BrowserWindow from 'sketch-module-web-view';
 // @ts-ignore
 import { getWebview } from 'sketch-module-web-view/remote';
-import { validSelection, getStore } from '../resources/utils/commandUtils';
+import getStore from '../resources/store';
 const webviewIdentifier = 'measure.webview';
-export default (context) => {
-    if (validSelection(context.selection)) {
+export default () => {
+    // get document, selectedLayers, and artboard
+    const document = sketch.getSelectedDocument();
+    const selectedLayers = document.selectedLayers;
+    const artboard = selectedLayers.layers.find((layer) => {
+        return layer.type === 'Artboard' && layer.selected;
+    });
+    // if artboard selected, run command
+    if (artboard) {
         // set webview browser window
         const browserWindow = new BrowserWindow({
             identifier: webviewIdentifier,
@@ -28,12 +35,14 @@ export default (context) => {
         browserWindow.loadURL(require('../resources/ui/index.html'));
         // render app once webview contents loaded
         webContents.on('did-finish-load', () => {
-            getStore(sketch, (store) => {
+            //@ts-ignore
+            getStore(artboard, sketch, (store) => {
                 webContents.executeJavaScript(`renderApp(${JSON.stringify(store)})`);
             });
         });
     }
     else {
+        // if artboard not selected, alert user
         ui.alert('Invalid Selection', 'Select an artboard to export.');
     }
 };

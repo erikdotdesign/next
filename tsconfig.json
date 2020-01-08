@@ -14,6 +14,7 @@
     "./ts/**/*",
   ],
   "exclude": [
+    "./ts/types/**/*",
     "./assets",
     "./measure.sketchplugin",
     "./node_modules",

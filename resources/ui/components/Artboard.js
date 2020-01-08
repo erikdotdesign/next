@@ -2,7 +2,7 @@ import React from 'react';
 import Layers from './Layers';
 import Selection from './Selection';
 import Hover from './Hover';
-import { createArtboardStyles } from '../../utils/layerStyles';
+import artboardStyles from '../styles/artboardStyles';
 const Artboard = (props) => {
     const { artboard, images, svgs, setAppState, appState, zoom } = props;
     const { selection, hover } = appState;
@@ -16,7 +16,7 @@ const Artboard = (props) => {
             hover: props.artboard
         });
     };
-    return (React.createElement("div", { className: 'c-artboard', style: Object.assign(Object.assign({}, createArtboardStyles(artboard)), { transform: `scale(${zoom})` }) },
+    return (React.createElement("div", { className: 'c-artboard', style: Object.assign(Object.assign({}, artboardStyles(artboard)), { transform: `scale(${zoom})` }) },
         React.createElement(Layers, { layers: artboard.layers, images: images, svgs: svgs, setAppState: setAppState, appState: appState, style: {
                 width: `${artboard.frame.width}px`,
                 height: `${artboard.frame.height}px`

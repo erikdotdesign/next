@@ -1,7 +1,7 @@
 import React from 'react';
 import HoverDims from './HoverDims';
 import HoverRules from './HoverRules';
-import { createHoveredStyles } from '../../utils/hoverStyles';
+import { createHoveredStyles } from '../styles/hoverStyles';
 
 interface HoverProps {
   hover: any;

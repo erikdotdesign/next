@@ -1,5 +1,5 @@
 import React from 'react';
-import { createRuleLeftStyles } from '../../utils/hoverStyles';
+import { createRuleLeftStyles } from '../styles/hoverStyles';
 
 interface HoverRulesLeftProps {
   hoverOrigin: any;

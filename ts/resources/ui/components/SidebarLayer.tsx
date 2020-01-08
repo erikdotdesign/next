@@ -2,19 +2,12 @@ import React from 'react';
 import SidebarLayerValue from './SidebarLayerValue';
 import SidebarLayerProp from './SidebarLayerProp';
 
-import {
-  createShapeStyles,
-  createShapeSVGPathStyles,
-  createShapePathStyles,
-  createArtboardStyles,
-  createImageStyles,
-  createSVGPath
-} from '../../utils/layerStyles';
-
-import {
-  textContainerStyles,
-  textStyles
-} from '../../utils/textStyles';
+import artboardStyles from '../styles/artboardStyles';
+import shapeStyles from '../styles/shapeStyles';
+import shapePathStyles from '../styles/shapePathStyles';
+import imageStyles from '../styles/imageStyles';
+import pathStyles from '../styles/pathStyles';
+import { textContainerStyles, textStyles } from '../styles/textStyles';
 
 interface SidebarProps {
   layer: any;
@@ -23,52 +16,33 @@ interface SidebarProps {
 }
 
 const SidebarLayer = (props: SidebarProps) => {
+  const { layer, images, svgs } = props;
   const getLayerStyles = () => {
-    switch(props.layer.type) {
+    switch(layer.type) {
       case 'Shape':
-        return {...createShapeStyles(props.layer), ...createShapeSVGPathStyles(props.layer)};
+        return {...shapeStyles(layer), ...pathStyles(layer, svgs)};
       case 'ShapePath':
-        return createShapePathStyles(props.layer, props.images);
+        return shapePathStyles(layer, images, svgs);
       case 'Image':
-        return createImageStyles(props.layer, props.images);
+        return imageStyles(layer, images);
       case 'Text':
-        return {...textContainerStyles(props.layer), ...textStyles(props.layer)};
+        return {...textContainerStyles(layer), ...textStyles(layer)};
       case 'Artboard':
-        return createArtboardStyles(props.layer);
+        return artboardStyles(layer);
     }
   }
-  const getSVGPath = () => {
-    const { svgs, layer } = props;
-    const svg = svgs.find((svg: any) => svg.id === layer.id);
-    if (svg) {
-      return createSVGPath(svg.path);
-    } else {
-      return null;
-    }
-  }
-  const svgPath: any = getSVGPath();
   const layerStyles: any = getLayerStyles();
   return (
     <div className='c-sidebar__layer'>
-      <h2 className='c-sidebar-layer__name'>{props.layer.name}</h2>
+      <h2 className='c-sidebar-layer__name'>{layer.name}</h2>
       <div className='c-sidebar-layer__styles'>
         {
           Object.keys(layerStyles).map((key: any, index: number) => (
-            layerStyles[key] !== 'none' && layerStyles[key] !== 'normal'
-            ? <div className='c-sidebar-layer__css' key={index}>
-                <SidebarLayerProp prop={key} />
-                <SidebarLayerValue value={layerStyles[key]} />
-              </div>
-            : null
-          ))
-        }
-        {
-          svgPath
-          ? <div className='c-sidebar-layer__css'>
-              <SidebarLayerProp prop={'d'} />
-              <SidebarLayerValue value={`${svgPath.d}`} />
+            <div className='c-sidebar-layer__css' key={index}>
+              <SidebarLayerProp prop={key} />
+              <SidebarLayerValue value={layerStyles[key]} />
             </div>
-          : null
+          ))
         }
       </div>
     </div>
