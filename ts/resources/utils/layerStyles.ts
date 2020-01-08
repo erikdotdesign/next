@@ -90,6 +90,18 @@ export const createGaussianBlur = (blur: srm.Blur): srm.css.GaussianBlur => {
   }
 };
 
+export const createScale = (zoom: number) => {
+  if (zoom) {
+    return {
+      transform: `scale(${zoom})`
+    }
+  } else {
+    return {
+      transform: 'scale(1)'
+    }
+  }
+};
+
 export const createBorder = (sketchBorder: srm.Border): srm.css.BoxShadow => {
   const { thickness, position } = sketchBorder;
   const color = cssColor(sketchBorder.color);

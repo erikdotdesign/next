@@ -2,28 +2,48 @@ import React from 'react';
 import Layer from './Layer';
 
 interface LayersProps {
-  layers: any;
+  artboard: any;
   images: any;
   svgs: any;
   setAppState: any;
   appState: any;
-  style: any;
 }
 
-const Layers = (props: LayersProps) => (
-  <div className='c-layers' style={props.style}>
-    {
-      props.layers.map((layer: any, index: number) => (
-        <Layer
-          layer={layer}
-          key={index}
-          images={props.images}
-          svgs={props.svgs}
-          setAppState={props.setAppState}
-          appState={props.appState} />
-      ))
-    }
-  </div>
-);
+const Layers = (props: LayersProps) => {
+  const onClick = () => {
+    props.setAppState({
+      selection: ''
+    });
+  }
+  const onMouseOver = () => {
+    props.setAppState({
+      hover: props.artboard
+    });
+  }
+  return (
+    <div
+      className='c-layers'
+      style={{
+        width: `${props.artboard.frame.height}px`,
+        height: `${props.artboard.frame.width}px`
+      }}>
+      {
+        props.artboard.layers.map((layer: any, index: number) => (
+          <Layer
+            layer={layer}
+            key={index}
+            images={props.images}
+            svgs={props.svgs}
+            setAppState={props.setAppState}
+            appState={props.appState} />
+        ))
+      }
+      <div
+        className='c-layers__click-area'
+        onClick={onClick}
+        onMouseOver={onMouseOver} />
+    </div>
+  )
+};
 
 export default Layers;

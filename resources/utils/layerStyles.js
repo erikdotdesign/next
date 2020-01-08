@@ -85,6 +85,18 @@ export const createGaussianBlur = (blur) => {
         };
     }
 };
+export const createScale = (zoom) => {
+    if (zoom) {
+        return {
+            transform: `scale(${zoom})`
+        };
+    }
+    else {
+        return {
+            transform: 'scale(1)'
+        };
+    }
+};
 export const createBorder = (sketchBorder) => {
     const { thickness, position } = sketchBorder;
     const color = cssColor(sketchBorder.color);
