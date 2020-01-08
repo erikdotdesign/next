@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import Artboard from './Artboard';
+import { throttle } from '../../utils/appUtils';
 
 interface CanvasProps {
   appState: any;
@@ -25,18 +26,18 @@ const Canvas = (props: CanvasProps) => {
       hover: ''
     });
   }
-  const zoomOut = () => {
+  const zoomOut = throttle(() => {
     if (canvas.current && zoom > 0.1) {
       const newZoom = parseFloat((zoom - 0.1).toFixed(1));
       setZoom(newZoom);
     }
-  }
-  const zoomIn = () => {
+  }, 1500);
+  const zoomIn = throttle(() => {
     if (canvas.current && zoom < 2) {
       const newZoom = parseFloat((zoom + 0.1).toFixed(1));
       setZoom(newZoom);
     }
-  }
+  }, 1500);
   const handleKeyPress = (e: any) => {
     e.preventDefault();
     if (e.key === '-' && e.metaKey && e.altKey && e.ctrlKey) {
@@ -77,7 +78,7 @@ const Canvas = (props: CanvasProps) => {
           {props.artboard.layers.length}
         </div> */}
       </div>
-      <div className='c-canvas__canvas'>
+      <div className='c-canvas__artboard'>
         <Artboard {...props} zoom={zoom} />
       </div>
       <div

@@ -76,7 +76,7 @@ button {
   position: relative;
   box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.33);
   z-index: 3;
-  transition: all 0.15s ease-in-out;
+  transition: all 0.15s;
 }
 
 .c-artboard__click-area {
@@ -208,7 +208,7 @@ button {
   z-index: 2;
 }
 
-.c-canvas__canvas {
+.c-canvas__artboard {
   position: absolute;
   left: 0;
   top: 0;
@@ -223,7 +223,7 @@ button {
   justify-content: center;
   overflow: scroll;
 }
-.c-canvas__canvas:focus {
+.c-canvas__artboard:focus {
   outline: none;
 }
 
@@ -237,7 +237,6 @@ button {
   width: 100%;
   max-height: 100%;
   max-width: 100%;
-  z-index: 1;
 }
 
 .c-canvas__controls {

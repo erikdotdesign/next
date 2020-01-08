@@ -85,3 +85,28 @@ export const getDimOrigin = (zoom) => {
             return 0.5;
     }
 };
+export const debounce = (func, wait) => {
+    let timeout;
+    return (...args) => {
+        const later = () => {
+            timeout = null;
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+};
+export const throttle = (func, timeout) => {
+    let exexute = true;
+    //@ts-ignore
+    return (...args) => {
+        if (!exexute) {
+            return;
+        }
+        exexute = false;
+        func(...args);
+        setTimeout(() => {
+            exexute = true;
+        }, timeout);
+    };
+};
