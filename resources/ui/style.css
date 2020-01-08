@@ -44,6 +44,10 @@ button {
   border: 0;
 }
 
+::selection {
+  background: magenta;
+}
+
 .c-app-wrap {
   position: absolute;
   left: 0;
@@ -123,7 +127,6 @@ button {
   line-height: 40px;
   background: #444;
   padding: 0 16px;
-  box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, 0.15);
 }
 
 .c-sidebar-layer__name {
@@ -175,9 +178,6 @@ button {
 .c-sidebar-layer__value input:focus {
   outline: none;
   background: #111;
-}
-.c-sidebar-layer__value input::selection {
-  background: magenta;
 }
 
 .c-sidebar-layer__swatch-group {
@@ -278,6 +278,7 @@ button {
 .c-canvas-zoom__status {
   width: 50%;
   height: 100%;
+  cursor: default;
 }
 .c-canvas-zoom__status::selection {
   background: none;
