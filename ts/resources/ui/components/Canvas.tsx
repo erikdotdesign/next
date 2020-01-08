@@ -53,21 +53,29 @@ const Canvas = (props: CanvasProps) => {
       tabIndex={-1}>
       <div className='c-canvas__controls'>
         <div className='c-canvas-control c-canvas-control--zoom'>
-          <div className='c-canvas-zoom__buttons'>
-            <div
-              className='c-canvas-zoom-button c-canvas-zoom-button--in'
-              onClick={zoomIn} />
-            <div
-              className='c-canvas-zoom-button c-canvas-zoom-button--out'
-              onClick={zoomOut} />
-          </div>
+          <button
+            className='c-canvas-zoom-button c-canvas-zoom-button--out'
+            onClick={zoomOut}>
+            <svg width="24" height="24" viewBox="0 0 24 24">
+              <path fill="none" d="M0 0h24v24H0V0z"/>
+              <path fill="#fff" d="M19 13H5v-2h14v2z"/>
+            </svg>
+          </button>
           <div className='c-canvas-zoom__status'>
             {`${Math.round(zoom * 100)}%`}
           </div>
+          <button
+            className='c-canvas-zoom-button c-canvas-zoom-button--in'
+            onClick={zoomIn}>
+            <svg width="24" height="24" viewBox="0 0 24 24">
+              <path fill="none" d="M0 0h24v24H0V0z"/>
+              <path fill="#fff" d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+            </svg>
+          </button>
         </div>
-        <div className='c-canvas-control c-canvas-control--layers'>
+        {/* <div className='c-canvas-control c-canvas-control--layers'>
           {props.artboard.layers.length}
-        </div>
+        </div> */}
       </div>
       <div className='c-canvas__canvas'>
         <Artboard {...props} zoom={zoom} />

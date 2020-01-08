@@ -1,4 +1,4 @@
-$control-bar-height: 33px
+$control-bar-height: 40px
 
 .c-canvas
   position: relative
@@ -27,42 +27,41 @@ $control-bar-height: 33px
   width: 100%
   height: $control-bar-height
   display: flex
-  justify-content: space-between
+  justify-content: center
   z-index: 999999999999999999
 
 .c-canvas-control
   height: 100%
-  background: black
-  color: white
+  background: $gray
   line-height: $control-bar-height
   font-size: 14px
   text-align: center
+  box-shadow: 0px 5px 20px 0px rgba(0,0,0,0.15)
   z-index: 999999999999999999
 
 .c-canvas-control--layers
-  width: 66px
+  width: $control-bar-height * 2
   height: 100%
+  +no-selection
 
 .c-canvas-control--zoom
   display: flex
-  width: 132px
+  width: $control-bar-height * 4
   height: 100%
 
 .c-canvas-zoom__status
   width: 50%
   height: 100%
-
-.c-canvas-zoom__buttons
-  display: flex
-  width: 50%
-  height: 100%
+  +no-selection
 
 .c-canvas-zoom-button
-  width: 50%
+  display: flex
+  align-items: center
+  justify-content: center
+  width: 25%
   height: 100%
+  cursor: pointer
 
-.c-canvas-zoom-button--out
-  background: red
-
-.c-canvas-zoom-button--in
-  background: yellow
+  &:hover,
+  &:focus
+    background: rgba(255,255,255,0.15)
