@@ -11,6 +11,7 @@ interface ArtboardProps {
   appState: any;
   setAppState: any;
   zoom: number;
+  style: any;
 }
 
 const Artboard = (props: ArtboardProps) => {
@@ -31,7 +32,7 @@ const Artboard = (props: ArtboardProps) => {
       className='c-artboard'
       style={{
         ...artboardStyles(artboard),
-        transform: `scale(${zoom})`
+        ...props.style
       }}>
       <Layers
         layers={artboard.layers}

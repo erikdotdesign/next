@@ -16,7 +16,7 @@ const Artboard = (props) => {
             hover: props.artboard
         });
     };
-    return (React.createElement("div", { className: 'c-artboard', style: Object.assign(Object.assign({}, artboardStyles(artboard)), { transform: `scale(${zoom})` }) },
+    return (React.createElement("div", { className: 'c-artboard', style: Object.assign(Object.assign({}, artboardStyles(artboard)), props.style) },
         React.createElement(Layers, { layers: artboard.layers, images: images, svgs: svgs, setAppState: setAppState, appState: appState, style: {
                 width: `${artboard.frame.width}px`,
                 height: `${artboard.frame.height}px`
