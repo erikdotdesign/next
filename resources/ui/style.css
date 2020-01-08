@@ -72,6 +72,14 @@ button {
   z-index: 3;
 }
 
+.c-artboard__click-area {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+}
+
 .c-sidebar {
   position: fixed;
   background: #333;
@@ -285,14 +293,6 @@ button {
   bottom: 0;
   right: 0;
   overflow: hidden;
-}
-
-.c-layers__click-area {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
 }
 
 .c-layer {

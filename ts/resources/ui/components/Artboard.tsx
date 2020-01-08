@@ -14,8 +14,18 @@ interface ArtboardProps {
 }
 
 const Artboard = (props: ArtboardProps) => {
-  const { artboard, appState, zoom } = props;
+  const { artboard, images, svgs, setAppState, appState, zoom } = props;
   const { selection, hover } = appState;
+  const onClick = () => {
+    props.setAppState({
+      selection: ''
+    });
+  }
+  const onMouseOver = () => {
+    props.setAppState({
+      hover: props.artboard
+    });
+  }
   return (
     <div
       className='c-artboard'
@@ -23,7 +33,16 @@ const Artboard = (props: ArtboardProps) => {
         ...createArtboardStyles(artboard),
         transform: `scale(${zoom})`
       }}>
-      <Layers {...props} />
+      <Layers
+        layers={artboard.layers}
+        images={images}
+        svgs={svgs}
+        setAppState={setAppState}
+        appState={appState}
+        style={{
+          width: `${artboard.frame.width}px`,
+          height: `${artboard.frame.height}px`
+        }} />
       {
         selection
         ? <Selection
@@ -42,6 +61,10 @@ const Artboard = (props: ArtboardProps) => {
             zoom={zoom} />
         : null
       }
+      <div
+        className='c-artboard__click-area'
+        onClick={onClick}
+        onMouseOver={onMouseOver} />
     </div>
   );
 }
