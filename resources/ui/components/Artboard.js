@@ -4,7 +4,7 @@ import Selection from './Selection';
 import Hover from './Hover';
 import { createArtboardStyles } from '../../utils/layerStyles';
 const Artboard = (props) => {
-    const { artboard, images, svgs, setAppState, appState, zoom } = props;
+    const { artboard, appState, zoom } = props;
     const { selection, hover } = appState;
     return (React.createElement("div", { className: 'c-artboard', style: Object.assign(Object.assign({}, createArtboardStyles(artboard)), { transform: `scale(${zoom})` }) },
         React.createElement(Layers, Object.assign({}, props)),

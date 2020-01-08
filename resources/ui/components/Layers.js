@@ -12,8 +12,8 @@ const Layers = (props) => {
         });
     };
     return (React.createElement("div", { className: 'c-layers', style: {
-            width: `${props.artboard.frame.height}px`,
-            height: `${props.artboard.frame.width}px`
+            width: `${props.artboard.frame.width}px`,
+            height: `${props.artboard.frame.height}px`
         } },
         props.artboard.layers.map((layer, index) => (React.createElement(Layer, { layer: layer, key: index, images: props.images, svgs: props.svgs, setAppState: props.setAppState, appState: props.appState }))),
         React.createElement("div", { className: 'c-layers__click-area', onClick: onClick, onMouseOver: onMouseOver })));

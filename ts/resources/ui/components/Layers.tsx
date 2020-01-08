@@ -24,8 +24,8 @@ const Layers = (props: LayersProps) => {
     <div
       className='c-layers'
       style={{
-        width: `${props.artboard.frame.height}px`,
-        height: `${props.artboard.frame.width}px`
+        width: `${props.artboard.frame.width}px`,
+        height: `${props.artboard.frame.height}px`
       }}>
       {
         props.artboard.layers.map((layer: any, index: number) => (

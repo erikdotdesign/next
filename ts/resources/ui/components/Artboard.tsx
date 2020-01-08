@@ -14,7 +14,7 @@ interface ArtboardProps {
 }
 
 const Artboard = (props: ArtboardProps) => {
-  const { artboard, images, svgs, setAppState, appState, zoom } = props;
+  const { artboard, appState, zoom } = props;
   const { selection, hover } = appState;
   return (
     <div
