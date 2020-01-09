@@ -6,32 +6,6 @@ const Canvas = (props) => {
     const canvas = useRef(null);
     const [zoom, setZoom] = useState(1);
     const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 });
-    const zoomOut = () => {
-        const newZoom = zoom - 0.1;
-        setZoom(newZoom);
-    };
-    const zoomIn = () => {
-        const newZoom = zoom + 0.1;
-        setZoom(newZoom);
-    };
-    const refresh = () => {
-        const initialZoom = scaleToFitCanvas();
-        const canvasSize = getCanvasSize();
-        setZoom(initialZoom);
-        setCanvasSize(canvasSize);
-    };
-    const handleKeyPress = (e) => {
-        e.preventDefault();
-        if (e.key === '-' && e.metaKey && e.altKey && e.ctrlKey) {
-            zoomOut();
-        }
-        else if (e.key === '=' && e.metaKey && e.altKey && e.ctrlKey) {
-            zoomIn();
-        }
-        else if (e.key === 'Enter' && e.metaKey && e.altKey && e.ctrlKey) {
-            refresh();
-        }
-    };
     const getCanvasSize = () => {
         if (canvas.current) {
             const width = canvas.current.clientWidth;
@@ -65,11 +39,34 @@ const Canvas = (props) => {
             return 1;
         }
     };
-    useEffect(() => {
+    const zoomOut = () => {
+        const newZoom = zoom - 0.1;
+        setZoom(newZoom);
+    };
+    const zoomIn = () => {
+        const newZoom = zoom + 0.1;
+        setZoom(newZoom);
+    };
+    const refresh = () => {
         const initialZoom = scaleToFitCanvas();
         const canvasSize = getCanvasSize();
         setZoom(initialZoom);
         setCanvasSize(canvasSize);
+    };
+    const handleKeyPress = (e) => {
+        e.preventDefault();
+        if (e.key === '-' && e.metaKey && e.altKey && e.ctrlKey) {
+            zoomOut();
+        }
+        else if (e.key === '=' && e.metaKey && e.altKey && e.ctrlKey) {
+            zoomIn();
+        }
+        else if (e.key === 'Enter' && e.metaKey && e.altKey && e.ctrlKey) {
+            refresh();
+        }
+    };
+    useEffect(() => {
+        refresh();
     }, []);
     return (React.createElement("div", { className: 'c-canvas', ref: canvas, onKeyDown: handleKeyPress, tabIndex: -1 },
         React.createElement(CanvasControls, { zoom: zoom, zoomIn: zoomIn, zoomOut: zoomOut, refresh: refresh }),
