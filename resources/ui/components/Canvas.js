@@ -41,10 +41,10 @@ const Canvas = (props) => {
     };
     return (React.createElement("div", { className: 'c-canvas', ref: canvas, onKeyDown: handleKeyPress, tabIndex: -1 },
         React.createElement(CanvasControls, { zoom: zoom, zoomIn: zoomIn, zoomOut: zoomOut }),
-        React.createElement(Artboard, Object.assign({}, props, { style: {
+        React.createElement(Artboard, Object.assign({}, props, { zoom: zoom, style: {
                 transform: `scale(${zoom})`,
                 transformOrigin: `${origin}`
-            }, zoom: zoom })),
+            } })),
         React.createElement(CanvasEscape, { setAppState: props.setAppState, onClick: () => { var _a; return (_a = canvas.current) === null || _a === void 0 ? void 0 : _a.focus(); } })));
 };
 export default Canvas;
