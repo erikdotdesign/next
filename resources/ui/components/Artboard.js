@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
+import gsap from 'gsap';
+import Draggable from 'gsap/Draggable';
 import Layers from './Layers';
 import Selection from './Selection';
 import Hover from './Hover';
 import artboardStyles from '../styles/artboardStyles';
+gsap.registerPlugin(Draggable);
 const Artboard = (props) => {
-    const { artboard, images, svgs, setAppState, appState, zoom } = props;
+    const artboardRef = useRef(null);
+    const { artboard, images, svgs, setAppState, appState, zoom, canvasSize } = props;
     const { selection, hover } = appState;
     const onClick = () => {
         props.setAppState({
@@ -16,7 +20,40 @@ const Artboard = (props) => {
             hover: props.artboard
         });
     };
-    return (React.createElement("div", { className: 'c-artboard', style: Object.assign(Object.assign({}, artboardStyles(artboard)), props.style) },
+    const getArtboardSize = () => {
+        const height = artboard.frame.height * zoom;
+        const width = artboard.frame.width * zoom;
+        return { width, height };
+    };
+    const centerArtboard = () => {
+        const artboardSize = getArtboardSize();
+        const xCenter = (canvasSize.width - artboardSize.width) / 2;
+        const yCenter = (canvasSize.height - artboardSize.height) / 2;
+        if (canvasSize.width > artboardSize.width && canvasSize.height > artboardSize.height) {
+            gsap.set(artboardRef.current, { x: xCenter, y: yCenter, opacity: 1 });
+        }
+        else if (canvasSize.width > artboardSize.width) {
+            gsap.set(artboardRef.current, { x: xCenter, opacity: 1 });
+        }
+        else if (canvasSize.height > artboardSize.height) {
+            gsap.set(artboardRef.current, { y: yCenter, opacity: 1 });
+        }
+    };
+    // handle initial render
+    useEffect(() => {
+        Draggable.create(artboardRef.current, {
+            inertia: true
+        });
+    }, []);
+    // handle zoom changes
+    useEffect(() => {
+        gsap.set(artboardRef.current, { scale: zoom });
+    }, [props.zoom]);
+    // handle canvasSize changes
+    useEffect(() => {
+        centerArtboard();
+    }, [props.canvasSize]);
+    return (React.createElement("div", { ref: artboardRef, className: 'c-artboard', style: artboardStyles(artboard) },
         React.createElement(Layers, { layers: artboard.layers, images: images, svgs: svgs, setAppState: setAppState, appState: appState, style: {
                 width: `${artboard.frame.width}px`,
                 height: `${artboard.frame.height}px`

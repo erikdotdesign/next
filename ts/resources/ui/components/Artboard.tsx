@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useRef, useEffect }  from 'react';
+import gsap from 'gsap';
+import Draggable from 'gsap/Draggable';
 import Layers from './Layers';
 import Selection from './Selection';
 import Hover from './Hover';
 import artboardStyles from '../styles/artboardStyles';
+
+gsap.registerPlugin(Draggable);
 
 interface ArtboardProps {
   artboard: any;
@@ -11,11 +15,12 @@ interface ArtboardProps {
   appState: any;
   setAppState: any;
   zoom: number;
-  style: any;
+  canvasSize: any;
 }
 
 const Artboard = (props: ArtboardProps) => {
-  const { artboard, images, svgs, setAppState, appState, zoom } = props;
+  const artboardRef = useRef<HTMLDivElement>(null);
+  const { artboard, images, svgs, setAppState, appState, zoom, canvasSize } = props;
   const { selection, hover } = appState;
   const onClick = () => {
     props.setAppState({
@@ -27,13 +32,42 @@ const Artboard = (props: ArtboardProps) => {
       hover: props.artboard
     });
   }
+  const getArtboardSize = () => {
+    const height = artboard.frame.height * zoom;
+    const width = artboard.frame.width * zoom;
+    return {width, height};
+  }
+  const centerArtboard = () => {
+    const artboardSize = getArtboardSize();
+    const xCenter = (canvasSize.width - artboardSize.width) / 2;
+    const yCenter = (canvasSize.height - artboardSize.height) / 2;
+    if (canvasSize.width > artboardSize.width && canvasSize.height > artboardSize.height) {
+      gsap.set(artboardRef.current, {x: xCenter, y: yCenter, opacity: 1});
+    } else if (canvasSize.width > artboardSize.width) {
+      gsap.set(artboardRef.current, {x: xCenter, opacity: 1});
+    } else if (canvasSize.height > artboardSize.height) {
+      gsap.set(artboardRef.current, {y: yCenter, opacity: 1});
+    }
+  }
+  // handle initial render
+  useEffect(() => {
+    Draggable.create(artboardRef.current, {
+      inertia: true
+    });
+  }, []);
+  // handle zoom changes
+  useEffect(() => {
+    gsap.set(artboardRef.current, {scale: zoom});
+  }, [props.zoom]);
+  // handle canvasSize changes
+  useEffect(() => {
+    centerArtboard();
+  }, [props.canvasSize]);
   return (
     <div
+      ref={artboardRef}
       className='c-artboard'
-      style={{
-        ...artboardStyles(artboard),
-        ...props.style
-      }}>
+      style={artboardStyles(artboard)}>
       <Layers
         layers={artboard.layers}
         images={images}
