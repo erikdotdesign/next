@@ -2,7 +2,6 @@ import React, { useRef, useState, useEffect } from 'react';
 import Artboard from './Artboard';
 import CanvasControls from './CanvasControls';
 import CanvasEscape from './CanvasEscape';
-import { throttle } from '../utils';
 
 interface CanvasProps {
   appState: any;
@@ -16,30 +15,6 @@ const Canvas = (props: CanvasProps) => {
   const canvas = useRef<HTMLDivElement>(null);
   const [zoom, setZoom] = useState(1);
   const [canvasSize, setCanvasSize] = useState({width: 0, height: 0});
-  const zoomOut = () => {
-    const newZoom = zoom - 0.1;
-    setZoom(newZoom);
-  };
-  const zoomIn = () => {
-    const newZoom = zoom + 0.1;
-    setZoom(newZoom);
-  };
-  const refresh = () => {
-    const initialZoom = scaleToFitCanvas();
-    const canvasSize = getCanvasSize();
-    setZoom(initialZoom);
-    setCanvasSize(canvasSize);
-  };
-  const handleKeyPress = (e: any) => {
-    e.preventDefault();
-    if (e.key === '-' && e.metaKey && e.altKey && e.ctrlKey) {
-      zoomOut();
-    } else if (e.key === '=' && e.metaKey && e.altKey && e.ctrlKey) {
-      zoomIn();
-    } else if (e.key === 'Enter' && e.metaKey && e.altKey && e.ctrlKey) {
-      refresh();
-    }
-  }
   const getCanvasSize = () => {
     if (canvas.current) {
       const width = canvas.current.clientWidth;
@@ -70,11 +45,32 @@ const Canvas = (props: CanvasProps) => {
       return 1;
     }
   }
-  useEffect(() => {
+  const zoomOut = () => {
+    const newZoom = zoom - 0.1;
+    setZoom(newZoom);
+  };
+  const zoomIn = () => {
+    const newZoom = zoom + 0.1;
+    setZoom(newZoom);
+  };
+  const refresh = () => {
     const initialZoom = scaleToFitCanvas();
     const canvasSize = getCanvasSize();
     setZoom(initialZoom);
     setCanvasSize(canvasSize);
+  };
+  const handleKeyPress = (e: any) => {
+    e.preventDefault();
+    if (e.key === '-' && e.metaKey && e.altKey && e.ctrlKey) {
+      zoomOut();
+    } else if (e.key === '=' && e.metaKey && e.altKey && e.ctrlKey) {
+      zoomIn();
+    } else if (e.key === 'Enter' && e.metaKey && e.altKey && e.ctrlKey) {
+      refresh();
+    }
+  }
+  useEffect(() => {
+    refresh();
   }, []);
   return (
     <div
