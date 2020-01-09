@@ -10,12 +10,18 @@ $control-bar-height: 40px
 .c-canvas__escape
   +absolute-full
 
-.c-canvas-control
+.c-canvas-controls
   position: fixed
+  display: flex
+  flex-wrap: nowrap
   top: 0
   right: 0
+  height: $control-bar-height
+  z-index: 999999999999999999
+
+.c-canvas-control
   display: flex
-  width: $control-bar-height * 4
+  flex-grow: 0
   height: $control-bar-height
   background: $gray
   line-height: $control-bar-height
@@ -25,8 +31,8 @@ $control-bar-height: 40px
   z-index: 999999999999999999
 
 .c-canvas-zoom__status
-  width: 50%
-  height: 100%
+  width: $control-bar-height * 2
+  height: $control-bar-height
   cursor: default
   +no-selection
 
@@ -34,8 +40,8 @@ $control-bar-height: 40px
   display: flex
   align-items: center
   justify-content: center
-  width: 25%
-  height: 100%
+  width: $control-bar-height
+  height: $control-bar-height
   cursor: pointer
 
   &:hover,

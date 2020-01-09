@@ -14,6 +14,12 @@ const Canvas = (props) => {
         const newZoom = zoom + 0.1;
         setZoom(newZoom);
     };
+    const refresh = () => {
+        const initialZoom = scaleToFitCanvas();
+        const canvasSize = getCanvasSize();
+        setZoom(initialZoom);
+        setCanvasSize(canvasSize);
+    };
     const handleKeyPress = (e) => {
         e.preventDefault();
         if (e.key === '-' && e.metaKey && e.altKey && e.ctrlKey) {
@@ -21,6 +27,9 @@ const Canvas = (props) => {
         }
         else if (e.key === '=' && e.metaKey && e.altKey && e.ctrlKey) {
             zoomIn();
+        }
+        else if (e.key === 'Enter' && e.metaKey && e.altKey && e.ctrlKey) {
+            refresh();
         }
     };
     const getCanvasSize = () => {
@@ -63,7 +72,7 @@ const Canvas = (props) => {
         setCanvasSize(canvasSize);
     }, []);
     return (React.createElement("div", { className: 'c-canvas', ref: canvas, onKeyDown: handleKeyPress, tabIndex: -1 },
-        React.createElement(CanvasControls, { zoom: zoom, zoomIn: zoomIn, zoomOut: zoomOut }),
+        React.createElement(CanvasControls, { zoom: zoom, zoomIn: zoomIn, zoomOut: zoomOut, refresh: refresh }),
         React.createElement(Artboard, Object.assign({}, props, { zoom: zoom, canvasSize: canvasSize })),
         React.createElement(CanvasEscape, { setAppState: props.setAppState, onClick: () => { var _a; return (_a = canvas.current) === null || _a === void 0 ? void 0 : _a.focus(); } })));
 };

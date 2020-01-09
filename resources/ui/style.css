@@ -77,7 +77,6 @@ button {
   box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.33);
   z-index: 3;
   transform-origin: left top;
-  opacity: 0;
 }
 .c-artboard:focus {
   outline: none;
@@ -221,12 +220,19 @@ button {
   right: 0;
 }
 
-.c-canvas-control {
+.c-canvas-controls {
   position: fixed;
+  display: flex;
+  flex-wrap: nowrap;
   top: 0;
   right: 0;
+  height: 40px;
+  z-index: 1000000000000000100;
+}
+
+.c-canvas-control {
   display: flex;
-  width: 160px;
+  flex-grow: 0;
   height: 40px;
   background: #444;
   line-height: 40px;
@@ -237,8 +243,8 @@ button {
 }
 
 .c-canvas-zoom__status {
-  width: 50%;
-  height: 100%;
+  width: 80px;
+  height: 40px;
   cursor: default;
 }
 .c-canvas-zoom__status::selection {
@@ -249,8 +255,8 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 25%;
-  height: 100%;
+  width: 40px;
+  height: 40px;
   cursor: pointer;
 }
 .c-canvas-zoom-button:hover, .c-canvas-zoom-button:focus {

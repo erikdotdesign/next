@@ -24,12 +24,20 @@ const Canvas = (props: CanvasProps) => {
     const newZoom = zoom + 0.1;
     setZoom(newZoom);
   };
+  const refresh = () => {
+    const initialZoom = scaleToFitCanvas();
+    const canvasSize = getCanvasSize();
+    setZoom(initialZoom);
+    setCanvasSize(canvasSize);
+  };
   const handleKeyPress = (e: any) => {
     e.preventDefault();
     if (e.key === '-' && e.metaKey && e.altKey && e.ctrlKey) {
       zoomOut();
     } else if (e.key === '=' && e.metaKey && e.altKey && e.ctrlKey) {
       zoomIn();
+    } else if (e.key === 'Enter' && e.metaKey && e.altKey && e.ctrlKey) {
+      refresh();
     }
   }
   const getCanvasSize = () => {
@@ -77,7 +85,8 @@ const Canvas = (props: CanvasProps) => {
       <CanvasControls
         zoom={zoom}
         zoomIn={zoomIn}
-        zoomOut={zoomOut} />
+        zoomOut={zoomOut}
+        refresh={refresh} />
       <Artboard
         {...props}
         zoom={zoom}

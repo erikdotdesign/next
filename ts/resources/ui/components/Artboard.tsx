@@ -42,11 +42,11 @@ const Artboard = (props: ArtboardProps) => {
     const xCenter = (canvasSize.width - artboardSize.width) / 2;
     const yCenter = (canvasSize.height - artboardSize.height) / 2;
     if (canvasSize.width > artboardSize.width && canvasSize.height > artboardSize.height) {
-      gsap.set(artboardRef.current, {x: xCenter, y: yCenter, opacity: 1});
+      gsap.set(artboardRef.current, {x: xCenter, y: yCenter});
     } else if (canvasSize.width > artboardSize.width) {
-      gsap.set(artboardRef.current, {x: xCenter, opacity: 1});
+      gsap.set(artboardRef.current, {x: xCenter, y: 0});
     } else if (canvasSize.height > artboardSize.height) {
-      gsap.set(artboardRef.current, {y: yCenter, opacity: 1});
+      gsap.set(artboardRef.current, {x: 0, y: yCenter});
     }
   }
   // handle initial render
