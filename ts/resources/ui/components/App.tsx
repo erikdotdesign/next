@@ -26,18 +26,15 @@ class App extends React.Component<AppProps, AppState> {
   }
   render() {
     return (
-      <div className='c-app-wrap'>
-        <div className='c-app'>
-          <div className='c-app__sidebar-spacer' />
-          <Sidebar
-            appState={this.state}
-            images={this.props.images}
-            svgs={this.props.svgs} />
-          <Canvas
-            {...this.props}
-            appState={this.state}
-            setAppState={this.setAppState} />
-        </div>
+      <div className='c-app'>
+        <Sidebar
+          appState={this.state}
+          images={this.props.images}
+          svgs={this.props.svgs} />
+        <Canvas
+          {...this.props}
+          appState={this.state}
+          setAppState={this.setAppState} />
       </div>
     );
   }

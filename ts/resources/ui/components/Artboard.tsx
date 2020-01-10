@@ -15,12 +15,10 @@ interface ArtboardProps {
   appState: any;
   setAppState: any;
   zoom: number;
-  canvasSize: any;
 }
 
 const Artboard = (props: ArtboardProps) => {
-  const artboardRef = useRef<HTMLDivElement>(null);
-  const { artboard, images, svgs, setAppState, appState, zoom, canvasSize } = props;
+  const { artboard, images, svgs, setAppState, appState, zoom } = props;
   const { selection, hover } = appState;
   const onClick = () => {
     props.setAppState({
@@ -32,40 +30,8 @@ const Artboard = (props: ArtboardProps) => {
       hover: props.artboard
     });
   }
-  const getArtboardSize = () => {
-    const height = artboard.frame.height * zoom;
-    const width = artboard.frame.width * zoom;
-    return {width, height};
-  }
-  const centerArtboard = () => {
-    const artboardSize = getArtboardSize();
-    const xCenter = (canvasSize.width - artboardSize.width) / 2;
-    const yCenter = (canvasSize.height - artboardSize.height) / 2;
-    if (canvasSize.width > artboardSize.width && canvasSize.height > artboardSize.height) {
-      gsap.set(artboardRef.current, {x: xCenter, y: yCenter});
-    } else if (canvasSize.width > artboardSize.width) {
-      gsap.set(artboardRef.current, {x: xCenter, y: 0});
-    } else if (canvasSize.height > artboardSize.height) {
-      gsap.set(artboardRef.current, {x: 0, y: yCenter});
-    }
-  }
-  // handle initial render
-  useEffect(() => {
-    Draggable.create(artboardRef.current, {
-      inertia: true
-    });
-  }, []);
-  // handle zoom changes
-  useEffect(() => {
-    gsap.set(artboardRef.current, {scale: zoom});
-  }, [props.zoom]);
-  // handle canvasSize changes
-  useEffect(() => {
-    centerArtboard();
-  }, [props.canvasSize]);
   return (
     <div
-      ref={artboardRef}
       className='c-artboard'
       style={artboardStyles(artboard)}>
       <Layers
@@ -105,3 +71,36 @@ const Artboard = (props: ArtboardProps) => {
 }
 
 export default Artboard;
+
+
+// const getArtboardSize = () => {
+  //   const height = artboard.frame.height * zoom;
+  //   const width = artboard.frame.width * zoom;
+  //   return {width, height};
+  // }
+  // const centerArtboard = () => {
+  //   const artboardSize = getArtboardSize();
+  //   const xCenter = (canvasSize.width - artboardSize.width) / 2;
+  //   const yCenter = (canvasSize.height - artboardSize.height) / 2;
+  //   if (canvasSize.width > artboardSize.width && canvasSize.height > artboardSize.height) {
+  //     gsap.set(artboardRef.current, {x: xCenter, y: yCenter});
+  //   } else if (canvasSize.width > artboardSize.width) {
+  //     gsap.set(artboardRef.current, {x: xCenter, y: 0});
+  //   } else if (canvasSize.height > artboardSize.height) {
+  //     gsap.set(artboardRef.current, {x: 0, y: yCenter});
+  //   }
+  // }
+  // // handle initial render
+  // useEffect(() => {
+  //   Draggable.create(artboardRef.current, {
+  //     inertia: true
+  //   });
+  // }, []);
+  // // handle zoom changes
+  // useEffect(() => {
+  //   gsap.set(artboardRef.current, {scale: zoom});
+  // }, [props.zoom]);
+  // // handle canvasSize changes
+  // useEffect(() => {
+  //   centerArtboard();
+  // }, [props.canvasSize]);

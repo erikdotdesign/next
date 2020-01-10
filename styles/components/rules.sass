@@ -1,0 +1,29 @@
+.c-canvas__rules
+  position: relative
+
+.c-canvas__cornerstone
+  position: fixed
+  height: $ruleSize
+  width: $ruleSize
+  background: $grayDarkest
+  z-index: 999999999999
+  box-shadow: -1px -1px 0px 0px #666 inset
+
+.c-canvas__rule
+  position: fixed
+  width: 100%
+  height: $ruleSize
+  z-index: 999999999
+  background: $grayDarkest
+  overflow: hidden
+
+  canvas
+    position: absolute
+    top: 0
+    left: $ruleSize
+    width: $canvasSize
+    height: $ruleSize
+
+.c-canvas__rule--left
+  transform: rotate(90deg) translateY(-$ruleSize)
+  transform-origin: left top

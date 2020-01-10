@@ -1,49 +1,26 @@
-$control-bar-height: 40px
-
 .c-canvas
   position: relative
-  width: 100%
-  height: 100%
+  left: $sidebarWidth
+  top: 0
   z-index: 2
-  overflow: hidden
+  width: $canvasSize
+  height: $canvasSize
+  background: $grayDarker
+  overflow: scroll
 
 .c-canvas__escape
   +absolute-full
+  z-index: 1
+
+.c-canvas__artboard
+  +absolute-full
+  padding: $ruleSize
 
 .c-canvas-controls
   position: fixed
-  display: flex
-  flex-wrap: nowrap
+  width: 100%
   top: 0
-  right: 0
-  height: $control-bar-height
-  z-index: 999999999999999999
-
-.c-canvas-control
-  display: flex
-  flex-grow: 0
   height: $control-bar-height
   background: $gray
-  line-height: $control-bar-height
-  font-size: 14px
-  text-align: center
   box-shadow: 0px 5px 20px 0px rgba(0,0,0,0.15)
-  z-index: 999999999999999999
-
-.c-canvas-zoom__status
-  width: $control-bar-height * 2
-  height: $control-bar-height
-  cursor: default
-  +no-selection
-
-.c-canvas-zoom-button
-  display: flex
-  align-items: center
-  justify-content: center
-  width: $control-bar-height
-  height: $control-bar-height
-  cursor: pointer
-
-  &:hover,
-  &:focus
-    background: rgba(255,255,255,0.15)
+  z-index: 9999999999999999999999999999999999
