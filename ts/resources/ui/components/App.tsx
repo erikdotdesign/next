@@ -1,6 +1,7 @@
 import React from 'react';
 import Sidebar from './Sidebar';
 import Canvas from './Canvas';
+import Topbar from './Topbar';
 
 interface AppProps {
   artboard: any;
@@ -11,12 +12,14 @@ interface AppProps {
 interface AppState {
   selection: any;
   hover: any;
+  zoom: number;
 }
 
 class App extends React.Component<AppProps, AppState> {
   state: AppState = {
     selection: '',
-    hover: ''
+    hover: '',
+    zoom: 1
   }
   componentDidMount() {
     console.log(this.props.artboard.layers);
@@ -27,6 +30,9 @@ class App extends React.Component<AppProps, AppState> {
   render() {
     return (
       <div className='c-app'>
+        <Topbar
+          appState={this.state}
+          setAppState={this.setAppState} />
         <Sidebar
           appState={this.state}
           images={this.props.images}

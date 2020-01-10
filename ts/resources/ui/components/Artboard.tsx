@@ -14,12 +14,12 @@ interface ArtboardProps {
   svgs: any;
   appState: any;
   setAppState: any;
-  zoom: number;
 }
 
 const Artboard = (props: ArtboardProps) => {
-  const { artboard, images, svgs, setAppState, appState, zoom } = props;
-  const { selection, hover } = appState;
+  const artboardRef = useRef<HTMLDivElement>(null);
+  const { artboard, images, svgs, setAppState, appState } = props;
+  const { selection, hover, zoom } = appState;
   const onClick = () => {
     props.setAppState({
       selection: ''
@@ -30,8 +30,12 @@ const Artboard = (props: ArtboardProps) => {
       hover: props.artboard
     });
   }
+  useEffect(() => {
+    gsap.set(artboardRef.current, {scale: zoom});
+  }, [appState.zoom]);
   return (
     <div
+      ref={artboardRef}
       className='c-artboard'
       style={artboardStyles(artboard)}>
       <Layers

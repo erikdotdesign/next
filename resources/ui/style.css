@@ -60,6 +60,7 @@ button {
 .c-artboard {
   position: relative;
   box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.33);
+  transform-origin: left top;
   z-index: 3;
 }
 .c-artboard:focus {
@@ -76,7 +77,7 @@ button {
 
 .c-sidebar {
   position: fixed;
-  background: #333;
+  background: #222;
   min-width: 320px;
   width: 320px;
   height: 100%;
@@ -87,7 +88,7 @@ button {
 
 .c-sidebar__section {
   position: relative;
-  background: #333;
+  background: #222;
 }
 
 .c-sidebar__placeholder {
@@ -110,10 +111,11 @@ button {
   font-size: 14px;
   color: #fff;
   font-weight: 700;
-  height: 40px;
-  line-height: 40px;
-  background: #444;
+  height: 48px;
+  line-height: 48px;
+  background: #333;
   padding: 0 16px;
+  box-shadow: 0px 1px 0px 0px #666, 0px -1px 0px 0px #666;
 }
 
 .c-sidebar-layer__name {
@@ -121,8 +123,8 @@ button {
   padding: 0;
   font-size: 14px;
   color: #fff;
-  height: 40px;
-  line-height: 40px;
+  height: 48px;
+  line-height: 48px;
   padding: 16px;
 }
 
@@ -150,7 +152,7 @@ button {
 .c-sidebar-layer__value input {
   border: none;
   margin: 0;
-  background: #222;
+  background: #111;
   height: 16px;
   font-size: 14px;
   line-height: 16px;
@@ -195,7 +197,7 @@ button {
   z-index: 2;
   width: 20000px;
   height: 20000px;
-  background: #222;
+  background: #111;
   overflow: scroll;
 }
 
@@ -215,16 +217,6 @@ button {
   bottom: 0;
   right: 0;
   padding: 24px;
-}
-
-.c-canvas-controls {
-  position: fixed;
-  width: 100%;
-  top: 0;
-  height: 40px;
-  background: #444;
-  box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, 0.15);
-  z-index: 10000000000000000000000000000000000;
 }
 
 .c-layers {
@@ -452,9 +444,9 @@ button {
   position: fixed;
   height: 24px;
   width: 24px;
-  background: #111;
+  background: #000;
   z-index: 999999999999;
-  box-shadow: -1px -1px 0px 0px #666 inset;
+  box-shadow: 0px 0px 0px 1px #666 inset;
 }
 
 .c-canvas__rule {
@@ -462,8 +454,9 @@ button {
   width: 100%;
   height: 24px;
   z-index: 999999999;
-  background: #111;
+  background: #000;
   overflow: hidden;
+  box-shadow: 0px 1px 0px 0px #666 inset, 0px -1px 0px 0px #666 inset;
 }
 .c-canvas__rule canvas {
   position: absolute;
@@ -476,4 +469,51 @@ button {
 .c-canvas__rule--left {
   transform: rotate(90deg) translateY(-24px);
   transform-origin: left top;
+}
+
+.c-topbar-wrap {
+  position: relative;
+  height: 48px;
+  width: 100%;
+}
+
+.c-topbar {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  height: 48px;
+  background: #333;
+  box-shadow: 0px 1px 0px 0px #666;
+  z-index: 100000000000000020000;
+}
+
+.c-topbar__control {
+  display: flex;
+  margin-right: 8px;
+}
+
+.c-topbar__zoom-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  line-height: 32px;
+  background: #666;
+  width: 64px;
+  height: 32px;
+}
+
+.c-topbar__button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #666;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+.c-topbar__button:hover {
+  background: #777;
 }

@@ -1,0 +1,43 @@
+$buttonSize: 32px
+
+.c-topbar-wrap
+  position: relative
+  height: $topbarHeight
+  width: 100%
+
+.c-topbar
+  position: fixed
+  display: flex
+  align-items: center
+  justify-content: flex-end
+  width: 100%
+  height: $topbarHeight
+  background: $grayDark
+  box-shadow: 0px 1px 0px 0px $grayLighter
+  z-index: 99999999999999999999
+
+.c-topbar__control
+  display: flex
+  margin-right: 8px
+
+.c-topbar__zoom-status
+  display: flex
+  align-items: center
+  justify-content: center
+  font-size: 12px
+  line-height: 32px
+  background: $grayLighter
+  width: $buttonSize * 2
+  height: $buttonSize
+
+.c-topbar__button
+  display: flex
+  align-items: center
+  justify-content: center
+  background: $grayLighter
+  width: $buttonSize
+  height: $buttonSize
+  cursor: pointer
+
+  &:hover
+    background: $grayLightest

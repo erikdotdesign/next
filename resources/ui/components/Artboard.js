@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import Draggable from 'gsap/Draggable';
 import Layers from './Layers';
@@ -7,8 +7,9 @@ import Hover from './Hover';
 import artboardStyles from '../styles/artboardStyles';
 gsap.registerPlugin(Draggable);
 const Artboard = (props) => {
-    const { artboard, images, svgs, setAppState, appState, zoom } = props;
-    const { selection, hover } = appState;
+    const artboardRef = useRef(null);
+    const { artboard, images, svgs, setAppState, appState } = props;
+    const { selection, hover, zoom } = appState;
     const onClick = () => {
         props.setAppState({
             selection: ''
@@ -19,7 +20,10 @@ const Artboard = (props) => {
             hover: props.artboard
         });
     };
-    return (React.createElement("div", { className: 'c-artboard', style: artboardStyles(artboard) },
+    useEffect(() => {
+        gsap.set(artboardRef.current, { scale: zoom });
+    }, [appState.zoom]);
+    return (React.createElement("div", { ref: artboardRef, className: 'c-artboard', style: artboardStyles(artboard) },
         React.createElement(Layers, { layers: artboard.layers, images: images, svgs: svgs, setAppState: setAppState, appState: appState, style: {
                 width: `${artboard.frame.width}px`,
                 height: `${artboard.frame.height}px`

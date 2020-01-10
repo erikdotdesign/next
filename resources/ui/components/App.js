@@ -1,12 +1,14 @@
 import React from 'react';
 import Sidebar from './Sidebar';
 import Canvas from './Canvas';
+import Topbar from './Topbar';
 class App extends React.Component {
     constructor() {
         super(...arguments);
         this.state = {
             selection: '',
-            hover: ''
+            hover: '',
+            zoom: 1
         };
         this.setAppState = (args) => {
             this.setState(args);
@@ -17,6 +19,7 @@ class App extends React.Component {
     }
     render() {
         return (React.createElement("div", { className: 'c-app' },
+            React.createElement(Topbar, { appState: this.state, setAppState: this.setAppState }),
             React.createElement(Sidebar, { appState: this.state, images: this.props.images, svgs: this.props.svgs }),
             React.createElement(Canvas, Object.assign({}, this.props, { appState: this.state, setAppState: this.setAppState }))));
     }
