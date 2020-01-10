@@ -7,34 +7,6 @@ const Canvas = (props) => {
     const canvas = useRef(null);
     const [leftScroll, setLeftScroll] = useState(0);
     const [topScroll, setTopScroll] = useState(0);
-    const scaleToFitCanvas = () => {
-        if (canvas.current) {
-            const canvasWidth = window.innerWidth - (320 + 24);
-            const canvasHeight = window.innerHeight - 24;
-            const artboardHeight = props.artboard.frame.height;
-            const artboardWidth = props.artboard.frame.width;
-            const maxHeight = Math.min(canvasWidth, artboardHeight);
-            const maxWidth = Math.min(canvasHeight, artboardWidth);
-            const maxRatio = maxWidth / maxHeight;
-            const artboardRatio = artboardWidth / artboardHeight;
-            // dims of artboard scaled to fit in viewport
-            if (maxRatio > artboardRatio) {
-                // height is the constraining dimension
-                props.setAppState({
-                    zoom: maxHeight / artboardHeight
-                });
-            }
-            else {
-                // width is the constraining dimension
-                props.setAppState({
-                    zoom: maxWidth / artboardWidth
-                });
-            }
-        }
-        else {
-            return 1;
-        }
-    };
     const handleScroll = () => {
         if (canvas.current) {
             setLeftScroll(window.scrollX);
@@ -43,11 +15,10 @@ const Canvas = (props) => {
     };
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
-        scaleToFitCanvas();
     }, []);
     return (React.createElement("div", { className: 'c-canvas', ref: canvas },
         React.createElement(CanvasRules, { leftScroll: leftScroll, topScroll: topScroll, sectionSize: 100, unitSize: 10, canvasSize: canvasSize }),
-        React.createElement(Artboard, Object.assign({}, props)),
+        React.createElement(Artboard, Object.assign({}, props, { canvasSize: canvasSize })),
         React.createElement(CanvasEscape, { setAppState: props.setAppState, onClick: () => { var _a; return (_a = canvas.current) === null || _a === void 0 ? void 0 : _a.focus(); } })));
 };
 export default Canvas;

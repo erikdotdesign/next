@@ -16,32 +16,6 @@ const Canvas = (props: CanvasProps) => {
   const canvas = useRef<HTMLDivElement>(null);
   const [leftScroll, setLeftScroll] = useState(0);
   const [topScroll, setTopScroll] = useState(0);
-  const scaleToFitCanvas = () => {
-    if (canvas.current) {
-      const canvasWidth = window.innerWidth - (320 + 24);
-      const canvasHeight = window.innerHeight - 24;
-      const artboardHeight = props.artboard.frame.height;
-      const artboardWidth = props.artboard.frame.width;
-      const maxHeight = Math.min(canvasWidth, artboardHeight);
-      const maxWidth = Math.min(canvasHeight, artboardWidth);
-      const maxRatio = maxWidth / maxHeight;
-      const artboardRatio = artboardWidth / artboardHeight;
-      // dims of artboard scaled to fit in viewport
-      if (maxRatio > artboardRatio) {
-        // height is the constraining dimension
-        props.setAppState({
-          zoom: maxHeight / artboardHeight
-        });
-      } else {
-        // width is the constraining dimension
-        props.setAppState({
-          zoom: maxWidth / artboardWidth
-        });
-      }
-    } else {
-      return 1;
-    }
-  }
   const handleScroll = () => {
     if (canvas.current) {
       setLeftScroll(window.scrollX);
@@ -50,7 +24,6 @@ const Canvas = (props: CanvasProps) => {
   }
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
-    scaleToFitCanvas();
   }, []);
   return (
     <div
@@ -62,7 +35,9 @@ const Canvas = (props: CanvasProps) => {
         sectionSize={100}
         unitSize={10}
         canvasSize={canvasSize} />
-      <Artboard {...props} />
+      <Artboard
+        {...props}
+        canvasSize={canvasSize} />
       <CanvasEscape
         setAppState={props.setAppState}
         onClick={() => canvas.current?.focus()} />
