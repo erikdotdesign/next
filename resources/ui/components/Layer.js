@@ -4,21 +4,15 @@ import ShapePath from './ShapePath';
 import Shape from './Shape';
 import Text from './Text';
 const Layer = (props) => {
-    const { layer, images, svgs } = props;
+    const { layer, images, svgs, setSelection, setHover } = props;
     const onClick = () => {
-        props.setAppState({
-            selection: props.layer
-        });
+        setSelection(props.layer);
     };
     const onMouseOver = () => {
-        props.setAppState({
-            hover: props.layer
-        });
+        setHover(props.layer);
     };
     const onMouseOut = () => {
-        props.setAppState({
-            hover: ''
-        });
+        setHover('');
     };
     switch (layer.type) {
         case 'Image':

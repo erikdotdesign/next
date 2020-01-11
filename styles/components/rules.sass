@@ -1,11 +1,11 @@
 .c-canvas__rules
-  position: relative
+  +absolute-full
 
 .c-canvas__cornerstone
   position: fixed
   height: $ruleSize
   width: $ruleSize
-  background: #000
+  background: $grayDarkest
   z-index: 999999999999
   box-shadow: 0px 0px 0px 1px $grayLighter inset
 
@@ -14,7 +14,7 @@
   width: 100%
   height: $ruleSize
   z-index: 999999999
-  background: #000
+  background: $grayDarkest
   overflow: hidden
   box-shadow: 0px 1px 0px 0px $grayLighter inset, 0px -1px 0px 0px $grayLighter inset
 

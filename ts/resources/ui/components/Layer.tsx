@@ -8,26 +8,20 @@ interface LayerProps {
   layer: any;
   images: any;
   svgs: any;
-  setAppState: any;
-  appState: any;
+  setSelection: any;
+  setHover: any;
 }
 
 const Layer = (props: LayerProps) => {
-  const { layer, images, svgs } = props;
+  const { layer, images, svgs, setSelection, setHover } = props;
   const onClick = () => {
-    props.setAppState({
-      selection: props.layer
-    });
+    setSelection(props.layer);
   }
   const onMouseOver = () => {
-    props.setAppState({
-      hover: props.layer
-    });
+    setHover(props.layer);
   }
   const onMouseOut = () => {
-    props.setAppState({
-      hover: ''
-    });
+    setHover('');
   }
   switch(layer.type) {
     case 'Image':

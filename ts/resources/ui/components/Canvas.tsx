@@ -1,51 +1,107 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import Artboard from './Artboard';
 import CanvasEscape from './CanvasEscape';
 import CanvasRules from './CanvasRules';
 
 interface CanvasProps {
-  appState: any;
-  setAppState: any;
   artboard: any;
   images: any;
   svgs: any;
+  zoom: any;
+  setZoom: any;
+  baseZoom: any;
+  setBaseZoom: any;
+  selection: any;
+  setSelection: any;
+  hover: any;
+  setHover: any;
+  leftScroll: any;
+  topScroll: any;
+  viewPortSize: any;
+  canvasSize: any;
 }
 
 const Canvas = (props: CanvasProps) => {
-  const canvasSize = 20000;
   const canvas = useRef<HTMLDivElement>(null);
-  const [leftScroll, setLeftScroll] = useState(0);
-  const [topScroll, setTopScroll] = useState(0);
-  const handleScroll = () => {
-    if (canvas.current) {
-      setLeftScroll(window.scrollX);
-      setTopScroll(window.scrollY);
-    }
-  }
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-  }, []);
   return (
     <div
       className='c-canvas'
       ref={canvas}>
       <CanvasRules
-        leftScroll={leftScroll}
-        topScroll={topScroll}
+        leftScroll={props.leftScroll}
+        topScroll={props.topScroll}
         sectionSize={100}
         unitSize={10}
-        canvasSize={canvasSize} />
+        canvasSize={props.canvasSize} />
       <Artboard
-        {...props}
-        canvasSize={canvasSize} />
+        artboard={props.artboard}
+        images={props.images}
+        svgs={props.svgs}
+        zoom={props.zoom}
+        selection={props.selection}
+        setSelection={props.setSelection}
+        hover={props.hover}
+        setHover={props.setHover} />
       <CanvasEscape
-        setAppState={props.setAppState}
+        setSelection={props.setSelection}
+        setHover={props.setHover}
         onClick={() => canvas.current?.focus()} />
     </div>
   );
 }
 
 export default Canvas;
+
+
+// const Canvas = (props: CanvasProps) => {
+//   const canvas = useRef<HTMLDivElement>(null);
+//   const [viewPortSize, setViewPortSize] = useState({width: 0, height: 0});
+//   const [leftScroll, setLeftScroll] = useState(0);
+//   const [topScroll, setTopScroll] = useState(0);
+//   const getViewPortSize = () => {
+//     // subtract sidebar width + left rule width
+//     const viewportWidth = window.innerWidth - 320;
+//     // subtract artboard padding + top rule height
+//     const viewportHeight = window.innerHeight - 24 * 3;
+//     return {
+//       width: viewportWidth,
+//       height: viewportHeight
+//     }
+//   }
+//   const handleScroll = () => {
+//     if (canvas.current) {
+//       setLeftScroll(window.scrollX);
+//       setTopScroll(window.scrollY);
+//     }
+//   }
+//   const handleResize = () => {
+//     setViewPortSize(getViewPortSize());
+//   }
+//   useEffect(() => {
+//     // set scroll listener
+//     window.addEventListener('scroll', handleScroll);
+//     // set reszie listener
+//     window.addEventListener('resize', handleResize);
+//     // set viewportsize
+//     setViewPortSize(getViewPortSize());
+//   }, []);
+//   return (
+//     <div
+//       className='c-canvas'
+//       ref={canvas}>
+//       <CanvasRules
+//         leftScroll={leftScroll}
+//         topScroll={topScroll}
+//         sectionSize={100}
+//         unitSize={10}
+//         canvasSize={props.appState.canvasSize} />
+//       <Artboard {...props} viewPortSize={viewPortSize} />
+//       <CanvasEscape
+//         setAppState={props.setAppState}
+//         onClick={() => canvas.current?.focus()} />
+//     </div>
+//   );
+// }
 
 
 // const [zoom, setZoom] = useState(1);

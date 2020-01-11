@@ -5,8 +5,8 @@ interface LayersProps {
   layers: any;
   images: any;
   svgs: any;
-  setAppState: any;
-  appState: any;
+  setSelection: any;
+  setHover: any;
   style: any;
 }
 
@@ -20,8 +20,8 @@ const Layers = (props: LayersProps) => {
             key={index}
             images={props.images}
             svgs={props.svgs}
-            setAppState={props.setAppState}
-            appState={props.appState} />
+            setSelection={props.setSelection}
+            setHover={props.setHover} />
         ))
       }
     </div>

@@ -1,27 +1,70 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Sidebar from './Sidebar';
 import Canvas from './Canvas';
 import Topbar from './Topbar';
-class App extends React.Component {
-    constructor() {
-        super(...arguments);
-        this.state = {
-            selection: '',
-            hover: '',
-            zoom: 1
+const App = (props) => {
+    const canvasSize = 20000;
+    const [selection, setSelection] = useState('');
+    const [hover, setHover] = useState('');
+    const [zoom, setZoom] = useState(1);
+    const [baseZoom, setBaseZoom] = useState(1);
+    const [leftScroll, setLeftScroll] = useState(0);
+    const [topScroll, setTopScroll] = useState(0);
+    const [viewPortSize, setViewPortSize] = useState({ width: 0, height: 0 });
+    const scaleToFitViewport = () => {
+        const artboardWidth = props.artboard.frame.width;
+        const artboardHeight = props.artboard.frame.height;
+        const maxWidth = Math.min(viewPortSize.width, artboardWidth);
+        const maxHeight = Math.min(viewPortSize.height, artboardHeight);
+        const maxRatio = maxWidth / maxHeight;
+        const artboardRatio = artboardWidth / artboardHeight;
+        // dims of artboard scaled to fit in viewport
+        if (maxRatio > artboardRatio) {
+            // height is the constraining dimension
+            return maxHeight / artboardHeight;
+        }
+        else {
+            // width is the constraining dimension
+            return maxWidth / artboardWidth;
+        }
+    };
+    const getViewPortSize = () => {
+        // subtract sidebar width + left rule width
+        const viewportWidth = window.innerWidth - 320;
+        // subtract artboard padding + top rule height
+        const viewportHeight = window.innerHeight - 24 * 3;
+        return {
+            width: viewportWidth,
+            height: viewportHeight
         };
-        this.setAppState = (args) => {
-            this.setState(args);
-        };
-    }
-    componentDidMount() {
-        console.log(this.props.artboard.layers);
-    }
-    render() {
-        return (React.createElement("div", { className: 'c-app' },
-            React.createElement(Topbar, { appState: this.state, setAppState: this.setAppState }),
-            React.createElement(Sidebar, { appState: this.state, images: this.props.images, svgs: this.props.svgs }),
-            React.createElement(Canvas, Object.assign({}, this.props, { appState: this.state, setAppState: this.setAppState }))));
-    }
-}
+    };
+    const handleScroll = () => {
+        setLeftScroll(window.scrollX);
+        setTopScroll(window.scrollY);
+    };
+    const handleResize = () => {
+        setViewPortSize(getViewPortSize());
+    };
+    useEffect(() => {
+        // set scroll listener
+        window.addEventListener('scroll', handleScroll);
+        // set reszie listener
+        window.addEventListener('resize', handleResize);
+        // set viewportsize
+        setViewPortSize(getViewPortSize());
+    }, []);
+    useEffect(() => {
+        // get initial zoom and new dims
+        const initialZoom = scaleToFitViewport();
+        // set initial zoom
+        setZoom(initialZoom);
+        setBaseZoom(initialZoom);
+        // scroll to center or canvas
+        window.scrollTo(canvasSize / 2, canvasSize / 2);
+    }, [viewPortSize]);
+    return (React.createElement("div", { className: 'c-app' },
+        React.createElement(Topbar, { zoom: zoom, setZoom: setZoom, baseZoom: baseZoom, canvasSize: canvasSize }),
+        React.createElement(Sidebar, { selection: selection, hover: hover, images: props.images, svgs: props.svgs }),
+        React.createElement(Canvas, Object.assign({}, props, { zoom: zoom, setZoom: setZoom, baseZoom: baseZoom, setBaseZoom: setBaseZoom, selection: selection, setSelection: setSelection, hover: hover, setHover: setHover, leftScroll: leftScroll, topScroll: topScroll, viewPortSize: viewPortSize, canvasSize: canvasSize }))));
+};
 export default App;

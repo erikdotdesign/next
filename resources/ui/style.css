@@ -438,14 +438,18 @@ button {
 }
 
 .c-canvas__rules {
-  position: relative;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
 }
 
 .c-canvas__cornerstone {
   position: fixed;
   height: 24px;
   width: 24px;
-  background: #000;
+  background: #111;
   z-index: 999999999999;
   box-shadow: 0px 0px 0px 1px #666 inset;
 }
@@ -455,7 +459,7 @@ button {
   width: 100%;
   height: 24px;
   z-index: 999999999;
-  background: #000;
+  background: #111;
   overflow: hidden;
   box-shadow: 0px 1px 0px 0px #666 inset, 0px -1px 0px 0px #666 inset;
 }
