@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import Sidebar from './Sidebar';
 import Canvas from './Canvas';
 import Topbar from './Topbar';
 const App = (props) => {
+    const app = useRef(null);
     const canvasSize = 20000;
     const [selection, setSelection] = useState('');
     const [hover, setHover] = useState('');
@@ -45,7 +46,22 @@ const App = (props) => {
     const handleResize = () => {
         setViewPortSize(getViewPortSize());
     };
+    const handleKeyPress = (e) => {
+        e.preventDefault();
+        if (e.key === '-' && e.metaKey && e.altKey && e.ctrlKey) {
+            setZoom(zoom - 0.1);
+        }
+        else if (e.key === '=' && e.metaKey && e.altKey && e.ctrlKey) {
+            setZoom(zoom + 0.1);
+        }
+        else if (e.key === 'Enter' && e.metaKey && e.altKey && e.ctrlKey) {
+            setZoom(baseZoom);
+            window.scrollTo(canvasSize / 2, canvasSize / 2);
+        }
+    };
     useEffect(() => {
+        var _a;
+        (_a = app.current) === null || _a === void 0 ? void 0 : _a.focus();
         // set scroll listener
         window.addEventListener('scroll', handleScroll);
         // set reszie listener
@@ -62,7 +78,7 @@ const App = (props) => {
         // scroll to center or canvas
         window.scrollTo(canvasSize / 2, canvasSize / 2);
     }, [viewPortSize]);
-    return (React.createElement("div", { className: 'c-app' },
+    return (React.createElement("div", { className: 'c-app', tabIndex: -1, ref: app, onKeyDown: handleKeyPress },
         React.createElement(Topbar, { zoom: zoom, setZoom: setZoom, baseZoom: baseZoom, canvasSize: canvasSize }),
         React.createElement(Sidebar, { selection: selection, hover: hover, images: props.images, svgs: props.svgs }),
         React.createElement(Canvas, Object.assign({}, props, { zoom: zoom, setZoom: setZoom, baseZoom: baseZoom, setBaseZoom: setBaseZoom, selection: selection, setSelection: setSelection, hover: hover, setHover: setHover, leftScroll: leftScroll, topScroll: topScroll, viewPortSize: viewPortSize, canvasSize: canvasSize }))));

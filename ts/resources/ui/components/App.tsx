@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import Sidebar from './Sidebar';
 import Canvas from './Canvas';
 import Topbar from './Topbar';
@@ -10,6 +10,7 @@ interface AppProps {
 }
 
 const App = (props: AppProps) => {
+  const app = useRef<HTMLDivElement>(null);
   const canvasSize = 20000;
   const [selection, setSelection] = useState('');
   const [hover, setHover] = useState('');
@@ -56,7 +57,20 @@ const App = (props: AppProps) => {
     setViewPortSize(getViewPortSize());
   }
 
+  const handleKeyPress = (e: any) => {
+    e.preventDefault();
+    if (e.key === '-' && e.metaKey && e.altKey && e.ctrlKey) {
+      setZoom(zoom - 0.1);
+    } else if (e.key === '=' && e.metaKey && e.altKey && e.ctrlKey) {
+      setZoom(zoom + 0.1);
+    } else if (e.key === 'Enter' && e.metaKey && e.altKey && e.ctrlKey) {
+      setZoom(baseZoom);
+      window.scrollTo(canvasSize / 2, canvasSize / 2);
+    }
+  }
+
   useEffect(() => {
+    app.current?.focus();
     // set scroll listener
     window.addEventListener('scroll', handleScroll);
     // set reszie listener
@@ -76,7 +90,11 @@ const App = (props: AppProps) => {
   }, [viewPortSize]);
 
   return (
-    <div className='c-app'>
+    <div
+      className='c-app'
+      tabIndex={-1}
+      ref={app}
+      onKeyDown={handleKeyPress}>
       <Topbar
         zoom={zoom}
         setZoom={setZoom}
