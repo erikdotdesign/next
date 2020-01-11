@@ -1,4 +1,5 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
+import gsap from 'gsap';
 import Layers from './Layers';
 import Selection from './Selection';
 import Hover from './Hover';
@@ -12,7 +13,10 @@ const Artboard = (props) => {
     const onMouseOver = () => {
         setHover(props.artboard);
     };
-    return (React.createElement("div", { ref: artboardRef, className: 'c-artboard', id: 'artboard', style: Object.assign(Object.assign({}, artboardStyles(artboard)), { transform: `scale(${props.zoom})` }) },
+    useEffect(() => {
+        gsap.set(artboardRef.current, { scale: zoom });
+    }, [zoom]);
+    return (React.createElement("div", { ref: artboardRef, className: 'c-artboard', id: 'artboard', style: artboardStyles(artboard) },
         React.createElement(Layers, { layers: artboard.layers, images: images, svgs: svgs, setSelection: setSelection, setHover: setHover, style: {
                 width: `${artboard.frame.width}px`,
                 height: `${artboard.frame.height}px`

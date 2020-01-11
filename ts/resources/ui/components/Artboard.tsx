@@ -1,4 +1,5 @@
-import React, { useRef }  from 'react';
+import React, { useRef, useEffect }  from 'react';
+import gsap from 'gsap';
 import Layers from './Layers';
 import Selection from './Selection';
 import Hover from './Hover';
@@ -24,15 +25,15 @@ const Artboard = (props: ArtboardProps) => {
   const onMouseOver = () => {
     setHover(props.artboard);
   }
+  useEffect(() => {
+    gsap.set(artboardRef.current, {scale: zoom});
+  }, [zoom]);
   return (
     <div
       ref={artboardRef}
       className='c-artboard'
       id='artboard'
-      style={{
-        ...artboardStyles(artboard),
-        transform: `scale(${props.zoom})`
-      }}>
+      style={artboardStyles(artboard)}>
       <Layers
         layers={artboard.layers}
         images={images}
