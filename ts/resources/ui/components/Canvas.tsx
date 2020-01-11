@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Artboard from './Artboard';
 import CanvasRules from './CanvasRules';
 
@@ -8,8 +8,6 @@ interface CanvasProps {
   svgs: any;
   zoom: any;
   setZoom: any;
-  baseZoom: any;
-  setBaseZoom: any;
   selection: any;
   setSelection: any;
   hover: any;
@@ -21,14 +19,48 @@ interface CanvasProps {
 }
 
 const Canvas = (props: CanvasProps) => {
+  const [gestureZoom, setGestureZoom] = useState(1);
+  const canvas = useRef<HTMLDivElement>(null);
   const handleClick = () => {
     props.setSelection('');
   }
   const handleMouseOver = () => {
     props.setHover('');
   }
+  const handleGestureStart = (e: any) => {
+    e.preventDefault();
+  }
+  const handleGestureChange = (e: any) => {
+    e.preventDefault();
+    setGestureZoom(e.scale);
+  }
+  const handleGestureEnd = (e: any) => {
+    e.preventDefault();
+  }
+  const handlePan = () => {
+    if (props.zoom < 4.98) {
+      props.setZoom(props.zoom + 0.02);
+    }
+  }
+  const handlePinch = () => {
+    if (props.zoom > 0.01) {
+      props.setZoom(props.zoom - 0.02);
+    }
+  }
+  useEffect(() => {
+    if (canvas.current) {
+      canvas.current.addEventListener('gesturestart', handleGestureStart);
+      canvas.current.addEventListener('gesturechange', handleGestureChange);
+      canvas.current.addEventListener('gestureend', handleGestureEnd);
+    }
+  }, []);
+  useEffect(() => {
+    gestureZoom % Math.floor(gestureZoom) ? handlePan() : handlePinch();
+  }, [gestureZoom]);
   return (
-    <div className='c-canvas'>
+    <div
+      className='c-canvas'
+      ref={canvas}>
       <CanvasRules
         leftScroll={props.leftScroll}
         topScroll={props.topScroll}

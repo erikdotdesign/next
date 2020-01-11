@@ -81,6 +81,6 @@ const App = (props) => {
     return (React.createElement("div", { className: 'c-app', tabIndex: -1, ref: app, onKeyDown: handleKeyPress },
         React.createElement(Topbar, { zoom: zoom, setZoom: setZoom, baseZoom: baseZoom, canvasSize: canvasSize }),
         React.createElement(Sidebar, { selection: selection, hover: hover, images: props.images, svgs: props.svgs }),
-        React.createElement(Canvas, Object.assign({}, props, { zoom: zoom, setZoom: setZoom, baseZoom: baseZoom, setBaseZoom: setBaseZoom, selection: selection, setSelection: setSelection, hover: hover, setHover: setHover, leftScroll: leftScroll, topScroll: topScroll, viewPortSize: viewPortSize, canvasSize: canvasSize }))));
+        React.createElement(Canvas, Object.assign({}, props, { zoom: zoom, setZoom: setZoom, selection: selection, setSelection: setSelection, hover: hover, setHover: setHover, leftScroll: leftScroll, topScroll: topScroll, viewPortSize: viewPortSize, canvasSize: canvasSize }))));
 };
 export default App;

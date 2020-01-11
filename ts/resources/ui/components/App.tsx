@@ -109,8 +109,6 @@ const App = (props: AppProps) => {
         {...props}
         zoom={zoom}
         setZoom={setZoom}
-        baseZoom={baseZoom}
-        setBaseZoom={setBaseZoom}
         selection={selection}
         setSelection={setSelection}
         hover={hover}
