@@ -8,6 +8,8 @@ const App = (props) => {
     const [selection, setSelection] = useState('');
     const [hover, setHover] = useState('');
     const [leftScroll, setLeftScroll] = useState(0);
+    const [zoom, setZoom] = useState(1);
+    const [baseZoom, setBaseZoom] = useState(1);
     const [topScroll, setTopScroll] = useState(0);
     const [viewPortSize, setViewPortSize] = useState({ width: 0, height: 0 });
     const scaleToFitViewport = () => {
@@ -47,22 +49,13 @@ const App = (props) => {
     const handleKeyPress = (e) => {
         e.preventDefault();
         if (e.key === '-' && e.metaKey && e.altKey && e.ctrlKey) {
-            //setZoom(zoom - 0.1);
-            window.$zoom = window.$zoom - 0.1;
-            window.$renderZoom();
-            props.context.updateZoom(window.$zoom - 0.1);
+            setZoom(zoom - 0.1);
         }
         else if (e.key === '=' && e.metaKey && e.altKey && e.ctrlKey) {
-            //setZoom(zoom + 0.1);
-            window.$zoom = window.$zoom + 0.1;
-            window.$renderZoom();
-            props.context.updateZoom(window.$zoom + 0.1);
+            setZoom(zoom + 0.1);
         }
         else if (e.key === 'Enter' && e.metaKey && e.altKey && e.ctrlKey) {
-            //setZoom(baseZoom);
-            window.$zoom = window.$baseZoom;
-            window.$renderZoom();
-            props.context.updateZoom(window.$baseZoom);
+            setZoom(baseZoom);
             window.scrollTo(canvasSize / 2, canvasSize / 2);
         }
     };
@@ -78,15 +71,16 @@ const App = (props) => {
     }, []);
     useEffect(() => {
         const initialZoom = scaleToFitViewport();
-        window.$baseZoom = initialZoom;
-        window.$zoom = initialZoom;
-        window.$renderZoom();
-        props.context.updateZoom(initialZoom);
+        setZoom(initialZoom);
+        setBaseZoom(initialZoom);
+        // window.$baseZoom = initialZoom;
+        // window.$zoom = initialZoom;
+        // window.$renderZoom();
         window.scrollTo(canvasSize / 2, canvasSize / 2);
     }, [viewPortSize]);
     return (React.createElement("div", { className: 'c-app', tabIndex: -1, ref: app, onKeyDown: handleKeyPress },
-        React.createElement(Topbar, { zoom: props.context.zoom, updateZoom: props.context.updateZoom, canvasSize: canvasSize }),
+        React.createElement(Topbar, { zoom: zoom, setZoom: setZoom, baseZoom: baseZoom, canvasSize: canvasSize }),
         React.createElement(Sidebar, { selection: selection, hover: hover, images: props.images, svgs: props.svgs }),
-        React.createElement(Canvas, Object.assign({}, props, { selection: selection, setSelection: setSelection, hover: hover, setHover: setHover, leftScroll: leftScroll, topScroll: topScroll, viewPortSize: viewPortSize, canvasSize: canvasSize }))));
+        React.createElement(Canvas, Object.assign({}, props, { zoom: zoom, setZoom: setZoom, selection: selection, setSelection: setSelection, hover: hover, setHover: setHover, leftScroll: leftScroll, topScroll: topScroll, viewPortSize: viewPortSize, canvasSize: canvasSize }))));
 };
 export default App;

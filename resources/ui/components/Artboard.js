@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import Layers from './Layers';
+import gsap from 'gsap';
 import Selection from './Selection';
 import Hover from './Hover';
 import artboardStyles from '../styles/artboardStyles';
 const Artboard = (props) => {
+    const artboardRef = useRef(null);
     const { artboard, images, svgs, selection, setSelection, hover, setHover, zoom } = props;
     const onClick = () => {
         setSelection('');
@@ -11,7 +13,10 @@ const Artboard = (props) => {
     const onMouseOver = () => {
         setHover(props.artboard);
     };
-    return (React.createElement("div", { className: 'c-artboard', id: 'artboard', style: artboardStyles(artboard) },
+    useEffect(() => {
+        gsap.set(artboardRef.current, { scale: props.zoom });
+    }, [props.zoom]);
+    return (React.createElement("div", { className: 'c-artboard', ref: artboardRef, style: artboardStyles(artboard) },
         React.createElement(Layers, { layers: artboard.layers, images: images, svgs: svgs, setSelection: setSelection, setHover: setHover, style: {
                 width: `${artboard.frame.width}px`,
                 height: `${artboard.frame.height}px`

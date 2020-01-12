@@ -1,5 +1,6 @@
 import React, { useEffect, useRef }  from 'react';
 import Layers from './Layers';
+import gsap from 'gsap';
 import Selection from './Selection';
 import Hover from './Hover';
 import artboardStyles from '../styles/artboardStyles';
@@ -16,6 +17,7 @@ interface ArtboardProps {
 }
 
 const Artboard = (props: ArtboardProps) => {
+  const artboardRef = useRef<HTMLDivElement>(null);
   const { artboard, images, svgs, selection, setSelection, hover, setHover, zoom } = props;
   const onClick = () => {
     setSelection('');
@@ -23,10 +25,13 @@ const Artboard = (props: ArtboardProps) => {
   const onMouseOver = () => {
     setHover(props.artboard);
   }
+  useEffect(() => {
+    gsap.set(artboardRef.current, {scale: props.zoom});
+  }, [props.zoom]);
   return (
     <div
       className='c-artboard'
-      id='artboard'
+      ref={artboardRef}
       style={artboardStyles(artboard)}>
       <Layers
         layers={artboard.layers}

@@ -4,7 +4,6 @@ import Canvas from './Canvas';
 import Topbar from './Topbar';
 
 interface AppProps {
-  context: any;
   artboard: any;
   images: any;
   svgs: any;
@@ -16,6 +15,8 @@ const App = (props: AppProps) => {
   const [selection, setSelection] = useState('');
   const [hover, setHover] = useState('');
   const [leftScroll, setLeftScroll] = useState(0);
+  const [zoom, setZoom] = useState(1);
+  const [baseZoom, setBaseZoom] = useState(1);
   const [topScroll, setTopScroll] = useState(0);
   const [viewPortSize, setViewPortSize] = useState({width: 0, height: 0});
 
@@ -59,20 +60,11 @@ const App = (props: AppProps) => {
   const handleKeyPress = (e: any) => {
     e.preventDefault();
     if (e.key === '-' && e.metaKey && e.altKey && e.ctrlKey) {
-      //setZoom(zoom - 0.1);
-      window.$zoom = window.$zoom - 0.1;
-      window.$renderZoom();
-      props.context.updateZoom(window.$zoom - 0.1);
+      setZoom(zoom - 0.1);
     } else if (e.key === '=' && e.metaKey && e.altKey && e.ctrlKey) {
-      //setZoom(zoom + 0.1);
-      window.$zoom = window.$zoom + 0.1;
-      window.$renderZoom();
-      props.context.updateZoom(window.$zoom + 0.1);
+      setZoom(zoom + 0.1);
     } else if (e.key === 'Enter' && e.metaKey && e.altKey && e.ctrlKey) {
-      //setZoom(baseZoom);
-      window.$zoom = window.$baseZoom;
-      window.$renderZoom();
-      props.context.updateZoom(window.$baseZoom);
+      setZoom(baseZoom);
       window.scrollTo(canvasSize / 2, canvasSize / 2);
     }
   }
@@ -89,10 +81,11 @@ const App = (props: AppProps) => {
 
   useEffect(() => {
     const initialZoom = scaleToFitViewport();
-    window.$baseZoom = initialZoom;
-    window.$zoom = initialZoom;
-    window.$renderZoom();
-    props.context.updateZoom(initialZoom);
+    setZoom(initialZoom);
+    setBaseZoom(initialZoom);
+    // window.$baseZoom = initialZoom;
+    // window.$zoom = initialZoom;
+    // window.$renderZoom();
     window.scrollTo(canvasSize / 2, canvasSize / 2);
   }, [viewPortSize]);
 
@@ -103,8 +96,9 @@ const App = (props: AppProps) => {
       ref={app}
       onKeyDown={handleKeyPress}>
       <Topbar
-        zoom={props.context.zoom}
-        updateZoom={props.context.updateZoom}
+        zoom={zoom}
+        setZoom={setZoom}
+        baseZoom={baseZoom}
         canvasSize={canvasSize} />
       <Sidebar
         selection={selection}
@@ -113,6 +107,8 @@ const App = (props: AppProps) => {
         svgs={props.svgs} />
       <Canvas
         {...props}
+        zoom={zoom}
+        setZoom={setZoom}
         selection={selection}
         setSelection={setSelection}
         hover={hover}
