@@ -77,22 +77,16 @@ const App = (props) => {
         setViewPortSize(getViewPortSize());
     }, []);
     useEffect(() => {
-        // get initial zoom and new dims
         const initialZoom = scaleToFitViewport();
-        // set initial zoom
-        // setZoom(initialZoom);
-        // setBaseZoom(initialZoom);
         window.$baseZoom = initialZoom;
         window.$zoom = initialZoom;
         window.$renderZoom();
-        // scroll to center or canvas
-        window.scrollTo(canvasSize / 2, canvasSize / 2);
-        //
         props.context.updateZoom(initialZoom);
+        window.scrollTo(canvasSize / 2, canvasSize / 2);
     }, [viewPortSize]);
     return (React.createElement("div", { className: 'c-app', tabIndex: -1, ref: app, onKeyDown: handleKeyPress },
         React.createElement(Topbar, { zoom: props.context.zoom, updateZoom: props.context.updateZoom, canvasSize: canvasSize }),
         React.createElement(Sidebar, { selection: selection, hover: hover, images: props.images, svgs: props.svgs }),
-        React.createElement(Canvas, Object.assign({}, props, { selection: selection, setSelection: setSelection, zoom: props.context.zoom, updateZoom: props.context.updateZoom, hover: hover, setHover: setHover, leftScroll: leftScroll, topScroll: topScroll, viewPortSize: viewPortSize, canvasSize: canvasSize }))));
+        React.createElement(Canvas, Object.assign({}, props, { selection: selection, setSelection: setSelection, hover: hover, setHover: setHover, leftScroll: leftScroll, topScroll: topScroll, viewPortSize: viewPortSize, canvasSize: canvasSize }))));
 };
 export default App;

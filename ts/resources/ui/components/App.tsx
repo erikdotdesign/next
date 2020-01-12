@@ -88,18 +88,12 @@ const App = (props: AppProps) => {
   }, []);
 
   useEffect(() => {
-    // get initial zoom and new dims
     const initialZoom = scaleToFitViewport();
-    // set initial zoom
-    // setZoom(initialZoom);
-    // setBaseZoom(initialZoom);
     window.$baseZoom = initialZoom;
     window.$zoom = initialZoom;
     window.$renderZoom();
-    // scroll to center or canvas
-    window.scrollTo(canvasSize / 2, canvasSize / 2);
-    //
     props.context.updateZoom(initialZoom);
+    window.scrollTo(canvasSize / 2, canvasSize / 2);
   }, [viewPortSize]);
 
   return (
@@ -121,8 +115,6 @@ const App = (props: AppProps) => {
         {...props}
         selection={selection}
         setSelection={setSelection}
-        zoom={props.context.zoom}
-        updateZoom={props.context.updateZoom}
         hover={hover}
         setHover={setHover}
         leftScroll={leftScroll}

@@ -468,6 +468,16 @@ button {
   transform-origin: left top;
 }
 
+.c-rule-highlight {
+  position: absolute;
+  top: 0;
+  left: 24px;
+  height: 24px;
+  background: magenta;
+  opacity: 0.25;
+  transform-origin: left top;
+}
+
 .c-topbar-wrap {
   position: relative;
   height: 48px;
