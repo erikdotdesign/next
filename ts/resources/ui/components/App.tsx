@@ -18,6 +18,7 @@ const App = (props: AppProps) => {
   const [zoom, setZoom] = useState(1);
   const [baseZoom, setBaseZoom] = useState(1);
   const [topScroll, setTopScroll] = useState(0);
+  const [centerScroll, setCenterScroll] = useState([0, 0]);
   const [viewPortSize, setViewPortSize] = useState({width: 0, height: 0});
 
   const scaleToFitViewport = () => {
@@ -39,9 +40,9 @@ const App = (props: AppProps) => {
 
   const getViewPortSize = () => {
     // subtract sidebar width + left rule width
-    const viewportWidth = window.innerWidth - 320;
+    const viewportWidth = window.innerWidth;
     // subtract artboard padding + top rule height
-    const viewportHeight = window.innerHeight - 24 * 3;
+    const viewportHeight = window.innerHeight;
     return {
       width: viewportWidth,
       height: viewportHeight
@@ -80,13 +81,24 @@ const App = (props: AppProps) => {
   }, []);
 
   useEffect(() => {
+    // get and set base zoom
     const initialZoom = scaleToFitViewport();
     setZoom(initialZoom);
     setBaseZoom(initialZoom);
-    // window.$baseZoom = initialZoom;
-    // window.$zoom = initialZoom;
-    // window.$renderZoom();
-    window.scrollTo(canvasSize / 2, canvasSize / 2);
+    // get artboard size
+    const artboardHeight = props.artboard.frame.height * initialZoom;
+    const artboardWidth = props.artboard.frame.width * initialZoom;
+    const artboardHeightMid = artboardHeight / 2;
+    const artboardWidthMid = artboardWidth / 2;
+    // get and set offsets
+    const canvasCenter = canvasSize / 2;
+    const leftOffset = canvasCenter - artboardWidthMid;
+    const topOffset = canvasCenter - artboardHeightMid;
+    const rightRemainder = viewPortSize.width - artboardWidth;
+    const bottomRemainder = viewPortSize.height - artboardHeight;
+    // set center scroll
+    window.scrollTo(leftOffset - (rightRemainder / 2), topOffset - (bottomRemainder / 2));
+    setCenterScroll([leftOffset - (rightRemainder / 2), topOffset - (bottomRemainder / 2)]);
   }, [viewPortSize]);
 
   return (
@@ -99,12 +111,12 @@ const App = (props: AppProps) => {
         zoom={zoom}
         setZoom={setZoom}
         baseZoom={baseZoom}
-        canvasSize={canvasSize} />
-      <Sidebar
+        centerScroll={centerScroll} />
+      {/* <Sidebar
         selection={selection}
         hover={hover}
         images={props.images}
-        svgs={props.svgs} />
+        svgs={props.svgs} /> */}
       <Canvas
         {...props}
         zoom={zoom}

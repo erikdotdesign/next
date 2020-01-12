@@ -13,10 +13,15 @@ const Artboard = (props) => {
     const onMouseOver = () => {
         setHover(props.artboard);
     };
+    const scrollNow = () => {
+        const ref = artboardRef.current;
+        window.scrollTo(ref.offsetLeft, ref.offsetTop);
+    };
     useEffect(() => {
         gsap.set(artboardRef.current, { scale: props.zoom });
+        console.log(artboardRef);
     }, [props.zoom]);
-    return (React.createElement("div", { className: 'c-artboard', ref: artboardRef, style: artboardStyles(artboard) },
+    return (React.createElement("div", { className: 'c-artboard', ref: artboardRef, style: artboardStyles(artboard), onClick: scrollNow },
         React.createElement(Layers, { layers: artboard.layers, images: images, svgs: svgs, setSelection: setSelection, setHover: setHover, style: {
                 width: `${artboard.frame.width}px`,
                 height: `${artboard.frame.height}px`

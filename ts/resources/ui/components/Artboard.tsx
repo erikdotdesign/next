@@ -25,14 +25,20 @@ const Artboard = (props: ArtboardProps) => {
   const onMouseOver = () => {
     setHover(props.artboard);
   }
+  const scrollNow = () => {
+    const ref = artboardRef.current;
+    window.scrollTo(ref.offsetLeft, ref.offsetTop);
+  }
   useEffect(() => {
     gsap.set(artboardRef.current, {scale: props.zoom});
+    console.log(artboardRef);
   }, [props.zoom]);
   return (
     <div
       className='c-artboard'
       ref={artboardRef}
-      style={artboardStyles(artboard)}>
+      style={artboardStyles(artboard)}
+      onClick={scrollNow}>
       <Layers
         layers={artboard.layers}
         images={images}
