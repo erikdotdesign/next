@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import Artboard from './Artboard';
 import CanvasRules from './CanvasRules';
 
@@ -6,10 +6,10 @@ interface CanvasProps {
   artboard: any;
   images: any;
   svgs: any;
-  zoom: any;
-  setZoom: any;
   selection: any;
   setSelection: any;
+  zoom: any;
+  updateZoom: any;
   hover: any;
   setHover: any;
   leftScroll: any;
@@ -19,7 +19,6 @@ interface CanvasProps {
 }
 
 const Canvas = (props: CanvasProps) => {
-  const [gestureZoom, setGestureZoom] = useState(1);
   const canvas = useRef<HTMLDivElement>(null);
   const handleClick = () => {
     props.setSelection('');
@@ -29,23 +28,16 @@ const Canvas = (props: CanvasProps) => {
   }
   const handleGestureStart = (e: any) => {
     e.preventDefault();
+    window.$startZoom = window.$zoom;
   }
   const handleGestureChange = (e: any) => {
     e.preventDefault();
-    setGestureZoom(e.scale);
+    window.$zoom = window.$startZoom * e.scale;
+    window.$renderZoom();
+    props.updateZoom(window.$startZoom * e.scale);
   }
   const handleGestureEnd = (e: any) => {
     e.preventDefault();
-  }
-  const handlePan = () => {
-    if (props.zoom < 4.98) {
-      props.setZoom(props.zoom + 0.02);
-    }
-  }
-  const handlePinch = () => {
-    if (props.zoom > 0.01) {
-      props.setZoom(props.zoom - 0.02);
-    }
   }
   useEffect(() => {
     if (canvas.current) {
@@ -54,9 +46,6 @@ const Canvas = (props: CanvasProps) => {
       canvas.current.addEventListener('gestureend', handleGestureEnd);
     }
   }, []);
-  useEffect(() => {
-    gestureZoom % Math.floor(gestureZoom) ? handlePan() : handlePinch();
-  }, [gestureZoom]);
   return (
     <div
       className='c-canvas'
@@ -71,11 +60,11 @@ const Canvas = (props: CanvasProps) => {
         artboard={props.artboard}
         images={props.images}
         svgs={props.svgs}
-        zoom={props.zoom}
         selection={props.selection}
         setSelection={props.setSelection}
         hover={props.hover}
-        setHover={props.setHover} />
+        setHover={props.setHover}
+        zoom={props.zoom} />
       <div
         className='c-canvas__escape'
         onClick={handleClick}

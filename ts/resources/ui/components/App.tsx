@@ -4,6 +4,7 @@ import Canvas from './Canvas';
 import Topbar from './Topbar';
 
 interface AppProps {
+  context: any;
   artboard: any;
   images: any;
   svgs: any;
@@ -14,8 +15,6 @@ const App = (props: AppProps) => {
   const canvasSize = 20000;
   const [selection, setSelection] = useState('');
   const [hover, setHover] = useState('');
-  const [zoom, setZoom] = useState(1);
-  const [baseZoom, setBaseZoom] = useState(1);
   const [leftScroll, setLeftScroll] = useState(0);
   const [topScroll, setTopScroll] = useState(0);
   const [viewPortSize, setViewPortSize] = useState({width: 0, height: 0});
@@ -60,11 +59,20 @@ const App = (props: AppProps) => {
   const handleKeyPress = (e: any) => {
     e.preventDefault();
     if (e.key === '-' && e.metaKey && e.altKey && e.ctrlKey) {
-      setZoom(zoom - 0.1);
+      //setZoom(zoom - 0.1);
+      window.$zoom = window.$zoom - 0.1;
+      window.$renderZoom();
+      props.context.updateZoom(window.$zoom - 0.1);
     } else if (e.key === '=' && e.metaKey && e.altKey && e.ctrlKey) {
-      setZoom(zoom + 0.1);
+      //setZoom(zoom + 0.1);
+      window.$zoom = window.$zoom + 0.1;
+      window.$renderZoom();
+      props.context.updateZoom(window.$zoom + 0.1);
     } else if (e.key === 'Enter' && e.metaKey && e.altKey && e.ctrlKey) {
-      setZoom(baseZoom);
+      //setZoom(baseZoom);
+      window.$zoom = window.$baseZoom;
+      window.$renderZoom();
+      props.context.updateZoom(window.$baseZoom);
       window.scrollTo(canvasSize / 2, canvasSize / 2);
     }
   }
@@ -83,10 +91,15 @@ const App = (props: AppProps) => {
     // get initial zoom and new dims
     const initialZoom = scaleToFitViewport();
     // set initial zoom
-    setZoom(initialZoom);
-    setBaseZoom(initialZoom);
+    // setZoom(initialZoom);
+    // setBaseZoom(initialZoom);
+    window.$baseZoom = initialZoom;
+    window.$zoom = initialZoom;
+    window.$renderZoom();
     // scroll to center or canvas
     window.scrollTo(canvasSize / 2, canvasSize / 2);
+    //
+    props.context.updateZoom(initialZoom);
   }, [viewPortSize]);
 
   return (
@@ -96,9 +109,8 @@ const App = (props: AppProps) => {
       ref={app}
       onKeyDown={handleKeyPress}>
       <Topbar
-        zoom={zoom}
-        setZoom={setZoom}
-        baseZoom={baseZoom}
+        zoom={props.context.zoom}
+        updateZoom={props.context.updateZoom}
         canvasSize={canvasSize} />
       <Sidebar
         selection={selection}
@@ -107,10 +119,10 @@ const App = (props: AppProps) => {
         svgs={props.svgs} />
       <Canvas
         {...props}
-        zoom={zoom}
-        setZoom={setZoom}
         selection={selection}
         setSelection={setSelection}
+        zoom={props.context.zoom}
+        updateZoom={props.context.updateZoom}
         hover={hover}
         setHover={setHover}
         leftScroll={leftScroll}
