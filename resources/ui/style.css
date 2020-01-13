@@ -1,3 +1,9 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5,
 h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code,
 del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub,
@@ -43,6 +49,7 @@ button {
   background-color: transparent;
   outline: none;
   border: 0;
+  cursor: pointer;
 }
 
 ::selection {
@@ -242,6 +249,7 @@ button {
 }
 
 .c-layer--selection {
+  position: relative;
   z-index: 3;
   pointer-events: none;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25) inset, 0 0 0 1px rgba(0, 0, 0, 0.25);
@@ -522,4 +530,199 @@ button {
 }
 .c-topbar__button:hover {
   background: #777;
+}
+
+.c-notes {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.c-add-note {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.c-add-note__compose {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  width: 24px;
+  transform: translate(-50%, -50%);
+  border-radius: 100%;
+  background: magenta;
+  box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.33);
+  z-index: 999;
+}
+.c-add-note__compose svg {
+  transform: scale(0.75);
+}
+.c-add-note__compose:hover {
+  background: #cc00cc;
+}
+
+.c-compose-note {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 1000000000000000300000000;
+}
+
+.c-compose-note__input {
+  width: 100%;
+  height: 100%;
+  font-size: 14px;
+  margin: 0;
+  padding: 16px;
+  line-height: 18px;
+  background: #222;
+  color: #fff;
+  resize: none;
+  border: none;
+  outline: none;
+}
+.c-compose-note__input:focus {
+  box-shadow: 0 0 0 1px magenta;
+}
+
+.c-note {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.c-note__count {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 12px;
+  line-height: 24px;
+  color: #fff;
+  font-weight: bold;
+  height: 24px;
+  width: 24px;
+  transform: translate(-50%, -50%);
+  border-radius: 100%;
+  background: magenta;
+  box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.33);
+  z-index: 999;
+}
+.c-note__count:hover {
+  background: #cc00cc;
+}
+
+.c-note-view {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 1000000000000000300000000;
+}
+
+.c-modal {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  background: #333;
+  box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.33);
+  z-index: 10000000000000000000000000000000000;
+}
+.c-modal:after {
+  position: absolute;
+  left: 5px;
+  top: -5px;
+  content: "";
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #333;
+}
+
+.c-modal__header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 48px;
+  padding: 0 8px;
+}
+
+.c-modal__footer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 8px;
+}
+
+.c-modal__title {
+  padding-left: 8px;
+  color: #fff;
+  font-size: 16px;
+}
+
+.c-modal__close {
+  height: 32px;
+  width: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.c-modal__close:hover {
+  background: #222;
+}
+
+.c-modal__body {
+  flex-grow: 2;
+  width: 100%;
+  position: relative;
+  padding: 16px;
+}
+
+.c-modal__submit {
+  width: 100%;
+  background: #333;
+  height: 48px;
+  line-height: 32px;
+  font-size: 14px;
+  color: #fff;
+  transition: all 0.15s;
+  text-align: center;
+}
+.c-modal__submit:hover {
+  background: #222;
+}
+
+.c-modal__submit--enabled {
+  background: magenta;
+  font-weight: bold;
+  box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.33);
+}
+.c-modal__submit--enabled:hover {
+  background: #cc00cc;
+}
+
+.c-modal__scrim {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  pointer-events: none;
 }

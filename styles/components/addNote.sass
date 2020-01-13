@@ -1,0 +1,21 @@
+.c-add-note
+  +absolute-full
+
+.c-add-note__compose
+  position: absolute
+  display: flex
+  align-items: center
+  justify-content: center
+  height: $buttonSizeSm
+  width: $buttonSizeSm
+  transform: translate(-50%, -50%)
+  border-radius: 100%
+  background: $highlightColor
+  box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.33)
+  z-index: 999
+
+  svg
+    transform: scale(0.75)
+
+  &:hover
+    background: $highlightColorDark

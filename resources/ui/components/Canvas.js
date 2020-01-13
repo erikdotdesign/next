@@ -72,7 +72,7 @@ const Canvas = (props) => {
         //updateUnitSize();
     }, [props.zoom]);
     return (React.createElement("div", { className: 'c-canvas', id: 'canvas', ref: canvas },
-        React.createElement(Artboard, { artboard: props.artboard, images: props.images, svgs: props.svgs, selection: props.selection, setSelection: props.setSelection, hover: props.hover, setHover: props.setHover, zoom: props.zoom }),
+        React.createElement(Artboard, { artboard: props.artboard, images: props.images, svgs: props.svgs, selection: props.selection, setSelection: props.setSelection, hover: props.hover, setHover: props.setHover, zoom: props.zoom, showNotes: props.showNotes }),
         React.createElement("div", { className: 'c-canvas__escape', onClick: handleClick, onMouseOver: handleMouseOver })));
 };
 export default Canvas;

@@ -3,25 +3,22 @@ import Layers from './Layers';
 import gsap from 'gsap';
 import Selection from './Selection';
 import Hover from './Hover';
+import Notes from './Notes';
+import AddNote from './AddNote';
 import artboardStyles from '../styles/artboardStyles';
 const Artboard = (props) => {
     const artboardRef = useRef(null);
-    const { artboard, images, svgs, selection, setSelection, hover, setHover, zoom } = props;
+    const { artboard, images, svgs, selection, setSelection, hover, setHover, zoom, showNotes } = props;
     const onClick = () => {
         setSelection('');
     };
     const onMouseOver = () => {
         setHover(props.artboard);
     };
-    const scrollNow = () => {
-        const ref = artboardRef.current;
-        window.scrollTo(ref.offsetLeft, ref.offsetTop);
-    };
     useEffect(() => {
         gsap.set(artboardRef.current, { scale: props.zoom });
-        console.log(artboardRef);
     }, [props.zoom]);
-    return (React.createElement("div", { className: 'c-artboard', ref: artboardRef, style: artboardStyles(artboard), onClick: scrollNow },
+    return (React.createElement("div", { className: 'c-artboard', ref: artboardRef, style: artboardStyles(artboard) },
         React.createElement(Layers, { layers: artboard.layers, images: images, svgs: svgs, setSelection: setSelection, setHover: setHover, style: {
                 width: `${artboard.frame.width}px`,
                 height: `${artboard.frame.height}px`
@@ -31,6 +28,12 @@ const Artboard = (props) => {
             : null,
         hover
             ? React.createElement(Hover, { hover: hover, selection: selection, artboard: artboard, zoom: zoom })
+            : null,
+        selection && showNotes
+            ? React.createElement(AddNote, { layer: selection })
+            : null,
+        showNotes
+            ? React.createElement(Notes, { layers: artboard.layers })
             : null,
         React.createElement("div", { className: 'c-artboard__click-area', onClick: onClick, onMouseOver: onMouseOver })));
 };

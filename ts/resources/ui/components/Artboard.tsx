@@ -3,6 +3,8 @@ import Layers from './Layers';
 import gsap from 'gsap';
 import Selection from './Selection';
 import Hover from './Hover';
+import Notes from './Notes';
+import AddNote from './AddNote';
 import artboardStyles from '../styles/artboardStyles';
 
 interface ArtboardProps {
@@ -14,31 +16,26 @@ interface ArtboardProps {
   hover: any;
   setHover: any;
   zoom: any;
+  showNotes: boolean;
 }
 
 const Artboard = (props: ArtboardProps) => {
   const artboardRef = useRef<HTMLDivElement>(null);
-  const { artboard, images, svgs, selection, setSelection, hover, setHover, zoom } = props;
+  const { artboard, images, svgs, selection, setSelection, hover, setHover, zoom, showNotes } = props;
   const onClick = () => {
     setSelection('');
   }
   const onMouseOver = () => {
     setHover(props.artboard);
   }
-  const scrollNow = () => {
-    const ref = artboardRef.current;
-    window.scrollTo(ref.offsetLeft, ref.offsetTop);
-  }
   useEffect(() => {
     gsap.set(artboardRef.current, {scale: props.zoom});
-    console.log(artboardRef);
   }, [props.zoom]);
   return (
     <div
       className='c-artboard'
       ref={artboardRef}
-      style={artboardStyles(artboard)}
-      onClick={scrollNow}>
+      style={artboardStyles(artboard)}>
       <Layers
         layers={artboard.layers}
         images={images}
@@ -65,6 +62,17 @@ const Artboard = (props: ArtboardProps) => {
             selection={selection}
             artboard={artboard}
             zoom={zoom} />
+        : null
+      }
+      {
+        selection && showNotes
+        ? <AddNote layer={selection} />
+        : null
+      }
+      {
+        showNotes
+        ? <Notes
+            layers={artboard.layers} />
         : null
       }
       <div

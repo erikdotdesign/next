@@ -17,6 +17,7 @@ interface CanvasProps {
   canvasSize: any;
   zoom: any;
   setZoom: any;
+  showNotes: boolean;
 }
 
 let startGestureZoom = 0;
@@ -112,7 +113,8 @@ const Canvas = (props: CanvasProps) => {
         setSelection={props.setSelection}
         hover={props.hover}
         setHover={props.setHover}
-        zoom={props.zoom} />
+        zoom={props.zoom}
+        showNotes={props.showNotes} />
       <div
         className='c-canvas__escape'
         onClick={handleClick}

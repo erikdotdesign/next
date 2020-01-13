@@ -9,8 +9,9 @@ const App = (props) => {
     const [leftScroll, setLeftScroll] = useState(0);
     const [zoom, setZoom] = useState(1);
     const [baseZoom, setBaseZoom] = useState(1);
+    const [showNotes, setShowNotes] = useState(true);
     const [topScroll, setTopScroll] = useState(0);
-    const [centerScroll, setCenterScroll] = useState([0, 0]);
+    const [centerScroll, setCenterScroll] = useState({ x: 0, y: 0 });
     const [viewPortSize, setViewPortSize] = useState({ width: 0, height: 0 });
     const scaleToFitViewport = () => {
         const artboardWidth = props.artboard.frame.width;
@@ -46,8 +47,10 @@ const App = (props) => {
     const handleResize = () => {
         setViewPortSize(getViewPortSize());
     };
+    const scrollToCenter = () => {
+        window.scrollTo(centerScroll.x, centerScroll.y);
+    };
     const handleKeyPress = (e) => {
-        e.preventDefault();
         if (e.key === '-' && e.metaKey && e.altKey && e.ctrlKey) {
             setZoom(zoom - 0.1);
         }
@@ -56,7 +59,7 @@ const App = (props) => {
         }
         else if (e.key === 'Enter' && e.metaKey && e.altKey && e.ctrlKey) {
             setZoom(baseZoom);
-            window.scrollTo(canvasSize / 2, canvasSize / 2);
+            scrollToCenter();
         }
     };
     useEffect(() => {
@@ -67,7 +70,7 @@ const App = (props) => {
         // set reszie listener
         window.addEventListener('resize', handleResize);
         // set viewportsize
-        setViewPortSize(getViewPortSize());
+        handleResize();
     }, []);
     useEffect(() => {
         // get and set base zoom
@@ -87,10 +90,13 @@ const App = (props) => {
         const bottomRemainder = viewPortSize.height - artboardHeight;
         // set center scroll
         window.scrollTo(leftOffset - (rightRemainder / 2), topOffset - (bottomRemainder / 2));
-        setCenterScroll([leftOffset - (rightRemainder / 2), topOffset - (bottomRemainder / 2)]);
+        setCenterScroll({
+            x: leftOffset - (rightRemainder / 2),
+            y: topOffset - (bottomRemainder / 2)
+        });
     }, [viewPortSize]);
     return (React.createElement("div", { className: 'c-app', tabIndex: -1, ref: app, onKeyDown: handleKeyPress },
-        React.createElement(Topbar, { zoom: zoom, setZoom: setZoom, baseZoom: baseZoom, centerScroll: centerScroll }),
-        React.createElement(Canvas, Object.assign({}, props, { zoom: zoom, setZoom: setZoom, selection: selection, setSelection: setSelection, hover: hover, setHover: setHover, leftScroll: leftScroll, topScroll: topScroll, viewPortSize: viewPortSize, canvasSize: canvasSize }))));
+        React.createElement(Topbar, { zoom: zoom, setZoom: setZoom, baseZoom: baseZoom, showNotes: showNotes, setShowNotes: setShowNotes, scrollToCenter: scrollToCenter }),
+        React.createElement(Canvas, Object.assign({}, props, { zoom: zoom, setZoom: setZoom, selection: selection, setSelection: setSelection, hover: hover, setHover: setHover, leftScroll: leftScroll, topScroll: topScroll, viewPortSize: viewPortSize, canvasSize: canvasSize, showNotes: showNotes }))));
 };
 export default App;

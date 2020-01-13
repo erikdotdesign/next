@@ -1,0 +1,82 @@
+.c-modal
+  position: absolute
+  display: flex
+  flex-direction: column
+  width: 400px
+  background: $grayDark
+  box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.33)
+  z-index: 9999999999999999999999999999999999
+
+  &:after
+    position: absolute
+    left: 5px
+    top: -5px
+    content: ''
+    width: 0
+    height: 0
+    border-left: 5px solid transparent
+    border-right: 5px solid transparent
+    border-bottom: 5px solid $grayDark
+
+.c-modal__header
+  width: 100%
+  display: flex
+  align-items: center
+  justify-content: space-between
+  height: 48px
+  padding: 0 8px
+
+.c-modal__footer
+  width: 100%
+  display: flex
+  align-items: center
+  justify-content: center
+  padding-top: 8px
+
+.c-modal__title
+  padding-left: 8px
+  color: #fff
+  font-size: 16px
+
+.c-modal__close
+  height: $buttonSize
+  width: $buttonSize
+  display: flex
+  align-items: center
+  justify-content: center
+
+  &:hover
+    background: $grayDarker
+
+.c-modal__body
+  flex-grow: 2
+  width: 100%
+  position: relative
+  padding: 16px
+
+.c-modal__submit
+  width: 100%
+  background: $grayDark
+  height: 48px
+  line-height: $buttonSize
+  font-size: 14px
+  color: #fff
+  transition: all 0.15s
+  text-align: center
+
+  &:hover
+    background: $grayDarker
+
+.c-modal__submit--enabled
+  background: $highlightColor
+  font-weight: bold
+  box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.33)
+
+  &:hover
+    background: $highlightColorDark
+
+
+.c-modal__scrim
+  +absolute-full
+  pointer-events: none
+

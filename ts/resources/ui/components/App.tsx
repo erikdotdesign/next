@@ -17,8 +17,9 @@ const App = (props: AppProps) => {
   const [leftScroll, setLeftScroll] = useState(0);
   const [zoom, setZoom] = useState(1);
   const [baseZoom, setBaseZoom] = useState(1);
+  const [showNotes, setShowNotes] = useState(true);
   const [topScroll, setTopScroll] = useState(0);
-  const [centerScroll, setCenterScroll] = useState([0, 0]);
+  const [centerScroll, setCenterScroll] = useState({x: 0, y: 0});
   const [viewPortSize, setViewPortSize] = useState({width: 0, height: 0});
 
   const scaleToFitViewport = () => {
@@ -58,15 +59,18 @@ const App = (props: AppProps) => {
     setViewPortSize(getViewPortSize());
   }
 
+  const scrollToCenter = () => {
+    window.scrollTo(centerScroll.x, centerScroll.y);
+  }
+
   const handleKeyPress = (e: any) => {
-    e.preventDefault();
     if (e.key === '-' && e.metaKey && e.altKey && e.ctrlKey) {
       setZoom(zoom - 0.1);
     } else if (e.key === '=' && e.metaKey && e.altKey && e.ctrlKey) {
       setZoom(zoom + 0.1);
     } else if (e.key === 'Enter' && e.metaKey && e.altKey && e.ctrlKey) {
       setZoom(baseZoom);
-      window.scrollTo(canvasSize / 2, canvasSize / 2);
+      scrollToCenter();
     }
   }
 
@@ -77,7 +81,7 @@ const App = (props: AppProps) => {
     // set reszie listener
     window.addEventListener('resize', handleResize);
     // set viewportsize
-    setViewPortSize(getViewPortSize());
+    handleResize();
   }, []);
 
   useEffect(() => {
@@ -98,7 +102,10 @@ const App = (props: AppProps) => {
     const bottomRemainder = viewPortSize.height - artboardHeight;
     // set center scroll
     window.scrollTo(leftOffset - (rightRemainder / 2), topOffset - (bottomRemainder / 2));
-    setCenterScroll([leftOffset - (rightRemainder / 2), topOffset - (bottomRemainder / 2)]);
+    setCenterScroll({
+      x: leftOffset - (rightRemainder / 2),
+      y: topOffset - (bottomRemainder / 2)
+    });
   }, [viewPortSize]);
 
   return (
@@ -111,7 +118,9 @@ const App = (props: AppProps) => {
         zoom={zoom}
         setZoom={setZoom}
         baseZoom={baseZoom}
-        centerScroll={centerScroll} />
+        showNotes={showNotes}
+        setShowNotes={setShowNotes}
+        scrollToCenter={scrollToCenter} />
       {/* <Sidebar
         selection={selection}
         hover={hover}
@@ -128,7 +137,8 @@ const App = (props: AppProps) => {
         leftScroll={leftScroll}
         topScroll={topScroll}
         viewPortSize={viewPortSize}
-        canvasSize={canvasSize} />
+        canvasSize={canvasSize}
+        showNotes={showNotes} />
     </div>
   );
 }
