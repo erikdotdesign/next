@@ -4,11 +4,10 @@ import gsap from 'gsap';
 import Selection from './Selection';
 import Hover from './Hover';
 import Notes from './Notes';
-import AddNote from './AddNote';
 import artboardStyles from '../styles/artboardStyles';
 const Artboard = (props) => {
     const artboardRef = useRef(null);
-    const { artboard, images, svgs, selection, setSelection, hover, setHover, zoom, showNotes } = props;
+    const { artboard, images, svgs, selection, setSelection, hover, setHover, zoom, showNotes, edit, setEdit } = props;
     const onClick = () => {
         setSelection('');
     };
@@ -29,11 +28,8 @@ const Artboard = (props) => {
         hover
             ? React.createElement(Hover, { hover: hover, selection: selection, artboard: artboard, zoom: zoom })
             : null,
-        selection && showNotes
-            ? React.createElement(AddNote, { layer: selection })
-            : null,
         showNotes
-            ? React.createElement(Notes, { layers: artboard.layers })
+            ? React.createElement(Notes, { edit: edit, selection: selection, setSelection: setSelection, layers: artboard.layers })
             : null,
         React.createElement("div", { className: 'c-artboard__click-area', onClick: onClick, onMouseOver: onMouseOver })));
 };

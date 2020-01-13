@@ -553,16 +553,12 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 24px;
-  width: 24px;
+  height: 32px;
+  width: 32px;
   transform: translate(-50%, -50%);
-  border-radius: 100%;
   background: magenta;
-  box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.33);
+  box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.25);
   z-index: 999;
-}
-.c-add-note__compose svg {
-  transform: scale(0.75);
 }
 .c-add-note__compose:hover {
   background: #cc00cc;
@@ -608,16 +604,15 @@ button {
   align-items: center;
   justify-content: center;
   text-align: center;
-  font-size: 12px;
-  line-height: 24px;
+  font-size: 14px;
+  line-height: 32px;
   color: #fff;
   font-weight: bold;
-  height: 24px;
-  width: 24px;
+  height: 32px;
+  width: 32px;
   transform: translate(-50%, -50%);
-  border-radius: 100%;
   background: magenta;
-  box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.33);
+  box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.25);
   z-index: 999;
 }
 .c-note__count:hover {
@@ -631,6 +626,15 @@ button {
   bottom: 0;
   right: 0;
   z-index: 1000000000000000300000000;
+}
+
+.c-note-view__note {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  font-size: 14px;
+  line-height: 24px;
+  padding: 16px 0;
 }
 
 .c-modal {

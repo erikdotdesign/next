@@ -18,6 +18,7 @@ const App = (props: AppProps) => {
   const [zoom, setZoom] = useState(1);
   const [baseZoom, setBaseZoom] = useState(1);
   const [showNotes, setShowNotes] = useState(true);
+  const [edit, setEdit] = useState(true);
   const [topScroll, setTopScroll] = useState(0);
   const [centerScroll, setCenterScroll] = useState({x: 0, y: 0});
   const [viewPortSize, setViewPortSize] = useState({width: 0, height: 0});
@@ -120,6 +121,8 @@ const App = (props: AppProps) => {
         baseZoom={baseZoom}
         showNotes={showNotes}
         setShowNotes={setShowNotes}
+        edit={edit}
+        setEdit={setEdit}
         scrollToCenter={scrollToCenter} />
       {/* <Sidebar
         selection={selection}
@@ -138,7 +141,9 @@ const App = (props: AppProps) => {
         topScroll={topScroll}
         viewPortSize={viewPortSize}
         canvasSize={canvasSize}
-        showNotes={showNotes} />
+        showNotes={showNotes}
+        edit={edit}
+        setEdit={setEdit} />
     </div>
   );
 }
