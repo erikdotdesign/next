@@ -1,9 +1,8 @@
 import React from 'react';
-import { getDimScale, getDimOrigin } from '../utils';
 const SelectionPoints = (props) => {
-    const scale = getDimScale(props.zoom);
-    const origin = Math.round(getDimOrigin(props.zoom) * 100);
-    const translateN = Math.round(100 - origin) * -1;
+    const scale = 1 / props.zoom;
+    const origin = 50 * props.zoom;
+    const translateN = (100 - origin) * -1;
     const translateP = translateN * -1;
     return (React.createElement("div", { className: 'c-selection__points' },
         React.createElement("div", { className: 'c-selection__point c-selection__point--tl', style: {

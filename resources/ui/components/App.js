@@ -38,7 +38,7 @@ const App = (props) => {
     const getViewPortSize = () => {
         return {
             width: window.innerWidth - 320,
-            height: window.innerHeight
+            height: window.innerHeight - 48
         };
     };
     const handleResize = () => {

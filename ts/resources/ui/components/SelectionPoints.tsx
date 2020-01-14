@@ -1,14 +1,13 @@
 import React from 'react';
-import { getDimScale, getDimOrigin } from '../utils';
 
 interface SelectionPointsProps {
   zoom: number;
 }
 
 const SelectionPoints = (props: SelectionPointsProps) => {
-  const scale = getDimScale(props.zoom);
-  const origin = Math.round(getDimOrigin(props.zoom) * 100);
-  const translateN = Math.round(100 - origin) * -1;
+  const scale = 1 / props.zoom;
+  const origin = 50 * props.zoom;
+  const translateN = (100 - origin) * -1;
   const translateP = translateN * -1 ;
   return (
     <div className='c-selection__points'>
