@@ -11,18 +11,20 @@ interface AppProps {
 
 const App = (props: AppProps) => {
   const app = useRef<HTMLDivElement>(null);
-  const canvasSize = 20000;
+  // selection and hover
   const [selection, setSelection] = useState('');
   const [hover, setHover] = useState('');
-  const [leftScroll, setLeftScroll] = useState(0);
+  // zoom
   const [zoom, setZoom] = useState(1);
-  const [notes, setNotes] = useState({});
   const [baseZoom, setBaseZoom] = useState(1);
-  const [showNotes, setShowNotes] = useState(true);
-  const [edit, setEdit] = useState(true);
-  const [topScroll, setTopScroll] = useState(0);
+  // scroll
+  const canvasSize = 20000;
   const [centerScroll, setCenterScroll] = useState({x: 0, y: 0});
   const [viewPortSize, setViewPortSize] = useState({width: 0, height: 0});
+  // notes
+  const [notes, setNotes] = useState({});
+  const [showNotes, setShowNotes] = useState(true);
+  const [edit, setEdit] = useState(true);
 
   const scaleToFitViewport = () => {
     const artboardWidth = props.artboard.frame.width;
@@ -42,19 +44,10 @@ const App = (props: AppProps) => {
   }
 
   const getViewPortSize = () => {
-    // subtract sidebar width + left rule width
-    const viewportWidth = window.innerWidth - 320;
-    // subtract artboard padding + top rule height
-    const viewportHeight = window.innerHeight;
     return {
-      width: viewportWidth,
-      height: viewportHeight
+      width: window.innerWidth - 320,
+      height: window.innerHeight
     }
-  }
-
-  const handleScroll = () => {
-    setLeftScroll(window.scrollX);
-    setTopScroll(window.scrollY);
   }
 
   const handleResize = () => {
@@ -78,8 +71,6 @@ const App = (props: AppProps) => {
 
   useEffect(() => {
     app.current?.focus();
-    // set scroll listener
-    window.addEventListener('scroll', handleScroll);
     // set reszie listener
     window.addEventListener('resize', handleResize);
     // set viewportsize
@@ -142,10 +133,7 @@ const App = (props: AppProps) => {
         setSelection={setSelection}
         hover={hover}
         setHover={setHover}
-        leftScroll={leftScroll}
-        topScroll={topScroll}
         viewPortSize={viewPortSize}
-        canvasSize={canvasSize}
         showNotes={showNotes}
         edit={edit}
         setEdit={setEdit}
