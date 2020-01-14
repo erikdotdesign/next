@@ -14,7 +14,7 @@ const SelectionRulesRight = (props: SelectionRulesRightProps) => {
   return (
     <div
       className='c-selection__rule c-selection__rule--r'
-      style={createRuleRightStyles(selectionOrigin, hoverOrigin, inset)}>
+      style={createRuleRightStyles(selectionOrigin, hoverOrigin, inset, zoom)}>
       <div
         className='c-selection__dim'
         style={createDimRightLeftStyles(selectionOrigin, artboardFrame, zoom)}>

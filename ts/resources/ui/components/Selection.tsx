@@ -15,7 +15,7 @@ const Selection = (props: SelectionProps) => {
   return (
     <div
       className='c-layer c-layer--selection'
-      style={createSelectionStyles(selection.frame)}>
+      style={createSelectionStyles(selection.frame, zoom)}>
       <SelectionPoints zoom={zoom} />
       {
         hover

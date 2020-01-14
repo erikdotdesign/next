@@ -73,7 +73,8 @@ const Artboard = (props: ArtboardProps) => {
         ? <NoteAdd
             layer={selection}
             notes={notes}
-            setNotes={setNotes} />
+            setNotes={setNotes}
+            zoom={zoom} />
         : null
       }
       {

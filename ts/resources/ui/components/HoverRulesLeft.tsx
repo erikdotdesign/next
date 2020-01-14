@@ -4,10 +4,11 @@ import { createRuleLeftStyles } from '../styles/hoverStyles';
 interface HoverRulesLeftProps {
   hoverOrigin: any;
   selectionOrigin: any;
+  zoom: number;
 }
 
 const HoverRulesLeft = (props: HoverRulesLeftProps) => {
-  const { hoverOrigin, selectionOrigin } = props;
+  const { hoverOrigin, selectionOrigin, zoom } = props;
   return (
     <div>
       {
@@ -16,7 +17,7 @@ const HoverRulesLeft = (props: HoverRulesLeftProps) => {
         || selectionOrigin.top < hoverOrigin.top && selectionOrigin.bottom > hoverOrigin.bottom
         ? <div
             className='c-hover__rule c-hover__rule--lt'
-            style={createRuleLeftStyles(hoverOrigin, selectionOrigin)} />
+            style={createRuleLeftStyles(hoverOrigin, selectionOrigin, zoom)} />
         : null
       }
       {
@@ -25,7 +26,7 @@ const HoverRulesLeft = (props: HoverRulesLeftProps) => {
         || selectionOrigin.bottom > hoverOrigin.bottom && selectionOrigin.top < hoverOrigin.top
         ? <div
             className='c-hover__rule c-hover__rule--lb'
-            style={createRuleLeftStyles(hoverOrigin, selectionOrigin)} />
+            style={createRuleLeftStyles(hoverOrigin, selectionOrigin, zoom)} />
         : null
       }
     </div>

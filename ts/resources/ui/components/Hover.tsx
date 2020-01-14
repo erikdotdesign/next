@@ -13,11 +13,17 @@ interface HoverProps {
 const Hover = (props: HoverProps) => (
   <div
     className='c-layer c-layer--hover'
-    style={createHoveredStyles(props.hover.frame)}>
+    style={createHoveredStyles(props.hover.frame, props.zoom)}>
     {
       props.selection
-      ? <HoverRules hover={props.hover} selection={props.selection} />
-      : <HoverDims hover={props.hover} artboard={props.artboard} zoom={props.zoom} />
+      ? <HoverRules
+          hover={props.hover}
+          selection={props.selection}
+          zoom={props.zoom} />
+      : <HoverDims
+          hover={props.hover}
+          artboard={props.artboard}
+          zoom={props.zoom} />
     }
   </div>
 );

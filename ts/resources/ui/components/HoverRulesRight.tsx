@@ -4,10 +4,11 @@ import { createRuleRightStyles } from '../styles/hoverStyles';
 interface HoverRulesRightProps {
   hoverOrigin: any;
   selectionOrigin: any;
+  zoom: number;
 }
 
 const HoverRulesRight = (props: HoverRulesRightProps) => {
-  const { hoverOrigin, selectionOrigin } = props;
+  const { hoverOrigin, selectionOrigin, zoom } = props;
   return (
     <div>
       {
@@ -16,7 +17,7 @@ const HoverRulesRight = (props: HoverRulesRightProps) => {
         || selectionOrigin.top < hoverOrigin.top && selectionOrigin.bottom > hoverOrigin.bottom
         ? <div
             className='c-hover__rule c-hover__rule--rt'
-            style={createRuleRightStyles(hoverOrigin, selectionOrigin)} />
+            style={createRuleRightStyles(hoverOrigin, selectionOrigin, zoom)} />
         : null
       }
       {
@@ -25,7 +26,7 @@ const HoverRulesRight = (props: HoverRulesRightProps) => {
         || selectionOrigin.bottom > hoverOrigin.bottom && selectionOrigin.top < hoverOrigin.top
         ? <div
             className='c-hover__rule c-hover__rule--rb'
-            style={createRuleRightStyles(hoverOrigin, selectionOrigin)} />
+            style={createRuleRightStyles(hoverOrigin, selectionOrigin, zoom)} />
         : null
       }
     </div>

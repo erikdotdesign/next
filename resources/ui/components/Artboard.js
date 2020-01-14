@@ -30,7 +30,7 @@ const Artboard = (props) => {
             ? React.createElement(Hover, { hover: hover, selection: selection, artboard: artboard, zoom: zoom })
             : null,
         selection && edit
-            ? React.createElement(NoteAdd, { layer: selection, notes: notes, setNotes: setNotes })
+            ? React.createElement(NoteAdd, { layer: selection, notes: notes, setNotes: setNotes, zoom: zoom })
             : null,
         showNotes
             ? React.createElement(Notes, { setSelection: setSelection, artboard: artboard, notes: notes })

@@ -14,7 +14,7 @@ const SelectionRulesBottom = (props: SelectionRulesBottomProps) => {
   return (
     <div
       className='c-selection__rule c-selection__rule--b'
-      style={createRuleBottomStyles(selectionOrigin, hoverOrigin, inset)}>
+      style={createRuleBottomStyles(selectionOrigin, hoverOrigin, inset, zoom)}>
       <div
         className='c-selection__dim'
         style={createDimTopBottomStyles(selectionOrigin, artboardFrame, zoom)}>

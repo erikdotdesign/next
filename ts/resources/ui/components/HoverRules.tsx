@@ -8,6 +8,7 @@ import { getOrigin } from '../utils';
 interface HoverRulesProps {
   hover: any;
   selection: any;
+  zoom: number;
 }
 
 const HoverRules = (props: HoverRulesProps) => {
@@ -21,28 +22,32 @@ const HoverRules = (props: HoverRulesProps) => {
         selectionOrigin.yCenter < hoverOrigin.top
         ? <HoverRulesTop
             hoverOrigin={hoverOrigin}
-            selectionOrigin={selectionOrigin} />
+            selectionOrigin={selectionOrigin}
+            zoom={props.zoom} />
         : null
       }
       {
         selectionOrigin.xCenter > hoverOrigin.right
         ? <HoverRulesRight
             hoverOrigin={hoverOrigin}
-            selectionOrigin={selectionOrigin} />
+            selectionOrigin={selectionOrigin}
+            zoom={props.zoom} />
         : null
       }
       {
         selectionOrigin.yCenter > hoverOrigin.bottom
         ? <HoverRulesBottom
             hoverOrigin={hoverOrigin}
-            selectionOrigin={selectionOrigin} />
+            selectionOrigin={selectionOrigin}
+            zoom={props.zoom} />
         : null
       }
       {
         selectionOrigin.xCenter < hoverOrigin.left
         ? <HoverRulesLeft
             hoverOrigin={hoverOrigin}
-            selectionOrigin={selectionOrigin} />
+            selectionOrigin={selectionOrigin}
+            zoom={props.zoom} />
         : null
       }
     </div>
