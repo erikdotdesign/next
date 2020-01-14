@@ -250,6 +250,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
+  left: 320px;
   z-index: 2;
   width: 20000px;
   height: 20000px;
@@ -494,6 +495,7 @@ button {
 
 .c-canvas__cornerstone {
   position: fixed;
+  left: 320px;
   height: 24px;
   width: 24px;
   background: #111;
@@ -513,7 +515,7 @@ button {
 .c-canvas__rule canvas {
   position: absolute;
   top: 0;
-  left: 24px;
+  left: 0;
   width: 20000px;
   height: 24px;
 }
@@ -521,16 +523,16 @@ button {
 .c-canvas__rule--left {
   transform: rotate(90deg) translateY(-24px);
   transform-origin: left top;
+  left: 320px;
 }
 
 .c-rule-highlight {
   position: absolute;
   top: 0;
-  left: 24px;
+  left: 0;
   height: 24px;
   background: magenta;
   opacity: 0.25;
-  transform-origin: left top;
 }
 
 .c-topbar-wrap {

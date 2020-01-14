@@ -35,7 +35,7 @@ const App = (props) => {
     };
     const getViewPortSize = () => {
         // subtract sidebar width + left rule width
-        const viewportWidth = window.innerWidth;
+        const viewportWidth = window.innerWidth - 320;
         // subtract artboard padding + top rule height
         const viewportHeight = window.innerHeight;
         return {
@@ -98,6 +98,7 @@ const App = (props) => {
             y: topOffset - (bottomRemainder / 2)
         });
     }, [viewPortSize]);
+    // SCROLL PERFORMANCE IS HORRIBLE ON SAFARI FOR NESTED COMPONENTS
     return (React.createElement("div", { className: 'c-app', tabIndex: -1, ref: app, onKeyDown: handleKeyPress },
         React.createElement(Topbar, { zoom: zoom, setZoom: setZoom, baseZoom: baseZoom, showNotes: showNotes, setShowNotes: setShowNotes, edit: edit, setEdit: setEdit, scrollToCenter: scrollToCenter }),
         React.createElement(Sidebar, { selection: selection, images: props.images, svgs: props.svgs, notes: notes, setNotes: setNotes, edit: edit }),

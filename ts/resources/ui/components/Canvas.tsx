@@ -28,9 +28,9 @@ let startGestureZoom = 0;
 let gestureZoom = 1;
 
 const Canvas = (props: CanvasProps) => {
-  //const [gestureZoom, setGestureZoom] = useState(0);
-  //const [startZoom, setStartZoom] = useState(0);
-  //const [unitSize, setUnitSize] = useState(10);
+  const { zoom } = props;
+  const [sectionSize, setSectionSize] = useState(100);
+  const [unitSize, setUnitSize] = useState(10);
   const canvas = useRef<HTMLDivElement>(null);
   const handleClick = () => {
     props.setSelection('');
@@ -49,40 +49,40 @@ const Canvas = (props: CanvasProps) => {
   const handleGestureEnd = (e: any) => {
     e.preventDefault();
   }
-  // const updateSectionSize = () => {
-  //   if (between(zoom, 1.5, 2)) {
-  //     setSectionSize(50);
-  //   } else if (between(zoom, 1, 1.5)) {
-  //     setSectionSize(100);
-  //   } else if (between(zoom, 0.75, 1)) {
-  //     setSectionSize(150);
-  //   } else if (between(zoom, 0.5, 0.75)) {
-  //     setSectionSize(200);
-  //   } else if (between(zoom, 0.25, 0.5)) {
-  //     setSectionSize(250);
-  //   } else if (between(zoom, 0.15, 0.25)) {
-  //     setSectionSize(300);
-  //   } else if (between(zoom, 0, 0.15)) {
-  //     setSectionSize(350);
-  //   }
-  // }
-  // const updateUnitSize = () => {
-  //   if (between(zoom, 1.5, 2)) {
-  //     setUnitSize(5);
-  //   } else if (between(zoom, 1, 1.5)) {
-  //     setUnitSize(10);
-  //   } else if (between(zoom, 0.75, 1)) {
-  //     setUnitSize(15);
-  //   } else if (between(zoom, 0.5, 0.75)) {
-  //     setUnitSize(20);
-  //   } else if (between(zoom, 0.25, 0.5)) {
-  //     setUnitSize(25);
-  //   } else if (between(zoom, 0.15, 0.25)) {
-  //     setUnitSize(30);
-  //   } else if (between(zoom, 0, 0.15)) {
-  //     setUnitSize(35);
-  //   }
-  // }
+  const updateSectionSize = () => {
+    if (between(zoom, 1.5, 2)) {
+      setSectionSize(50);
+    } else if (between(zoom, 1, 1.5)) {
+      setSectionSize(100);
+    } else if (between(zoom, 0.75, 1)) {
+      setSectionSize(150);
+    } else if (between(zoom, 0.5, 0.75)) {
+      setSectionSize(200);
+    } else if (between(zoom, 0.25, 0.5)) {
+      setSectionSize(250);
+    } else if (between(zoom, 0.15, 0.25)) {
+      setSectionSize(300);
+    } else if (between(zoom, 0, 0.15)) {
+      setSectionSize(350);
+    }
+  }
+  const updateUnitSize = () => {
+    if (between(zoom, 1.5, 2)) {
+      setUnitSize(5);
+    } else if (between(zoom, 1, 1.5)) {
+      setUnitSize(10);
+    } else if (between(zoom, 0.75, 1)) {
+      setUnitSize(15);
+    } else if (between(zoom, 0.5, 0.75)) {
+      setUnitSize(20);
+    } else if (between(zoom, 0.25, 0.5)) {
+      setUnitSize(25);
+    } else if (between(zoom, 0.15, 0.25)) {
+      setUnitSize(30);
+    } else if (between(zoom, 0, 0.15)) {
+      setUnitSize(35);
+    }
+  }
   useEffect(() => {
     canvas.current?.addEventListener('gesturestart', handleGestureStart);
     canvas.current?.addEventListener('gesturechange', handleGestureChange);
@@ -90,25 +90,22 @@ const Canvas = (props: CanvasProps) => {
   }, []);
   useEffect(() => {
     gestureZoom = props.zoom;
-    //let startZoom = props.zoom;
-    //props.setZoom(startZoom * gestureZoom);
-    //updateSectionSize();
-    //updateUnitSize();
+    updateSectionSize();
+    updateUnitSize();
   }, [props.zoom]);
   return (
     <div
       className='c-canvas'
       id='canvas'
       ref={canvas}>
-      {/* <CanvasRules
+      <CanvasRules
         leftScroll={props.leftScroll}
         topScroll={props.topScroll}
         sectionSize={sectionSize}
-        unitSize={1}
         canvasSize={props.canvasSize}
         zoom={zoom}
         artboardWidth={props.artboard.frame.width * zoom}
-        artboardHeight={props.artboard.frame.height * zoom} /> */}
+        artboardHeight={props.artboard.frame.height * zoom} />
       <Artboard
         artboard={props.artboard}
         images={props.images}

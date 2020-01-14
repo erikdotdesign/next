@@ -3,6 +3,7 @@
 
 .c-canvas__cornerstone
   position: fixed
+  left: $sidebarWidth
   height: $ruleSize
   width: $ruleSize
   background: $grayDarkest
@@ -21,19 +22,19 @@
   canvas
     position: absolute
     top: 0
-    left: $ruleSize
+    left: 0
     width: $canvasSize
     height: $ruleSize
 
 .c-canvas__rule--left
   transform: rotate(90deg) translateY(-$ruleSize)
   transform-origin: left top
+  left: $sidebarWidth
 
 .c-rule-highlight
   position: absolute
   top: 0
-  left: $ruleSize
+  left: 0
   height: $ruleSize
   background: $highlightColor
   opacity: 0.25
-  transform-origin: left top

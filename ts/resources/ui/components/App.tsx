@@ -43,7 +43,7 @@ const App = (props: AppProps) => {
 
   const getViewPortSize = () => {
     // subtract sidebar width + left rule width
-    const viewportWidth = window.innerWidth;
+    const viewportWidth = window.innerWidth - 320;
     // subtract artboard padding + top rule height
     const viewportHeight = window.innerHeight;
     return {
@@ -110,6 +110,8 @@ const App = (props: AppProps) => {
     });
   }, [viewPortSize]);
 
+
+  // SCROLL PERFORMANCE IS HORRIBLE ON SAFARI FOR NESTED COMPONENTS
   return (
     <div
       className='c-app'
