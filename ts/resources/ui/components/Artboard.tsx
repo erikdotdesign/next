@@ -4,6 +4,7 @@ import gsap from 'gsap';
 import Selection from './Selection';
 import Hover from './Hover';
 import Notes from './Notes';
+import NoteAdd from './NoteAdd';
 import artboardStyles from '../styles/artboardStyles';
 
 interface ArtboardProps {
@@ -18,13 +19,15 @@ interface ArtboardProps {
   showNotes: boolean;
   edit: boolean;
   setEdit: any;
+  notes: any;
+  setNotes: any;
 }
 
 const Artboard = (props: ArtboardProps) => {
   const artboardRef = useRef<HTMLDivElement>(null);
-  const { artboard, images, svgs, selection, setSelection, hover, setHover, zoom, showNotes, edit, setEdit } = props;
+  const { artboard, images, svgs, selection, setSelection, hover, setHover, zoom, showNotes, edit, setEdit, notes, setNotes } = props;
   const onClick = () => {
-    setSelection('');
+    setSelection(props.artboard);
   }
   const onMouseOver = () => {
     setHover(props.artboard);
@@ -66,12 +69,19 @@ const Artboard = (props: ArtboardProps) => {
         : null
       }
       {
+        selection && edit
+        ? <NoteAdd
+            layer={selection}
+            notes={notes}
+            setNotes={setNotes} />
+        : null
+      }
+      {
         showNotes
         ? <Notes
-            edit={edit}
-            selection={selection}
             setSelection={setSelection}
-            layers={artboard.layers} />
+            artboard={artboard}
+            notes={notes} />
         : null
       }
       <div

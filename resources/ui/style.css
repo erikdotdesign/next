@@ -1,3 +1,4 @@
+@charset "UTF-8";
 * {
   box-sizing: border-box;
   margin: 0;
@@ -130,7 +131,7 @@ button {
   padding: 0;
   font-size: 14px;
   color: #fff;
-  height: 48px;
+  min-height: 48px;
   line-height: 48px;
   padding: 16px;
 }
@@ -160,13 +161,14 @@ button {
   border: none;
   margin: 0;
   background: #111;
-  height: 16px;
+  min-height: 16px;
   font-size: 14px;
   line-height: 16px;
   color: #fff;
   max-width: 100px;
   padding: 8px;
   transition: all 0.25s;
+  cursor: pointer;
 }
 .c-sidebar-layer__value input:hover {
   background: #111;
@@ -195,6 +197,52 @@ button {
 
 .c-sidebar-layer__swatch--image {
   width: 100%;
+}
+
+.c-sidebar__notes {
+  padding: 16px;
+}
+
+.c-sidebar__note {
+  margin-left: 16px;
+  padding: 8px 0;
+  font-size: 14px;
+  line-height: 24px;
+  color: #fff;
+  position: relative;
+}
+
+.c-sidebar__note-content {
+  display: flex;
+  align-items: flex-start;
+  min-height: 32px;
+}
+.c-sidebar__note-content:before {
+  position: absolute;
+  left: -16px;
+  content: "•";
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: bold;
+  display: inline-block;
+}
+.c-sidebar__note-content:hover .c-sidebar__note-remove {
+  display: flex;
+}
+.c-sidebar__note-content span {
+  flex-grow: 2;
+}
+
+.c-sidebar__note-remove {
+  height: 32px;
+  width: 32px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-left: 8px;
+}
+.c-sidebar__note-remove:hover {
+  background: #111;
 }
 
 .c-canvas {
@@ -540,7 +588,7 @@ button {
   right: 0;
 }
 
-.c-add-note {
+.c-note-add {
   position: absolute;
   left: 0;
   top: 0;
@@ -548,7 +596,7 @@ button {
   right: 0;
 }
 
-.c-add-note__compose {
+.c-note-add__compose {
   position: absolute;
   display: flex;
   align-items: center;
@@ -560,11 +608,15 @@ button {
   box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.25);
   z-index: 999;
 }
-.c-add-note__compose:hover {
+.c-note-add__compose:hover {
   background: #cc00cc;
 }
 
-.c-compose-note {
+.c-note-add__compose--disabled {
+  background: #444;
+}
+
+.c-note-compose {
   position: absolute;
   left: 0;
   top: 0;
@@ -572,8 +624,22 @@ button {
   right: 0;
   z-index: 1000000000000000300000000;
 }
+.c-note-compose:before {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  content: "";
+  width: 100%;
+  display: block;
+  width: calc(100% + 32px);
+  height: calc(100% + 32px);
+  top: -16px;
+  left: -16px;
+}
 
-.c-compose-note__input {
+.c-note-compose__input {
   width: 100%;
   height: 100%;
   font-size: 14px;
@@ -586,19 +652,11 @@ button {
   border: none;
   outline: none;
 }
-.c-compose-note__input:focus {
+.c-note-compose__input:focus {
   box-shadow: 0 0 0 1px magenta;
 }
 
-.c-note {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
-}
-
-.c-note__count {
+.c-note-count {
   position: absolute;
   display: flex;
   align-items: center;
@@ -615,26 +673,8 @@ button {
   box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.25);
   z-index: 999;
 }
-.c-note__count:hover {
+.c-note-count:hover {
   background: #cc00cc;
-}
-
-.c-note-view {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  z-index: 1000000000000000300000000;
-}
-
-.c-note-view__note {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  font-size: 14px;
-  line-height: 24px;
-  padding: 16px 0;
 }
 
 .c-modal {
@@ -720,13 +760,4 @@ button {
 }
 .c-modal__submit--enabled:hover {
   background: #cc00cc;
-}
-
-.c-modal__scrim {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  pointer-events: none;
 }

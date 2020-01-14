@@ -20,6 +20,8 @@ interface CanvasProps {
   showNotes: boolean;
   edit: boolean;
   setEdit: any;
+  notes: any;
+  setNotes: any;
 }
 
 let startGestureZoom = 0;
@@ -118,7 +120,9 @@ const Canvas = (props: CanvasProps) => {
         zoom={props.zoom}
         showNotes={props.showNotes}
         edit={props.edit}
-        setEdit={props.setEdit} />
+        setEdit={props.setEdit}
+        notes={props.notes}
+        setNotes={props.setNotes} />
       <div
         className='c-canvas__escape'
         onClick={handleClick}

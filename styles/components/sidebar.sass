@@ -46,7 +46,7 @@ $cellPadding: 16px
   padding: 0
   font-size: 14px
   color: #fff
-  height: $headerHeight
+  min-height: $headerHeight
   line-height: $headerHeight
   padding: $cellPadding
 
@@ -72,13 +72,14 @@ $cellPadding: 16px
     border: none
     margin: 0
     background: $grayDarkest
-    height: 16px
+    min-height: 16px
     font-size: 14px
     line-height: 16px
     color: #fff
     max-width: 100px
     padding: 8px
     transition: all 0.25s
+    cursor: pointer
 
     &:hover
       background: $grayDarkest
@@ -100,3 +101,46 @@ $cellPadding: 16px
 
 .c-sidebar-layer__swatch--image
   width: 100%
+
+.c-sidebar__notes
+  padding: $cellPadding
+
+.c-sidebar__note
+  margin-left: $cellPadding
+  padding: 8px 0
+  font-size: 14px
+  line-height: 24px
+  color: #fff
+  position: relative
+
+.c-sidebar__note-content
+  display: flex
+  align-items: flex-start
+  min-height: $buttonSize
+
+  &:before
+    position: absolute
+    left: -16px
+    content: '\2022'
+    color: $textLighter
+    font-weight: bold
+    display: inline-block
+
+  &:hover
+    .c-sidebar__note-remove
+      display: flex
+
+  span
+    flex-grow: 2
+
+.c-sidebar__note-remove
+  height: $buttonSize
+  width: $buttonSize
+  display: none
+  align-items: center
+  justify-content: center
+  flex-shrink: 0
+  margin-left: 8px
+
+  &:hover
+    background: $grayDarkest

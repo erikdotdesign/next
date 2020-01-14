@@ -1,16 +1,11 @@
-.c-note
+.c-note-add
   +absolute-full
 
-.c-note__count
+.c-note-add__compose
   position: absolute
   display: flex
   align-items: center
   justify-content: center
-  text-align: center
-  font-size: 14px
-  line-height: $buttonSize
-  color: #fff
-  font-weight: bold
   height: $buttonSize
   width: $buttonSize
   transform: translate(-50%, -50%)
@@ -20,3 +15,6 @@
 
   &:hover
     background: $highlightColorDark
+
+.c-note-add__compose--disabled
+  background: $gray

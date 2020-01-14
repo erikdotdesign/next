@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
+import Sidebar from './Sidebar';
 import Canvas from './Canvas';
 import Topbar from './Topbar';
 const App = (props) => {
@@ -8,6 +9,7 @@ const App = (props) => {
     const [hover, setHover] = useState('');
     const [leftScroll, setLeftScroll] = useState(0);
     const [zoom, setZoom] = useState(1);
+    const [notes, setNotes] = useState({});
     const [baseZoom, setBaseZoom] = useState(1);
     const [showNotes, setShowNotes] = useState(true);
     const [edit, setEdit] = useState(true);
@@ -98,6 +100,7 @@ const App = (props) => {
     }, [viewPortSize]);
     return (React.createElement("div", { className: 'c-app', tabIndex: -1, ref: app, onKeyDown: handleKeyPress },
         React.createElement(Topbar, { zoom: zoom, setZoom: setZoom, baseZoom: baseZoom, showNotes: showNotes, setShowNotes: setShowNotes, edit: edit, setEdit: setEdit, scrollToCenter: scrollToCenter }),
-        React.createElement(Canvas, Object.assign({}, props, { zoom: zoom, setZoom: setZoom, selection: selection, setSelection: setSelection, hover: hover, setHover: setHover, leftScroll: leftScroll, topScroll: topScroll, viewPortSize: viewPortSize, canvasSize: canvasSize, showNotes: showNotes, edit: edit, setEdit: setEdit }))));
+        React.createElement(Sidebar, { selection: selection, images: props.images, svgs: props.svgs, notes: notes, setNotes: setNotes, edit: edit }),
+        React.createElement(Canvas, Object.assign({}, props, { zoom: zoom, setZoom: setZoom, selection: selection, setSelection: setSelection, hover: hover, setHover: setHover, leftScroll: leftScroll, topScroll: topScroll, viewPortSize: viewPortSize, canvasSize: canvasSize, showNotes: showNotes, edit: edit, setEdit: setEdit, notes: notes, setNotes: setNotes }))));
 };
 export default App;

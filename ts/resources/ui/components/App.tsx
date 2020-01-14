@@ -16,6 +16,7 @@ const App = (props: AppProps) => {
   const [hover, setHover] = useState('');
   const [leftScroll, setLeftScroll] = useState(0);
   const [zoom, setZoom] = useState(1);
+  const [notes, setNotes] = useState({});
   const [baseZoom, setBaseZoom] = useState(1);
   const [showNotes, setShowNotes] = useState(true);
   const [edit, setEdit] = useState(true);
@@ -124,11 +125,13 @@ const App = (props: AppProps) => {
         edit={edit}
         setEdit={setEdit}
         scrollToCenter={scrollToCenter} />
-      {/* <Sidebar
+      <Sidebar
         selection={selection}
-        hover={hover}
         images={props.images}
-        svgs={props.svgs} /> */}
+        svgs={props.svgs}
+        notes={notes}
+        setNotes={setNotes}
+        edit={edit} />
       <Canvas
         {...props}
         zoom={zoom}
@@ -143,7 +146,9 @@ const App = (props: AppProps) => {
         canvasSize={canvasSize}
         showNotes={showNotes}
         edit={edit}
-        setEdit={setEdit} />
+        setEdit={setEdit}
+        notes={notes}
+        setNotes={setNotes} />
     </div>
   );
 }

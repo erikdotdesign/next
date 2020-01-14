@@ -1,8 +1,15 @@
-.c-compose-note
+.c-note-compose
   +absolute-full
   z-index: 999999999999999999999999
 
-.c-compose-note__input
+  &:before
+    +content-block
+    width: calc(100% + 32px)
+    height: calc(100% + 32px)
+    top: -16px
+    left: -16px
+
+.c-note-compose__input
   width: 100%
   height: 100%
   font-size: 14px
