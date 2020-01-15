@@ -4,7 +4,7 @@
   "commands": [
     {
       "name": "export",
-      "identifier": "measure.export-identifier",
+      "identifier": "sr-measure.export-identifier",
       "script": "./export.js",
       "handlers": {
         "run": "onRun",
@@ -17,7 +17,7 @@
   "menu": {
     "title": "Sr Measure",
     "items": [
-      "measure.export-identifier"
+      "sr-measure.export-identifier"
     ]
   }
 }

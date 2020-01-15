@@ -9,7 +9,9 @@ window.renderApp = (store: any) => {
     <App
       artboard={store.artboard}
       images={store.images}
-      svgs={store.svgs} />,
+      svgs={store.svgs}
+      notes={store.notes}
+      composing={true} />,
     document.getElementById('root')
   );
 };

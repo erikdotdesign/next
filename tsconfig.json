@@ -8,7 +8,8 @@
     "outDir": "./",
     "rootDir": "./ts",
     "allowSyntheticDefaultImports": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "resolveJsonModule": true
 	},
 	"include": [
     "./ts/**/*",

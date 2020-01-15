@@ -31,7 +31,7 @@ const Canvas = (props) => {
         gestureZoom = props.zoom;
     }, [props.zoom]);
     return (React.createElement("div", { className: 'c-canvas', id: 'canvas', ref: canvas },
-        React.createElement(Artboard, { artboard: props.artboard, images: props.images, svgs: props.svgs, selection: props.selection, setSelection: props.setSelection, hover: props.hover, setHover: props.setHover, zoom: props.zoom, showNotes: props.showNotes, edit: props.edit, setEdit: props.setEdit, notes: props.notes, setNotes: props.setNotes }),
+        React.createElement(Artboard, { artboard: props.artboard, images: props.images, svgs: props.svgs, selection: props.selection, setSelection: props.setSelection, hover: props.hover, setHover: props.setHover, zoom: props.zoom, showNotes: props.showNotes, edit: props.edit, setEdit: props.setEdit, notes: props.notes, setNotes: props.setNotes, composing: props.composing }),
         React.createElement("div", { className: 'c-canvas__escape', onClick: handleClick, onMouseOver: handleMouseOver })));
 };
 export default Canvas;

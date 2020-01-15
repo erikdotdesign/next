@@ -8,7 +8,7 @@ import NoteAdd from './NoteAdd';
 import artboardStyles from '../styles/artboardStyles';
 const Artboard = (props) => {
     const artboardRef = useRef(null);
-    const { artboard, images, svgs, selection, setSelection, hover, setHover, zoom, showNotes, edit, setEdit, notes, setNotes } = props;
+    const { artboard, images, svgs, selection, setSelection, hover, setHover, zoom, showNotes, edit, setEdit, notes, setNotes, composing } = props;
     const onClick = () => {
         setSelection(props.artboard);
     };
@@ -29,7 +29,7 @@ const Artboard = (props) => {
         hover
             ? React.createElement(Hover, { hover: hover, selection: selection, artboard: artboard, zoom: zoom })
             : null,
-        selection && edit
+        selection && edit && composing
             ? React.createElement(NoteAdd, { layer: selection, notes: notes, setNotes: setNotes, zoom: zoom })
             : null,
         showNotes

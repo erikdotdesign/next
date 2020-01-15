@@ -21,11 +21,12 @@ interface ArtboardProps {
   setEdit: any;
   notes: any;
   setNotes: any;
+  composing: boolean;
 }
 
 const Artboard = (props: ArtboardProps) => {
   const artboardRef = useRef<HTMLDivElement>(null);
-  const { artboard, images, svgs, selection, setSelection, hover, setHover, zoom, showNotes, edit, setEdit, notes, setNotes } = props;
+  const { artboard, images, svgs, selection, setSelection, hover, setHover, zoom, showNotes, edit, setEdit, notes, setNotes, composing } = props;
   const onClick = () => {
     setSelection(props.artboard);
   }
@@ -69,7 +70,7 @@ const Artboard = (props: ArtboardProps) => {
         : null
       }
       {
-        selection && edit
+        selection && edit && composing
         ? <NoteAdd
             layer={selection}
             notes={notes}

@@ -7,6 +7,8 @@ interface AppProps {
   artboard: any;
   images: any;
   svgs: any;
+  notes: any;
+  composing: boolean;
 }
 
 const App = (props: AppProps) => {
@@ -22,7 +24,7 @@ const App = (props: AppProps) => {
   const [centerScroll, setCenterScroll] = useState({x: 0, y: 0});
   const [viewPortSize, setViewPortSize] = useState({width: 0, height: 0});
   // notes
-  const [notes, setNotes] = useState({});
+  const [notes, setNotes] = useState(props.notes);
   const [showNotes, setShowNotes] = useState(true);
   const [edit, setEdit] = useState(true);
 
@@ -113,18 +115,21 @@ const App = (props: AppProps) => {
         zoom={zoom}
         setZoom={setZoom}
         baseZoom={baseZoom}
+        notes={notes}
         showNotes={showNotes}
         setShowNotes={setShowNotes}
         edit={edit}
         setEdit={setEdit}
-        scrollToCenter={scrollToCenter} />
+        scrollToCenter={scrollToCenter}
+        composing={props.composing} />
       <Sidebar
         selection={selection}
         images={props.images}
         svgs={props.svgs}
         notes={notes}
         setNotes={setNotes}
-        edit={edit} />
+        edit={edit}
+        composing={props.composing} />
       <Canvas
         {...props}
         zoom={zoom}
@@ -138,7 +143,8 @@ const App = (props: AppProps) => {
         edit={edit}
         setEdit={setEdit}
         notes={notes}
-        setNotes={setNotes} />
+        setNotes={setNotes}
+        composing={props.composing} />
     </div>
   );
 }

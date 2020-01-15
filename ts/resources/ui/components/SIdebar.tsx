@@ -8,10 +8,11 @@ interface SidebarProps {
   notes: any;
   setNotes: any;
   edit: boolean;
+  composing: boolean;
 }
 
 const Sidebar = (props: SidebarProps) => {
-  const { selection, images, svgs, notes, setNotes, edit } = props;
+  const { selection, images, svgs, notes, setNotes, edit, composing } = props;
   const removeNote = (noteIndex: number) => {
     const newNotes = notes[selection.id].filter((n: any, i: number) => {
       return i !== noteIndex;
@@ -56,7 +57,7 @@ const Sidebar = (props: SidebarProps) => {
                         { note }
                       </span>
                       {
-                        edit
+                        edit && composing
                         ? <button
                             className='c-sidebar__note-remove'
                             onClick={() => removeNote(index)}>

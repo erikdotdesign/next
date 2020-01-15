@@ -1,7 +1,7 @@
 import React from 'react';
 import SidebarLayer from './SidebarLayer';
 const Sidebar = (props) => {
-    const { selection, images, svgs, notes, setNotes, edit } = props;
+    const { selection, images, svgs, notes, setNotes, edit, composing } = props;
     const removeNote = (noteIndex) => {
         const newNotes = notes[selection.id].filter((n, i) => {
             return i !== noteIndex;
@@ -29,7 +29,7 @@ const Sidebar = (props) => {
                 React.createElement("ul", { className: 'c-sidebar__notes' }, selectionNotes.map((note, index) => (React.createElement("li", { className: 'c-sidebar__note', key: index },
                     React.createElement("div", { className: 'c-sidebar__note-content' },
                         React.createElement("span", null, note),
-                        edit
+                        edit && composing
                             ? React.createElement("button", { className: 'c-sidebar__note-remove', onClick: () => removeNote(index) },
                                 React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", width: "24", height: "24", viewBox: "0 0 24 24" },
                                     React.createElement("path", { fill: "#fff", d: "M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" }),
