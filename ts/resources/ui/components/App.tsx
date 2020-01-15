@@ -62,10 +62,13 @@ const App = (props: AppProps) => {
 
   const handleKeyPress = (e: any) => {
     if (e.key === '-' && e.metaKey && e.altKey && e.ctrlKey) {
+      e.preventDefault();
       setZoom(zoom - 0.1);
     } else if (e.key === '=' && e.metaKey && e.altKey && e.ctrlKey) {
+      e.preventDefault();
       setZoom(zoom + 0.1);
     } else if (e.key === 'Enter' && e.metaKey && e.altKey && e.ctrlKey) {
+      e.preventDefault();
       setZoom(baseZoom);
       scrollToCenter();
     }
