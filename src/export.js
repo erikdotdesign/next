@@ -41,42 +41,56 @@ export default (context) => {
             //@ts-ignore
             webContents.executeJavaScript(`renderApp(${JSON.stringify(store)})`);
         });
+        // open save prompt on save
         webContents.on('save', (notes) => {
-            //@ts-ignore
+            // add notes to store
             store.notes = JSON.parse(notes);
+            // stringify store for export
             let data = JSON.stringify(store);
+            // get save path
             let savePath = pluginExport.getSavePath(context);
+            // get plugin root
             let pluginRoot = pluginExport.getRoot(context);
+            // get js path
             let scriptPath = `${pluginRoot}/Contents/Resources/resources_ui_spec.js`;
+            // get js map path
             let scriptSourceMapPath = `${pluginRoot}/Contents/Resources/resources_ui_spec.js.map`;
+            // get css path
             let stylesPath = require('../resources/ui/style.css').replace('file://', '');
+            // get html path
             let templatePath = require('../resources/ui/spec.html').replace('file://', '');
+            // get css file name
             // 32 + . + extension
             let styleName = stylesPath.substr(-36);
-            //@ts-ignore
-            let template = NSString.stringWithContentsOfFile_encoding_error(templatePath, 4, nil);
-            //@ts-ignore
-            let styles = NSString.stringWithContentsOfFile_encoding_error(stylesPath, 4, nil);
-            //@ts-ignore
-            let script = NSString.stringWithContentsOfFile_encoding_error(scriptPath, 4, nil);
+            // get contents of html
+            let template = pluginExport.getFileContent(templatePath);
+            // get contents of css
+            let styles = pluginExport.getFileContent(stylesPath);
+            // get contents of js
+            let script = pluginExport.getFileContent(scriptPath);
+            // add store to js string
             let scriptWithStore = `var store = ${data}; ${script}`;
-            //@ts-ignore
-            let scriptSourceMap = NSString.stringWithContentsOfFile_encoding_error(scriptSourceMapPath, 4, nil);
+            // get contents of js map
+            let scriptSourceMap = pluginExport.getFileContent(scriptSourceMapPath);
+            // create final html
             pluginExport.writeFile({
                 content: template,
                 path: `${savePath}`,
                 fileName: 'spec.html'
             });
+            // create final css
             pluginExport.writeFile({
                 content: styles,
                 path: `${savePath}`,
                 fileName: styleName
             });
+            // create final js
             pluginExport.writeFile({
                 content: scriptWithStore,
                 path: `${savePath}`,
                 fileName: 'spec.js'
             });
+            // create final js map
             pluginExport.writeFile({
                 content: scriptSourceMap,
                 path: `${savePath}`,

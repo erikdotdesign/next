@@ -42,6 +42,12 @@ const Canvas = (props: CanvasProps) => {
   const handleGestureEnd = (e: any) => {
     e.preventDefault();
   }
+  const handleWheel = (e: any) => {
+    if (e.ctrlKey) {
+      e.preventDefault();
+      props.setZoom(gestureZoom -= e.deltaY * 0.01);
+    }
+  }
   useEffect(() => {
     canvas.current?.addEventListener('gesturestart', handleGestureStart);
     canvas.current?.addEventListener('gesturechange', handleGestureChange);
@@ -54,7 +60,8 @@ const Canvas = (props: CanvasProps) => {
     <div
       className='c-canvas'
       id='canvas'
-      ref={canvas}>
+      ref={canvas}
+      onWheel={handleWheel}>
       <Artboard
         artboard={props.artboard}
         images={props.images}

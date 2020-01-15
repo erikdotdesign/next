@@ -21,6 +21,12 @@ const Canvas = (props) => {
     const handleGestureEnd = (e) => {
         e.preventDefault();
     };
+    const handleWheel = (e) => {
+        if (e.ctrlKey) {
+            e.preventDefault();
+            props.setZoom(gestureZoom -= e.deltaY * 0.01);
+        }
+    };
     useEffect(() => {
         var _a, _b, _c;
         (_a = canvas.current) === null || _a === void 0 ? void 0 : _a.addEventListener('gesturestart', handleGestureStart);
@@ -30,7 +36,7 @@ const Canvas = (props) => {
     useEffect(() => {
         gestureZoom = props.zoom;
     }, [props.zoom]);
-    return (React.createElement("div", { className: 'c-canvas', id: 'canvas', ref: canvas },
+    return (React.createElement("div", { className: 'c-canvas', id: 'canvas', ref: canvas, onWheel: handleWheel },
         React.createElement(Artboard, { artboard: props.artboard, images: props.images, svgs: props.svgs, selection: props.selection, setSelection: props.setSelection, hover: props.hover, setHover: props.setHover, zoom: props.zoom, showNotes: props.showNotes, edit: props.edit, setEdit: props.setEdit, notes: props.notes, setNotes: props.setNotes, composing: props.composing }),
         React.createElement("div", { className: 'c-canvas__escape', onClick: handleClick, onMouseOver: handleMouseOver })));
 };
