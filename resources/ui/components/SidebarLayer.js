@@ -25,7 +25,6 @@ const SidebarLayer = (props) => {
     };
     const layerStyles = getLayerStyles();
     return (React.createElement("div", { className: 'c-sidebar__layer' },
-        React.createElement("h2", { className: 'c-sidebar-layer__name' }, layer.name),
         React.createElement("div", { className: 'c-sidebar-layer__styles' }, Object.keys(layerStyles).map((key, index) => (React.createElement("div", { className: 'c-sidebar-layer__css', key: index },
             React.createElement(SidebarLayerProp, { prop: key }),
             React.createElement(SidebarLayerValue, { value: layerStyles[key] })))))));

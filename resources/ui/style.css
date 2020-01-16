@@ -1,4 +1,30 @@
 @charset "UTF-8";
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translate(32px, 0px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0px, 0px);
+  }
+}
+@keyframes offsetButtonPopIn {
+  from {
+    transform: translate(-50%, -50%) scale(0);
+  }
+  to {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
 * {
   box-sizing: border-box;
   margin: 0;
@@ -27,6 +53,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 body {
   line-height: 1;
   background: #222;
+  font-family: "Space Mono", Menlo, Helvetica, Arial, sans-serif;
 }
 
 ol, ul {
@@ -51,16 +78,22 @@ button {
   outline: none;
   border: 0;
   cursor: pointer;
+  font-family: "Space Mono", Menlo, Helvetica, Arial, sans-serif;
 }
 
 ::selection {
   background: magenta;
 }
 
+input[type=text],
+textarea {
+  font-family: "Space Mono", Menlo, Helvetica, Arial, sans-serif;
+}
+
 .c-app {
   width: 100%;
   height: 100%;
-  font-family: Menlo, Helvetica, Arial, sans-serif;
+  font-family: "Space Mono", Menlo, Helvetica, Arial, sans-serif;
   background: #222;
   color: white;
 }
@@ -92,6 +125,7 @@ button {
   z-index: 3;
   overflow: scroll;
   box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, 0.25);
+  padding-bottom: 48px;
 }
 
 .c-sidebar__section {
@@ -126,36 +160,29 @@ button {
   box-shadow: 0px 1px 0px 0px #666, 0px -1px 0px 0px #666;
 }
 
-.c-sidebar-layer__name {
-  margin: 0;
-  padding: 0;
-  font-size: 14px;
-  color: #fff;
-  min-height: 48px;
-  line-height: 48px;
-  padding: 16px;
-}
-
 .c-sidebar-layer__styles {
-  padding: 0 16px 32px 16px;
+  padding: 16px;
 }
 
 .c-sidebar-layer__css {
   display: flex;
   align-items: center;
-  height: 36px;
+  height: 32px;
+  margin: 4px 0;
 }
 
 .c-sidebar-layer__prop {
   color: #fff;
   font-size: 14px;
-  line-height: 20px;
+  line-height: 32px;
   flex-grow: 2;
   color: rgba(255, 255, 255, 0.5);
 }
 
 .c-sidebar-layer__value {
   position: relative;
+  max-height: 32px;
+  display: flex;
 }
 .c-sidebar-layer__value input {
   border: none;
@@ -167,15 +194,14 @@ button {
   color: #fff;
   max-width: 100px;
   padding: 8px;
-  transition: all 0.25s;
-  cursor: pointer;
+  transition: all 0.15s;
 }
 .c-sidebar-layer__value input:hover {
-  background: #111;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
 }
 .c-sidebar-layer__value input:focus {
   outline: none;
-  background: #111;
+  box-shadow: 0 0 0 1px magenta inset;
 }
 
 .c-sidebar-layer__swatch-group {
@@ -200,33 +226,39 @@ button {
 }
 
 .c-sidebar__notes {
-  padding: 16px;
+  padding: 16px 0;
 }
 
 .c-sidebar__note {
-  margin-left: 16px;
-  padding: 8px 0;
+  padding: 8px 16px;
+  padding-left: 32px;
   font-size: 14px;
-  line-height: 24px;
+  line-height: 32px;
   color: #fff;
   position: relative;
+  min-height: 32px;
+  word-break: break-word;
+  transition: background 0.15s;
+}
+.c-sidebar__note:hover {
+  background: #111;
+}
+.c-sidebar__note:hover .c-sidebar__note-remove {
+  display: flex;
+  animation: slideInLeft 0.15s ease-out;
 }
 
 .c-sidebar__note-content {
   display: flex;
   align-items: flex-start;
-  min-height: 32px;
 }
 .c-sidebar__note-content:before {
   position: absolute;
-  left: -16px;
+  left: 16px;
   content: "•";
   color: rgba(255, 255, 255, 0.5);
   font-weight: bold;
   display: inline-block;
-}
-.c-sidebar__note-content:hover .c-sidebar__note-remove {
-  display: flex;
 }
 .c-sidebar__note-content span {
   flex-grow: 2;
@@ -239,10 +271,12 @@ button {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  margin-left: 8px;
+  margin-left: 4px;
+  border-radius: 0px;
+  transition: background 0.15s, transform 0.15s;
 }
 .c-sidebar__note-remove:hover {
-  background: #111;
+  background: magenta;
 }
 
 .c-canvas {
@@ -543,17 +577,36 @@ button {
   position: fixed;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   width: 100%;
   height: 48px;
   background: #333;
   box-shadow: 0px 1px 0px 0px #666;
   z-index: 100000000000000020000;
+  padding: 0 16px;
+}
+
+.c-topbar__selection {
+  font-weight: 700;
+  line-height: 48px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.c-topbar__controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 48px;
 }
 
 .c-topbar__control {
   display: flex;
   margin-right: 8px;
+}
+.c-topbar__control:last-child {
+  margin-right: 0;
 }
 
 .c-topbar__zoom-status {
@@ -566,6 +619,9 @@ button {
   width: 64px;
   height: 32px;
 }
+.c-topbar__zoom-status ::selection {
+  background: none;
+}
 
 .c-topbar__button {
   display: flex;
@@ -575,9 +631,18 @@ button {
   width: 32px;
   height: 32px;
   cursor: pointer;
+  border-radius: 0px;
 }
 .c-topbar__button:hover {
   background: #777;
+}
+
+.c-topbar__button--zoom-in {
+  border-radius: 0 0px 0px 0;
+}
+
+.c-topbar__button--zoom-out {
+  border-radius: 0px 0 0 0px;
 }
 
 .c-notes {
@@ -607,6 +672,9 @@ button {
   background: magenta;
   box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.25);
   z-index: 999;
+  transition: background 0.15s, transform 0.15s;
+  transform-origin: center center;
+  border-radius: 0px;
 }
 .c-note-add__compose:hover {
   background: #cc00cc;
@@ -651,9 +719,13 @@ button {
   resize: none;
   border: none;
   outline: none;
+  transition: all 0.15s;
+}
+.c-note-compose__input:hover {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
 }
 .c-note-compose__input:focus {
-  box-shadow: 0 0 0 1px magenta;
+  box-shadow: 0 0 0 1px magenta inset;
 }
 
 .c-note-count {
@@ -672,6 +744,9 @@ button {
   background: magenta;
   box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.25);
   z-index: 999;
+  transition: all 0.15s;
+  animation: offsetButtonPopIn 0.15s ease-out;
+  border-radius: 0px;
 }
 .c-note-count:hover {
   background: #cc00cc;
@@ -705,6 +780,7 @@ button {
   justify-content: space-between;
   height: 48px;
   padding: 0 8px;
+  font-weight: 700;
 }
 
 .c-modal__footer {
@@ -727,9 +803,11 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.15s;
+  border-radius: 0px;
 }
 .c-modal__close:hover {
-  background: #222;
+  background: magenta;
 }
 
 .c-modal__body {
@@ -746,8 +824,9 @@ button {
   line-height: 32px;
   font-size: 14px;
   color: #fff;
-  transition: all 0.15s;
+  transition: background 0.15s;
   text-align: center;
+  cursor: not-allowed;
 }
 .c-modal__submit:hover {
   background: #222;
@@ -757,6 +836,7 @@ button {
   background: magenta;
   font-weight: bold;
   box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.33);
+  cursor: pointer;
 }
 .c-modal__submit--enabled:hover {
   background: #cc00cc;

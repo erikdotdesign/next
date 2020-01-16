@@ -9,16 +9,33 @@ $buttonSize: 32px
   position: fixed
   display: flex
   align-items: center
-  justify-content: flex-end
+  justify-content: space-between
   width: 100%
   height: $topbarHeight
   background: $grayDark
   box-shadow: 0px 1px 0px 0px $grayLighter
   z-index: 99999999999999999999
+  padding: 0 16px
+
+.c-topbar__selection
+  font-weight: 700
+  line-height: $topbarHeight
+  white-space: nowrap
+  overflow: hidden
+  text-overflow: ellipsis
+
+.c-topbar__controls
+  display: flex
+  align-items: center
+  justify-content: flex-end
+  height: $topbarHeight
 
 .c-topbar__control
   display: flex
   margin-right: 8px
+
+  &:last-child
+    margin-right: 0
 
 .c-topbar__zoom-status
   display: flex
@@ -30,6 +47,9 @@ $buttonSize: 32px
   width: $buttonSize * 2
   height: $buttonSize
 
+  ::selection
+    background: none
+
 .c-topbar__button
   display: flex
   align-items: center
@@ -38,6 +58,13 @@ $buttonSize: 32px
   width: $buttonSize
   height: $buttonSize
   cursor: pointer
+  border-radius: $buttonBR
 
   &:hover
     background: $grayLightest
+
+.c-topbar__button--zoom-in
+  border-radius: 0 $buttonBR $buttonBR 0
+
+.c-topbar__button--zoom-out
+  border-radius: $buttonBR 0 0 $buttonBR

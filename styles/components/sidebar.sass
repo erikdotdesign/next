@@ -1,5 +1,5 @@
 $headerHeight: 48px
-$cellHeight: 36px
+$cellHeight: 32px
 $cellPadding: 16px
 
 .c-sidebar
@@ -11,6 +11,7 @@ $cellPadding: 16px
   z-index: 3
   overflow: scroll
   box-shadow: 0px 5px 20px 0px rgba(0,0,0,0.25)
+  padding-bottom: 48px
 
 .c-sidebar__section
   position: relative
@@ -41,32 +42,26 @@ $cellPadding: 16px
   padding: 0 $cellPadding
   box-shadow: 0px 1px 0px 0px $grayLighter, 0px -1px 0px 0px $grayLighter
 
-.c-sidebar-layer__name
-  margin: 0
-  padding: 0
-  font-size: 14px
-  color: #fff
-  min-height: $headerHeight
-  line-height: $headerHeight
-  padding: $cellPadding
-
 .c-sidebar-layer__styles
-  padding: 0 $cellPadding $cellPadding * 2 $cellPadding
+  padding: $cellPadding
 
 .c-sidebar-layer__css
   display: flex
   align-items: center
   height: $cellHeight
+  margin: 4px 0
 
 .c-sidebar-layer__prop
   color: #fff
   font-size: 14px
-  line-height: 20px
+  line-height: $cellHeight
   flex-grow: 2
   color: $textLighter
 
 .c-sidebar-layer__value
   position: relative
+  max-height: $cellHeight
+  display: flex
 
   input
     border: none
@@ -78,15 +73,14 @@ $cellPadding: 16px
     color: #fff
     max-width: 100px
     padding: 8px
-    transition: all 0.25s
-    cursor: pointer
+    transition: all $transitionNormal
 
     &:hover
-      background: $grayDarkest
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.5) inset
 
     &:focus
       outline: none
-      background: $grayDarkest
+      box-shadow: 0 0 0 1px $highlightColor inset
 
 .c-sidebar-layer__swatch-group
   +absolute-full
@@ -103,32 +97,37 @@ $cellPadding: 16px
   width: 100%
 
 .c-sidebar__notes
-  padding: $cellPadding
+  padding: $cellPadding 0
 
 .c-sidebar__note
-  margin-left: $cellPadding
-  padding: 8px 0
+  padding: $cellPadding / 2 $cellPadding
+  padding-left: $cellPadding * 2
   font-size: 14px
-  line-height: 24px
+  line-height: $cellHeight
   color: #fff
   position: relative
+  min-height: $cellHeight
+  word-break: break-word
+  transition: background $transitionNormal
+
+  &:hover
+    background: $grayDarkest
+
+    .c-sidebar__note-remove
+      display: flex
+      animation: slideInLeft $transitionNormal ease-out
 
 .c-sidebar__note-content
   display: flex
   align-items: flex-start
-  min-height: $buttonSize
 
   &:before
     position: absolute
-    left: -16px
+    left: 16px
     content: '\2022'
     color: $textLighter
     font-weight: bold
     display: inline-block
-
-  &:hover
-    .c-sidebar__note-remove
-      display: flex
 
   span
     flex-grow: 2
@@ -140,7 +139,9 @@ $cellPadding: 16px
   align-items: center
   justify-content: center
   flex-shrink: 0
-  margin-left: 8px
+  margin-left: 4px
+  border-radius: $buttonBR
+  transition: background $transitionNormal, transform $transitionNormal
 
   &:hover
-    background: $grayDarkest
+    background: $highlightColor

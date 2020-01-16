@@ -95,7 +95,7 @@ const App = (props) => {
     }, [viewPortSize]);
     // SCROLL PERFORMANCE IS HORRIBLE ON SAFARI FOR NESTED COMPONENTS
     return (React.createElement("div", { className: 'c-app', tabIndex: -1, ref: app, onKeyDown: handleKeyPress },
-        React.createElement(Topbar, { zoom: zoom, setZoom: setZoom, baseZoom: baseZoom, notes: notes, showNotes: showNotes, setShowNotes: setShowNotes, edit: edit, setEdit: setEdit, scrollToCenter: scrollToCenter, composing: props.composing }),
+        React.createElement(Topbar, { selection: selection, zoom: zoom, setZoom: setZoom, baseZoom: baseZoom, notes: notes, showNotes: showNotes, setShowNotes: setShowNotes, edit: edit, setEdit: setEdit, scrollToCenter: scrollToCenter, composing: props.composing }),
         React.createElement(Sidebar, { selection: selection, images: props.images, svgs: props.svgs, notes: notes, setNotes: setNotes, edit: edit, composing: props.composing }),
         React.createElement(Canvas, Object.assign({}, props, { zoom: zoom, setZoom: setZoom, selection: selection, setSelection: setSelection, hover: hover, setHover: setHover, viewPortSize: viewPortSize, showNotes: showNotes, edit: edit, setEdit: setEdit, notes: notes, setNotes: setNotes, composing: props.composing }))));
 };

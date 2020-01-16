@@ -34,7 +34,6 @@ const SidebarLayer = (props: SidebarProps) => {
   const layerStyles: any = getLayerStyles();
   return (
     <div className='c-sidebar__layer'>
-      <h2 className='c-sidebar-layer__name'>{layer.name}</h2>
       <div className='c-sidebar-layer__styles'>
         {
           Object.keys(layerStyles).map((key: any, index: number) => (

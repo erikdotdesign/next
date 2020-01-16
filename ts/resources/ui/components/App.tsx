@@ -115,6 +115,7 @@ const App = (props: AppProps) => {
       ref={app}
       onKeyDown={handleKeyPress}>
       <Topbar
+        selection={selection}
         zoom={zoom}
         setZoom={setZoom}
         baseZoom={baseZoom}

@@ -44,8 +44,13 @@ const Canvas = (props: CanvasProps) => {
   }
   const handleWheel = (e: any) => {
     if (e.ctrlKey) {
+      let nextZoom = gestureZoom - e.deltaY * 0.01;
       e.preventDefault();
-      props.setZoom(gestureZoom -= e.deltaY * 0.01);
+      if (e.deltaY < 0 && nextZoom < 5) {
+        props.setZoom(gestureZoom -= e.deltaY * 0.01);
+      } else if (e.deltaY > 0 && nextZoom > 0) {
+        props.setZoom(gestureZoom -= e.deltaY * 0.01);
+      }
     }
   }
   useEffect(() => {
