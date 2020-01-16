@@ -3,7 +3,7 @@
   display: flex
   flex-direction: column
   width: 400px
-  height: 206px
+  height: 164px
   background: $grayDark
   box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.33)
   z-index: 9999999999999999999999999999999999
@@ -24,7 +24,6 @@
   display: flex
   align-items: center
   justify-content: center
-  padding-top: 8px
   animation: fadeInDelayed $transitionSlow ease
 
 .c-modal__title
@@ -45,10 +44,9 @@
     background: $highlightColor
 
 .c-modal__body
-  flex-grow: 2
+  height: 68px
   width: 100%
   position: relative
-  padding: 16px
   animation: fadeInDelayed $transitionSlow ease
 
 .c-modal__submit
@@ -61,6 +59,10 @@
   transition: background $transitionNormal
   text-align: center
   cursor: not-allowed
+  display: flex
+  align-items: center
+  justify-content: center
+  //box-shadow: 0px -1px 0px 0px $grayLighter
 
   &:hover
     background: $grayDarker

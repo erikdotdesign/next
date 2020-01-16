@@ -24,7 +24,7 @@
     width: 0;
   }
   to {
-    height: 206px;
+    height: 164px;
     width: 400px;
   }
 }
@@ -198,41 +198,37 @@ textarea {
 .c-sidebar-layer__css {
   display: flex;
   align-items: center;
-  height: 32px;
-  margin: 4px 0;
+  height: 40px;
 }
 
 .c-sidebar-layer__prop {
   color: #fff;
   font-size: 14px;
-  line-height: 32px;
+  line-height: 40px;
   flex-grow: 2;
   color: rgba(255, 255, 255, 0.5);
 }
 
 .c-sidebar-layer__value {
   position: relative;
-  max-height: 32px;
+  max-height: 40px;
   display: flex;
 }
 .c-sidebar-layer__value input {
   border: none;
   margin: 0;
-  background: #111;
+  background: #222;
   min-height: 16px;
   font-size: 14px;
   line-height: 16px;
   color: #fff;
   max-width: 100px;
-  padding: 8px 6px;
+  padding: 16px 0;
   transition: all 0.15s;
-}
-.c-sidebar-layer__value input:hover {
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
 }
 .c-sidebar-layer__value input:focus {
   outline: none;
-  box-shadow: 0 0 0 1px magenta inset;
+  box-shadow: 0px -1px 0px 0px magenta inset;
 }
 
 .c-sidebar-layer__value-copy {
@@ -241,16 +237,14 @@ textarea {
   top: 0;
   bottom: 0;
   right: 0;
-  margin: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #555;
+  background: #111;
   font-size: 14px;
   line-height: 16px;
   color: #fff;
   pointer-events: none;
-  animation: popIn 0.15s ease-out;
 }
 
 .c-sidebar-layer__value-copy--copied {
@@ -276,7 +270,7 @@ textarea {
 }
 
 .c-sidebar-layer__swatch--image {
-  width: 100%;
+  width: 25%;
 }
 
 .c-sidebar__notes {
@@ -657,10 +651,6 @@ textarea {
 
 .c-topbar__control {
   display: flex;
-  margin-right: 8px;
-}
-.c-topbar__control:last-child {
-  margin-right: 0;
 }
 
 .c-topbar__zoom-status {
@@ -669,9 +659,9 @@ textarea {
   justify-content: center;
   font-size: 12px;
   line-height: 32px;
-  background: #666;
+  background: #333;
   width: 64px;
-  height: 32px;
+  height: 48px;
 }
 .c-topbar__zoom-status ::selection {
   background: none;
@@ -682,14 +672,15 @@ textarea {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #666;
-  width: 32px;
-  height: 32px;
+  background: #333;
+  width: 48px;
+  height: 48px;
   cursor: pointer;
   border-radius: 0px;
 }
 .c-topbar__button:hover {
-  background: #777;
+  background: #222;
+  box-shadow: 0px 1px 0px 0px magenta;
 }
 
 .c-topbar__button--zoom-in {
@@ -946,18 +937,20 @@ textarea {
   margin: 0;
   padding: 16px;
   line-height: 18px;
-  background: #222;
+  background: #333;
   color: #fff;
   resize: none;
   border: none;
   outline: none;
   transition: all 0.15s;
+  box-shadow: 0px 1px 0px 0px #666;
 }
 .c-note-compose__input:hover {
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+  background: #222;
 }
 .c-note-compose__input:focus {
-  box-shadow: 0 0 0 1px magenta inset;
+  background: #222;
+  box-shadow: 0px 1px 0px 0px magenta;
 }
 
 .c-note-count {
@@ -1008,7 +1001,7 @@ textarea {
   display: flex;
   flex-direction: column;
   width: 400px;
-  height: 206px;
+  height: 164px;
   background: #333;
   box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.33);
   z-index: 10000000000000000000000000000000000;
@@ -1031,7 +1024,6 @@ textarea {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: 8px;
   animation: fadeInDelayed 0.33s ease;
 }
 
@@ -1055,10 +1047,9 @@ textarea {
 }
 
 .c-modal__body {
-  flex-grow: 2;
+  height: 68px;
   width: 100%;
   position: relative;
-  padding: 16px;
   animation: fadeInDelayed 0.33s ease;
 }
 
@@ -1072,6 +1063,9 @@ textarea {
   transition: background 0.15s;
   text-align: center;
   cursor: not-allowed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .c-modal__submit:hover {
   background: #222;

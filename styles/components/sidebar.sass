@@ -1,6 +1,7 @@
 $headerHeight: 48px
 $cellHeight: 32px
 $cellPadding: 16px
+$styleHeight: 40px
 
 .c-sidebar
   position: fixed
@@ -49,52 +50,53 @@ $cellPadding: 16px
 .c-sidebar-layer__css
   display: flex
   align-items: center
-  height: $cellHeight
-  margin: 4px 0
+  height: $styleHeight
+  //margin: 4px 0
 
 .c-sidebar-layer__prop
   color: #fff
   font-size: 14px
-  line-height: $cellHeight
+  line-height: $styleHeight
   flex-grow: 2
   color: $textLighter
 
 .c-sidebar-layer__value
   position: relative
-  max-height: $cellHeight
+  max-height: $styleHeight
   display: flex
 
   input
     border: none
     margin: 0
-    background: $grayDarkest
+    background: $grayDarker
     min-height: 16px
     font-size: 14px
     line-height: 16px
     color: #fff
     max-width: 100px
-    padding: 8px 6px
+    padding: 16px 0
     transition: all $transitionNormal
 
     &:hover
-      box-shadow: 0 0 0 1px rgba(255,255,255,0.5) inset
+      //box-shadow: 0px -1px 0px 0px $grayLighter inset
+      //box-shadow: 0px 1px 0px 0px rgba(255,255,255,0.5) inset
 
     &:focus
       outline: none
-      box-shadow: 0 0 0 1px $highlightColor inset
+      box-shadow: 0px -1px 0px 0px $highlightColor inset
+      //box-shadow: 0px 1px 0px 0px $highlightColor inset
 
 .c-sidebar-layer__value-copy
   +absolute-full
-  margin: 4px
   display: flex
   align-items: center
   justify-content: center
-  background: $grayLight
+  background: $grayDarkest
   font-size: 14px
   line-height: 16px
   color: #fff
   pointer-events: none
-  animation: popIn $transitionNormal ease-out
+  //animation: popIn $transitionNormal ease-out
 
 .c-sidebar-layer__value-copy--copied
   background: $highlightColor
@@ -112,7 +114,7 @@ $cellPadding: 16px
   width: 25%
 
 .c-sidebar-layer__swatch--image
-  width: 100%
+  width: 25%
 
 .c-sidebar__notes
   padding: $cellPadding 0

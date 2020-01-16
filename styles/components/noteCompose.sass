@@ -16,16 +16,20 @@
   margin: 0
   padding: 16px
   line-height: 18px
-  background: $grayDarker
+  background: $grayDark
   color: #fff
   resize: none
   border: none
   outline: none
   transition: all $transitionNormal
+  box-shadow: 0px 1px 0px 0px $grayLighter
 
   &:hover
-    box-shadow: 0 0 0 1px rgba(255,255,255,0.5) inset
+    background: $grayDarker
+    //box-shadow: 0 0 0 1px rgba(255,255,255,0.5) inset
 
   &:focus
-    box-shadow: 0 0 0 1px $highlightColor inset
+    background: $grayDarker
+    box-shadow: 0px 1px 0px 0px $highlightColor
+    //box-shadow: 0 0 0 1px $highlightColor inset
 
