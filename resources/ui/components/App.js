@@ -19,7 +19,7 @@ const App = (props) => {
     const [notes, setNotes] = useState(props.notes);
     const [showNotes, setShowNotes] = useState(true);
     const [edit, setEdit] = useState(true);
-    const scaleToFitViewport = () => {
+    const scaleArtboardForViewport = () => {
         const artboardWidth = props.artboard.frame.width;
         const artboardHeight = props.artboard.frame.height;
         const maxWidth = Math.min(viewPortSize.width, artboardWidth);
@@ -42,8 +42,11 @@ const App = (props) => {
             height: window.innerHeight - 48
         };
     };
-    const handleResize = (callback) => {
+    const handleResize = () => {
         setViewPortSize(getViewPortSize());
+    };
+    const handleInitialRender = (callback) => {
+        handleResize();
         callback();
     };
     const scrollToCenter = () => {
@@ -66,20 +69,23 @@ const App = (props) => {
     };
     useEffect(() => {
         var _a;
+        // focus app for key events
         (_a = app.current) === null || _a === void 0 ? void 0 : _a.focus();
         // set reszie listener
         window.addEventListener('resize', handleResize);
         // set viewportsize
-        handleResize(() => setReady(true));
+        // scale artboard
+        // set app ready
+        handleInitialRender(() => setReady(true));
     }, []);
     useEffect(() => {
         // get and set base zoom
-        const initialZoom = scaleToFitViewport();
-        setZoom(initialZoom);
-        setBaseZoom(initialZoom);
+        const artboardScale = scaleArtboardForViewport();
+        setZoom(artboardScale);
+        setBaseZoom(artboardScale);
         // get artboard size
-        const artboardHeight = props.artboard.frame.height * initialZoom;
-        const artboardWidth = props.artboard.frame.width * initialZoom;
+        const artboardHeight = props.artboard.frame.height * artboardScale;
+        const artboardWidth = props.artboard.frame.width * artboardScale;
         const artboardHeightMid = artboardHeight / 2;
         const artboardWidthMid = artboardWidth / 2;
         // get and set offsets
@@ -88,8 +94,9 @@ const App = (props) => {
         const topOffset = canvasCenter - artboardHeightMid;
         const rightRemainder = viewPortSize.width - artboardWidth;
         const bottomRemainder = viewPortSize.height - artboardHeight;
-        // set center scroll
+        // scroll to center
         window.scrollTo(leftOffset - (rightRemainder / 2), topOffset - (bottomRemainder / 2));
+        // set center scroll position
         setCenterScroll({
             x: leftOffset - (rightRemainder / 2),
             y: topOffset - (bottomRemainder / 2)
