@@ -63,6 +63,7 @@ $cellPadding: 16px
   position: relative
   max-height: $cellHeight
   display: flex
+  overflow-y: hidden
 
   input
     border: none
@@ -89,12 +90,15 @@ $cellPadding: 16px
   display: flex
   align-items: center
   justify-content: center
-  background: $highlightColor
+  background: $grayLight
   font-size: 14px
   line-height: 16px
   color: #fff
   pointer-events: none
   animation: popIn $transitionNormal ease-out
+
+.c-sidebar-layer__value-copy--copied
+  background: $highlightColor
 
 .c-sidebar-layer__swatch-group
   +absolute-full

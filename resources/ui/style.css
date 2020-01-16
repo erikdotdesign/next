@@ -7,6 +7,27 @@
     opacity: 1;
   }
 }
+@keyframes fadeInDelayed {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes modalSlide {
+  from {
+    height: 0;
+    width: 0;
+  }
+  to {
+    height: 206px;
+    width: 400px;
+  }
+}
 @keyframes slideInLeft {
   from {
     opacity: 0;
@@ -192,6 +213,7 @@ textarea {
   position: relative;
   max-height: 32px;
   display: flex;
+  overflow-y: hidden;
 }
 .c-sidebar-layer__value input {
   border: none;
@@ -223,12 +245,16 @@ textarea {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: magenta;
+  background: #555;
   font-size: 14px;
   line-height: 16px;
   color: #fff;
   pointer-events: none;
   animation: popIn 0.15s ease-out;
+}
+
+.c-sidebar-layer__value-copy--copied {
+  background: magenta;
 }
 
 .c-sidebar-layer__swatch-group {
@@ -894,9 +920,11 @@ textarea {
   display: flex;
   flex-direction: column;
   width: 400px;
+  height: 206px;
   background: #333;
   box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.33);
   z-index: 10000000000000000000000000000000000;
+  animation: modalSlide 0.15s ease;
 }
 
 .c-modal__header {
@@ -907,6 +935,7 @@ textarea {
   height: 48px;
   padding: 0 8px;
   font-weight: 700;
+  animation: fadeInDelayed 0.33s ease;
 }
 
 .c-modal__footer {
@@ -915,6 +944,7 @@ textarea {
   align-items: center;
   justify-content: center;
   padding-top: 8px;
+  animation: fadeInDelayed 0.33s ease;
 }
 
 .c-modal__title {
@@ -941,6 +971,7 @@ textarea {
   width: 100%;
   position: relative;
   padding: 16px;
+  animation: fadeInDelayed 0.33s ease;
 }
 
 .c-modal__submit {
