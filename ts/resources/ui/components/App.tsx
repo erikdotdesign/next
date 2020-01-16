@@ -13,6 +13,7 @@ interface AppProps {
 
 const App = (props: AppProps) => {
   const app = useRef<HTMLDivElement>(null);
+  const [ready, setReady] = useState(false);
   // selection and hover
   const [selection, setSelection] = useState('');
   const [hover, setHover] = useState('');
@@ -52,8 +53,9 @@ const App = (props: AppProps) => {
     }
   }
 
-  const handleResize = () => {
+  const handleResize = (callback?: any) => {
     setViewPortSize(getViewPortSize());
+    callback();
   }
 
   const scrollToCenter = () => {
@@ -79,7 +81,7 @@ const App = (props: AppProps) => {
     // set reszie listener
     window.addEventListener('resize', handleResize);
     // set viewportsize
-    handleResize();
+    handleResize(() => setReady(true));
   }, []);
 
   useEffect(() => {
@@ -136,6 +138,7 @@ const App = (props: AppProps) => {
         composing={props.composing} />
       <Canvas
         {...props}
+        ready={ready}
         zoom={zoom}
         setZoom={setZoom}
         selection={selection}

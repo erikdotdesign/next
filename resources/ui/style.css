@@ -132,6 +132,7 @@ textarea {
   box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.33);
   z-index: 3;
   transform-origin: center center;
+  animation: fadeInDelayed 0.5s ease;
 }
 .c-artboard:focus {
   outline: none;
@@ -754,7 +755,7 @@ textarea {
   background: black;
   color: #fff;
   animation: fadeIn 0.15s ease-out;
-  content: "Refresh";
+  content: "Re-Center Canvas";
 }
 
 .c-topbar__button--edit-on:hover:before {
@@ -854,7 +855,7 @@ textarea {
   background: black;
   color: #fff;
   animation: fadeIn 0.15s ease-out;
-  content: "Export";
+  content: "Export Spec";
 }
 
 .c-notes {

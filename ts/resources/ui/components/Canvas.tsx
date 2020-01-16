@@ -18,6 +18,7 @@ interface CanvasProps {
   notes: any;
   setNotes: any;
   composing: boolean;
+  ready: boolean;
 }
 
 let startGestureZoom = 0;
@@ -67,21 +68,25 @@ const Canvas = (props: CanvasProps) => {
       id='canvas'
       ref={canvas}
       onWheel={handleWheel}>
-      <Artboard
-        artboard={props.artboard}
-        images={props.images}
-        svgs={props.svgs}
-        selection={props.selection}
-        setSelection={props.setSelection}
-        hover={props.hover}
-        setHover={props.setHover}
-        zoom={props.zoom}
-        showNotes={props.showNotes}
-        edit={props.edit}
-        setEdit={props.setEdit}
-        notes={props.notes}
-        setNotes={props.setNotes}
-        composing={props.composing} />
+      {
+        props.ready
+        ? <Artboard
+            artboard={props.artboard}
+            images={props.images}
+            svgs={props.svgs}
+            selection={props.selection}
+            setSelection={props.setSelection}
+            hover={props.hover}
+            setHover={props.setHover}
+            zoom={props.zoom}
+            showNotes={props.showNotes}
+            edit={props.edit}
+            setEdit={props.setEdit}
+            notes={props.notes}
+            setNotes={props.setNotes}
+            composing={props.composing} />
+        : null
+      }
       <div
         className='c-canvas__escape'
         onClick={handleClick}
