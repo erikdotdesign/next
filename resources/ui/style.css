@@ -213,7 +213,6 @@ textarea {
   position: relative;
   max-height: 32px;
   display: flex;
-  overflow-y: hidden;
 }
 .c-sidebar-layer__value input {
   border: none;
