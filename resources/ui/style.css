@@ -695,11 +695,19 @@ textarea {
   border-radius: 0 0px 0px 0;
 }
 .c-topbar__button--zoom-in:hover:before {
-  width: 200%;
+  white-space: nowrap;
+  word-wrap: none;
   position: absolute;
+  font-weight: 400;
+  text-align: center;
   top: calc(100% + 4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  line-height: 24px;
+  padding: 0 6px;
   font-size: 12px;
-  padding: 8px;
   background: black;
   color: #fff;
   animation: fadeIn 0.15s ease-out;
@@ -710,11 +718,19 @@ textarea {
   border-radius: 0px 0 0 0px;
 }
 .c-topbar__button--zoom-out:hover:before {
-  width: 200%;
+  white-space: nowrap;
+  word-wrap: none;
   position: absolute;
+  font-weight: 400;
+  text-align: center;
   top: calc(100% + 4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  line-height: 24px;
+  padding: 0 6px;
   font-size: 12px;
-  padding: 8px;
   background: black;
   color: #fff;
   animation: fadeIn 0.15s ease-out;
@@ -722,11 +738,19 @@ textarea {
 }
 
 .c-topbar__button--refresh:hover:before {
-  width: 200%;
+  white-space: nowrap;
+  word-wrap: none;
   position: absolute;
+  font-weight: 400;
+  text-align: center;
   top: calc(100% + 4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  line-height: 24px;
+  padding: 0 6px;
   font-size: 12px;
-  padding: 8px;
   background: black;
   color: #fff;
   animation: fadeIn 0.15s ease-out;
@@ -734,63 +758,99 @@ textarea {
 }
 
 .c-topbar__button--edit-on:hover:before {
-  width: 200%;
+  white-space: nowrap;
+  word-wrap: none;
   position: absolute;
+  font-weight: 400;
+  text-align: center;
   top: calc(100% + 4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  line-height: 24px;
+  padding: 0 6px;
   font-size: 12px;
-  padding: 8px;
   background: black;
   color: #fff;
   animation: fadeIn 0.15s ease-out;
-  width: 300%;
   content: "Disable Edit";
 }
 
 .c-topbar__button--edit-off:hover:before {
-  width: 200%;
+  white-space: nowrap;
+  word-wrap: none;
   position: absolute;
+  font-weight: 400;
+  text-align: center;
   top: calc(100% + 4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  line-height: 24px;
+  padding: 0 6px;
   font-size: 12px;
-  padding: 8px;
   background: black;
   color: #fff;
   animation: fadeIn 0.15s ease-out;
-  width: 300%;
   content: "Enable Edit";
 }
 
 .c-topbar__button--notes-on:hover:before {
-  width: 200%;
+  white-space: nowrap;
+  word-wrap: none;
   position: absolute;
+  font-weight: 400;
+  text-align: center;
   top: calc(100% + 4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  line-height: 24px;
+  padding: 0 6px;
   font-size: 12px;
-  padding: 8px;
   background: black;
   color: #fff;
   animation: fadeIn 0.15s ease-out;
-  width: 300%;
   content: "Hide Notes";
 }
 
 .c-topbar__button--notes-off:hover:before {
-  width: 200%;
+  white-space: nowrap;
+  word-wrap: none;
   position: absolute;
+  font-weight: 400;
+  text-align: center;
   top: calc(100% + 4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  line-height: 24px;
+  padding: 0 6px;
   font-size: 12px;
-  padding: 8px;
   background: black;
   color: #fff;
   animation: fadeIn 0.15s ease-out;
-  width: 300%;
   content: "Show Notes";
 }
 
 .c-topbar__button--save:hover:before {
-  width: 200%;
+  white-space: nowrap;
+  word-wrap: none;
   position: absolute;
+  font-weight: 400;
+  text-align: center;
   top: calc(100% + 4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  line-height: 24px;
+  padding: 0 6px;
   font-size: 12px;
-  padding: 8px;
   background: black;
   color: #fff;
   animation: fadeIn 0.15s ease-out;
@@ -832,11 +892,19 @@ textarea {
   background: #cc00cc;
 }
 .c-note-add__compose:hover:before {
-  width: 200%;
+  white-space: nowrap;
+  word-wrap: none;
   position: absolute;
+  font-weight: 400;
+  text-align: center;
   top: calc(100% + 4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  line-height: 24px;
+  padding: 0 6px;
   font-size: 12px;
-  padding: 8px;
   background: black;
   color: #fff;
   animation: fadeIn 0.15s ease-out;
@@ -913,6 +981,25 @@ textarea {
 }
 .c-note-count:hover {
   background: #cc00cc;
+}
+.c-note-count:hover:before {
+  white-space: nowrap;
+  word-wrap: none;
+  position: absolute;
+  font-weight: 400;
+  text-align: center;
+  top: calc(100% + 4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  line-height: 24px;
+  padding: 0 6px;
+  font-size: 12px;
+  background: black;
+  color: #fff;
+  animation: fadeIn 0.15s ease-out;
+  content: "Notes";
 }
 
 .c-modal {
