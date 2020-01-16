@@ -9,7 +9,8 @@ $cellPadding: 16px
   width: $sidebarWidth
   height: 100%
   z-index: 3
-  overflow: scroll
+  overflow-y: scroll
+  overflow-x: hidden
   box-shadow: 0px 5px 20px 0px rgba(0,0,0,0.25)
   padding-bottom: 48px
 
@@ -81,6 +82,19 @@ $cellPadding: 16px
     &:focus
       outline: none
       box-shadow: 0 0 0 1px $highlightColor inset
+
+.c-sidebar-layer__value-copy
+  +absolute-full
+  margin: 4px
+  display: flex
+  align-items: center
+  justify-content: center
+  background: $highlightColor
+  font-size: 14px
+  line-height: 16px
+  color: #fff
+  pointer-events: none
+  animation: popIn $transitionNormal ease-out
 
 .c-sidebar-layer__swatch-group
   +absolute-full

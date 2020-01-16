@@ -51,6 +51,7 @@ $buttonSize: 32px
     background: none
 
 .c-topbar__button
+  position: relative
   display: flex
   align-items: center
   justify-content: center
@@ -66,5 +67,61 @@ $buttonSize: 32px
 .c-topbar__button--zoom-in
   border-radius: 0 $buttonBR $buttonBR 0
 
+  &:hover
+    &:before
+      +tooltip
+      content: 'Zoom In'
+
 .c-topbar__button--zoom-out
   border-radius: $buttonBR 0 0 $buttonBR
+
+  &:hover
+    &:before
+      +tooltip
+      content: 'Zoom Out'
+
+.c-topbar__button--refresh
+
+  &:hover
+    &:before
+      +tooltip
+      content: 'Refresh'
+
+.c-topbar__button--edit-on
+
+  &:hover
+    &:before
+      +tooltip
+      width: 300%
+      content: 'Disable Edit'
+
+.c-topbar__button--edit-off
+
+  &:hover
+    &:before
+      +tooltip
+      width: 300%
+      content: 'Enable Edit'
+
+.c-topbar__button--notes-on
+
+  &:hover
+    &:before
+      +tooltip
+      width: 300%
+      content: 'Hide Notes'
+
+.c-topbar__button--notes-off
+
+  &:hover
+    &:before
+      +tooltip
+      width: 300%
+      content: 'Show Notes'
+
+.c-topbar__button--save
+
+  &:hover
+    &:before
+      +tooltip
+      content: 'Export'

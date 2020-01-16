@@ -25,6 +25,14 @@
     transform: translate(-50%, -50%) scale(1);
   }
 }
+@keyframes popIn {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
 * {
   box-sizing: border-box;
   margin: 0;
@@ -123,7 +131,8 @@ textarea {
   width: 320px;
   height: 100%;
   z-index: 3;
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
   box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, 0.25);
   padding-bottom: 48px;
 }
@@ -202,6 +211,24 @@ textarea {
 .c-sidebar-layer__value input:focus {
   outline: none;
   box-shadow: 0 0 0 1px magenta inset;
+}
+
+.c-sidebar-layer__value-copy {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  margin: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: magenta;
+  font-size: 14px;
+  line-height: 16px;
+  color: #fff;
+  pointer-events: none;
+  animation: popIn 0.15s ease-out;
 }
 
 .c-sidebar-layer__swatch-group {
@@ -624,6 +651,7 @@ textarea {
 }
 
 .c-topbar__button {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -640,9 +668,107 @@ textarea {
 .c-topbar__button--zoom-in {
   border-radius: 0 0px 0px 0;
 }
+.c-topbar__button--zoom-in:hover:before {
+  width: 200%;
+  position: absolute;
+  top: calc(100% + 4px);
+  font-size: 12px;
+  padding: 8px;
+  background: black;
+  color: #fff;
+  animation: fadeIn 0.15s ease-out;
+  content: "Zoom In";
+}
 
 .c-topbar__button--zoom-out {
   border-radius: 0px 0 0 0px;
+}
+.c-topbar__button--zoom-out:hover:before {
+  width: 200%;
+  position: absolute;
+  top: calc(100% + 4px);
+  font-size: 12px;
+  padding: 8px;
+  background: black;
+  color: #fff;
+  animation: fadeIn 0.15s ease-out;
+  content: "Zoom Out";
+}
+
+.c-topbar__button--refresh:hover:before {
+  width: 200%;
+  position: absolute;
+  top: calc(100% + 4px);
+  font-size: 12px;
+  padding: 8px;
+  background: black;
+  color: #fff;
+  animation: fadeIn 0.15s ease-out;
+  content: "Refresh";
+}
+
+.c-topbar__button--edit-on:hover:before {
+  width: 200%;
+  position: absolute;
+  top: calc(100% + 4px);
+  font-size: 12px;
+  padding: 8px;
+  background: black;
+  color: #fff;
+  animation: fadeIn 0.15s ease-out;
+  width: 300%;
+  content: "Disable Edit";
+}
+
+.c-topbar__button--edit-off:hover:before {
+  width: 200%;
+  position: absolute;
+  top: calc(100% + 4px);
+  font-size: 12px;
+  padding: 8px;
+  background: black;
+  color: #fff;
+  animation: fadeIn 0.15s ease-out;
+  width: 300%;
+  content: "Enable Edit";
+}
+
+.c-topbar__button--notes-on:hover:before {
+  width: 200%;
+  position: absolute;
+  top: calc(100% + 4px);
+  font-size: 12px;
+  padding: 8px;
+  background: black;
+  color: #fff;
+  animation: fadeIn 0.15s ease-out;
+  width: 300%;
+  content: "Hide Notes";
+}
+
+.c-topbar__button--notes-off:hover:before {
+  width: 200%;
+  position: absolute;
+  top: calc(100% + 4px);
+  font-size: 12px;
+  padding: 8px;
+  background: black;
+  color: #fff;
+  animation: fadeIn 0.15s ease-out;
+  width: 300%;
+  content: "Show Notes";
+}
+
+.c-topbar__button--save:hover:before {
+  width: 200%;
+  position: absolute;
+  top: calc(100% + 4px);
+  font-size: 12px;
+  padding: 8px;
+  background: black;
+  color: #fff;
+  animation: fadeIn 0.15s ease-out;
+  content: "Export";
 }
 
 .c-notes {
@@ -678,6 +804,17 @@ textarea {
 }
 .c-note-add__compose:hover {
   background: #cc00cc;
+}
+.c-note-add__compose:hover:before {
+  width: 200%;
+  position: absolute;
+  top: calc(100% + 4px);
+  font-size: 12px;
+  padding: 8px;
+  background: black;
+  color: #fff;
+  animation: fadeIn 0.15s ease-out;
+  content: "Add Note";
 }
 
 .c-note-add__compose--disabled {
@@ -760,17 +897,6 @@ textarea {
   background: #333;
   box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.33);
   z-index: 10000000000000000000000000000000000;
-}
-.c-modal:after {
-  position: absolute;
-  left: 5px;
-  top: -5px;
-  content: "";
-  width: 0;
-  height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-bottom: 5px solid #333;
 }
 
 .c-modal__header {
