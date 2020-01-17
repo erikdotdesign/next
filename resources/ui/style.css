@@ -1029,7 +1029,7 @@ textarea {
   top: 0;
   bottom: 0;
   right: 0;
-  z-index: 1000000000000000300000000;
+  z-index: 10000000000000000000000000000000000;
 }
 .c-note-compose:before {
   position: absolute;
@@ -1090,11 +1090,11 @@ textarea {
   font-weight: bold;
   height: 32px;
   width: 32px;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) scale(0);
   background: magenta;
   box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.25);
   z-index: 999;
-  transition: all 0.15s;
+  transition: background 0.15s;
   border-radius: 0px;
 }
 .c-note-count:hover {
@@ -1128,9 +1128,32 @@ textarea {
   height: 164px;
   background: #333;
   box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.33);
-  overflow: hidden;
   z-index: 10000000000000000000000000000000000;
-  animation: modalSlide 0.15s ease;
+  transform: translate(-50%, 8px);
+  transform-origin: center top;
+  will-change: transform;
+}
+.c-modal:before {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  content: "";
+  width: 100%;
+  display: block;
+  top: -8px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid #333;
+}
+
+.c-modal__content {
+  opacity: 0;
 }
 
 .c-modal__header {
@@ -1141,7 +1164,6 @@ textarea {
   height: 48px;
   padding: 0 8px;
   font-weight: 700;
-  animation: fadeInDelayed 0.33s ease;
 }
 
 .c-modal__footer {
@@ -1149,7 +1171,6 @@ textarea {
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: fadeInDelayed 0.33s ease;
 }
 
 .c-modal__title {
@@ -1175,7 +1196,6 @@ textarea {
   height: 68px;
   width: 100%;
   position: relative;
-  animation: fadeInDelayed 0.33s ease;
 }
 
 .c-modal__submit {
