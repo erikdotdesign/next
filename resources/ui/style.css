@@ -86,6 +86,14 @@
     width: 100%;
   }
 }
+@keyframes growInWidthScale {
+  from {
+    transform: scale(0, 1);
+  }
+  to {
+    transform: scale(1, 1);
+  }
+}
 @keyframes growInHeight {
   from {
     transform: scale(1, 0);
@@ -162,7 +170,7 @@ button {
 }
 
 ::selection {
-  background: magenta;
+  background: orangered;
 }
 
 input[type=text],
@@ -337,7 +345,7 @@ textarea {
   content: "";
   width: 100%;
   display: block;
-  background: magenta;
+  background: orangered;
 }
 .c-sidebar-layer__value-copy--copied span {
   animation: shrinkIn 0.15s ease;
@@ -416,7 +424,7 @@ textarea {
   transition: background 0.15s, transform 0.15s;
 }
 .c-sidebar__note-remove:hover {
-  background: magenta;
+  background: orangered;
 }
 
 .c-canvas {
@@ -703,7 +711,7 @@ textarea {
   top: 0;
   left: 0;
   height: 24px;
-  background: magenta;
+  background: orangered;
   opacity: 0.25;
 }
 
@@ -796,7 +804,7 @@ textarea {
 }
 .c-topbar__button:hover .c-topbar__button-bb {
   animation: popIn 0.33s ease-in;
-  background: magenta;
+  background: orangered;
 }
 
 .c-topbar__button--zoom-in {
@@ -818,7 +826,8 @@ textarea {
   font-size: 12px;
   background: #444;
   color: #fff;
-  animation: fadeIn 0.15s ease-out;
+  transform-origin: center top;
+  animation: popIn 0.15s ease-out;
   content: "Zoom In";
 }
 
@@ -841,7 +850,8 @@ textarea {
   font-size: 12px;
   background: #444;
   color: #fff;
-  animation: fadeIn 0.15s ease-out;
+  transform-origin: center top;
+  animation: popIn 0.15s ease-out;
   content: "Zoom Out";
 }
 
@@ -861,7 +871,8 @@ textarea {
   font-size: 12px;
   background: #444;
   color: #fff;
-  animation: fadeIn 0.15s ease-out;
+  transform-origin: center top;
+  animation: popIn 0.15s ease-out;
   content: "Re-Center Canvas";
 }
 
@@ -881,7 +892,8 @@ textarea {
   font-size: 12px;
   background: #444;
   color: #fff;
-  animation: fadeIn 0.15s ease-out;
+  transform-origin: center top;
+  animation: popIn 0.15s ease-out;
   content: "Disable Edit";
 }
 
@@ -901,7 +913,8 @@ textarea {
   font-size: 12px;
   background: #444;
   color: #fff;
-  animation: fadeIn 0.15s ease-out;
+  transform-origin: center top;
+  animation: popIn 0.15s ease-out;
   content: "Enable Edit";
 }
 
@@ -921,7 +934,8 @@ textarea {
   font-size: 12px;
   background: #444;
   color: #fff;
-  animation: fadeIn 0.15s ease-out;
+  transform-origin: center top;
+  animation: popIn 0.15s ease-out;
   content: "Hide Notes";
 }
 
@@ -941,7 +955,8 @@ textarea {
   font-size: 12px;
   background: #444;
   color: #fff;
-  animation: fadeIn 0.15s ease-out;
+  transform-origin: center top;
+  animation: popIn 0.15s ease-out;
   content: "Show Notes";
 }
 
@@ -961,7 +976,8 @@ textarea {
   font-size: 12px;
   background: #444;
   color: #fff;
-  animation: fadeIn 0.15s ease-out;
+  transform-origin: center top;
+  animation: popIn 0.15s ease-out;
   content: "Export Spec";
 }
 
@@ -989,7 +1005,7 @@ textarea {
   height: 32px;
   width: 32px;
   transform: translate(-50%, -50%);
-  background: magenta;
+  background: orangered;
   box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.25);
   z-index: 999;
   transition: background 0.15s, transform 0.15s;
@@ -997,7 +1013,7 @@ textarea {
   border-radius: 0px;
 }
 .c-note-add__compose:hover {
-  background: #cc00cc;
+  background: #cc3700;
 }
 .c-note-add__compose:hover:before {
   white-space: nowrap;
@@ -1015,7 +1031,8 @@ textarea {
   font-size: 12px;
   background: #444;
   color: #fff;
-  animation: fadeIn 0.15s ease-out;
+  transform-origin: center top;
+  animation: popIn 0.15s ease-out;
   content: "Add Note";
 }
 
@@ -1048,8 +1065,8 @@ textarea {
 
 .c-note-compose__input-bb {
   position: absolute;
-  background: magenta;
-  top: 100%;
+  background: orangered;
+  top: calc(100%);
   width: 100%;
   height: 1px;
   transform: scaleX(0);
@@ -1071,12 +1088,6 @@ textarea {
   transition: all 0.15s;
   box-shadow: 0px 1px 0px 0px #666;
 }
-.c-note-compose__input:hover {
-  background: #222;
-}
-.c-note-compose__input:focus {
-  background: #222;
-}
 
 .c-note-count {
   position: absolute;
@@ -1091,14 +1102,14 @@ textarea {
   height: 32px;
   width: 32px;
   transform: translate(-50%, -50%) scale(0);
-  background: magenta;
+  background: orangered;
   box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.25);
   z-index: 999;
   transition: background 0.15s;
   border-radius: 0px;
 }
 .c-note-count:hover {
-  background: #cc00cc;
+  background: #cc3700;
 }
 .c-note-count:hover:before {
   white-space: nowrap;
@@ -1116,7 +1127,8 @@ textarea {
   font-size: 12px;
   background: #444;
   color: #fff;
-  animation: fadeIn 0.15s ease-out;
+  transform-origin: center top;
+  animation: popIn 0.15s ease-out;
   content: "Notes";
 }
 
@@ -1125,7 +1137,6 @@ textarea {
   display: flex;
   flex-direction: column;
   width: 400px;
-  height: 164px;
   background: #333;
   box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.33);
   z-index: 10000000000000000000000000000000000;
@@ -1189,7 +1200,7 @@ textarea {
   border-radius: 0px;
 }
 .c-modal__close:hover {
-  background: magenta;
+  background: orangered;
 }
 
 .c-modal__body {
@@ -1199,29 +1210,41 @@ textarea {
 }
 
 .c-modal__submit {
+  position: relative;
   width: 100%;
-  background: #333;
   height: 48px;
   line-height: 32px;
   font-size: 14px;
   color: #fff;
-  transition: background 0.15s;
   text-align: center;
   cursor: not-allowed;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.c-modal__submit:hover {
-  background: #222;
+.c-modal__submit svg {
+  z-index: 1;
 }
 
 .c-modal__submit--enabled {
-  background: magenta;
   font-weight: bold;
-  box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.33);
   cursor: pointer;
 }
-.c-modal__submit--enabled:hover {
-  background: #cc00cc;
+.c-modal__submit--enabled:before {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  content: "";
+  width: 100%;
+  display: block;
+  background: orangered;
+  transition: background 0.15s;
+  animation: growInHeight 0.15s ease;
+  transform-origin: center top;
+  z-index: 0;
+}
+.c-modal__submit--enabled:hover:before {
+  background: #cc3700;
 }
