@@ -28,6 +28,16 @@
     width: 400px;
   }
 }
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translate(-32px, 0px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0px, 0px);
+  }
+}
 @keyframes slideInLeft {
   from {
     opacity: 0;
@@ -52,6 +62,55 @@
   }
   to {
     transform: scale(1);
+  }
+}
+@keyframes slideInDelayed {
+  0% {
+    opacity: 0;
+    transform: translate(-16px, 0);
+  }
+  50% {
+    opacity: 0;
+    transform: translate(-16px, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+@keyframes shrinkIn {
+  from {
+    transform: scale(1.5);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+@keyframes growInWidth {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+@keyframes growInHeight {
+  from {
+    transform: scale(1, 0);
+  }
+  to {
+    transform: scale(1, 1);
+  }
+}
+@keyframes growInHeightDelayed {
+  0% {
+    transform: scale(1, 0);
+  }
+  50% {
+    transform: scale(1, 0);
+  }
+  100% {
+    transform: scale(1, 1);
   }
 }
 * {
@@ -228,7 +287,9 @@ textarea {
 }
 .c-sidebar-layer__value input:focus {
   outline: none;
-  box-shadow: 0px -1px 0px 0px magenta inset;
+}
+.c-sidebar-layer__value input::selection {
+  background: none;
 }
 
 .c-sidebar-layer__value-copy {
@@ -240,15 +301,54 @@ textarea {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #111;
   font-size: 14px;
   line-height: 16px;
   color: #fff;
   pointer-events: none;
+  overflow: hidden;
+}
+.c-sidebar-layer__value-copy:before {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  content: "";
+  width: 100%;
+  display: block;
+  background: #111;
+  animation: growInWidth 0.15s ease;
+  z-index: 0;
+}
+.c-sidebar-layer__value-copy span {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  animation: slideInDelayed 0.33s ease;
 }
 
 .c-sidebar-layer__value-copy--copied {
+  background: #111;
+}
+.c-sidebar-layer__value-copy--copied:before {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  content: "";
+  width: 100%;
+  display: block;
   background: magenta;
+}
+.c-sidebar-layer__value-copy--copied span {
+  animation: shrinkIn 0.15s ease;
 }
 
 .c-sidebar-layer__swatch-group {
@@ -667,6 +767,13 @@ textarea {
   background: none;
 }
 
+.c-topbar__button-bb {
+  position: absolute;
+  top: 100%;
+  height: 1px;
+  width: 100%;
+}
+
 .c-topbar__button {
   position: relative;
   display: flex;
@@ -678,29 +785,46 @@ textarea {
   cursor: pointer;
   border-radius: 0px;
 }
-.c-topbar__button:hover {
+.c-topbar__button svg {
+  z-index: 1;
+}
+.c-topbar__button:hover:before {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  content: "";
+  width: 100%;
+  display: block;
   background: #222;
-  box-shadow: 0px 1px 0px 0px magenta;
+  animation: growInHeight 0.15s ease;
+  z-index: 0;
+  transform-origin: center top;
+}
+.c-topbar__button:hover .c-topbar__button-bb {
+  animation: popIn 0.33s ease-in;
+  background: magenta;
 }
 
 .c-topbar__button--zoom-in {
   border-radius: 0 0px 0px 0;
 }
-.c-topbar__button--zoom-in:hover:before {
+.c-topbar__button--zoom-in:hover:after {
   white-space: nowrap;
   word-wrap: none;
   position: absolute;
   font-weight: 400;
   text-align: center;
-  top: calc(100% + 4px);
+  top: calc(100% + 8px);
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 24px;
-  line-height: 24px;
-  padding: 0 6px;
+  height: 32px;
+  line-height: 32px;
+  padding: 0 8px;
   font-size: 12px;
-  background: black;
+  background: #444;
   color: #fff;
   animation: fadeIn 0.15s ease-out;
   content: "Zoom In";
@@ -709,141 +833,141 @@ textarea {
 .c-topbar__button--zoom-out {
   border-radius: 0px 0 0 0px;
 }
-.c-topbar__button--zoom-out:hover:before {
+.c-topbar__button--zoom-out:hover:after {
   white-space: nowrap;
   word-wrap: none;
   position: absolute;
   font-weight: 400;
   text-align: center;
-  top: calc(100% + 4px);
+  top: calc(100% + 8px);
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 24px;
-  line-height: 24px;
-  padding: 0 6px;
+  height: 32px;
+  line-height: 32px;
+  padding: 0 8px;
   font-size: 12px;
-  background: black;
+  background: #444;
   color: #fff;
   animation: fadeIn 0.15s ease-out;
   content: "Zoom Out";
 }
 
-.c-topbar__button--refresh:hover:before {
+.c-topbar__button--refresh:hover:after {
   white-space: nowrap;
   word-wrap: none;
   position: absolute;
   font-weight: 400;
   text-align: center;
-  top: calc(100% + 4px);
+  top: calc(100% + 8px);
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 24px;
-  line-height: 24px;
-  padding: 0 6px;
+  height: 32px;
+  line-height: 32px;
+  padding: 0 8px;
   font-size: 12px;
-  background: black;
+  background: #444;
   color: #fff;
   animation: fadeIn 0.15s ease-out;
   content: "Re-Center Canvas";
 }
 
-.c-topbar__button--edit-on:hover:before {
+.c-topbar__button--edit-on:hover:after {
   white-space: nowrap;
   word-wrap: none;
   position: absolute;
   font-weight: 400;
   text-align: center;
-  top: calc(100% + 4px);
+  top: calc(100% + 8px);
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 24px;
-  line-height: 24px;
-  padding: 0 6px;
+  height: 32px;
+  line-height: 32px;
+  padding: 0 8px;
   font-size: 12px;
-  background: black;
+  background: #444;
   color: #fff;
   animation: fadeIn 0.15s ease-out;
   content: "Disable Edit";
 }
 
-.c-topbar__button--edit-off:hover:before {
+.c-topbar__button--edit-off:hover:after {
   white-space: nowrap;
   word-wrap: none;
   position: absolute;
   font-weight: 400;
   text-align: center;
-  top: calc(100% + 4px);
+  top: calc(100% + 8px);
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 24px;
-  line-height: 24px;
-  padding: 0 6px;
+  height: 32px;
+  line-height: 32px;
+  padding: 0 8px;
   font-size: 12px;
-  background: black;
+  background: #444;
   color: #fff;
   animation: fadeIn 0.15s ease-out;
   content: "Enable Edit";
 }
 
-.c-topbar__button--notes-on:hover:before {
+.c-topbar__button--notes-on:hover:after {
   white-space: nowrap;
   word-wrap: none;
   position: absolute;
   font-weight: 400;
   text-align: center;
-  top: calc(100% + 4px);
+  top: calc(100% + 8px);
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 24px;
-  line-height: 24px;
-  padding: 0 6px;
+  height: 32px;
+  line-height: 32px;
+  padding: 0 8px;
   font-size: 12px;
-  background: black;
+  background: #444;
   color: #fff;
   animation: fadeIn 0.15s ease-out;
   content: "Hide Notes";
 }
 
-.c-topbar__button--notes-off:hover:before {
+.c-topbar__button--notes-off:hover:after {
   white-space: nowrap;
   word-wrap: none;
   position: absolute;
   font-weight: 400;
   text-align: center;
-  top: calc(100% + 4px);
+  top: calc(100% + 8px);
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 24px;
-  line-height: 24px;
-  padding: 0 6px;
+  height: 32px;
+  line-height: 32px;
+  padding: 0 8px;
   font-size: 12px;
-  background: black;
+  background: #444;
   color: #fff;
   animation: fadeIn 0.15s ease-out;
   content: "Show Notes";
 }
 
-.c-topbar__button--save:hover:before {
+.c-topbar__button--save:hover:after {
   white-space: nowrap;
   word-wrap: none;
   position: absolute;
   font-weight: 400;
   text-align: center;
-  top: calc(100% + 4px);
+  top: calc(100% + 8px);
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 24px;
-  line-height: 24px;
-  padding: 0 6px;
+  height: 32px;
+  line-height: 32px;
+  padding: 0 8px;
   font-size: 12px;
-  background: black;
+  background: #444;
   color: #fff;
   animation: fadeIn 0.15s ease-out;
   content: "Export Spec";
@@ -889,15 +1013,15 @@ textarea {
   position: absolute;
   font-weight: 400;
   text-align: center;
-  top: calc(100% + 4px);
+  top: calc(100% + 8px);
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 24px;
-  line-height: 24px;
-  padding: 0 6px;
+  height: 32px;
+  line-height: 32px;
+  padding: 0 8px;
   font-size: 12px;
-  background: black;
+  background: #444;
   color: #fff;
   animation: fadeIn 0.15s ease-out;
   content: "Add Note";
@@ -930,7 +1054,17 @@ textarea {
   left: -16px;
 }
 
+.c-note-compose__input-bb {
+  position: absolute;
+  background: magenta;
+  top: 100%;
+  width: 100%;
+  height: 1px;
+  transform: scaleX(0);
+}
+
 .c-note-compose__input {
+  position: relative;
   width: 100%;
   height: 100%;
   font-size: 14px;
@@ -950,7 +1084,6 @@ textarea {
 }
 .c-note-compose__input:focus {
   background: #222;
-  box-shadow: 0px 1px 0px 0px magenta;
 }
 
 .c-note-count {
@@ -982,15 +1115,15 @@ textarea {
   position: absolute;
   font-weight: 400;
   text-align: center;
-  top: calc(100% + 4px);
+  top: calc(100% + 8px);
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 24px;
-  line-height: 24px;
-  padding: 0 6px;
+  height: 32px;
+  line-height: 32px;
+  padding: 0 8px;
   font-size: 12px;
-  background: black;
+  background: #444;
   color: #fff;
   animation: fadeIn 0.15s ease-out;
   content: "Notes";
@@ -1004,6 +1137,7 @@ textarea {
   height: 164px;
   background: #333;
   box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.33);
+  overflow: hidden;
   z-index: 10000000000000000000000000000000000;
   animation: modalSlide 0.15s ease;
 }

@@ -77,29 +77,46 @@ $styleHeight: 40px
     padding: 16px 0
     transition: all $transitionNormal
 
-    &:hover
-      //box-shadow: 0px -1px 0px 0px $grayLighter inset
-      //box-shadow: 0px 1px 0px 0px rgba(255,255,255,0.5) inset
-
     &:focus
       outline: none
-      box-shadow: 0px -1px 0px 0px $highlightColor inset
-      //box-shadow: 0px 1px 0px 0px $highlightColor inset
+
+    &::selection
+      background: none
 
 .c-sidebar-layer__value-copy
   +absolute-full
   display: flex
   align-items: center
   justify-content: center
-  background: $grayDarkest
   font-size: 14px
   line-height: 16px
   color: #fff
   pointer-events: none
-  //animation: popIn $transitionNormal ease-out
+  overflow: hidden
+
+  &:before
+    +content-block
+    background: $grayDarkest
+    animation: growInWidth $transitionNormal ease
+    z-index: 0
+
+  span
+    +absolute-full
+    display: flex
+    align-items: center
+    justify-content: center
+    text-align: center
+    animation: slideInDelayed $transitionSlow ease
 
 .c-sidebar-layer__value-copy--copied
-  background: $highlightColor
+  background: $grayDarkest
+
+  &:before
+    +content-block
+    background: $highlightColor
+
+  span
+    animation: shrinkIn $transitionNormal ease
 
 .c-sidebar-layer__swatch-group
   +absolute-full
