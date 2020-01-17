@@ -20,7 +20,7 @@ $styleHeight: 40px
   background: $grayDarker
 
 .c-sidebar__placeholder
-  height: 150px
+  height: 200px
   display: flex
   align-items: center
   justify-content: center
@@ -31,18 +31,25 @@ $styleHeight: 40px
     font-size: 14px
     line-height: 24px
     text-align: center
+    animation: slideInLeft $transitionNormal ease
 
 .c-sidebar__header
+  position: relative
   margin: 0
   padding: 0
-  font-size: 14px
-  color: #fff
-  font-weight: 700
   height: $headerHeight
-  line-height: $headerHeight
   background: $grayDark
-  padding: 0 $cellPadding
   box-shadow: 0px 1px 0px 0px $grayLighter, 0px -1px 0px 0px $grayLighter
+
+  span
+    +absolute-full
+    padding: 0 $cellPadding
+    font-size: 14px
+    line-height: $headerHeight
+    color: #fff
+    font-weight: 700
+    animation: slideInRight $transitionNormal ease
+
 
 .c-sidebar-layer__styles
   padding: $cellPadding
@@ -58,11 +65,13 @@ $styleHeight: 40px
   line-height: $styleHeight
   flex-grow: 2
   color: $textLighter
+  animation: slideInRight $transitionNormal ease
 
 .c-sidebar-layer__value
   position: relative
   max-height: $styleHeight
   display: flex
+  animation: slideInLeft $transitionNormal ease
 
   input
     border: none
@@ -145,6 +154,7 @@ $styleHeight: 40px
   min-height: $cellHeight
   word-break: break-word
   transition: background $transitionNormal
+  animation: slideInRight $transitionNormal ease
 
   &:hover
     background: $grayDarkest

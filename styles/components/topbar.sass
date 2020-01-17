@@ -18,11 +18,18 @@ $buttonSize: 32px
   padding: 0 16px
 
 .c-topbar__selection
-  font-weight: 700
-  line-height: $topbarHeight
-  white-space: nowrap
-  overflow: hidden
-  text-overflow: ellipsis
+  position: relative
+  height: $topbarHeight
+  width: 100%
+
+  span
+    +absolute-full
+    font-weight: 700
+    line-height: $topbarHeight
+    white-space: nowrap
+    overflow: hidden
+    text-overflow: ellipsis
+    animation: slideInLeft $transitionNormal ease
 
 .c-topbar__controls
   display: flex
