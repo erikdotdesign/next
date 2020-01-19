@@ -170,7 +170,7 @@ button {
 }
 
 ::selection {
-  background: orangered;
+  background: #EF2EF2;
 }
 
 input[type=text],
@@ -357,7 +357,7 @@ textarea {
   content: "";
   width: 100%;
   display: block;
-  background: orangered;
+  background: #EF2EF2;
 }
 .c-sidebar-layer__value-copy--copied span {
   animation: shrinkIn 0.15s ease;
@@ -437,7 +437,7 @@ textarea {
   transition: background 0.15s, transform 0.15s;
 }
 .c-sidebar__note-remove:hover {
-  background: orangered;
+  background: #EF2EF2;
 }
 
 .c-canvas {
@@ -649,13 +649,13 @@ textarea {
 
 .c-hover__rule--tl,
 .c-hover__rule--bl {
-  border-left: 1px dashed orangered;
+  border-left: 1px dashed red;
   left: -1px;
 }
 
 .c-hover__rule--tr,
 .c-hover__rule--br {
-  border-right: 1px dashed orangered;
+  border-right: 1px dashed red;
   right: -1px;
 }
 
@@ -668,13 +668,13 @@ textarea {
 
 .c-hover__rule--rt,
 .c-hover__rule--lt {
-  border-top: 1px dashed orangered;
+  border-top: 1px dashed red;
   top: -1px;
 }
 
 .c-hover__rule--rb,
 .c-hover__rule--lb {
-  border-bottom: 1px dashed orangered;
+  border-bottom: 1px dashed red;
   bottom: -1px;
 }
 
@@ -724,7 +724,7 @@ textarea {
   top: 0;
   left: 0;
   height: 24px;
-  background: orangered;
+  background: #EF2EF2;
   opacity: 0.25;
 }
 
@@ -828,7 +828,7 @@ textarea {
 }
 .c-topbar__button:hover .c-topbar__button-bb {
   animation: popIn 0.33s ease-in;
-  background: orangered;
+  background: #EF2EF2;
 }
 
 .c-topbar__button--zoom-in {
@@ -1029,7 +1029,7 @@ textarea {
   height: 32px;
   width: 32px;
   transform: translate(-50%, -50%);
-  background: orangered;
+  background: #EF2EF2;
   box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.25);
   z-index: 999;
   transition: background 0.15s, transform 0.15s;
@@ -1037,7 +1037,7 @@ textarea {
   border-radius: 0px;
 }
 .c-note-add__compose:hover {
-  background: #cc3700;
+  background: #dc0edf;
 }
 .c-note-add__compose:hover:before {
   white-space: nowrap;
@@ -1089,7 +1089,7 @@ textarea {
 
 .c-note-compose__input-bb {
   position: absolute;
-  background: orangered;
+  background: #EF2EF2;
   top: 100%;
   width: 100%;
   height: 1px;
@@ -1126,14 +1126,14 @@ textarea {
   height: 32px;
   width: 32px;
   transform: translate(-50%, -50%) scale(0);
-  background: orangered;
+  background: #EF2EF2;
   box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.25);
   z-index: 999;
   transition: background 0.15s;
   border-radius: 0px;
 }
 .c-note-count:hover {
-  background: #cc3700;
+  background: #dc0edf;
 }
 .c-note-count:hover:before {
   white-space: nowrap;
@@ -1224,7 +1224,7 @@ textarea {
   border-radius: 0px;
 }
 .c-modal__close:hover {
-  background: orangered;
+  background: #EF2EF2;
 }
 
 .c-modal__body {
@@ -1263,12 +1263,12 @@ textarea {
   content: "";
   width: 100%;
   display: block;
-  background: orangered;
+  background: #EF2EF2;
   transition: background 0.15s;
   animation: growInHeight 0.15s ease;
   transform-origin: center top;
   z-index: 0;
 }
 .c-modal__submit--enabled:hover:before {
-  background: #cc3700;
+  background: #dc0edf;
 }
