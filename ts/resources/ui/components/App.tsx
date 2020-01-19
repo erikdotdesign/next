@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import Sidebar from './Sidebar';
 import Canvas from './Canvas';
-import Topbar from './Topbar';
+import TopBar from './TopBar';
 
 interface AppProps {
   artboard: any;
@@ -124,7 +124,7 @@ const App = (props: AppProps) => {
       tabIndex={-1}
       ref={app}
       onKeyDown={handleKeyPress}>
-      <Topbar
+      <TopBar
         selection={selection}
         zoom={zoom}
         setZoom={setZoom}

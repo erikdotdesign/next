@@ -1087,7 +1087,124 @@ textarea {
   left: -16px;
 }
 
-.c-note-compose__input-bb {
+.c-compose {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  background: #333;
+  box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.33);
+  z-index: 10000000000000000000000000000000000;
+  transform: translate(-50%, 8px);
+  transform-origin: center top;
+  will-change: transform;
+}
+.c-compose:before {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  content: "";
+  width: 100%;
+  display: block;
+  top: -8px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid #333;
+}
+
+.c-compose__content {
+  opacity: 0;
+}
+
+.c-compose__header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 48px;
+  padding: 0 8px;
+  font-weight: 700;
+}
+
+.c-compose__footer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.c-compose__title {
+  padding-left: 8px;
+  color: #fff;
+  font-size: 16px;
+}
+
+.c-compose__close {
+  height: 32px;
+  width: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+  border-radius: 0px;
+}
+.c-compose__close:hover {
+  background: #EF2EF2;
+}
+
+.c-compose__body {
+  height: 68px;
+  width: 100%;
+  position: relative;
+}
+
+.c-compose__submit {
+  position: relative;
+  width: 100%;
+  height: 48px;
+  line-height: 32px;
+  font-size: 14px;
+  color: #fff;
+  text-align: center;
+  cursor: not-allowed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.c-compose__submit svg {
+  z-index: 1;
+}
+
+.c-compose__submit--enabled {
+  font-weight: bold;
+  cursor: pointer;
+}
+.c-compose__submit--enabled:before {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  content: "";
+  width: 100%;
+  display: block;
+  background: #EF2EF2;
+  transition: background 0.15s;
+  animation: growInHeight 0.15s ease;
+  transform-origin: center top;
+  z-index: 0;
+}
+.c-compose__submit--enabled:hover:before {
+  background: #dc0edf;
+}
+
+.c-compose__input-bb {
   position: absolute;
   background: #EF2EF2;
   top: 100%;
@@ -1096,7 +1213,7 @@ textarea {
   transform: scaleX(0);
 }
 
-.c-note-compose__input {
+.c-compose__input {
   position: relative;
   width: 100%;
   height: 100%;
@@ -1154,121 +1271,4 @@ textarea {
   transform-origin: center top;
   animation: popIn 0.15s ease-out;
   content: "Notes";
-}
-
-.c-modal {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  width: 400px;
-  background: #333;
-  box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.33);
-  z-index: 10000000000000000000000000000000000;
-  transform: translate(-50%, 8px);
-  transform-origin: center top;
-  will-change: transform;
-}
-.c-modal:before {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  content: "";
-  width: 100%;
-  display: block;
-  top: -8px;
-  left: 50%;
-  transform: translate(-50%, 0);
-  width: 0;
-  height: 0;
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-  border-bottom: 8px solid #333;
-}
-
-.c-modal__content {
-  opacity: 0;
-}
-
-.c-modal__header {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 48px;
-  padding: 0 8px;
-  font-weight: 700;
-}
-
-.c-modal__footer {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.c-modal__title {
-  padding-left: 8px;
-  color: #fff;
-  font-size: 16px;
-}
-
-.c-modal__close {
-  height: 32px;
-  width: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.15s;
-  border-radius: 0px;
-}
-.c-modal__close:hover {
-  background: #EF2EF2;
-}
-
-.c-modal__body {
-  height: 68px;
-  width: 100%;
-  position: relative;
-}
-
-.c-modal__submit {
-  position: relative;
-  width: 100%;
-  height: 48px;
-  line-height: 32px;
-  font-size: 14px;
-  color: #fff;
-  text-align: center;
-  cursor: not-allowed;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.c-modal__submit svg {
-  z-index: 1;
-}
-
-.c-modal__submit--enabled {
-  font-weight: bold;
-  cursor: pointer;
-}
-.c-modal__submit--enabled:before {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  content: "";
-  width: 100%;
-  display: block;
-  background: #EF2EF2;
-  transition: background 0.15s;
-  animation: growInHeight 0.15s ease;
-  transform-origin: center top;
-  z-index: 0;
-}
-.c-modal__submit--enabled:hover:before {
-  background: #dc0edf;
 }
