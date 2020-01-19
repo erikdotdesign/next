@@ -1,8 +1,8 @@
 import React from 'react';
-import Image from './Image';
-import ShapePath from './ShapePath';
-import Shape from './Shape';
-import Text from './Text';
+import LayerImage from './LayerImage';
+import LayerShapePath from './LayerShapePath';
+import LayerShape from './LayerShape';
+import LayerText from './LayerText';
 const Layer = (props) => {
     const { layer, images, svgs, setSelection, setHover } = props;
     const onClick = () => {
@@ -16,13 +16,13 @@ const Layer = (props) => {
     };
     switch (layer.type) {
         case 'Image':
-            return (React.createElement(Image, { layer: layer, images: images, onClick: onClick, onMouseOver: onMouseOver, onMouseOut: onMouseOut }));
+            return (React.createElement(LayerImage, { layer: layer, images: images, onClick: onClick, onMouseOver: onMouseOver, onMouseOut: onMouseOut }));
         case 'Shape':
-            return (React.createElement(Shape, { layer: layer, images: images, svgs: svgs, onClick: onClick, onMouseOver: onMouseOver, onMouseOut: onMouseOut }));
+            return (React.createElement(LayerShape, { layer: layer, images: images, svgs: svgs, onClick: onClick, onMouseOver: onMouseOver, onMouseOut: onMouseOut }));
         case 'ShapePath':
-            return (React.createElement(ShapePath, { layer: layer, images: images, svgs: svgs, onClick: onClick, onMouseOver: onMouseOver, onMouseOut: onMouseOut }));
+            return (React.createElement(LayerShapePath, { layer: layer, images: images, svgs: svgs, onClick: onClick, onMouseOver: onMouseOver, onMouseOut: onMouseOut }));
         case 'Text':
-            return (React.createElement(Text, { layer: layer, onClick: onClick, onMouseOver: onMouseOver, onMouseOut: onMouseOut }));
+            return (React.createElement(LayerText, { layer: layer, onClick: onClick, onMouseOver: onMouseOver, onMouseOut: onMouseOut }));
         default:
             return React.createElement("div", { className: 'c-layer' });
     }

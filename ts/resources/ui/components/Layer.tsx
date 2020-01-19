@@ -1,8 +1,8 @@
 import React from 'react';
-import Image from './Image';
-import ShapePath from './ShapePath';
-import Shape from './Shape';
-import Text from './Text';
+import LayerImage from './LayerImage';
+import LayerShapePath from './LayerShapePath';
+import LayerShape from './LayerShape';
+import LayerText from './LayerText';
 
 interface LayerProps {
   layer: any;
@@ -26,7 +26,7 @@ const Layer = (props: LayerProps) => {
   switch(layer.type) {
     case 'Image':
       return (
-        <Image
+        <LayerImage
           layer={layer}
           images={images}
           onClick={onClick}
@@ -35,7 +35,7 @@ const Layer = (props: LayerProps) => {
       )
     case 'Shape':
       return (
-        <Shape
+        <LayerShape
           layer={layer}
           images={images}
           svgs={svgs}
@@ -45,7 +45,7 @@ const Layer = (props: LayerProps) => {
       )
     case 'ShapePath':
       return  (
-        <ShapePath
+        <LayerShapePath
           layer={layer}
           images={images}
           svgs={svgs}
@@ -55,7 +55,7 @@ const Layer = (props: LayerProps) => {
       )
     case 'Text':
       return (
-        <Text
+        <LayerText
           layer={layer}
           onClick={onClick}
           onMouseOver={onMouseOver}
