@@ -51,15 +51,15 @@ $styleHeight: 40px
     animation: slideInRight $transitionNormal ease
 
 
-.c-sidebar-layer__styles
+.c-sidebar-styles
   padding: $cellPadding
 
-.c-sidebar-layer__css
+.c-sidebar-styles__style
   display: flex
   align-items: center
   height: $styleHeight
 
-.c-sidebar-layer__prop
+.c-sidebar-styles__prop
   color: #fff
   font-size: 14px
   line-height: $styleHeight
@@ -67,7 +67,7 @@ $styleHeight: 40px
   color: $textLighter
   animation: slideInRight $transitionNormal ease
 
-.c-sidebar-layer__value
+.c-sidebar-styles__value
   position: relative
   max-height: $styleHeight
   display: flex
@@ -91,7 +91,7 @@ $styleHeight: 40px
     &::selection
       background: none
 
-.c-sidebar-layer__value-copy
+.c-sidebar-styles__value-copy
   +absolute-full
   display: flex
   align-items: center
@@ -116,7 +116,7 @@ $styleHeight: 40px
     text-align: center
     animation: slideInDelayed $transitionSlow ease
 
-.c-sidebar-layer__value-copy--copied
+.c-sidebar-styles__value-copy--copied
   background: $grayDarkest
 
   &:before
@@ -126,7 +126,7 @@ $styleHeight: 40px
   span
     animation: shrinkIn $transitionNormal ease
 
-.c-sidebar-layer__swatch-group
+.c-sidebar-styles__swatch-group
   +absolute-full
   width: $cellPadding
   overflow: hidden
@@ -135,10 +135,10 @@ $styleHeight: 40px
   justify-content: flex-end
   pointer-events: none
 
-.c-sidebar-layer__swatch
+.c-sidebar-styles__swatch
   width: 25%
 
-.c-sidebar-layer__swatch--image
+.c-sidebar-styles__swatch--image
   width: 25%
 
 .c-sidebar__notes
