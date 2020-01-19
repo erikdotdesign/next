@@ -2,7 +2,9 @@
 sr-measure.sketchplugin
 
 src
-resources
+resources/export
+resources/store
+resources/ui
 
 # npm
 node_modules

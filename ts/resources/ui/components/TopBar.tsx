@@ -1,0 +1,54 @@
+import React from 'react';
+import TopBarSelection from './TopBarSelection';
+import TopBarSave from './TopBarSave';
+import TopBarEdit from './TopBarEdit';
+import TopBarNotes from './TopBarNotes';
+import TopBarRefresh from './TopBarRefresh';
+import TopBarZoom from './TopBarZoom';
+
+interface TopbarProps {
+  selection: any;
+  baseZoom: number;
+  zoom: number;
+  setZoom: any;
+  scrollToCenter: any;
+  notes: any;
+  showNotes: boolean;
+  setShowNotes: any;
+  edit: boolean;
+  setEdit: any;
+  composing: boolean;
+}
+
+const TopBar = (props: TopbarProps) => {
+  const { scrollToCenter, zoom, baseZoom, setZoom, setShowNotes, notes, showNotes, edit, setEdit, composing, selection } = props;
+  return (
+    <div className='c-topbar-wrap'>
+      <div className='c-topbar'>
+        <TopBarSelection
+          selection={selection} />
+        <div className='c-topbar__controls'>
+          <TopBarSave
+            composing={composing}
+            notes={notes} />
+          <TopBarEdit
+            composing={composing}
+            edit={edit}
+            setEdit={setEdit} />
+          <TopBarNotes
+            showNotes={showNotes}
+            setShowNotes={setShowNotes} />
+          <TopBarRefresh
+            baseZoom={baseZoom}
+            setZoom={setZoom}
+            scrollToCenter={scrollToCenter} />
+          <TopBarZoom
+            zoom={zoom}
+            setZoom={setZoom} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default TopBar;
