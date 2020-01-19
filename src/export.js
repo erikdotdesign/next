@@ -88,7 +88,7 @@ export default (context) => {
             pluginExport.writeFile({
                 content: scriptWithStore,
                 path: `${savePath}`,
-                fileName: 'spec.js'
+                fileName: 'resources_ui_spec.js'
             });
             // create final js map
             pluginExport.writeFile({
