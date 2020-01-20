@@ -2,7 +2,7 @@ import React from 'react';
 import { textContainerStyles, textStyles, paragraphSpacing } from '../styles/textStyles';
 
 interface LayerTextProps {
-  layer: any;
+  layer: srm.Text;
   onClick(): void;
   onMouseOver(): void;
   onMouseOut(): void;

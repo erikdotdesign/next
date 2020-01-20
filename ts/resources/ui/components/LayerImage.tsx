@@ -2,8 +2,8 @@ import React from 'react';
 import imageStyles from '../styles/imageStyles';
 
 interface LayerImageProps {
-  layer: any;
-  images: any;
+  layer: srm.Image;
+  images: srm.Base64Image[];
   onClick(): void;
   onMouseOver(): void;
   onMouseOut(): void;

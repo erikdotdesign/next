@@ -2,28 +2,30 @@ import React from 'react';
 import IconClose from './IconClose';
 
 interface SidebarNotesProps {
-  selection: any;
-  notes: any;
-  setNotes: any;
+  selection: srm.Artboard | srm.Image | srm.Shape | srm.ShapePath | srm.Text | null;
+  notes: srm.Notes;
   edit: boolean;
   composing: boolean;
+  setNotes(notes: srm.Notes): void;
 }
 
 const SidebarNotes = (props: SidebarNotesProps) => {
   const { selection, notes, setNotes, edit, composing } = props;
   const removeNote = (noteIndex: number) => {
-    const newNotes = notes[selection.id].filter((n: any, i: number) => {
-      return i !== noteIndex;
-    });
-    if (newNotes.length !== 0) {
-      setNotes({
-        ...notes,
-        [selection.id]: newNotes
+    if (selection) {
+      const newNotes = notes[selection.id].filter((n: any, i: number) => {
+        return i !== noteIndex;
       });
-    } else {
-      let notesCopy = Object.assign({}, notes);
-      delete notesCopy[selection.id];
-      setNotes(notesCopy);
+      if (newNotes.length !== 0) {
+        setNotes({
+          ...notes,
+          [selection.id]: newNotes
+        });
+      } else {
+        let notesCopy = Object.assign({}, notes);
+        delete notesCopy[selection.id];
+        setNotes(notesCopy);
+      }
     }
   }
   return (

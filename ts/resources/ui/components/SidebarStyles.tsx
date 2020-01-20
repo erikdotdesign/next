@@ -10,27 +10,31 @@ import pathStyles from '../styles/pathStyles';
 import { textContainerStyles, textStyles } from '../styles/textStyles';
 
 interface SidebarProps {
-  selection: any;
-  images: any;
-  svgs: any;
+  selection: srm.Artboard | srm.Image | srm.Shape | srm.ShapePath | srm.Text | null;
+  images: srm.Base64Image[];
+  svgs: srm.SvgPath[];
 }
 
 const SidebarStyles = (props: SidebarProps) => {
   const { selection, images, svgs } = props;
   const getLayerStyles = () => {
-    switch(selection.type) {
-      case 'Shape':
-        return {...shapeStyles(selection), ...pathStyles(selection, svgs)};
-      case 'ShapePath':
-        return {...shapePathStyles(selection, images), ...pathStyles(selection, svgs)};
-      case 'Image':
-        return imageStyles(selection, images);
-      case 'Text':
-        return {...textContainerStyles(selection), ...textStyles(selection)};
-      case 'Artboard':
-        return artboardStyles(selection);
-      default:
-        return {}
+    if (selection) {
+      switch(selection.type) {
+        case 'Shape':
+          return {...shapeStyles(selection as srm.Shape), ...pathStyles(selection as srm.Shape, svgs)};
+        case 'ShapePath':
+          return {...shapePathStyles(selection as srm.ShapePath, images), ...pathStyles(selection as srm.ShapePath, svgs)};
+        case 'Image':
+          return imageStyles(selection as srm.Image, images);
+        case 'Text':
+          return {...textContainerStyles(selection as srm.Text), ...textStyles(selection as srm.Text)};
+        case 'Artboard':
+          return artboardStyles(selection as srm.Artboard);
+        default:
+          return {}
+      }
+    } else {
+      return null;
     }
   }
   const selectionStyles: any = getLayerStyles();

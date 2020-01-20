@@ -6,13 +6,13 @@ import LayerText from './LayerText';
 const Layer = (props) => {
     const { layer, images, svgs, setSelection, setHover } = props;
     const onClick = () => {
-        setSelection(props.layer);
+        setSelection(layer);
     };
     const onMouseOver = () => {
-        setHover(props.layer);
+        setHover(layer);
     };
     const onMouseOut = () => {
-        setHover('');
+        setHover(null);
     };
     switch (layer.type) {
         case 'Image':

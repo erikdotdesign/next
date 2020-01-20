@@ -3,10 +3,10 @@ import NoteCompose from './NoteCompose';
 import IconAddNote from './IconAddNote';
 
 interface NoteAddProps {
-  layer: any;
-  notes: any;
-  setNotes: any;
+  layer: srm.Artboard | srm.Image | srm.Shape | srm.ShapePath | srm.Text;
+  notes: srm.Notes;
   zoom: number;
+  setNotes(notes: srm.Notes): void;
 }
 
 const NoteAdd = (props: NoteAddProps) => {

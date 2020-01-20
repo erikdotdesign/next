@@ -2,8 +2,8 @@ import React from 'react';
 import { createRuleRightStyles } from '../styles/hoverStyles';
 
 interface HoverRulesRightProps {
-  hoverOrigin: any;
-  selectionOrigin: any;
+  hoverOrigin: srm.Origin;
+  selectionOrigin: srm.Origin;
   zoom: number;
 }
 

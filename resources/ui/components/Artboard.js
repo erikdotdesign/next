@@ -10,14 +10,14 @@ const Artboard = (props) => {
     const artboardRef = useRef(null);
     const { artboard, images, svgs, selection, setSelection, hover, setHover, zoom, showNotes, edit, setEdit, notes, setNotes, composing } = props;
     const onClick = () => {
-        setSelection(props.artboard);
+        setSelection(artboard);
     };
     const onMouseOver = () => {
-        setHover(props.artboard);
+        setHover(artboard);
     };
     useEffect(() => {
-        gsap.set(artboardRef.current, { scale: props.zoom });
-    }, [props.zoom]);
+        gsap.set(artboardRef.current, { scale: zoom });
+    }, [zoom]);
     return (React.createElement("div", { className: 'c-artboard', ref: artboardRef, style: artboardStyles(artboard) },
         React.createElement(Layers, { layers: artboard.layers, images: images, svgs: svgs, setSelection: setSelection, setHover: setHover, style: {
                 width: `${artboard.frame.width}px`,

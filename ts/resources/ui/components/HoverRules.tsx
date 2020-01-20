@@ -6,14 +6,15 @@ import HoverRulesLeft from './HoverRulesLeft';
 import { getOrigin } from '../utils';
 
 interface HoverRulesProps {
-  hover: any;
-  selection: any;
+  hover: srm.Artboard | srm.Image | srm.Shape | srm.ShapePath | srm.Text;
+  selection: srm.Artboard | srm.Image | srm.Shape | srm.ShapePath | srm.Text;
   zoom: number;
 }
 
 const HoverRules = (props: HoverRulesProps) => {
-  const hoverFrame = props.hover.frame;
-  const selectionFrame = props.selection.frame;
+  const { hover, selection, zoom } = props;
+  const hoverFrame = hover.frame;
+  const selectionFrame = selection.frame;
   const hoverOrigin = getOrigin(hoverFrame);
   const selectionOrigin = getOrigin(selectionFrame);
   return (
@@ -23,7 +24,7 @@ const HoverRules = (props: HoverRulesProps) => {
         ? <HoverRulesTop
             hoverOrigin={hoverOrigin}
             selectionOrigin={selectionOrigin}
-            zoom={props.zoom} />
+            zoom={zoom} />
         : null
       }
       {
@@ -31,7 +32,7 @@ const HoverRules = (props: HoverRulesProps) => {
         ? <HoverRulesRight
             hoverOrigin={hoverOrigin}
             selectionOrigin={selectionOrigin}
-            zoom={props.zoom} />
+            zoom={zoom} />
         : null
       }
       {
@@ -39,7 +40,7 @@ const HoverRules = (props: HoverRulesProps) => {
         ? <HoverRulesBottom
             hoverOrigin={hoverOrigin}
             selectionOrigin={selectionOrigin}
-            zoom={props.zoom} />
+            zoom={zoom} />
         : null
       }
       {
@@ -47,7 +48,7 @@ const HoverRules = (props: HoverRulesProps) => {
         ? <HoverRulesLeft
             hoverOrigin={hoverOrigin}
             selectionOrigin={selectionOrigin}
-            zoom={props.zoom} />
+            zoom={zoom} />
         : null
       }
     </div>

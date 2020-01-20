@@ -2,8 +2,8 @@ import React from 'react';
 import { createRuleBottomStyles } from '../styles/hoverStyles';
 
 interface HoverRulesBottomProps {
-  hoverOrigin: any;
-  selectionOrigin: any;
+  hoverOrigin: srm.Origin;
+  selectionOrigin: srm.Origin;
   zoom: number;
 }
 

@@ -4,10 +4,10 @@ import Canvas from './Canvas';
 import TopBar from './TopBar';
 
 interface AppProps {
-  artboard: any;
-  images: any;
-  svgs: any;
-  notes: any;
+  artboard: srm.Artboard;
+  images: srm.Base64Image[];
+  svgs: srm.SvgPath[];
+  notes: srm.Notes;
   composing: boolean;
 }
 
@@ -15,8 +15,8 @@ const App = (props: AppProps) => {
   const app = useRef<HTMLDivElement>(null);
   const [ready, setReady] = useState(false);
   // selection and hover
-  const [selection, setSelection] = useState('');
-  const [hover, setHover] = useState('');
+  const [selection, setSelection] = useState(null);
+  const [hover, setHover] = useState(null);
   // zoom
   const [zoom, setZoom] = useState(1);
   const [baseZoom, setBaseZoom] = useState(1);
@@ -29,13 +29,13 @@ const App = (props: AppProps) => {
   const [showNotes, setShowNotes] = useState(true);
   const [edit, setEdit] = useState(true);
 
-  const scaleArtboardForViewport = () => {
-    const artboardWidth = props.artboard.frame.width;
-    const artboardHeight = props.artboard.frame.height;
-    const maxWidth = Math.min(viewPortSize.width, artboardWidth);
-    const maxHeight = Math.min(viewPortSize.height, artboardHeight);
-    const maxRatio = maxWidth / maxHeight;
-    const artboardRatio = artboardWidth / artboardHeight;
+  const scaleArtboardForViewport = (): number => {
+    const artboardWidth: number = props.artboard.frame.width;
+    const artboardHeight: number = props.artboard.frame.height;
+    const maxWidth: number = Math.min(viewPortSize.width, artboardWidth);
+    const maxHeight: number = Math.min(viewPortSize.height, artboardHeight);
+    const maxRatio: number = maxWidth / maxHeight;
+    const artboardRatio: number = artboardWidth / artboardHeight;
     // dims of artboard scaled to fit in viewport
     if (maxRatio > artboardRatio) {
       // height is the constraining dimension
@@ -46,27 +46,27 @@ const App = (props: AppProps) => {
     }
   }
 
-  const getViewPortSize = () => {
+  const getViewPortSize = (): {width: number, height: number} => {
     return {
       width: window.innerWidth - 320,
       height: window.innerHeight - 48
     }
   }
 
-  const handleResize = () => {
+  const handleResize = (): void => {
     setViewPortSize(getViewPortSize());
   }
 
-  const handleInitialRender = (callback: any) => {
+  const handleInitialRender = (callback: any): void => {
     handleResize();
     callback();
   }
 
-  const scrollToCenter = () => {
+  const scrollToCenter = (): void => {
     window.scrollTo(centerScroll.x, centerScroll.y);
   }
 
-  const handleKeyPress = (e: any) => {
+  const handleKeyPress = (e: any): void => {
     if (e.key === '-' && e.metaKey && e.altKey && e.ctrlKey) {
       e.preventDefault();
       setZoom(zoom - 0.1);
@@ -97,16 +97,16 @@ const App = (props: AppProps) => {
     setZoom(artboardScale);
     setBaseZoom(artboardScale);
     // get artboard size
-    const artboardHeight = props.artboard.frame.height * artboardScale;
-    const artboardWidth = props.artboard.frame.width * artboardScale;
-    const artboardHeightMid = artboardHeight / 2;
-    const artboardWidthMid = artboardWidth / 2;
+    const artboardHeight: number = props.artboard.frame.height * artboardScale;
+    const artboardWidth: number = props.artboard.frame.width * artboardScale;
+    const artboardHeightMid: number = artboardHeight / 2;
+    const artboardWidthMid: number = artboardWidth / 2;
     // get and set offsets
-    const canvasCenter = canvasSize / 2;
-    const leftOffset = canvasCenter - artboardWidthMid;
-    const topOffset = canvasCenter - artboardHeightMid;
-    const rightRemainder = viewPortSize.width - artboardWidth;
-    const bottomRemainder = viewPortSize.height - artboardHeight;
+    const canvasCenter: number = canvasSize / 2;
+    const leftOffset: number = canvasCenter - artboardWidthMid;
+    const topOffset: number = canvasCenter - artboardHeightMid;
+    const rightRemainder: number = viewPortSize.width - artboardWidth;
+    const bottomRemainder: number = viewPortSize.height - artboardHeight;
     // scroll to center
     window.scrollTo(leftOffset - (rightRemainder / 2), topOffset - (bottomRemainder / 2));
     // set center scroll position
@@ -124,7 +124,7 @@ const App = (props: AppProps) => {
       tabIndex={-1}
       ref={app}
       onKeyDown={handleKeyPress}>
-      <TopBar
+      {/* <TopBar
         selection={selection}
         zoom={zoom}
         setZoom={setZoom}
@@ -135,7 +135,7 @@ const App = (props: AppProps) => {
         edit={edit}
         setEdit={setEdit}
         scrollToCenter={scrollToCenter}
-        composing={props.composing} />
+        composing={props.composing} /> */}
       <Sidebar
         selection={selection}
         images={props.images}

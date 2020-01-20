@@ -3,9 +3,9 @@ import LayerShapePathNormal from './LayerShapePathNormal';
 import LayerShape from './LayerShape';
 
 interface LayerShapePathClosedProps {
-  layer: any;
-  svgs: any;
-  images: any;
+  layer: srm.ShapePath;
+  svgs: srm.SvgPath[];
+  images: srm.Base64Image[];
   onClick(): void;
   onMouseOver(): void;
   onMouseOut(): void;

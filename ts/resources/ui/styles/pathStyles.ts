@@ -1,7 +1,7 @@
 import * as styles from './layerStyles';
 import { styleReducer } from '../utils';
 
-export const pathStyles = (layer: srm.ShapePath, svgs: srm.SvgPath[]) => {
+export const pathStyles = (layer: srm.Shape | srm.ShapePath, svgs: srm.SvgPath[]) => {
   const svg = styles.createSVG(layer.id, svgs);
 
   const combined = [

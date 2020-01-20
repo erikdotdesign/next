@@ -2,24 +2,27 @@ import React from 'react';
 import { createDimWidthStyles, createDimHeightStyles } from '../styles/hoverStyles';
 
 interface HoverDimsProps {
-  hover: any;
-  artboard: any;
+  hover: srm.Artboard | srm.Image | srm.Shape | srm.ShapePath | srm.Text;
+  artboard: srm.Artboard;
   zoom: number;
 }
 
-const HoverDims = (props: HoverDimsProps) => (
-  <div>
-    <div
-      className='c-selection__dim'
-      style={createDimWidthStyles(props.hover.frame, props.artboard.frame, props.zoom)}>
-      {props.hover.frame.width}
+const HoverDims = (props: HoverDimsProps) => {
+  const { hover, artboard, zoom } = props;
+  return (
+    <div>
+      <div
+        className='c-selection__dim'
+        style={createDimWidthStyles(hover.frame, artboard.frame, zoom)}>
+        {hover.frame.width}
+      </div>
+      <div
+        className='c-selection__dim'
+        style={createDimHeightStyles(hover.frame, artboard.frame, zoom)}>
+        {hover.frame.height}
+      </div>
     </div>
-    <div
-      className='c-selection__dim'
-      style={createDimHeightStyles(props.hover.frame, props.artboard.frame, props.zoom)}>
-      {props.hover.frame.height}
-    </div>
-  </div>
-);
+  )
+};
 
 export default HoverDims;

@@ -8,34 +8,34 @@ import NoteAdd from './NoteAdd';
 import artboardStyles from '../styles/artboardStyles';
 
 interface ArtboardProps {
-  artboard: any;
-  images: any;
-  svgs: any;
-  selection: any;
-  setSelection: any;
-  hover: any;
-  setHover: any;
-  zoom: any;
+  artboard: srm.Artboard;
+  images: srm.Base64Image[];
+  svgs: srm.SvgPath[];
+  notes: srm.Notes;
+  selection: srm.Artboard | srm.Image | srm.Shape | srm.ShapePath | srm.Text | null;
+  hover: srm.Artboard | srm.Image | srm.Shape | srm.ShapePath | srm.Text | null;
+  zoom: number;
   showNotes: boolean;
   edit: boolean;
-  setEdit: any;
-  notes: any;
-  setNotes: any;
   composing: boolean;
+  setSelection(selection: srm.Artboard | srm.Image | srm.Shape | srm.ShapePath | srm.Text | null): void;
+  setHover(hover: srm.Artboard | srm.Image | srm.Shape | srm.ShapePath | srm.Text | null): void;
+  setEdit(edit: boolean): void;
+  setNotes(notes: srm.Notes): void;
 }
 
 const Artboard = (props: ArtboardProps) => {
   const artboardRef = useRef<HTMLDivElement>(null);
   const { artboard, images, svgs, selection, setSelection, hover, setHover, zoom, showNotes, edit, setEdit, notes, setNotes, composing } = props;
-  const onClick = () => {
-    setSelection(props.artboard);
+  const onClick = (): void => {
+    setSelection(artboard);
   }
-  const onMouseOver = () => {
-    setHover(props.artboard);
+  const onMouseOver = (): void => {
+    setHover(artboard);
   }
   useEffect(() => {
-    gsap.set(artboardRef.current, {scale: props.zoom});
-  }, [props.zoom]);
+    gsap.set(artboardRef.current, {scale: zoom});
+  }, [zoom]);
   return (
     <div
       className='c-artboard'

@@ -3,11 +3,11 @@ import Layer from './Layer';
 
 interface LayersProps {
   layers: any;
-  images: any;
-  svgs: any;
-  setSelection: any;
-  setHover: any;
+  images: srm.Base64Image[];
+  svgs: srm.SvgPath[];
   style: any;
+  setSelection(selection: srm.Artboard | srm.Image | srm.Shape | srm.ShapePath | srm.Text | null): void;
+  setHover(hover: srm.Artboard | srm.Image | srm.Shape | srm.ShapePath | srm.Text | null): void;
 }
 
 const Layers = (props: LayersProps) => {

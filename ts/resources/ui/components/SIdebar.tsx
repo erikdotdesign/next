@@ -3,13 +3,13 @@ import SidebarStyles from './SidebarStyles';
 import SidebarNotes from './SidebarNotes';
 
 interface SidebarProps {
-  selection: any;
-  images: any;
-  svgs: any;
-  notes: any;
-  setNotes: any;
+  selection: srm.Artboard | srm.Image | srm.Shape | srm.ShapePath | srm.Text | null;
+  images: srm.Base64Image[];
+  svgs: srm.SvgPath[];
+  notes: srm.Notes;
   edit: boolean;
   composing: boolean;
+  setNotes(notes: srm.Notes): void;
 }
 
 const Sidebar = (props: SidebarProps) => {

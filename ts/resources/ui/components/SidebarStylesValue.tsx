@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import SidebarSwatches from './SidebarSwatches';
 
 interface SidebarStylesValueProps {
-  value: any;
+  value: string;
 }
 
 const SidebarStylesValue = (props: SidebarStylesValueProps) => {

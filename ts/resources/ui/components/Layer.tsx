@@ -5,29 +5,29 @@ import LayerShape from './LayerShape';
 import LayerText from './LayerText';
 
 interface LayerProps {
-  layer: any;
-  images: any;
-  svgs: any;
-  setSelection: any;
-  setHover: any;
+  layer: srm.Image | srm.Shape | srm.ShapePath | srm.Text;
+  images: srm.Base64Image[];
+  svgs: srm.SvgPath[];
+  setSelection(selection: srm.Artboard | srm.Image | srm.Shape | srm.ShapePath | srm.Text | null): void;
+  setHover(hover: srm.Artboard | srm.Image | srm.Shape | srm.ShapePath | srm.Text | null): void;
 }
 
 const Layer = (props: LayerProps) => {
   const { layer, images, svgs, setSelection, setHover } = props;
   const onClick = () => {
-    setSelection(props.layer);
+    setSelection(layer);
   }
   const onMouseOver = () => {
-    setHover(props.layer);
+    setHover(layer);
   }
   const onMouseOut = () => {
-    setHover('');
+    setHover(null);
   }
   switch(layer.type) {
     case 'Image':
       return (
         <LayerImage
-          layer={layer}
+          layer={layer as srm.Image}
           images={images}
           onClick={onClick}
           onMouseOver={onMouseOver}
@@ -36,7 +36,7 @@ const Layer = (props: LayerProps) => {
     case 'Shape':
       return (
         <LayerShape
-          layer={layer}
+          layer={layer as srm.Shape}
           images={images}
           svgs={svgs}
           onClick={onClick}
@@ -46,7 +46,7 @@ const Layer = (props: LayerProps) => {
     case 'ShapePath':
       return  (
         <LayerShapePath
-          layer={layer}
+          layer={layer as srm.ShapePath}
           images={images}
           svgs={svgs}
           onClick={onClick}
@@ -56,7 +56,7 @@ const Layer = (props: LayerProps) => {
     case 'Text':
       return (
         <LayerText
-          layer={layer}
+          layer={layer as srm.Text}
           onClick={onClick}
           onMouseOver={onMouseOver}
           onMouseOut={onMouseOut} />

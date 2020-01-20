@@ -2,35 +2,36 @@ import React, { useRef, useEffect } from 'react';
 import Artboard from './Artboard';
 
 interface CanvasProps {
-  artboard: any;
-  images: any;
-  svgs: any;
-  selection: any;
-  setSelection: any;
-  hover: any;
-  setHover: any;
-  viewPortSize: any;
-  zoom: any;
-  setZoom: any;
+  artboard: srm.Artboard;
+  images: srm.Base64Image[];
+  svgs: srm.SvgPath[];
+  selection: srm.Artboard | srm.Image | srm.Shape | srm.ShapePath | srm.Text | null;
+  hover: srm.Artboard | srm.Image | srm.Shape | srm.ShapePath | srm.Text | null;
+  viewPortSize: {width: number, height: number};
+  zoom: number;
   showNotes: boolean;
   edit: boolean;
-  setEdit: any;
-  notes: any;
-  setNotes: any;
+  notes: srm.Notes;
   composing: boolean;
   ready: boolean;
+  setSelection(selection: srm.Artboard | srm.Image | srm.Shape | srm.ShapePath | srm.Text | null): void;
+  setHover(hover: srm.Artboard | srm.Image | srm.Shape | srm.ShapePath | srm.Text | null): void;
+  setZoom(zoom: number): void;
+  setEdit(edit: boolean): void;
+  setNotes(notes: srm.Notes): void;
 }
 
 let startGestureZoom = 0;
 let gestureZoom = 1;
 
 const Canvas = (props: CanvasProps) => {
+  const { artboard, images, svgs, selection, setSelection, hover, setHover, setZoom, zoom, showNotes, edit, setEdit, notes, setNotes, composing, ready } = props;
   const canvas = useRef<HTMLDivElement>(null);
   const handleClick = () => {
-    props.setSelection('');
+    setSelection(null);
   }
   const handleMouseOver = () => {
-    props.setHover('');
+    setHover(null);
   }
   const handleGestureStart = (e: any) => {
     e.preventDefault();
@@ -38,7 +39,7 @@ const Canvas = (props: CanvasProps) => {
   }
   const handleGestureChange = (e: any) => {
     e.preventDefault();
-    props.setZoom(startGestureZoom * e.scale);
+    setZoom(startGestureZoom * e.scale);
   }
   const handleGestureEnd = (e: any) => {
     e.preventDefault();
@@ -48,9 +49,9 @@ const Canvas = (props: CanvasProps) => {
       let nextZoom = gestureZoom - e.deltaY * 0.01;
       e.preventDefault();
       if (e.deltaY < 0 && nextZoom < 5) {
-        props.setZoom(gestureZoom -= e.deltaY * 0.01);
+        setZoom(gestureZoom -= e.deltaY * 0.01);
       } else if (e.deltaY > 0 && nextZoom > 0) {
-        props.setZoom(gestureZoom -= e.deltaY * 0.01);
+        setZoom(gestureZoom -= e.deltaY * 0.01);
       }
     }
   }
@@ -60,8 +61,8 @@ const Canvas = (props: CanvasProps) => {
     canvas.current?.addEventListener('gestureend', handleGestureEnd);
   }, []);
   useEffect(() => {
-    gestureZoom = props.zoom;
-  }, [props.zoom]);
+    gestureZoom = zoom;
+  }, [zoom]);
   return (
     <div
       className='c-canvas'
@@ -69,22 +70,22 @@ const Canvas = (props: CanvasProps) => {
       ref={canvas}
       onWheel={handleWheel}>
       {
-        props.ready
+        ready
         ? <Artboard
-            artboard={props.artboard}
-            images={props.images}
-            svgs={props.svgs}
-            selection={props.selection}
-            setSelection={props.setSelection}
-            hover={props.hover}
-            setHover={props.setHover}
-            zoom={props.zoom}
-            showNotes={props.showNotes}
-            edit={props.edit}
-            setEdit={props.setEdit}
-            notes={props.notes}
-            setNotes={props.setNotes}
-            composing={props.composing} />
+            artboard={artboard}
+            images={images}
+            svgs={svgs}
+            selection={selection}
+            setSelection={setSelection}
+            hover={hover}
+            setHover={setHover}
+            zoom={zoom}
+            showNotes={showNotes}
+            edit={edit}
+            setEdit={setEdit}
+            notes={notes}
+            setNotes={setNotes}
+            composing={composing} />
         : null
       }
       <div

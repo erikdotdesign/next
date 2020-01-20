@@ -2,14 +2,14 @@ import React from 'react';
 import chroma from 'chroma-js';
 
 interface SidebarSwatchesProps {
-  value: any;
+  value: string;
 }
 
 const SidebarSwatches = (props: SidebarSwatchesProps) => {
   const getColors = () => {
     const values = String(props.value).split(' ');
-    const colors: any[] = [];
-    values.map((value: any) => {
+    const colors: string[] = [];
+    values.map((value: string) => {
       if (value.endsWith('),')) {
         let string = value.slice(0, value.length - 1);
         if (chroma.valid(string)) {
@@ -41,7 +41,7 @@ const SidebarSwatches = (props: SidebarSwatchesProps) => {
         ? <div
             className='c-sidebar-styles__swatch c-sidebar-styles__swatch--image'
             style={{
-              backgroundImage: props.value,
+              background: props.value,
               backgroundRepeat: 'no-repeat',
               backgroundSize: 'cover',
               backgroundPosition: 'center center'

@@ -550,15 +550,13 @@ declare namespace srm {
     svg: string;
   }
 
-  interface Notes {
-    id: string;
-  }
+  type Notes = any;
 
   interface Store {
     artboard: srm.Artboard;
     images: srm.Base64Image[];
     svgs: srm.SvgPath[];
-    notes: srm.Notes
+    notes: Notes
   }
 
   namespace css {

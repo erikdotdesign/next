@@ -3,12 +3,13 @@ import Artboard from './Artboard';
 let startGestureZoom = 0;
 let gestureZoom = 1;
 const Canvas = (props) => {
+    const { artboard, images, svgs, selection, setSelection, hover, setHover, setZoom, zoom, showNotes, edit, setEdit, notes, setNotes, composing, ready } = props;
     const canvas = useRef(null);
     const handleClick = () => {
-        props.setSelection('');
+        setSelection(null);
     };
     const handleMouseOver = () => {
-        props.setHover('');
+        setHover(null);
     };
     const handleGestureStart = (e) => {
         e.preventDefault();
@@ -16,7 +17,7 @@ const Canvas = (props) => {
     };
     const handleGestureChange = (e) => {
         e.preventDefault();
-        props.setZoom(startGestureZoom * e.scale);
+        setZoom(startGestureZoom * e.scale);
     };
     const handleGestureEnd = (e) => {
         e.preventDefault();
@@ -26,10 +27,10 @@ const Canvas = (props) => {
             let nextZoom = gestureZoom - e.deltaY * 0.01;
             e.preventDefault();
             if (e.deltaY < 0 && nextZoom < 5) {
-                props.setZoom(gestureZoom -= e.deltaY * 0.01);
+                setZoom(gestureZoom -= e.deltaY * 0.01);
             }
             else if (e.deltaY > 0 && nextZoom > 0) {
-                props.setZoom(gestureZoom -= e.deltaY * 0.01);
+                setZoom(gestureZoom -= e.deltaY * 0.01);
             }
         }
     };
@@ -40,11 +41,11 @@ const Canvas = (props) => {
         (_c = canvas.current) === null || _c === void 0 ? void 0 : _c.addEventListener('gestureend', handleGestureEnd);
     }, []);
     useEffect(() => {
-        gestureZoom = props.zoom;
-    }, [props.zoom]);
+        gestureZoom = zoom;
+    }, [zoom]);
     return (React.createElement("div", { className: 'c-canvas', id: 'canvas', ref: canvas, onWheel: handleWheel },
-        props.ready
-            ? React.createElement(Artboard, { artboard: props.artboard, images: props.images, svgs: props.svgs, selection: props.selection, setSelection: props.setSelection, hover: props.hover, setHover: props.setHover, zoom: props.zoom, showNotes: props.showNotes, edit: props.edit, setEdit: props.setEdit, notes: props.notes, setNotes: props.setNotes, composing: props.composing })
+        ready
+            ? React.createElement(Artboard, { artboard: artboard, images: images, svgs: svgs, selection: selection, setSelection: setSelection, hover: hover, setHover: setHover, zoom: zoom, showNotes: showNotes, edit: edit, setEdit: setEdit, notes: notes, setNotes: setNotes, composing: composing })
             : null,
         React.createElement("div", { className: 'c-canvas__escape', onClick: handleClick, onMouseOver: handleMouseOver })));
 };

@@ -2,9 +2,9 @@ import React, {useEffect, useRef} from 'react';
 import shapeStyles from '../styles/shapeStyles';
 
 interface LayerShapeProps {
-  layer: any;
-  images: any;
-  svgs: any;
+  layer: srm.Shape | srm.ShapePath;
+  images: srm.Base64Image[];
+  svgs: srm.SvgPath[];
   onClick(): void;
   onMouseOver(): void;
   onMouseOut(): void;
@@ -15,7 +15,7 @@ const LayerShape = (props: LayerShapeProps) => {
   const shape = useRef<HTMLDivElement>(null);
   const svg = svgs.find((svg: any) => svg.id === layer.id);
   useEffect(() => {
-    if (shape.current) {
+    if (shape.current && svg) {
       shape.current.innerHTML = svg.svg;
     }
   }, []);
