@@ -21,7 +21,7 @@ export const styleReducer = (combinedStyles: any[]) => {
   }, {});
 };
 
-export const getOrigin = (frame: srm.Rectangle) => {
+export const getOrigin = (frame: srm.Rectangle): srm.Origin => {
   const { x, y, width, height } = frame;
   return {
     top: y,
@@ -33,7 +33,7 @@ export const getOrigin = (frame: srm.Rectangle) => {
   }
 };
 
-export const placeLeft = (selectionOriginLeft: number, artboardWidth: number) => {
+export const placeLeft = (selectionOriginLeft: number, artboardWidth: number): boolean => {
   if (selectionOriginLeft > artboardWidth / 2) {
     return true;
   } else {
@@ -41,7 +41,7 @@ export const placeLeft = (selectionOriginLeft: number, artboardWidth: number) =>
   }
 };
 
-export const placeTop = (selectionOriginTop: number, artboardHeight: number) => {
+export const placeTop = (selectionOriginTop: number, artboardHeight: number): boolean => {
   if (selectionOriginTop > artboardHeight / 2) {
     return true;
   } else {
@@ -49,7 +49,7 @@ export const placeTop = (selectionOriginTop: number, artboardHeight: number) => 
   }
 };
 
-export const between = (num: number, a: number, b: number) => {
+export const between = (num: number, a: number, b: number): boolean => {
   let min = Math.min.apply(Math, [a, b]),
       max = Math.max.apply(Math, [a, b]);
   return num > min && num < max;
