@@ -1,5 +1,8 @@
 {
-  "compatibleVersion": 3,
+  "name": "Sketch Measure React",
+  "description": "Export your designs as a React application. Quickly share layer specs and css styles.",
+  "icon": "icon.png",
+  "compatibleVersion": 61.2,
   "bundleVersion": 1,
   "commands": [
     {
