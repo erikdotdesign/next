@@ -2,8 +2,8 @@ import React from 'react';
 
 interface TopBarButtonProps {
   className?: string;
-  onClick: any;
-  icon: any;
+  icon: React.ReactNode;
+  onClick(): void;
 }
 
 const TopBarButton = (props: TopBarButtonProps) => {

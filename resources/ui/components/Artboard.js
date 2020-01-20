@@ -8,7 +8,7 @@ import NoteAdd from './NoteAdd';
 import artboardStyles from '../styles/artboardStyles';
 const Artboard = (props) => {
     const artboardRef = useRef(null);
-    const { artboard, images, svgs, selection, setSelection, hover, setHover, zoom, showNotes, edit, setEdit, notes, setNotes, composing } = props;
+    const { artboard, images, svgs, selection, setSelection, hover, setHover, zoom, showNotes, edit, notes, setNotes, composing } = props;
     const onClick = () => {
         setSelection(artboard);
     };

@@ -12,21 +12,20 @@ interface ArtboardProps {
   images: srm.Base64Image[];
   svgs: srm.SvgPath[];
   notes: srm.Notes;
-  selection: srm.Artboard | srm.Image | srm.Shape | srm.ShapePath | srm.Text | null;
-  hover: srm.Artboard | srm.Image | srm.Shape | srm.ShapePath | srm.Text | null;
+  selection: srm.AppLayer | null;
+  hover: srm.AppLayer | null;
   zoom: number;
   showNotes: boolean;
   edit: boolean;
   composing: boolean;
-  setSelection(selection: srm.Artboard | srm.Image | srm.Shape | srm.ShapePath | srm.Text | null): void;
-  setHover(hover: srm.Artboard | srm.Image | srm.Shape | srm.ShapePath | srm.Text | null): void;
-  setEdit(edit: boolean): void;
+  setSelection(selection: srm.AppLayer | null): void;
+  setHover(hover: srm.AppLayer | null): void;
   setNotes(notes: srm.Notes): void;
 }
 
 const Artboard = (props: ArtboardProps) => {
   const artboardRef = useRef<HTMLDivElement>(null);
-  const { artboard, images, svgs, selection, setSelection, hover, setHover, zoom, showNotes, edit, setEdit, notes, setNotes, composing } = props;
+  const { artboard, images, svgs, selection, setSelection, hover, setHover, zoom, showNotes, edit, notes, setNotes, composing } = props;
   const onClick = (): void => {
     setSelection(artboard);
   }
@@ -42,7 +41,7 @@ const Artboard = (props: ArtboardProps) => {
       ref={artboardRef}
       style={artboardStyles(artboard)}>
       <Layers
-        layers={artboard.layers}
+        layers={artboard.layers as (srm.ShapePath | srm.Shape | srm.Image | srm.Text)[]}
         images={images}
         svgs={svgs}
         setSelection={setSelection}

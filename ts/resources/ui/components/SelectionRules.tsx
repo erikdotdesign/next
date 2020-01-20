@@ -6,16 +6,16 @@ import SelectionRulesLeft from './SelectionRulesLeft';
 import { getOrigin } from '../utils';
 
 interface SelectionRulesProps {
-  selectionFrame: any;
-  hoverFrame: any;
-  artboardFrame: any;
+  selectionFrame: srm.Rectangle;
+  hoverFrame: srm.Rectangle;
+  artboardFrame: srm.Rectangle;
   zoom: number;
 }
 
 const SelectionRules = (props: SelectionRulesProps) => {
   const { selectionFrame, hoverFrame, artboardFrame, zoom } = props;
-  const selectionOrigin = getOrigin(selectionFrame);
-  const hoverOrigin = getOrigin(hoverFrame);
+  const selectionOrigin: srm.Origin = getOrigin(selectionFrame);
+  const hoverOrigin: srm.Origin = getOrigin(hoverFrame);
   return (
     <div className='c-selection__rules'>
       {
@@ -54,38 +54,6 @@ const SelectionRules = (props: SelectionRulesProps) => {
             zoom={zoom} />
         : null
       }
-      {/* {
-        selectionOrigin.left < hoverOrigin.left && selectionOrigin.right > hoverOrigin.right
-        ? <div>
-            <SelectionRulesLeft
-              selectionOrigin={hoverOrigin}
-              hoverOrigin={selectionOrigin}
-              artboardFrame={artboardFrame}
-              inset />
-            <SelectionRulesRight
-              selectionOrigin={hoverOrigin}
-              hoverOrigin={selectionOrigin}
-              artboardFrame={artboardFrame}
-              inset />
-          </div>
-        : null
-      }
-      {
-        selectionOrigin.top < hoverOrigin.top && selectionOrigin.bottom > hoverOrigin.bottom
-        ? <div>
-            <SelectionRulesTop
-              selectionOrigin={hoverOrigin}
-              hoverOrigin={selectionOrigin}
-              artboardFrame={artboardFrame}
-              inset />
-            <SelectionRulesBottom
-              selectionOrigin={hoverOrigin}
-              hoverOrigin={selectionOrigin}
-              artboardFrame={artboardFrame}
-              inset />
-          </div>
-        : null
-      } */}
     </div>
   );
 }

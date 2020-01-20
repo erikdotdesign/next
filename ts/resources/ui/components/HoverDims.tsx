@@ -2,7 +2,7 @@ import React from 'react';
 import { createDimWidthStyles, createDimHeightStyles } from '../styles/hoverStyles';
 
 interface HoverDimsProps {
-  hover: srm.Artboard | srm.Image | srm.Shape | srm.ShapePath | srm.Text;
+  hover: srm.AppLayer;
   artboard: srm.Artboard;
   zoom: number;
 }

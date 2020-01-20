@@ -6,7 +6,7 @@ import IconEditOff from './IconEditOff';
 interface TopBarEditProps {
   composing: boolean;
   edit: boolean;
-  setEdit: any;
+  setEdit(edit: boolean): void;
 }
 
 const TopBarEdit = (props: TopBarEditProps) => {

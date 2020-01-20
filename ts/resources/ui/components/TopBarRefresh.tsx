@@ -3,9 +3,9 @@ import TopBarButton from './TopBarButton';
 import IconRefresh from './IconRefresh';
 
 interface TopBarRefreshProps {
-  baseZoom: any;
-  setZoom: any;
-  scrollToCenter: any;
+  baseZoom: number;
+  setZoom(zoom: number): void;
+  scrollToCenter(): void;
 }
 
 const TopBarRefresh = (props: TopBarRefreshProps) => {

@@ -45,7 +45,7 @@ const Canvas = (props) => {
     }, [zoom]);
     return (React.createElement("div", { className: 'c-canvas', id: 'canvas', ref: canvas, onWheel: handleWheel },
         ready
-            ? React.createElement(Artboard, { artboard: artboard, images: images, svgs: svgs, selection: selection, setSelection: setSelection, hover: hover, setHover: setHover, zoom: zoom, showNotes: showNotes, edit: edit, setEdit: setEdit, notes: notes, setNotes: setNotes, composing: composing })
+            ? React.createElement(Artboard, { artboard: artboard, images: images, svgs: svgs, selection: selection, setSelection: setSelection, hover: hover, setHover: setHover, zoom: zoom, showNotes: showNotes, edit: edit, notes: notes, setNotes: setNotes, composing: composing })
             : null,
         React.createElement("div", { className: 'c-canvas__escape', onClick: handleClick, onMouseOver: handleMouseOver })));
 };

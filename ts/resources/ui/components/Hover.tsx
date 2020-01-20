@@ -4,8 +4,8 @@ import HoverRules from './HoverRules';
 import { createHoveredStyles } from '../styles/hoverStyles';
 
 interface HoverProps {
-  hover: srm.Artboard | srm.Image | srm.Shape | srm.ShapePath | srm.Text;
-  selection: srm.Artboard | srm.Image | srm.Shape | srm.ShapePath | srm.Text | null;
+  hover: srm.AppLayer;
+  selection: srm.AppLayer | null;
   artboard: srm.Artboard;
   zoom: number;
 }

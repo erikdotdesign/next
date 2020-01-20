@@ -6,17 +6,17 @@ import HoverRulesLeft from './HoverRulesLeft';
 import { getOrigin } from '../utils';
 
 interface HoverRulesProps {
-  hover: srm.Artboard | srm.Image | srm.Shape | srm.ShapePath | srm.Text;
-  selection: srm.Artboard | srm.Image | srm.Shape | srm.ShapePath | srm.Text;
+  hover: srm.AppLayer;
+  selection: srm.AppLayer;
   zoom: number;
 }
 
 const HoverRules = (props: HoverRulesProps) => {
   const { hover, selection, zoom } = props;
-  const hoverFrame = hover.frame;
-  const selectionFrame = selection.frame;
-  const hoverOrigin = getOrigin(hoverFrame);
-  const selectionOrigin = getOrigin(selectionFrame);
+  const hoverFrame: srm.Rectangle = hover.frame;
+  const selectionFrame: srm.Rectangle = selection.frame;
+  const hoverOrigin: srm.Origin = getOrigin(hoverFrame);
+  const selectionOrigin: srm.Origin = getOrigin(selectionFrame);
   return (
     <div className='c-hover__rules'>
       {

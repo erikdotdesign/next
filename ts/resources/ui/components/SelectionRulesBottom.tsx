@@ -2,9 +2,9 @@ import React from 'react';
 import { createRuleBottomStyles, createDimTopBottomStyles } from '../styles/selectionStyles';
 
 interface SelectionRulesBottomProps {
-  selectionOrigin: any;
-  hoverOrigin: any;
-  artboardFrame: any;
+  selectionOrigin: srm.Origin;
+  hoverOrigin: srm.Origin;
+  artboardFrame: srm.Rectangle;
   zoom: number;
   inset?: any;
 }

@@ -13,21 +13,21 @@ interface AppProps {
 
 const App = (props: AppProps) => {
   const app = useRef<HTMLDivElement>(null);
-  const [ready, setReady] = useState(false);
+  const [ready, setReady] = useState<boolean>(false);
   // selection and hover
-  const [selection, setSelection] = useState(null);
-  const [hover, setHover] = useState(null);
+  const [selection, setSelection] = useState<srm.AppLayer | null>(null);
+  const [hover, setHover] = useState<srm.AppLayer | null>(null);
   // zoom
-  const [zoom, setZoom] = useState(1);
-  const [baseZoom, setBaseZoom] = useState(1);
+  const [zoom, setZoom] = useState<number>(1);
+  const [baseZoom, setBaseZoom] = useState<number>(1);
   // scroll
-  const canvasSize = 20000;
-  const [centerScroll, setCenterScroll] = useState({x: 0, y: 0});
-  const [viewPortSize, setViewPortSize] = useState({width: 0, height: 0});
+  const canvasSize: number = 20000;
+  const [centerScroll, setCenterScroll] = useState<{x: number, y: number}>({x: 0, y: 0});
+  const [viewPortSize, setViewPortSize] = useState<{width: number, height: number}>({width: 0, height: 0});
   // notes
-  const [notes, setNotes] = useState(props.notes);
-  const [showNotes, setShowNotes] = useState(true);
-  const [edit, setEdit] = useState(true);
+  const [notes, setNotes] = useState<any>(props.notes);
+  const [showNotes, setShowNotes] = useState<boolean>(true);
+  const [edit, setEdit] = useState<boolean>(true);
 
   const scaleArtboardForViewport = (): number => {
     const artboardWidth: number = props.artboard.frame.width;
@@ -124,7 +124,7 @@ const App = (props: AppProps) => {
       tabIndex={-1}
       ref={app}
       onKeyDown={handleKeyPress}>
-      {/* <TopBar
+      <TopBar
         selection={selection}
         zoom={zoom}
         setZoom={setZoom}
@@ -135,7 +135,7 @@ const App = (props: AppProps) => {
         edit={edit}
         setEdit={setEdit}
         scrollToCenter={scrollToCenter}
-        composing={props.composing} /> */}
+        composing={props.composing} />
       <Sidebar
         selection={selection}
         images={props.images}

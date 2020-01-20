@@ -2,7 +2,7 @@ import React from 'react';
 import IconClose from './IconClose';
 
 interface SidebarNotesProps {
-  selection: srm.Artboard | srm.Image | srm.Shape | srm.ShapePath | srm.Text | null;
+  selection: srm.AppLayer | null;
   notes: srm.Notes;
   edit: boolean;
   composing: boolean;

@@ -7,17 +7,17 @@ import TopBarRefresh from './TopBarRefresh';
 import TopBarZoom from './TopBarZoom';
 
 interface TopbarProps {
-  selection: any;
+  selection: srm.AppLayer | null;
   baseZoom: number;
   zoom: number;
-  setZoom: any;
-  scrollToCenter: any;
-  notes: any;
+  notes: srm.Notes;
   showNotes: boolean;
-  setShowNotes: any;
   edit: boolean;
-  setEdit: any;
   composing: boolean;
+  setEdit(edit: boolean): void;
+  setShowNotes(showNotes: boolean): void;
+  setZoom(zoom: number): void;
+  scrollToCenter(): void;
 }
 
 const TopBar = (props: TopbarProps) => {

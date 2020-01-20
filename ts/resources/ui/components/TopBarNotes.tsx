@@ -5,7 +5,7 @@ import IconNotesOff from './IconNotesOff';
 
 interface TopBarNotesProps {
   showNotes: boolean;
-  setShowNotes: any;
+  setShowNotes(showNotes: boolean): void;
 }
 
 const TopBarNotes = (props: TopBarNotesProps) => {

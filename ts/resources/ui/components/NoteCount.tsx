@@ -2,9 +2,9 @@ import React, {useEffect, useRef} from 'react';
 import gsap from 'gsap';
 
 interface NoteCountProps {
-  position: any;
+  position: srm.Rectangle;
   count: number;
-  onClick: any;
+  onClick(): void;
 }
 
 const NoteCount = (props: NoteCountProps) => {

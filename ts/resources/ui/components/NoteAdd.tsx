@@ -3,14 +3,14 @@ import NoteCompose from './NoteCompose';
 import IconAddNote from './IconAddNote';
 
 interface NoteAddProps {
-  layer: srm.Artboard | srm.Image | srm.Shape | srm.ShapePath | srm.Text;
+  layer: srm.AppLayer;
   notes: srm.Notes;
   zoom: number;
   setNotes(notes: srm.Notes): void;
 }
 
 const NoteAdd = (props: NoteAddProps) => {
-  const [composeNote, setComposeNote] = useState(false);
+  const [composeNote, setComposeNote] = useState<boolean>(false);
   const { layer, notes, setNotes, zoom } = props;
   return (
     <div className='c-note-add'>

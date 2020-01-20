@@ -10,7 +10,7 @@ import pathStyles from '../styles/pathStyles';
 import { textContainerStyles, textStyles } from '../styles/textStyles';
 
 interface SidebarProps {
-  selection: srm.Artboard | srm.Image | srm.Shape | srm.ShapePath | srm.Text | null;
+  selection: srm.AppLayer | null;
   images: srm.Base64Image[];
   svgs: srm.SvgPath[];
 }

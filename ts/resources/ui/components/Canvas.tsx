@@ -5,8 +5,8 @@ interface CanvasProps {
   artboard: srm.Artboard;
   images: srm.Base64Image[];
   svgs: srm.SvgPath[];
-  selection: srm.Artboard | srm.Image | srm.Shape | srm.ShapePath | srm.Text | null;
-  hover: srm.Artboard | srm.Image | srm.Shape | srm.ShapePath | srm.Text | null;
+  selection: srm.AppLayer | null;
+  hover: srm.AppLayer | null;
   viewPortSize: {width: number, height: number};
   zoom: number;
   showNotes: boolean;
@@ -14,8 +14,8 @@ interface CanvasProps {
   notes: srm.Notes;
   composing: boolean;
   ready: boolean;
-  setSelection(selection: srm.Artboard | srm.Image | srm.Shape | srm.ShapePath | srm.Text | null): void;
-  setHover(hover: srm.Artboard | srm.Image | srm.Shape | srm.ShapePath | srm.Text | null): void;
+  setSelection(selection: srm.AppLayer | null): void;
+  setHover(hover: srm.AppLayer | null): void;
   setZoom(zoom: number): void;
   setEdit(edit: boolean): void;
   setNotes(notes: srm.Notes): void;
@@ -82,7 +82,6 @@ const Canvas = (props: CanvasProps) => {
             zoom={zoom}
             showNotes={showNotes}
             edit={edit}
-            setEdit={setEdit}
             notes={notes}
             setNotes={setNotes}
             composing={composing} />

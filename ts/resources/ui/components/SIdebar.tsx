@@ -3,7 +3,7 @@ import SidebarStyles from './SidebarStyles';
 import SidebarNotes from './SidebarNotes';
 
 interface SidebarProps {
-  selection: srm.Artboard | srm.Image | srm.Shape | srm.ShapePath | srm.Text | null;
+  selection: srm.AppLayer | null;
   images: srm.Base64Image[];
   svgs: srm.SvgPath[];
   notes: srm.Notes;

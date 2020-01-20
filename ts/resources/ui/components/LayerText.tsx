@@ -9,7 +9,7 @@ interface LayerTextProps {
 }
 
 const LayerText = (props: LayerTextProps) => {
-  const paragraphs = props.layer.text.split(/\n/g);
+  const paragraphs: string[] = props.layer.text.split(/\n/g);
   const { layer, onClick, onMouseOver, onMouseOut } = props;
   return (
     <div

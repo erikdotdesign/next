@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface TopBarSelectionProps {
-  selection: any;
+  selection: srm.AppLayer | null;
 }
 
 const TopBarSelection = (props: TopBarSelectionProps) => {

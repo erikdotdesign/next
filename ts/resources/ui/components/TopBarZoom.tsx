@@ -5,17 +5,17 @@ import IconZoomIn from './IconZoomIn';
 
 interface TopBarZoomProps {
   zoom: number;
-  setZoom: any;
+  setZoom(zoom: number): void;
 }
 
 const TopBarZoom = (props: TopBarZoomProps) => {
   const { zoom, setZoom } = props;
-  const zoomOut = () => {
+  const zoomOut = (): void => {
     if (zoom - 0.1 > 0) {
       setZoom(zoom - 0.1);
     }
   };
-  const zoomIn = () => {
+  const zoomIn = (): void => {
     if (zoom + 0.1 < 5) {
       setZoom(zoom + 0.1);
     }

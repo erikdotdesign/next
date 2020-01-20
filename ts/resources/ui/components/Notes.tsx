@@ -2,9 +2,9 @@ import React from 'react';
 import NoteCount from './NoteCount';
 
 interface NotesProps {
-  artboard: any;
-  setSelection: any;
-  notes: any;
+  artboard: srm.Artboard;
+  notes: srm.Notes;
+  setSelection(selection: srm.AppLayer | null): void;
 }
 
 const Notes = (props: NotesProps) => {
@@ -19,13 +19,15 @@ const Notes = (props: NotesProps) => {
   return (
     <div className='c-notes'>
       {
-        Object.keys(notes).map((note: any, index: number) => (
-          <NoteCount
-            key={index}
-            onClick={() => setSelection(getLayer(note))}
-            position={getLayer(note).frame}
-            count={notes[note].length} />
-        ))
+        Object.entries(notes).length > 0
+        ? Object.keys(notes).map((note: any, index: number) => (
+            <NoteCount
+              key={index}
+              onClick={() => setSelection(getLayer(note) as srm.AppLayer)}
+              position={(getLayer(note) as srm.AppLayer).frame}
+              count={notes[note].length} />
+          ))
+        : null
       }
     </div>
   );

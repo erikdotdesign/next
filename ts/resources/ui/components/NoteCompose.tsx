@@ -4,15 +4,15 @@ import IconClose from './IconClose';
 import IconAdd from './IconAdd';
 
 interface NoteComposeProps {
-  layer: any;
-  setComposeNote: any;
-  notes: any;
-  setNotes: any;
+  layer: srm.AppLayer;
+  notes: srm.Notes;
   zoom: number;
+  setNotes(notes: srm.Notes): void;
+  setComposeNote(composeNote: boolean): void;
 }
 
 const NoteCompose = (props: NoteComposeProps) => {
-  const [note, setNote] = useState('');
+  const [note, setNote] = useState<string>('');
   const modal = useRef<HTMLDivElement>(null);
   const modalContent = useRef<HTMLDivElement>(null);
   const compose = useRef<HTMLTextAreaElement>(null);
