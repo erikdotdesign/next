@@ -1,0 +1,1281 @@
+@charset "UTF-8";
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fadeInDelayed {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes modalSlide {
+  from {
+    height: 0;
+    width: 0;
+  }
+  to {
+    height: 164px;
+    width: 400px;
+  }
+}
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translate(-8px, 0px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0px, 0px);
+  }
+}
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translate(8px, 0px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0px, 0px);
+  }
+}
+@keyframes popIn {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+@keyframes slideInDelayed {
+  0% {
+    opacity: 0;
+    transform: translate(-8px, 0);
+  }
+  50% {
+    opacity: 0;
+    transform: translate(-8px, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+@keyframes shrinkIn {
+  from {
+    transform: scale(1.5);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+@keyframes growInWidth {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+@keyframes growInWidthScale {
+  from {
+    transform: scale(0, 1);
+  }
+  to {
+    transform: scale(1, 1);
+  }
+}
+@keyframes growInHeight {
+  from {
+    transform: scale(1, 0);
+  }
+  to {
+    transform: scale(1, 1);
+  }
+}
+@keyframes growInHeightDelayed {
+  0% {
+    transform: scale(1, 0);
+  }
+  50% {
+    transform: scale(1, 0);
+  }
+  100% {
+    transform: scale(1, 1);
+  }
+}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5,
+h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub,
+sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form,
+label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article,
+aside, canvas, details, embed, figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+  background: #222;
+  font-family: "Space Mono", Menlo, Helvetica, Arial, sans-serif;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+blockquote, q {
+  quotes: none;
+}
+blockquote:before, blockquote:after, q:before, q:after {
+  content: "";
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+button {
+  background-color: transparent;
+  outline: none;
+  border: 0;
+  cursor: pointer;
+  font-family: "Space Mono", Menlo, Helvetica, Arial, sans-serif;
+}
+
+::selection {
+  background: #EF2EF2;
+}
+
+input[type=text],
+textarea {
+  font-family: "Space Mono", Menlo, Helvetica, Arial, sans-serif;
+}
+
+.c-app {
+  width: 100%;
+  height: 100%;
+  font-family: "Space Mono", Menlo, Helvetica, Arial, sans-serif;
+  background: #222;
+  color: white;
+}
+
+.c-artboard {
+  position: relative;
+  box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.33);
+  z-index: 3;
+  transform-origin: center center;
+  animation: fadeInDelayed 0.5s ease;
+}
+.c-artboard:focus {
+  outline: none;
+}
+
+.c-artboard__click-area {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.c-sidebar {
+  position: fixed;
+  background: #222;
+  min-width: 320px;
+  width: 320px;
+  height: 100%;
+  z-index: 3;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, 0.25);
+  padding-bottom: 48px;
+}
+
+.c-sidebar__section {
+  position: relative;
+  background: #222;
+}
+
+.c-sidebar__placeholder {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+}
+.c-sidebar__placeholder span {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 14px;
+  line-height: 24px;
+  text-align: center;
+  animation: slideInLeft 0.15s ease;
+}
+
+.c-sidebar__header {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  height: 48px;
+  background: #333;
+  box-shadow: 0px 1px 0px 0px #666, 0px -1px 0px 0px #666;
+}
+.c-sidebar__header span {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  padding: 0 16px;
+  font-size: 14px;
+  line-height: 48px;
+  color: #fff;
+  font-weight: 700;
+  animation: slideInRight 0.15s ease;
+}
+
+.c-sidebar-styles {
+  padding: 16px;
+}
+
+.c-sidebar-styles__style {
+  display: flex;
+  align-items: center;
+  height: 40px;
+}
+
+.c-sidebar-styles__prop {
+  color: #fff;
+  font-size: 14px;
+  line-height: 40px;
+  flex-grow: 2;
+  color: rgba(255, 255, 255, 0.5);
+  animation: slideInRight 0.15s ease;
+}
+
+.c-sidebar-styles__value {
+  position: relative;
+  max-height: 40px;
+  display: flex;
+  animation: slideInLeft 0.15s ease;
+}
+.c-sidebar-styles__value input {
+  border: none;
+  margin: 0;
+  background: #222;
+  min-height: 16px;
+  font-size: 14px;
+  line-height: 16px;
+  color: #fff;
+  max-width: 100px;
+  padding: 16px 0;
+  transition: all 0.15s;
+}
+.c-sidebar-styles__value input:focus {
+  outline: none;
+}
+.c-sidebar-styles__value input::selection {
+  background: none;
+}
+
+.c-sidebar-styles__value-copy {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  line-height: 16px;
+  color: #fff;
+  pointer-events: none;
+  overflow: hidden;
+}
+.c-sidebar-styles__value-copy:before {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  content: "";
+  width: 100%;
+  display: block;
+  background: #111;
+  animation: growInWidth 0.15s ease;
+  z-index: 0;
+}
+.c-sidebar-styles__value-copy span {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  animation: slideInDelayed 0.33s ease;
+}
+
+.c-sidebar-styles__value-copy--copied {
+  background: #111;
+}
+.c-sidebar-styles__value-copy--copied:before {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  content: "";
+  width: 100%;
+  display: block;
+  background: #EF2EF2;
+}
+.c-sidebar-styles__value-copy--copied span {
+  animation: shrinkIn 0.15s ease;
+}
+
+.c-sidebar-styles__swatch-group {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 16px;
+  overflow: hidden;
+  left: 100%;
+  display: flex;
+  justify-content: flex-end;
+  pointer-events: none;
+}
+
+.c-sidebar-styles__swatch {
+  width: 25%;
+}
+
+.c-sidebar-styles__swatch--image {
+  width: 25%;
+}
+
+.c-sidebar__notes {
+  padding: 16px 0;
+}
+
+.c-sidebar__note {
+  padding: 8px 16px;
+  padding-left: 32px;
+  font-size: 14px;
+  line-height: 32px;
+  color: #fff;
+  position: relative;
+  min-height: 32px;
+  word-break: break-word;
+  transition: background 0.15s;
+  animation: slideInRight 0.15s ease;
+}
+.c-sidebar__note:hover {
+  background: #111;
+}
+.c-sidebar__note:hover .c-sidebar__note-remove {
+  display: flex;
+  animation: slideInLeft 0.15s ease-out;
+}
+
+.c-sidebar__note-content {
+  display: flex;
+  align-items: flex-start;
+}
+.c-sidebar__note-content:before {
+  position: absolute;
+  left: 16px;
+  content: "•";
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: bold;
+  display: inline-block;
+}
+.c-sidebar__note-content span {
+  flex-grow: 2;
+}
+
+.c-sidebar__note-remove {
+  height: 32px;
+  width: 32px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-left: 4px;
+  border-radius: 0px;
+  transition: background 0.15s, transform 0.15s;
+}
+.c-sidebar__note-remove:hover {
+  background: #EF2EF2;
+}
+
+.c-canvas {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  left: 320px;
+  z-index: 2;
+  width: 20000px;
+  height: 20000px;
+  background: #111;
+  overflow: scroll;
+}
+
+.c-canvas__escape {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 1;
+}
+
+.c-layers {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  overflow: hidden;
+}
+
+.c-layer {
+  position: absolute;
+  display: block;
+  box-sizing: content-box;
+  z-index: 2;
+}
+
+.c-layer--text {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.c-layer--shape {
+  overflow: visible;
+}
+.c-layer--shape svg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.c-layer__text {
+  word-wrap: break-word;
+}
+
+.c-layer--selection {
+  position: relative;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.c-selection__points,
+.c-selection__rules {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.c-selection__point {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 1px;
+  border: 0.5px solid rgba(0, 0, 0, 0.33);
+  background: white;
+  box-shadow: 0 0px 10px 0 rgba(0, 0, 0, 0.15), 0 1px 1px 0 rgba(0, 0, 0, 0.5);
+}
+
+.c-selection__point--tl {
+  left: 0;
+  top: 0;
+}
+
+.c-selection__point--tr {
+  right: 0;
+  top: 0;
+}
+
+.c-selection__point--tc {
+  left: 50%;
+  top: 0;
+}
+
+.c-selection__point--lc {
+  left: 0;
+  top: 50%;
+}
+
+.c-selection__point--rc {
+  right: 0;
+  top: 50%;
+}
+
+.c-selection__point--bl {
+  left: 0;
+  bottom: 0;
+}
+
+.c-selection__point--bc {
+  left: 50%;
+  bottom: 0;
+}
+
+.c-selection__point--br {
+  right: 0;
+  bottom: 0;
+}
+
+.c-selection__dim {
+  position: absolute;
+  height: 16px;
+  background: blue;
+  font-size: 10px;
+  line-height: 16px;
+  padding: 0 6px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.c-selection__rule {
+  position: absolute;
+  background: blue;
+}
+.c-selection__rule:after {
+  position: absolute;
+  content: "";
+  display: block;
+  background: blue;
+}
+
+.c-selection__rule--t,
+.c-selection__rule--b {
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+}
+.c-selection__rule--t:after,
+.c-selection__rule--b:after {
+  left: 50%;
+  transform: translateX(-50%);
+  height: 1px;
+  width: 10px;
+}
+
+.c-selection__rule--t:after {
+  top: 0;
+}
+
+.c-selection__rule--b:after {
+  bottom: 0;
+}
+
+.c-selection__rule--r,
+.c-selection__rule--l {
+  top: 50%;
+  transform: translateY(-50%);
+  height: 1px;
+}
+.c-selection__rule--r:after,
+.c-selection__rule--l:after {
+  top: 50%;
+  transform: translateY(-50%);
+  height: 10px;
+  width: 1px;
+}
+
+.c-selection__rule--l:after {
+  left: 0;
+}
+
+.c-selection__rule--r:after {
+  right: 0;
+}
+
+.c-layer--hover {
+  z-index: 2;
+  pointer-events: none;
+}
+
+.c-hover__rules {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.c-hover__rule {
+  position: absolute;
+}
+
+.c-hover__rule--tl,
+.c-hover__rule--tr,
+.c-hover__rule--bl,
+.c-hover__rule--br {
+  width: 1px;
+}
+
+.c-hover__rule--tl,
+.c-hover__rule--bl {
+  border-left: 1px dashed red;
+  left: -1px;
+}
+
+.c-hover__rule--tr,
+.c-hover__rule--br {
+  border-right: 1px dashed red;
+  right: -1px;
+}
+
+.c-hover__rule--rt,
+.c-hover__rule--rb,
+.c-hover__rule--lt,
+.c-hover__rule--lb {
+  height: 1px;
+}
+
+.c-hover__rule--rt,
+.c-hover__rule--lt {
+  border-top: 1px dashed red;
+  top: -1px;
+}
+
+.c-hover__rule--rb,
+.c-hover__rule--lb {
+  border-bottom: 1px dashed red;
+  bottom: -1px;
+}
+
+.c-canvas__rules {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.c-canvas__cornerstone {
+  position: fixed;
+  left: 320px;
+  height: 24px;
+  width: 24px;
+  background: #111;
+  z-index: 999999999999;
+  box-shadow: 0px 0px 0px 1px #666 inset;
+}
+
+.c-canvas__rule {
+  position: fixed;
+  width: 100%;
+  height: 24px;
+  z-index: 999999999;
+  background: #111;
+  overflow: hidden;
+  box-shadow: 0px 1px 0px 0px #666 inset, 0px -1px 0px 0px #666 inset;
+}
+.c-canvas__rule canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20000px;
+  height: 24px;
+}
+
+.c-canvas__rule--left {
+  transform: rotate(90deg) translateY(-24px);
+  transform-origin: left top;
+  left: 320px;
+}
+
+.c-rule-highlight {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 24px;
+  background: #EF2EF2;
+  opacity: 0.25;
+}
+
+.c-topbar-wrap {
+  position: relative;
+  height: 48px;
+  width: 100%;
+}
+
+.c-topbar {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 48px;
+  background: #333;
+  box-shadow: 0px 1px 0px 0px #666;
+  z-index: 100000000000000020000;
+  padding: 0 16px;
+}
+
+.c-topbar__selection {
+  position: relative;
+  height: 48px;
+  width: 100%;
+}
+.c-topbar__selection span {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  font-weight: 700;
+  line-height: 48px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  animation: slideInLeft 0.15s ease;
+}
+
+.c-topbar__controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 48px;
+}
+
+.c-topbar__control {
+  display: flex;
+}
+
+.c-topbar__zoom-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  line-height: 32px;
+  background: #333;
+  width: 64px;
+  height: 48px;
+}
+.c-topbar__zoom-status ::selection {
+  background: none;
+}
+
+.c-topbar__button-bb {
+  position: absolute;
+  top: 100%;
+  height: 1px;
+  width: 100%;
+}
+
+.c-topbar__button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #333;
+  width: 48px;
+  height: 48px;
+  cursor: pointer;
+  border-radius: 0px;
+}
+.c-topbar__button svg {
+  z-index: 1;
+}
+.c-topbar__button:hover:before {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  content: "";
+  width: 100%;
+  display: block;
+  background: #222;
+  animation: growInHeight 0.15s ease;
+  z-index: 0;
+  transform-origin: center top;
+}
+.c-topbar__button:hover .c-topbar__button-bb {
+  animation: popIn 0.33s ease-in;
+  background: #EF2EF2;
+}
+
+.c-topbar__button--zoom-in {
+  border-radius: 0 0px 0px 0;
+}
+.c-topbar__button--zoom-in:hover:after {
+  white-space: nowrap;
+  word-wrap: none;
+  position: absolute;
+  font-weight: 400;
+  text-align: center;
+  top: calc(100% + 8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  line-height: 32px;
+  padding: 0 8px;
+  font-size: 12px;
+  background: #444;
+  color: #fff;
+  transform-origin: center top;
+  animation: popIn 0.15s ease-out;
+  content: "Zoom In";
+}
+
+.c-topbar__button--zoom-out {
+  border-radius: 0px 0 0 0px;
+}
+.c-topbar__button--zoom-out:hover:after {
+  white-space: nowrap;
+  word-wrap: none;
+  position: absolute;
+  font-weight: 400;
+  text-align: center;
+  top: calc(100% + 8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  line-height: 32px;
+  padding: 0 8px;
+  font-size: 12px;
+  background: #444;
+  color: #fff;
+  transform-origin: center top;
+  animation: popIn 0.15s ease-out;
+  content: "Zoom Out";
+}
+
+.c-topbar__button--refresh:hover:after {
+  white-space: nowrap;
+  word-wrap: none;
+  position: absolute;
+  font-weight: 400;
+  text-align: center;
+  top: calc(100% + 8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  line-height: 32px;
+  padding: 0 8px;
+  font-size: 12px;
+  background: #444;
+  color: #fff;
+  transform-origin: center top;
+  animation: popIn 0.15s ease-out;
+  content: "Re-Center Canvas";
+}
+
+.c-topbar__button--edit-on:hover:after {
+  white-space: nowrap;
+  word-wrap: none;
+  position: absolute;
+  font-weight: 400;
+  text-align: center;
+  top: calc(100% + 8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  line-height: 32px;
+  padding: 0 8px;
+  font-size: 12px;
+  background: #444;
+  color: #fff;
+  transform-origin: center top;
+  animation: popIn 0.15s ease-out;
+  content: "Disable Edit";
+}
+
+.c-topbar__button--edit-off:hover:after {
+  white-space: nowrap;
+  word-wrap: none;
+  position: absolute;
+  font-weight: 400;
+  text-align: center;
+  top: calc(100% + 8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  line-height: 32px;
+  padding: 0 8px;
+  font-size: 12px;
+  background: #444;
+  color: #fff;
+  transform-origin: center top;
+  animation: popIn 0.15s ease-out;
+  content: "Enable Edit";
+}
+
+.c-topbar__button--notes-on:hover:after {
+  white-space: nowrap;
+  word-wrap: none;
+  position: absolute;
+  font-weight: 400;
+  text-align: center;
+  top: calc(100% + 8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  line-height: 32px;
+  padding: 0 8px;
+  font-size: 12px;
+  background: #444;
+  color: #fff;
+  transform-origin: center top;
+  animation: popIn 0.15s ease-out;
+  content: "Hide Notes";
+}
+
+.c-topbar__button--notes-off:hover:after {
+  white-space: nowrap;
+  word-wrap: none;
+  position: absolute;
+  font-weight: 400;
+  text-align: center;
+  top: calc(100% + 8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  line-height: 32px;
+  padding: 0 8px;
+  font-size: 12px;
+  background: #444;
+  color: #fff;
+  transform-origin: center top;
+  animation: popIn 0.15s ease-out;
+  content: "Show Notes";
+}
+
+.c-topbar__button--save:hover:after {
+  white-space: nowrap;
+  word-wrap: none;
+  position: absolute;
+  font-weight: 400;
+  text-align: center;
+  top: calc(100% + 8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  line-height: 32px;
+  padding: 0 8px;
+  font-size: 12px;
+  background: #444;
+  color: #fff;
+  transform-origin: center top;
+  animation: popIn 0.15s ease-out;
+  content: "Export Spec";
+}
+
+.c-notes {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.c-note-add {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.c-note-add__compose {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  width: 32px;
+  transform: translate(-50%, -50%);
+  background: #EF2EF2;
+  box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.25);
+  z-index: 999;
+  transition: background 0.15s, transform 0.15s;
+  transform-origin: center center;
+  border-radius: 0px;
+}
+.c-note-add__compose:hover {
+  background: #dc0edf;
+}
+.c-note-add__compose:hover:before {
+  white-space: nowrap;
+  word-wrap: none;
+  position: absolute;
+  font-weight: 400;
+  text-align: center;
+  top: calc(100% + 8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  line-height: 32px;
+  padding: 0 8px;
+  font-size: 12px;
+  background: #444;
+  color: #fff;
+  transform-origin: center top;
+  animation: popIn 0.15s ease-out;
+  content: "Add Note";
+}
+
+.c-note-add__compose--disabled {
+  background: #444;
+}
+
+.c-note-compose {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 10000000000000000000000000000000000;
+}
+.c-note-compose:before {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  content: "";
+  width: 100%;
+  display: block;
+  width: calc(100% + 32px);
+  height: calc(100% + 32px);
+  top: -16px;
+  left: -16px;
+}
+
+.c-compose {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  background: #333;
+  box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.33);
+  z-index: 10000000000000000000000000000000000;
+  transform: translate(-50%, 8px);
+  transform-origin: center top;
+  will-change: transform;
+}
+.c-compose:before {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  content: "";
+  width: 100%;
+  display: block;
+  top: -8px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid #333;
+}
+
+.c-compose__content {
+  opacity: 0;
+}
+
+.c-compose__header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 48px;
+  padding: 0 8px;
+  font-weight: 700;
+}
+
+.c-compose__footer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.c-compose__title {
+  padding-left: 8px;
+  color: #fff;
+  font-size: 16px;
+}
+
+.c-compose__close {
+  height: 32px;
+  width: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+  border-radius: 0px;
+}
+.c-compose__close:hover {
+  background: #EF2EF2;
+}
+
+.c-compose__body {
+  height: 68px;
+  width: 100%;
+  position: relative;
+}
+
+.c-compose__submit {
+  position: relative;
+  width: 100%;
+  height: 48px;
+  line-height: 32px;
+  font-size: 14px;
+  color: #fff;
+  text-align: center;
+  cursor: not-allowed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.c-compose__submit svg {
+  z-index: 1;
+}
+
+.c-compose__submit--enabled {
+  font-weight: bold;
+  cursor: pointer;
+}
+.c-compose__submit--enabled:before {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  content: "";
+  width: 100%;
+  display: block;
+  background: #EF2EF2;
+  transition: background 0.15s;
+  animation: growInHeight 0.15s ease;
+  transform-origin: center top;
+  z-index: 0;
+}
+.c-compose__submit--enabled:hover:before {
+  background: #dc0edf;
+}
+
+.c-compose__input-bb {
+  position: absolute;
+  background: #EF2EF2;
+  top: 100%;
+  width: 100%;
+  height: 1px;
+  transform: scaleX(0);
+}
+
+.c-compose__input {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  font-size: 14px;
+  margin: 0;
+  padding: 16px;
+  line-height: 18px;
+  background: #333;
+  color: #fff;
+  resize: none;
+  border: none;
+  outline: none;
+  transition: all 0.15s;
+  box-shadow: 0px 1px 0px 0px #666;
+}
+
+.c-note-count {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 14px;
+  line-height: 32px;
+  color: #fff;
+  font-weight: bold;
+  height: 32px;
+  width: 32px;
+  transform: translate(-50%, -50%) scale(0);
+  background: #EF2EF2;
+  box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.25);
+  z-index: 999;
+  transition: background 0.15s;
+  border-radius: 0px;
+}
+.c-note-count:hover {
+  background: #dc0edf;
+}
+.c-note-count:hover:before {
+  white-space: nowrap;
+  word-wrap: none;
+  position: absolute;
+  font-weight: 400;
+  text-align: center;
+  top: calc(100% + 8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  line-height: 32px;
+  padding: 0 8px;
+  font-size: 12px;
+  background: #444;
+  color: #fff;
+  transform-origin: center top;
+  animation: popIn 0.15s ease-out;
+  content: "Notes";
+}

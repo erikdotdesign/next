@@ -1,0 +1,31 @@
+{
+  "name": "Sketch Measure React",
+  "author": "erik.design",
+  "description": "Export your designs as a React application. Quickly share layer specs and css styles.",
+  "icon": "icon.png",
+  "compatibleVersion": "61.2",
+  "bundleVersion": "1.0",
+  "commands": [
+    {
+      "name": "Export Spec",
+      "identifier": "sr-measure.export-identifier",
+      "script": "__export.js",
+      "handlers": {
+        "run": "onRun",
+        "actions": {
+          "Shutdown": "onShutdown"
+        }
+      }
+    }
+  ],
+  "menu": {
+    "title": "Sr Measure",
+    "items": [
+      "sr-measure.export-identifier"
+    ]
+  },
+  "version": "0.1.0",
+  "identifier": "sr-measure",
+  "disableCocoaScriptPreprocessor": true,
+  "appcast": "https://raw.githubusercontent.com//master/.appcast.xml"
+}
