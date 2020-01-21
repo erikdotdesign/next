@@ -93,7 +93,7 @@ const createFontFamily = (fontFamily: string): srm.css.FontFamily | null => {
 const createFontWeight = (fontWeight: srm.FontWeight): srm.css.FontWeight => {
   const sketchRatio = fontWeight / 12;
   const domScale = [100, 200, 300, 400, 500, 600, 700, 800, 900];
-  const weight = domScale[Math.round(sketchRatio * domScale.length)];
+  const weight = domScale[Math.floor(sketchRatio * domScale.length)];
   return {
     //@ts-ignore
     fontWeight: weight
