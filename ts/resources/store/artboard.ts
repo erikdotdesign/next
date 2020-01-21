@@ -88,29 +88,6 @@ const flattenGroups = (layers: srm.SketchLayer[]): void => {
   }
 };
 
-// const flattenShapes = (layers: srm.SketchLayer[], sketch: srm.Sketch): void => {
-//   layers.forEach((layer: srm.SketchLayer, index: number) => {
-//     if (layer.type === 'Shape') {
-//       // create svg buffer
-//       const buffer: srm.Buffer = sketch.export(layer, {
-//         formats: 'svg',
-//         output: false
-//       });
-//       // create layer from buffer
-//       const shapeGroup: srm.Group = sketch.createLayerFromData(buffer, 'svg');
-//       // set layer name
-//       const layerName: string = layer.name.replace(/ /g, '-');
-//       // find new shape with layer name
-//       const newShape: srm.Shape | srm.ShapePath = sketch.find(`[name="${layerName}"]`, shapeGroup)[0];
-//       // set new shape frame and style to match old
-//       newShape.frame = (<srm.Shape>layer).frame;
-//       newShape.style = (<srm.Shape>layer).style;
-//       // splice in new shape, splice out old shape
-//       layers.splice(index, 1, newShape);
-//     }
-//   });
-// };
-
 const roundFrameDimensions = (layers: srm.SketchLayer[]): void => {
   layers.forEach((layer: srm.SketchLayer) => {
     layer.frame.x = Math.round(layer.frame.x);

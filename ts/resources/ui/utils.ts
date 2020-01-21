@@ -48,36 +48,3 @@ export const placeTop = (selectionOriginTop: number, artboardHeight: number): bo
     return false;
   }
 };
-
-export const between = (num: number, a: number, b: number): boolean => {
-  let min = Math.min.apply(Math, [a, b]),
-      max = Math.max.apply(Math, [a, b]);
-  return num > min && num < max;
-};
-
-export const debounce = (func: any, wait: number) => {
-  let timeout: any;
-  return (...args: any[]) => {
-    const later = () => {
-      timeout = null;
-      func(...args);
-    };
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-  };
-};
-
-export const throttle = (func: any, timeout: number) => {
-  let exexute = true;
-  //@ts-ignore
-  return (...args) => {
-    if (!exexute) {
-      return;
-    }
-    exexute = false;
-    func(...args);
-    setTimeout(() => {
-      exexute = true;
-    }, timeout);
-  };
-}
