@@ -2,7 +2,7 @@ import React from 'react';
 import SidebarStyles from './SidebarStyles';
 import SidebarNotes from './SidebarNotes';
 
-interface SidebarProps {
+interface SidebarRightProps {
   selection: srm.AppLayer | null;
   images: srm.Base64Image[];
   svgs: srm.SvgPath[];
@@ -12,22 +12,22 @@ interface SidebarProps {
   setNotes(notes: srm.Notes): void;
 }
 
-const Sidebar = (props: SidebarProps) => {
+const SidebarRight = (props: SidebarRightProps) => {
   const { selection, images, svgs, notes, setNotes, edit, composing } = props;
   return (
-    <div className='c-sidebar'>
+    <div className='c-sidebar c-sidebar--right'>
       <SidebarStyles
         selection={selection}
         images={images}
         svgs={svgs} />
-      <SidebarNotes
+      {/* <SidebarNotes
         selection={selection}
         notes={notes}
         setNotes={setNotes}
         edit={edit}
-        composing={composing} />
+        composing={composing} /> */}
     </div>
   )
 };
 
-export default Sidebar;
+export default SidebarRight;

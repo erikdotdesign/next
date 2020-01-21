@@ -1,11 +1,12 @@
 import React from 'react';
+import LayerGroup from './LayerGroup';
 import LayerImage from './LayerImage';
 import LayerShapePath from './LayerShapePath';
 import LayerShape from './LayerShape';
 import LayerText from './LayerText';
 
 interface LayerProps {
-  layer: srm.ShapePath | srm.Shape | srm.Image | srm.Text;
+  layer: srm.AppArtboardLayer;
   images: srm.Base64Image[];
   svgs: srm.SvgPath[];
   setSelection(selection: srm.AppLayer | null): void;
@@ -24,6 +25,16 @@ const Layer = (props: LayerProps) => {
     setHover(null);
   }
   switch(layer.type) {
+    case 'Group':
+      return (
+        <LayerGroup
+          layer={layer as srm.Group}
+          images={images}
+          svgs={svgs}
+          onClick={onClick}
+          onMouseOver={onMouseOver}
+          onMouseOut={onMouseOut} />
+      )
     case 'Image':
       return (
         <LayerImage

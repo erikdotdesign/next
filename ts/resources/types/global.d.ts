@@ -531,7 +531,8 @@ declare namespace srm {
   //++++++++++++++++++++++++++++++++++++++++++++++++++++++
   ////////////////////////////////////////////////////////
 
-  type AppLayer = Artboard | Image | Shape | ShapePath | Text;
+  type AppLayer = Artboard | Image | Shape | ShapePath | Text | Group;
+  type AppArtboardLayer = Image | Shape | ShapePath | Text | Group;
 
   interface Origin {
     top: number;

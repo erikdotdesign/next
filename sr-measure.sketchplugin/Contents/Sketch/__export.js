@@ -2724,8 +2724,8 @@ var getArtboard = function getArtboard(selectedArtboard, sketch) {
   removeHiddenLayers(artboard.layers); // turn masks into image layers
 
   masksToImages(artboard.layers, sketch); // flatten all groups
-
-  flattenGroups(artboard.layers); // round layer frame dimensions
+  // flattenGroups(artboard.layers);
+  // round layer frame dimensions
 
   roundFrameDimensions(artboard.layers); // return final artboard
 
@@ -3012,7 +3012,7 @@ var getSVGs = function getSVGs(layers, sketch) {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "file://" + String(context.scriptPath).split(".sketchplugin/Contents/Sketch")[0] + ".sketchplugin/Contents/Resources/_webpack_resources/c5eda268df7ace1154f6585cc38e9bfa.html";
+module.exports = "file://" + String(context.scriptPath).split(".sketchplugin/Contents/Sketch")[0] + ".sketchplugin/Contents/Resources/_webpack_resources/5ee19f3230ffaf3ea3bc1eef0f0e2744.html";
 
 /***/ }),
 
@@ -3023,7 +3023,7 @@ module.exports = "file://" + String(context.scriptPath).split(".sketchplugin/Con
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "file://" + String(context.scriptPath).split(".sketchplugin/Contents/Sketch")[0] + ".sketchplugin/Contents/Resources/_webpack_resources/472ad602e06336f12849d165a82e9b8f.html";
+module.exports = "file://" + String(context.scriptPath).split(".sketchplugin/Contents/Sketch")[0] + ".sketchplugin/Contents/Resources/_webpack_resources/55a4e4a2cbffbf92405c52225973bf89.html";
 
 /***/ }),
 
@@ -3034,7 +3034,7 @@ module.exports = "file://" + String(context.scriptPath).split(".sketchplugin/Con
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "file://" + String(context.scriptPath).split(".sketchplugin/Contents/Sketch")[0] + ".sketchplugin/Contents/Resources/_webpack_resources/dfbeba3b46d286369e8b3ae11b8cd594.css";
+module.exports = "file://" + String(context.scriptPath).split(".sketchplugin/Contents/Sketch")[0] + ".sketchplugin/Contents/Resources/_webpack_resources/e58efbfd5b80860ec3fb21f5d087aa79.css";
 
 /***/ }),
 

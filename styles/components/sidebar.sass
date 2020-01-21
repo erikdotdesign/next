@@ -3,6 +3,18 @@ $cellHeight: 32px
 $cellPadding: 16px
 $styleHeight: 40px
 
+// .c-sidebar-wrap
+//   position: absolute
+//   background: $grayDarker
+//   min-width: $sidebarWidth
+//   width: $sidebarWidth
+//   height: 100%
+//   z-index: 3
+//   overflow-y: scroll
+//   overflow-x: hidden
+//   box-shadow: 0px 5px 20px 0px rgba(0,0,0,0.25)
+//   padding-bottom: 48px
+
 .c-sidebar
   position: fixed
   background: $grayDarker
@@ -14,6 +26,43 @@ $styleHeight: 40px
   overflow-x: hidden
   box-shadow: 0px 5px 20px 0px rgba(0,0,0,0.25)
   padding-bottom: 48px
+
+.c-sidebar--left
+  left: 0
+
+.c-sidebar-left__layer
+  display: flex
+  align-items: center
+  height: $cellHeight
+  width: 100%
+  line-height: $cellHeight
+
+.c-sidebar-left-layer__icon
+  display: flex
+  width: $buttonSize
+  height: $buttonSize
+  align-items: center
+  justify-content: center
+  opacity: 0.5
+
+.c-sidebar-left-layer__icon--expand
+  opacity: 1
+
+.c-sidebar-left-layer__name
+  flex-grow: 2
+  padding-left: 4px
+  font-size: 14px
+  line-height: $cellHeight
+
+.c-sidebar-left__group
+  .c-sidebar-left__layers
+    padding-left: 48px
+
+    .c-sidebar-left__group
+      transform: translateX(-32px)
+
+.c-sidebar--right
+  right: 0
 
 .c-sidebar__section
   position: relative

@@ -41,7 +41,7 @@ const Artboard = (props: ArtboardProps) => {
       ref={artboardRef}
       style={artboardStyles(artboard)}>
       <Layers
-        layers={artboard.layers as (srm.ShapePath | srm.Shape | srm.Image | srm.Text)[]}
+        layers={artboard.layers as srm.AppArtboardLayer[]}
         images={images}
         svgs={svgs}
         setSelection={setSelection}

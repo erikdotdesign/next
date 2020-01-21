@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
-import Sidebar from './Sidebar';
+import SidebarRight from './SidebarRight';
+import SidebarLeft from './SidebarLeft';
 import Canvas from './Canvas';
 import TopBar from './TopBar';
 
@@ -22,6 +23,7 @@ const App = (props: AppProps) => {
   const [baseZoom, setBaseZoom] = useState<number>(1);
   // scroll
   const canvasSize: number = 20000;
+  const sidebarSize: number = 320;
   const [centerScroll, setCenterScroll] = useState<{x: number, y: number}>({x: 0, y: 0});
   const [viewPortSize, setViewPortSize] = useState<{width: number, height: number}>({width: 0, height: 0});
   // notes
@@ -48,7 +50,7 @@ const App = (props: AppProps) => {
 
   const getViewPortSize = (): {width: number, height: number} => {
     return {
-      width: window.innerWidth - 320,
+      width: window.innerWidth - sidebarSize * 2,
       height: window.innerHeight - 48
     }
   }
@@ -103,7 +105,7 @@ const App = (props: AppProps) => {
     const artboardWidthMid: number = artboardWidth / 2;
     // get and set offsets
     const canvasCenter: number = canvasSize / 2;
-    const leftOffset: number = canvasCenter - artboardWidthMid;
+    const leftOffset: number = canvasCenter - artboardWidthMid - sidebarSize;
     const topOffset: number = canvasCenter - artboardHeightMid;
     const rightRemainder: number = viewPortSize.width - artboardWidth;
     const bottomRemainder: number = viewPortSize.height - artboardHeight;
@@ -136,7 +138,10 @@ const App = (props: AppProps) => {
         setEdit={setEdit}
         scrollToCenter={scrollToCenter}
         composing={props.composing} />
-      <Sidebar
+      <SidebarLeft
+        selection={selection}
+        artboard={props.artboard} />
+      <SidebarRight
         selection={selection}
         images={props.images}
         svgs={props.svgs}

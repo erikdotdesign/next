@@ -452,7 +452,7 @@ export const createSVG = (id: string, svgs: srm.SvgPath[]) => {
   }
 };
 
-export const createBaseLayerStyles = (layer: srm.Shape | srm.ShapePath | srm.Image | srm.Text) => {
+export const createBaseLayerStyles = (layer: srm.AppArtboardLayer) => {
   const { frame } = layer;
   // generate styles
   const width = createWidth(frame.width);

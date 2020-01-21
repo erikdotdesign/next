@@ -2,6 +2,7 @@ import React from 'react';
 import SidebarStylesValue from './SidebarStylesValue';
 import SidebarStylesProp from './SidebarStylesProp';
 
+import { createBaseLayerStyles } from '../styles/layerStyles';
 import artboardStyles from '../styles/artboardStyles';
 import shapeStyles from '../styles/shapeStyles';
 import shapePathStyles from '../styles/shapePathStyles';
@@ -20,6 +21,8 @@ const SidebarStyles = (props: SidebarProps) => {
   const getLayerStyles = () => {
     if (selection) {
       switch(selection.type) {
+        case 'Group':
+          return createBaseLayerStyles(selection as srm.Group);
         case 'Shape':
           return {...shapeStyles(selection as srm.Shape), ...pathStyles(selection as srm.Shape, svgs)};
         case 'ShapePath':
@@ -40,9 +43,9 @@ const SidebarStyles = (props: SidebarProps) => {
   const selectionStyles: any = getLayerStyles();
   return (
     <div className='c-sidebar__section'>
-      <div className='c-sidebar__header'>
+      {/* <div className='c-sidebar__header'>
         <span>Styles</span>
-      </div>
+      </div> */}
       {
         selection
         ? <div className='c-sidebar-styles'>

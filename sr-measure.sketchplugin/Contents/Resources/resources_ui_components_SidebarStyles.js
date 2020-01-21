@@ -5955,12 +5955,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _SidebarStylesValue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SidebarStylesValue */ "./resources/ui/components/SidebarStylesValue.js");
 /* harmony import */ var _SidebarStylesProp__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SidebarStylesProp */ "./resources/ui/components/SidebarStylesProp.js");
-/* harmony import */ var _styles_artboardStyles__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../styles/artboardStyles */ "./resources/ui/styles/artboardStyles.js");
-/* harmony import */ var _styles_shapeStyles__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../styles/shapeStyles */ "./resources/ui/styles/shapeStyles.js");
-/* harmony import */ var _styles_shapePathStyles__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../styles/shapePathStyles */ "./resources/ui/styles/shapePathStyles.js");
-/* harmony import */ var _styles_imageStyles__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../styles/imageStyles */ "./resources/ui/styles/imageStyles.js");
-/* harmony import */ var _styles_pathStyles__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../styles/pathStyles */ "./resources/ui/styles/pathStyles.js");
-/* harmony import */ var _styles_textStyles__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../styles/textStyles */ "./resources/ui/styles/textStyles.js");
+/* harmony import */ var _styles_layerStyles__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../styles/layerStyles */ "./resources/ui/styles/layerStyles.js");
+/* harmony import */ var _styles_artboardStyles__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../styles/artboardStyles */ "./resources/ui/styles/artboardStyles.js");
+/* harmony import */ var _styles_shapeStyles__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../styles/shapeStyles */ "./resources/ui/styles/shapeStyles.js");
+/* harmony import */ var _styles_shapePathStyles__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../styles/shapePathStyles */ "./resources/ui/styles/shapePathStyles.js");
+/* harmony import */ var _styles_imageStyles__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../styles/imageStyles */ "./resources/ui/styles/imageStyles.js");
+/* harmony import */ var _styles_pathStyles__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../styles/pathStyles */ "./resources/ui/styles/pathStyles.js");
+/* harmony import */ var _styles_textStyles__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../styles/textStyles */ "./resources/ui/styles/textStyles.js");
+
 
 
 
@@ -5979,20 +5981,23 @@ var SidebarStyles = function SidebarStyles(props) {
   var getLayerStyles = function getLayerStyles() {
     if (selection) {
       switch (selection.type) {
+        case 'Group':
+          return Object(_styles_layerStyles__WEBPACK_IMPORTED_MODULE_3__["createBaseLayerStyles"])(selection);
+
         case 'Shape':
-          return Object.assign(Object.assign({}, Object(_styles_shapeStyles__WEBPACK_IMPORTED_MODULE_4__["default"])(selection)), Object(_styles_pathStyles__WEBPACK_IMPORTED_MODULE_7__["default"])(selection, svgs));
+          return Object.assign(Object.assign({}, Object(_styles_shapeStyles__WEBPACK_IMPORTED_MODULE_5__["default"])(selection)), Object(_styles_pathStyles__WEBPACK_IMPORTED_MODULE_8__["default"])(selection, svgs));
 
         case 'ShapePath':
-          return Object.assign(Object.assign({}, Object(_styles_shapePathStyles__WEBPACK_IMPORTED_MODULE_5__["default"])(selection, images)), Object(_styles_pathStyles__WEBPACK_IMPORTED_MODULE_7__["default"])(selection, svgs));
+          return Object.assign(Object.assign({}, Object(_styles_shapePathStyles__WEBPACK_IMPORTED_MODULE_6__["default"])(selection, images)), Object(_styles_pathStyles__WEBPACK_IMPORTED_MODULE_8__["default"])(selection, svgs));
 
         case 'Image':
-          return Object(_styles_imageStyles__WEBPACK_IMPORTED_MODULE_6__["default"])(selection, images);
+          return Object(_styles_imageStyles__WEBPACK_IMPORTED_MODULE_7__["default"])(selection, images);
 
         case 'Text':
-          return Object.assign(Object.assign({}, Object(_styles_textStyles__WEBPACK_IMPORTED_MODULE_8__["textContainerStyles"])(selection)), Object(_styles_textStyles__WEBPACK_IMPORTED_MODULE_8__["textStyles"])(selection));
+          return Object.assign(Object.assign({}, Object(_styles_textStyles__WEBPACK_IMPORTED_MODULE_9__["textContainerStyles"])(selection)), Object(_styles_textStyles__WEBPACK_IMPORTED_MODULE_9__["textStyles"])(selection));
 
         case 'Artboard':
-          return Object(_styles_artboardStyles__WEBPACK_IMPORTED_MODULE_3__["default"])(selection);
+          return Object(_styles_artboardStyles__WEBPACK_IMPORTED_MODULE_4__["default"])(selection);
 
         default:
           return {};
@@ -6005,9 +6010,7 @@ var SidebarStyles = function SidebarStyles(props) {
   var selectionStyles = getLayerStyles();
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: 'c-sidebar__section'
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: 'c-sidebar__header'
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Styles")), selection ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, selection ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: 'c-sidebar-styles'
   }, Object.keys(selectionStyles).map(function (key, index) {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {

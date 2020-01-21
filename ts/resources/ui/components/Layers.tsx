@@ -2,7 +2,7 @@ import React from 'react';
 import Layer from './Layer';
 
 interface LayersProps {
-  layers: (srm.ShapePath | srm.Shape | srm.Image | srm.Text)[];
+  layers: srm.AppArtboardLayer[];
   images: srm.Base64Image[];
   svgs: srm.SvgPath[];
   style: any;
@@ -14,7 +14,7 @@ const Layers = (props: LayersProps) => {
   return (
     <div className='c-layers' style={props.style}>
       {
-        props.layers.map((layer: srm.ShapePath | srm.Shape | srm.Image | srm.Text, index: number) => (
+        props.layers.map((layer: srm.AppArtboardLayer, index: number) => (
           <Layer
             layer={layer}
             key={index}

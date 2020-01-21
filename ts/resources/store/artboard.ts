@@ -112,7 +112,7 @@ const getArtboard = (selectedArtboard: srm.Artboard, sketch: srm.Sketch): srm.Ar
   // turn masks into image layers
   masksToImages(artboard.layers, sketch);
   // flatten all groups
-  flattenGroups(artboard.layers);
+  // flattenGroups(artboard.layers);
   // round layer frame dimensions
   roundFrameDimensions(artboard.layers);
   // return final artboard

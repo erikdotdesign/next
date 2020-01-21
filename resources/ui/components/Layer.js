@@ -1,4 +1,5 @@
 import React from 'react';
+import LayerGroup from './LayerGroup';
 import LayerImage from './LayerImage';
 import LayerShapePath from './LayerShapePath';
 import LayerShape from './LayerShape';
@@ -15,6 +16,8 @@ const Layer = (props) => {
         setHover(null);
     };
     switch (layer.type) {
+        case 'Group':
+            return (React.createElement(LayerGroup, { layer: layer, images: images, svgs: svgs, onClick: onClick, onMouseOver: onMouseOver, onMouseOut: onMouseOut }));
         case 'Image':
             return (React.createElement(LayerImage, { layer: layer, images: images, onClick: onClick, onMouseOver: onMouseOver, onMouseOut: onMouseOut }));
         case 'Shape':

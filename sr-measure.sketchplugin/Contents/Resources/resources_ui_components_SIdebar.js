@@ -5942,38 +5942,6 @@ if (false) {} else {
 
 /***/ }),
 
-/***/ "./resources/ui/components/IconClose.js":
-/*!**********************************************!*\
-  !*** ./resources/ui/components/IconClose.js ***!
-  \**********************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-
-
-var IconClose = function IconClose() {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
-    xmlns: "http://www.w3.org/2000/svg",
-    width: "24",
-    height: "24",
-    viewBox: "0 0 24 24"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    fill: "#fff",
-    d: "M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    d: "M0 0h24v24H0z",
-    fill: "none"
-  }));
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (IconClose);
-
-/***/ }),
-
 /***/ "./resources/ui/components/SIdebar.js":
 /*!********************************************!*\
   !*** ./resources/ui/components/SIdebar.js ***!
@@ -5986,12 +5954,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _SidebarStyles__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SidebarStyles */ "./resources/ui/components/SidebarStyles.js");
-/* harmony import */ var _SidebarNotes__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SidebarNotes */ "./resources/ui/components/SidebarNotes.js");
 
 
 
-
-var Sidebar = function Sidebar(props) {
+var SidebarRight = function SidebarRight(props) {
   var selection = props.selection,
       images = props.images,
       svgs = props.svgs,
@@ -6000,90 +5966,15 @@ var Sidebar = function Sidebar(props) {
       edit = props.edit,
       composing = props.composing;
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: 'c-sidebar'
+    className: 'c-sidebar c-sidebar--right'
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SidebarStyles__WEBPACK_IMPORTED_MODULE_1__["default"], {
     selection: selection,
     images: images,
     svgs: svgs
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SidebarNotes__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    selection: selection,
-    notes: notes,
-    setNotes: setNotes,
-    edit: edit,
-    composing: composing
   }));
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Sidebar);
-
-/***/ }),
-
-/***/ "./resources/ui/components/SidebarNotes.js":
-/*!*************************************************!*\
-  !*** ./resources/ui/components/SidebarNotes.js ***!
-  \*************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _IconClose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./IconClose */ "./resources/ui/components/IconClose.js");
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-
-
-var SidebarNotes = function SidebarNotes(props) {
-  var selection = props.selection,
-      notes = props.notes,
-      setNotes = props.setNotes,
-      edit = props.edit,
-      composing = props.composing;
-
-  var removeNote = function removeNote(noteIndex) {
-    if (selection) {
-      var newNotes = notes[selection.id].filter(function (n, i) {
-        return i !== noteIndex;
-      });
-
-      if (newNotes.length !== 0) {
-        setNotes(Object.assign(Object.assign({}, notes), _defineProperty({}, selection.id, newNotes)));
-      } else {
-        var notesCopy = Object.assign({}, notes);
-        delete notesCopy[selection.id];
-        setNotes(notesCopy);
-      }
-    }
-  };
-
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: 'c-sidebar__section'
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: 'c-sidebar__header'
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Notes")), selection ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, notes[selection.id] ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
-    className: 'c-sidebar__notes'
-  }, notes[selection.id].map(function (note, index) {
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-      className: 'c-sidebar__note',
-      key: index
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: 'c-sidebar__note-content'
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, note), edit && composing ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-      className: 'c-sidebar__note-remove',
-      onClick: function onClick() {
-        return removeNote(index);
-      }
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_IconClose__WEBPACK_IMPORTED_MODULE_1__["default"], null)) : null));
-  })) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: 'c-sidebar__placeholder'
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "This layer has no notes"))) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: 'c-sidebar__placeholder'
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Click layer to see notes")));
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (SidebarNotes);
+/* harmony default export */ __webpack_exports__["default"] = (SidebarRight);
 
 /***/ }),
 
@@ -6100,12 +5991,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _SidebarStylesValue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SidebarStylesValue */ "./resources/ui/components/SidebarStylesValue.js");
 /* harmony import */ var _SidebarStylesProp__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SidebarStylesProp */ "./resources/ui/components/SidebarStylesProp.js");
-/* harmony import */ var _styles_artboardStyles__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../styles/artboardStyles */ "./resources/ui/styles/artboardStyles.js");
-/* harmony import */ var _styles_shapeStyles__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../styles/shapeStyles */ "./resources/ui/styles/shapeStyles.js");
-/* harmony import */ var _styles_shapePathStyles__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../styles/shapePathStyles */ "./resources/ui/styles/shapePathStyles.js");
-/* harmony import */ var _styles_imageStyles__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../styles/imageStyles */ "./resources/ui/styles/imageStyles.js");
-/* harmony import */ var _styles_pathStyles__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../styles/pathStyles */ "./resources/ui/styles/pathStyles.js");
-/* harmony import */ var _styles_textStyles__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../styles/textStyles */ "./resources/ui/styles/textStyles.js");
+/* harmony import */ var _styles_layerStyles__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../styles/layerStyles */ "./resources/ui/styles/layerStyles.js");
+/* harmony import */ var _styles_artboardStyles__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../styles/artboardStyles */ "./resources/ui/styles/artboardStyles.js");
+/* harmony import */ var _styles_shapeStyles__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../styles/shapeStyles */ "./resources/ui/styles/shapeStyles.js");
+/* harmony import */ var _styles_shapePathStyles__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../styles/shapePathStyles */ "./resources/ui/styles/shapePathStyles.js");
+/* harmony import */ var _styles_imageStyles__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../styles/imageStyles */ "./resources/ui/styles/imageStyles.js");
+/* harmony import */ var _styles_pathStyles__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../styles/pathStyles */ "./resources/ui/styles/pathStyles.js");
+/* harmony import */ var _styles_textStyles__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../styles/textStyles */ "./resources/ui/styles/textStyles.js");
+
 
 
 
@@ -6124,20 +6017,23 @@ var SidebarStyles = function SidebarStyles(props) {
   var getLayerStyles = function getLayerStyles() {
     if (selection) {
       switch (selection.type) {
+        case 'Group':
+          return Object(_styles_layerStyles__WEBPACK_IMPORTED_MODULE_3__["createBaseLayerStyles"])(selection);
+
         case 'Shape':
-          return Object.assign(Object.assign({}, Object(_styles_shapeStyles__WEBPACK_IMPORTED_MODULE_4__["default"])(selection)), Object(_styles_pathStyles__WEBPACK_IMPORTED_MODULE_7__["default"])(selection, svgs));
+          return Object.assign(Object.assign({}, Object(_styles_shapeStyles__WEBPACK_IMPORTED_MODULE_5__["default"])(selection)), Object(_styles_pathStyles__WEBPACK_IMPORTED_MODULE_8__["default"])(selection, svgs));
 
         case 'ShapePath':
-          return Object.assign(Object.assign({}, Object(_styles_shapePathStyles__WEBPACK_IMPORTED_MODULE_5__["default"])(selection, images)), Object(_styles_pathStyles__WEBPACK_IMPORTED_MODULE_7__["default"])(selection, svgs));
+          return Object.assign(Object.assign({}, Object(_styles_shapePathStyles__WEBPACK_IMPORTED_MODULE_6__["default"])(selection, images)), Object(_styles_pathStyles__WEBPACK_IMPORTED_MODULE_8__["default"])(selection, svgs));
 
         case 'Image':
-          return Object(_styles_imageStyles__WEBPACK_IMPORTED_MODULE_6__["default"])(selection, images);
+          return Object(_styles_imageStyles__WEBPACK_IMPORTED_MODULE_7__["default"])(selection, images);
 
         case 'Text':
-          return Object.assign(Object.assign({}, Object(_styles_textStyles__WEBPACK_IMPORTED_MODULE_8__["textContainerStyles"])(selection)), Object(_styles_textStyles__WEBPACK_IMPORTED_MODULE_8__["textStyles"])(selection));
+          return Object.assign(Object.assign({}, Object(_styles_textStyles__WEBPACK_IMPORTED_MODULE_9__["textContainerStyles"])(selection)), Object(_styles_textStyles__WEBPACK_IMPORTED_MODULE_9__["textStyles"])(selection));
 
         case 'Artboard':
-          return Object(_styles_artboardStyles__WEBPACK_IMPORTED_MODULE_3__["default"])(selection);
+          return Object(_styles_artboardStyles__WEBPACK_IMPORTED_MODULE_4__["default"])(selection);
 
         default:
           return {};
@@ -6150,9 +6046,7 @@ var SidebarStyles = function SidebarStyles(props) {
   var selectionStyles = getLayerStyles();
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: 'c-sidebar__section'
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: 'c-sidebar__header'
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Styles")), selection ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, selection ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: 'c-sidebar-styles'
   }, Object.keys(selectionStyles).map(function (key, index) {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {

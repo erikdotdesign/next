@@ -262,8 +262,8 @@ var getArtboard = function getArtboard(selectedArtboard, sketch) {
   removeHiddenLayers(artboard.layers); // turn masks into image layers
 
   masksToImages(artboard.layers, sketch); // flatten all groups
-
-  flattenGroups(artboard.layers); // round layer frame dimensions
+  // flattenGroups(artboard.layers);
+  // round layer frame dimensions
 
   roundFrameDimensions(artboard.layers); // return final artboard
 

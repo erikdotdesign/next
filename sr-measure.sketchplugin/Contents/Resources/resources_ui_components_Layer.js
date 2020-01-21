@@ -5921,10 +5921,12 @@ if (false) {} else {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _LayerImage__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./LayerImage */ "./resources/ui/components/LayerImage.js");
-/* harmony import */ var _LayerShapePath__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./LayerShapePath */ "./resources/ui/components/LayerShapePath.js");
-/* harmony import */ var _LayerShape__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./LayerShape */ "./resources/ui/components/LayerShape.js");
-/* harmony import */ var _LayerText__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./LayerText */ "./resources/ui/components/LayerText.js");
+/* harmony import */ var _LayerGroup__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./LayerGroup */ "./resources/ui/components/LayerGroup.js");
+/* harmony import */ var _LayerImage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./LayerImage */ "./resources/ui/components/LayerImage.js");
+/* harmony import */ var _LayerShapePath__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./LayerShapePath */ "./resources/ui/components/LayerShapePath.js");
+/* harmony import */ var _LayerShape__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./LayerShape */ "./resources/ui/components/LayerShape.js");
+/* harmony import */ var _LayerText__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./LayerText */ "./resources/ui/components/LayerText.js");
+
 
 
 
@@ -5951,8 +5953,18 @@ var Layer = function Layer(props) {
   };
 
   switch (layer.type) {
+    case 'Group':
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_LayerGroup__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        layer: layer,
+        images: images,
+        svgs: svgs,
+        onClick: onClick,
+        onMouseOver: onMouseOver,
+        onMouseOut: onMouseOut
+      });
+
     case 'Image':
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_LayerImage__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_LayerImage__WEBPACK_IMPORTED_MODULE_2__["default"], {
         layer: layer,
         images: images,
         onClick: onClick,
@@ -5961,7 +5973,7 @@ var Layer = function Layer(props) {
       });
 
     case 'Shape':
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_LayerShape__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_LayerShape__WEBPACK_IMPORTED_MODULE_4__["default"], {
         layer: layer,
         images: images,
         svgs: svgs,
@@ -5971,7 +5983,7 @@ var Layer = function Layer(props) {
       });
 
     case 'ShapePath':
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_LayerShapePath__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_LayerShapePath__WEBPACK_IMPORTED_MODULE_3__["default"], {
         layer: layer,
         images: images,
         svgs: svgs,
@@ -5981,7 +5993,7 @@ var Layer = function Layer(props) {
       });
 
     case 'Text':
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_LayerText__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_LayerText__WEBPACK_IMPORTED_MODULE_5__["default"], {
         layer: layer,
         onClick: onClick,
         onMouseOver: onMouseOver,
@@ -5996,6 +6008,44 @@ var Layer = function Layer(props) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Layer);
+
+/***/ }),
+
+/***/ "./resources/ui/components/LayerGroup.js":
+/*!***********************************************!*\
+  !*** ./resources/ui/components/LayerGroup.js ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Layers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Layers */ "./resources/ui/components/Layers.js");
+/* harmony import */ var _styles_layerStyles__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../styles/layerStyles */ "./resources/ui/styles/layerStyles.js");
+
+
+
+
+var LayerGroup = function LayerGroup(props) {
+  var layer = props.layer,
+      images = props.images,
+      svgs = props.svgs;
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    onClick: props.onClick,
+    onMouseOver: props.onMouseOver,
+    onMouseOut: props.onMouseOut,
+    className: 'c-layer c-layer--group',
+    style: Object(_styles_layerStyles__WEBPACK_IMPORTED_MODULE_2__["createBaseLayerStyles"])(layer)
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Layers__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    layers: layer.layers,
+    images: images,
+    svgs: svgs
+  }));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (LayerGroup);
 
 /***/ }),
 
@@ -6198,6 +6248,41 @@ var LayerText = function LayerText(props) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (LayerText);
+
+/***/ }),
+
+/***/ "./resources/ui/components/Layers.js":
+/*!*******************************************!*\
+  !*** ./resources/ui/components/Layers.js ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Layer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Layer */ "./resources/ui/components/Layer.js");
+
+
+
+var Layers = function Layers(props) {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: 'c-layers',
+    style: props.style
+  }, props.layers.map(function (layer, index) {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Layer__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      layer: layer,
+      key: index,
+      images: props.images,
+      svgs: props.svgs,
+      setSelection: props.setSelection,
+      setHover: props.setHover
+    });
+  }));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Layers);
 
 /***/ }),
 

@@ -25,12 +25,9 @@ const TopBar = (props: TopbarProps) => {
   return (
     <div className='c-topbar-wrap'>
       <div className='c-topbar'>
-        <TopBarSelection
-          selection={selection} />
+        {/* <TopBarSelection
+          selection={selection} /> */}
         <div className='c-topbar__controls'>
-          <TopBarSave
-            composing={composing}
-            notes={notes} />
           <TopBarEdit
             composing={composing}
             edit={edit}
@@ -38,13 +35,16 @@ const TopBar = (props: TopbarProps) => {
           <TopBarNotes
             showNotes={showNotes}
             setShowNotes={setShowNotes} />
+          <TopBarZoom
+            zoom={zoom}
+            setZoom={setZoom} />
           <TopBarRefresh
             baseZoom={baseZoom}
             setZoom={setZoom}
             scrollToCenter={scrollToCenter} />
-          <TopBarZoom
-            zoom={zoom}
-            setZoom={setZoom} />
+          <TopBarSave
+            composing={composing}
+            notes={notes} />
         </div>
       </div>
     </div>
