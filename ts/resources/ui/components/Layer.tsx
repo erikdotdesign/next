@@ -33,7 +33,9 @@ const Layer = (props: LayerProps) => {
           svgs={svgs}
           onClick={onClick}
           onMouseOver={onMouseOver}
-          onMouseOut={onMouseOut} />
+          onMouseOut={onMouseOut}
+          setSelection={props.setSelection}
+          setHover={props.setHover} />
       )
     case 'Image':
       return (

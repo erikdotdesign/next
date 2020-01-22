@@ -7,14 +7,20 @@ import IconFolderOpen from './IconFolderOpen';
 
 interface SidebarLeftLayerGroupProps {
   layer: srm.Group;
+  selection: srm.AppLayer | null;
+  setSelection(selection: srm.AppLayer | null): void;
 }
 
 const SidebarLeftLayerGroup = (props: SidebarLeftLayerGroupProps) => {
   const [showContents, setShowContents] = useState(false);
-  const { layer } = props;
+  const { layer, selection, setSelection } = props;
   return (
     <div className='c-sidebar-left__group'>
-      <div className='c-sidebar-left__layer c-sidebar-left__layer--group'>
+      <div className={ `c-sidebar-left__layer ${
+        selection && layer.id === selection.id
+        ? 'c-sidebar-left__layer--active'
+        : null
+      }`}>
         <button
           className='c-sidebar-left-layer__icon c-sidebar-left-layer__icon--expand'
           onClick={() => setShowContents(!showContents)}>
@@ -24,13 +30,13 @@ const SidebarLeftLayerGroup = (props: SidebarLeftLayerGroupProps) => {
             : <IconTriRight />
           }
         </button>
-        <div className='c-sidebar-left-layer__icon'>
+        {/* <div className='c-sidebar-left-layer__icon'>
           {
             showContents
             ? <IconFolderOpen />
             : <IconFolderClosed />
           }
-        </div>
+        </div> */}
         <span className='c-sidebar-left-layer__name'>
           {layer.name}
         </span>
@@ -38,7 +44,9 @@ const SidebarLeftLayerGroup = (props: SidebarLeftLayerGroupProps) => {
       {
         showContents
         ? <SidebarLeftLayers
-            layers={layer.layers as srm.AppArtboardLayer[]} />
+            layers={layer.layers as srm.AppArtboardLayer[]}
+            selection={selection}
+            setSelection={setSelection} />
         : null
       }
     </div>

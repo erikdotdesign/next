@@ -5960,7 +5960,9 @@ var Layer = function Layer(props) {
         svgs: svgs,
         onClick: onClick,
         onMouseOver: onMouseOver,
-        onMouseOut: onMouseOut
+        onMouseOut: onMouseOut,
+        setSelection: props.setSelection,
+        setHover: props.setHover
       });
 
     case 'Image':
@@ -6041,7 +6043,9 @@ var LayerGroup = function LayerGroup(props) {
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Layers__WEBPACK_IMPORTED_MODULE_1__["default"], {
     layers: layer.layers,
     images: images,
-    svgs: svgs
+    svgs: svgs,
+    setSelection: props.setSelection,
+    setHover: props.setHover
   }));
 };
 
@@ -6268,8 +6272,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var Layers = function Layers(props) {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: 'c-layers',
-    style: props.style
+    className: 'c-layers'
   }, props.layers.map(function (layer, index) {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Layer__WEBPACK_IMPORTED_MODULE_1__["default"], {
       layer: layer,

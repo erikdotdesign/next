@@ -11544,6 +11544,7 @@ var App = function App(props) {
     composing: props.composing
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SidebarLeft__WEBPACK_IMPORTED_MODULE_2__["default"], {
     selection: selection,
+    setSelection: setSelection,
     artboard: props.artboard
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SidebarRight__WEBPACK_IMPORTED_MODULE_1__["default"], {
     selection: selection,
@@ -11640,11 +11641,7 @@ var Artboard = function Artboard(props) {
     images: images,
     svgs: svgs,
     setSelection: setSelection,
-    setHover: setHover,
-    style: {
-      width: "".concat(artboard.frame.width, "px"),
-      height: "".concat(artboard.frame.height, "px")
-    }
+    setHover: setHover
   }), selection ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Selection__WEBPACK_IMPORTED_MODULE_3__["default"], {
     selection: selection,
     hover: hover,
@@ -12205,102 +12202,6 @@ var IconEditOn = function IconEditOn() {
 
 /***/ }),
 
-/***/ "./resources/ui/components/IconFolderClosed.js":
-/*!*****************************************************!*\
-  !*** ./resources/ui/components/IconFolderClosed.js ***!
-  \*****************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-
-
-var IconFolderClosed = function IconFolderClosed() {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
-    width: "24",
-    height: "24",
-    viewBox: "0 0 24 24"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    fill: "#fff",
-    opacity: ".3",
-    d: "M11.17 8l-.58-.59L9.17 6H4v12h16V8h-8z"
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    fill: "#fff",
-    d: "M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V6h5.17l1.41 1.41.59.59H20v10z"
-  }));
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (IconFolderClosed);
-
-/***/ }),
-
-/***/ "./resources/ui/components/IconFolderOpen.js":
-/*!***************************************************!*\
-  !*** ./resources/ui/components/IconFolderOpen.js ***!
-  \***************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-
-
-var IconFolderOpen = function IconFolderOpen() {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
-    width: "24",
-    height: "24",
-    viewBox: "0 0 24 24"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    fill: "#fff",
-    opacity: ".3",
-    d: "M4 8h16v10H4z"
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    fill: "#fff",
-    d: "M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z"
-  }));
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (IconFolderOpen);
-
-/***/ }),
-
-/***/ "./resources/ui/components/IconImage.js":
-/*!**********************************************!*\
-  !*** ./resources/ui/components/IconImage.js ***!
-  \**********************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-
-
-var IconImage = function IconImage() {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
-    width: "24",
-    height: "24",
-    viewBox: "0 0 24 24"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    fill: "#fff",
-    opacity: ".3",
-    d: "M5 19h14V5H5v14zm4-5.86l2.14 2.58 3-3.87L18 17H6l3-3.86z"
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    fill: "#fff",
-    d: "M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-4.86-7.14l-3 3.86L9 13.14 6 17h12z"
-  }));
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (IconImage);
-
-/***/ }),
-
 /***/ "./resources/ui/components/IconNotesOff.js":
 /*!*************************************************!*\
   !*** ./resources/ui/components/IconNotesOff.js ***!
@@ -12428,257 +12329,6 @@ var IconSave = function IconSave() {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (IconSave);
-
-/***/ }),
-
-/***/ "./resources/ui/components/IconShape.js":
-/*!**********************************************!*\
-  !*** ./resources/ui/components/IconShape.js ***!
-  \**********************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-
-
-var IconShape = function IconShape() {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
-    width: "24",
-    height: "24",
-    viewBox: "0 0 24 24"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    fill: "#fff",
-    opacity: ".3",
-    d: "M5 15.5h4v4H5zm7-9.66L10.07 9h3.86z"
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    fill: "#fff",
-    d: "M12 2l-5.5 9h11L12 2zm0 3.84L13.93 9h-3.87L12 5.84zM17.5 13c-2.49 0-4.5 2.01-4.5 4.5s2.01 4.5 4.5 4.5 4.5-2.01 4.5-4.5-2.01-4.5-4.5-4.5zm0 7c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5zM11 13.5H3v8h8v-8zm-2 6H5v-4h4v4z"
-  }));
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (IconShape);
-
-/***/ }),
-
-/***/ "./resources/ui/components/IconShapePathCustom.js":
-/*!********************************************************!*\
-  !*** ./resources/ui/components/IconShapePathCustom.js ***!
-  \********************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-
-
-var IconShapePathCustom = function IconShapePathCustom() {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
-    width: "24",
-    height: "24",
-    viewBox: "0 0 24 24"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    fill: "#fff",
-    d: "M4.59 6.89c.7-.71 1.4-1.35 1.71-1.22.5.2 0 1.03-.3 1.52-.25.42-2.86 3.89-2.86 6.31 0 1.28.48 2.34 1.34 2.98.75.56 1.74.73 2.64.46 1.07-.31 1.95-1.4 3.06-2.77 1.21-1.49 2.83-3.44 4.08-3.44 1.63 0 1.65 1.01 1.76 1.79-3.78.64-5.38 3.67-5.38 5.37 0 1.7 1.44 3.09 3.21 3.09 1.63 0 4.29-1.33 4.69-6.1H21v-2.5h-2.47c-.15-1.65-1.09-4.2-4.03-4.2-2.25 0-4.18 1.91-4.94 2.84-.58.73-2.06 2.48-2.29 2.72-.25.3-.68.84-1.11.84-.45 0-.72-.83-.36-1.92.35-1.09 1.4-2.86 1.85-3.52.78-1.14 1.3-1.92 1.3-3.28C8.95 3.69 7.31 3 6.44 3 5.12 3 3.97 4 3.72 4.25c-.36.36-.66.66-.88.93l1.75 1.71zm9.29 11.66c-.31 0-.74-.26-.74-.72 0-.6.73-2.2 2.87-2.76-.3 2.69-1.43 3.48-2.13 3.48z"
-  }));
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (IconShapePathCustom);
-
-/***/ }),
-
-/***/ "./resources/ui/components/IconShapePathOval.js":
-/*!******************************************************!*\
-  !*** ./resources/ui/components/IconShapePathOval.js ***!
-  \******************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-
-
-var IconShapePathOval = function IconShapePathOval() {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
-    width: "24",
-    height: "24",
-    viewBox: "0 0 24 24"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    fill: "#fff",
-    opacity: ".3",
-    d: "M12 20c4.41 0 8-3.59 8-8s-3.59-8-8-8-8 3.59-8 8 3.59 8 8 8z"
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    fill: "#fff",
-    d: "M12 22c5.52 0 10-4.48 10-10S17.52 2 12 2 2 6.48 2 12s4.48 10 10 10zm0-18c4.41 0 8 3.59 8 8s-3.59 8-8 8-8-3.59-8-8 3.59-8 8-8z"
-  }));
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (IconShapePathOval);
-
-/***/ }),
-
-/***/ "./resources/ui/components/IconShapePathPolygon.js":
-/*!*********************************************************!*\
-  !*** ./resources/ui/components/IconShapePathPolygon.js ***!
-  \*********************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-
-
-var IconShapePathPolygon = function IconShapePathPolygon() {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
-    width: "24",
-    height: "24",
-    viewBox: "0 0 24 24"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("polygon", {
-    fill: "#fff",
-    opacity: "0.3",
-    points: "14.9 5 19 9.1 19 14.9 14.9 19 9.1 19 5 14.9 5 9.1 9.1 5"
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    fill: "#fff",
-    d: "M15.73,3 L8.27,3 L3,8.27 L3,15.73 L8.27,21 L15.73,21 L21,15.73 L21,8.27 L15.73,3 Z M19,14.9 L14.9,19 L9.1,19 L5,14.9 L5,9.1 L9.1,5 L14.9,5 L19,9.1 L19,14.9 Z"
-  }));
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (IconShapePathPolygon);
-
-/***/ }),
-
-/***/ "./resources/ui/components/IconShapePathRectangle.js":
-/*!***********************************************************!*\
-  !*** ./resources/ui/components/IconShapePathRectangle.js ***!
-  \***********************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-
-
-var IconShapePathRectangle = function IconShapePathRectangle() {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
-    width: "24",
-    height: "24",
-    viewBox: "0 0 24 24"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("rect", {
-    fill: "#fff",
-    opacity: "0.3",
-    x: "5",
-    y: "5",
-    width: "14",
-    height: "14"
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    fill: "#fff",
-    d: "M19,3 L5,3 C3.9,3 3,3.9 3,5 L3,19 C3,20.1 3.9,21 5,21 L19,21 C20.1,21 21,20.1 21,19 L21,5 C21,3.9 20.1,3 19,3 Z M19,19 L5,19 L5,5 L19,5 L19,19 Z"
-  }));
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (IconShapePathRectangle);
-
-/***/ }),
-
-/***/ "./resources/ui/components/IconShapePathStar.js":
-/*!******************************************************!*\
-  !*** ./resources/ui/components/IconShapePathStar.js ***!
-  \******************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-
-
-var IconShapePathStar = function IconShapePathStar() {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
-    width: "24",
-    height: "24",
-    viewBox: "0 0 24 24"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("polygon", {
-    fill: "#fff",
-    opacity: "0.3",
-    points: "12,15.4 8.24,17.67 9.24,13.39 5.92,10.51 10.3,10.13 12,6.1 13.71,10.14 18.09,10.52 14.77,13.4 15.77,17.68"
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    fill: "#fff",
-    d: "M22,9.24l-7.19-0.62L12,2L9.19,8.63L2,9.24l5.46,4.73L5.82,21L12,17.27L18.18,21l-1.63-7.03L22,9.24z M12,15.4l-3.76,2.27 l1-4.28l-3.32-2.88l4.38-0.38L12,6.1l1.71,4.04l4.38,0.38l-3.32,2.88l1,4.28L12,15.4z"
-  }));
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (IconShapePathStar);
-
-/***/ }),
-
-/***/ "./resources/ui/components/IconShapePathTriangle.js":
-/*!**********************************************************!*\
-  !*** ./resources/ui/components/IconShapePathTriangle.js ***!
-  \**********************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-
-
-var IconShapePathTriangle = function IconShapePathTriangle() {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
-    width: "24",
-    height: "24",
-    viewBox: "0 0 24 24"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    fill: "#fff",
-    opacity: ".3",
-    d: "M12 7.77L5.61 18h12.78z"
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    fill: "#fff",
-    d: "M12 4L2 20h20L12 4zm0 3.77L18.39 18H5.61L12 7.77z"
-  }));
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (IconShapePathTriangle);
-
-/***/ }),
-
-/***/ "./resources/ui/components/IconText.js":
-/*!*********************************************!*\
-  !*** ./resources/ui/components/IconText.js ***!
-  \*********************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-
-
-var IconText = function IconText() {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
-    width: "24",
-    height: "24",
-    viewBox: "0 0 24 24"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    fill: "#fff",
-    d: "M12.5 12h3v7h3v-7h3V9h-9zm3-8h-13v3h5v12h3V7h5z"
-  }));
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (IconText);
 
 /***/ }),
 
@@ -12856,7 +12506,9 @@ var Layer = function Layer(props) {
         svgs: svgs,
         onClick: onClick,
         onMouseOver: onMouseOver,
-        onMouseOut: onMouseOut
+        onMouseOut: onMouseOut,
+        setSelection: props.setSelection,
+        setHover: props.setHover
       });
 
     case 'Image':
@@ -12937,7 +12589,9 @@ var LayerGroup = function LayerGroup(props) {
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Layers__WEBPACK_IMPORTED_MODULE_1__["default"], {
     layers: layer.layers,
     images: images,
-    svgs: svgs
+    svgs: svgs,
+    setSelection: props.setSelection,
+    setHover: props.setHover
   }));
 };
 
@@ -13164,8 +12818,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var Layers = function Layers(props) {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: 'c-layers',
-    style: props.style
+    className: 'c-layers'
   }, props.layers.map(function (layer, index) {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Layer__WEBPACK_IMPORTED_MODULE_1__["default"], {
       layer: layer,
@@ -13817,11 +13470,14 @@ __webpack_require__.r(__webpack_exports__);
 
 var SidebarLeft = function SidebarLeft(props) {
   var selection = props.selection,
-      artboard = props.artboard;
+      artboard = props.artboard,
+      setSelection = props.setSelection;
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: 'c-sidebar c-sidebar--left'
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SidebarLeftLayers__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    layers: artboard.layers
+    layers: artboard.layers,
+    selection: selection,
+    setSelection: setSelection
   }));
 };
 
@@ -13841,50 +13497,31 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _SidebarLeftLayerGroup__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SidebarLeftLayerGroup */ "./resources/ui/components/SidebarLeftLayerGroup.js");
-/* harmony import */ var _SidebarLeftLayerShape__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SidebarLeftLayerShape */ "./resources/ui/components/SidebarLeftLayerShape.js");
-/* harmony import */ var _SidebarLeftLayerImage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SidebarLeftLayerImage */ "./resources/ui/components/SidebarLeftLayerImage.js");
-/* harmony import */ var _SidebarLeftLayerShapePath__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./SidebarLeftLayerShapePath */ "./resources/ui/components/SidebarLeftLayerShapePath.js");
-/* harmony import */ var _SidebarLeftLayerText__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./SidebarLeftLayerText */ "./resources/ui/components/SidebarLeftLayerText.js");
-
-
-
-
 
 
 
 var SidebarLeftLayer = function SidebarLeftLayer(props) {
-  var layer = props.layer;
+  var layer = props.layer,
+      selection = props.selection,
+      setSelection = props.setSelection;
 
   switch (layer.type) {
     case 'Group':
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SidebarLeftLayerGroup__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        layer: layer
-      });
-
-    case 'Image':
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SidebarLeftLayerImage__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        layer: layer
-      });
-
-    case 'Shape':
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SidebarLeftLayerShape__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        layer: layer
-      });
-
-    case 'ShapePath':
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SidebarLeftLayerShapePath__WEBPACK_IMPORTED_MODULE_4__["default"], {
-        layer: layer
-      });
-
-    case 'Text':
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SidebarLeftLayerText__WEBPACK_IMPORTED_MODULE_5__["default"], {
-        layer: layer
+        layer: layer,
+        selection: selection,
+        setSelection: setSelection
       });
 
     default:
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: 'c-sidebar-left__layer'
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, layer.name));
+        className: "c-sidebar-left__layer ".concat(selection && layer.id === selection.id ? 'c-sidebar-left__layer--active' : null),
+        onClick: function onClick() {
+          return setSelection(layer);
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: 'c-sidebar-left-layer__name'
+      }, layer.name));
   }
 };
 
@@ -13906,8 +13543,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _SidebarLeftLayers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SidebarLeftLayers */ "./resources/ui/components/SidebarLeftLayers.js");
 /* harmony import */ var _IconTriRight__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./IconTriRight */ "./resources/ui/components/IconTriRight.js");
 /* harmony import */ var _IconTriDown__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./IconTriDown */ "./resources/ui/components/IconTriDown.js");
-/* harmony import */ var _IconFolderClosed__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./IconFolderClosed */ "./resources/ui/components/IconFolderClosed.js");
-/* harmony import */ var _IconFolderOpen__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./IconFolderOpen */ "./resources/ui/components/IconFolderOpen.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
@@ -13921,191 +13556,34 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-
-
 var SidebarLeftLayerGroup = function SidebarLeftLayerGroup(props) {
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
       _useState2 = _slicedToArray(_useState, 2),
       showContents = _useState2[0],
       setShowContents = _useState2[1];
 
-  var layer = props.layer;
+  var layer = props.layer,
+      selection = props.selection,
+      setSelection = props.setSelection;
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: 'c-sidebar-left__group'
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: 'c-sidebar-left__layer c-sidebar-left__layer--group'
+    className: "c-sidebar-left__layer ".concat(selection && layer.id === selection.id ? 'c-sidebar-left__layer--active' : null)
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     className: 'c-sidebar-left-layer__icon c-sidebar-left-layer__icon--expand',
     onClick: function onClick() {
       return setShowContents(!showContents);
     }
-  }, showContents ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_IconTriDown__WEBPACK_IMPORTED_MODULE_3__["default"], null) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_IconTriRight__WEBPACK_IMPORTED_MODULE_2__["default"], null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: 'c-sidebar-left-layer__icon'
-  }, showContents ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_IconFolderOpen__WEBPACK_IMPORTED_MODULE_5__["default"], null) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_IconFolderClosed__WEBPACK_IMPORTED_MODULE_4__["default"], null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+  }, showContents ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_IconTriDown__WEBPACK_IMPORTED_MODULE_3__["default"], null) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_IconTriRight__WEBPACK_IMPORTED_MODULE_2__["default"], null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: 'c-sidebar-left-layer__name'
   }, layer.name)), showContents ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SidebarLeftLayers__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    layers: layer.layers
+    layers: layer.layers,
+    selection: selection,
+    setSelection: setSelection
   }) : null);
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (SidebarLeftLayerGroup);
-
-/***/ }),
-
-/***/ "./resources/ui/components/SidebarLeftLayerImage.js":
-/*!**********************************************************!*\
-  !*** ./resources/ui/components/SidebarLeftLayerImage.js ***!
-  \**********************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _IconImage__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./IconImage */ "./resources/ui/components/IconImage.js");
-
-
-
-var SidebarLeftLayerImage = function SidebarLeftLayerImage(props) {
-  var layer = props.layer;
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: 'c-sidebar-left__layer'
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: 'c-sidebar-left-layer__icon'
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_IconImage__WEBPACK_IMPORTED_MODULE_1__["default"], null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: 'c-sidebar-left-layer__name'
-  }, layer.name));
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (SidebarLeftLayerImage);
-
-/***/ }),
-
-/***/ "./resources/ui/components/SidebarLeftLayerShape.js":
-/*!**********************************************************!*\
-  !*** ./resources/ui/components/SidebarLeftLayerShape.js ***!
-  \**********************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _IconShape__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./IconShape */ "./resources/ui/components/IconShape.js");
-
-
-
-var SidebarLeftLayerShape = function SidebarLeftLayerShape(props) {
-  var layer = props.layer;
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: 'c-sidebar-left__layer'
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: 'c-sidebar-left-layer__icon'
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_IconShape__WEBPACK_IMPORTED_MODULE_1__["default"], null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: 'c-sidebar-left-layer__name'
-  }, layer.name));
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (SidebarLeftLayerShape);
-
-/***/ }),
-
-/***/ "./resources/ui/components/SidebarLeftLayerShapePath.js":
-/*!**************************************************************!*\
-  !*** ./resources/ui/components/SidebarLeftLayerShapePath.js ***!
-  \**************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _IconShapePathRectangle__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./IconShapePathRectangle */ "./resources/ui/components/IconShapePathRectangle.js");
-/* harmony import */ var _IconShapePathOval__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./IconShapePathOval */ "./resources/ui/components/IconShapePathOval.js");
-/* harmony import */ var _IconShapePathTriangle__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./IconShapePathTriangle */ "./resources/ui/components/IconShapePathTriangle.js");
-/* harmony import */ var _IconShapePathPolygon__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./IconShapePathPolygon */ "./resources/ui/components/IconShapePathPolygon.js");
-/* harmony import */ var _IconShapePathStar__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./IconShapePathStar */ "./resources/ui/components/IconShapePathStar.js");
-/* harmony import */ var _IconShapePathCustom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./IconShapePathCustom */ "./resources/ui/components/IconShapePathCustom.js");
-
-
-
-
-
-
-
-
-var ShapePathIcon = function ShapePathIcon(props) {
-  switch (props.shapeType) {
-    case 'Rectangle':
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_IconShapePathRectangle__WEBPACK_IMPORTED_MODULE_1__["default"], null);
-
-    case 'Oval':
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_IconShapePathOval__WEBPACK_IMPORTED_MODULE_2__["default"], null);
-
-    case 'Triangle':
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_IconShapePathTriangle__WEBPACK_IMPORTED_MODULE_3__["default"], null);
-
-    case 'Polygon':
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_IconShapePathPolygon__WEBPACK_IMPORTED_MODULE_4__["default"], null);
-
-    case 'Star':
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_IconShapePathStar__WEBPACK_IMPORTED_MODULE_5__["default"], null);
-
-    case 'Custom':
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_IconShapePathCustom__WEBPACK_IMPORTED_MODULE_6__["default"], null);
-
-    default:
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_IconShapePathRectangle__WEBPACK_IMPORTED_MODULE_1__["default"], null);
-  }
-};
-
-var SidebarLeftLayerShapePath = function SidebarLeftLayerShapePath(props) {
-  var layer = props.layer;
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: 'c-sidebar-left__layer'
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: 'c-sidebar-left-layer__icon'
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ShapePathIcon, {
-    shapeType: layer.shapeType
-  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: 'c-sidebar-left-layer__name'
-  }, layer.name));
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (SidebarLeftLayerShapePath);
-
-/***/ }),
-
-/***/ "./resources/ui/components/SidebarLeftLayerText.js":
-/*!*********************************************************!*\
-  !*** ./resources/ui/components/SidebarLeftLayerText.js ***!
-  \*********************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _IconText__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./IconText */ "./resources/ui/components/IconText.js");
-
-
-
-var SidebarLeftLayerText = function SidebarLeftLayerText(props) {
-  var layer = props.layer;
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: 'c-sidebar-left__layer'
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: 'c-sidebar-left-layer__icon'
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_IconText__WEBPACK_IMPORTED_MODULE_1__["default"], null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: 'c-sidebar-left-layer__name'
-  }, layer.name));
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (SidebarLeftLayerText);
 
 /***/ }),
 
@@ -14125,13 +13603,17 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var SidebarLeftLayers = function SidebarLeftLayers(props) {
-  var layers = props.layers;
+  var layers = props.layers,
+      selection = props.selection,
+      setSelection = props.setSelection;
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: 'c-sidebar-left__layers'
   }, layers.map(function (layer, index) {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SidebarLeftLayer__WEBPACK_IMPORTED_MODULE_1__["default"], {
       key: index,
-      layer: layer
+      layer: layer,
+      selection: selection,
+      setSelection: setSelection
     });
   }));
 };

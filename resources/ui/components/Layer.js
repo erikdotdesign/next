@@ -17,7 +17,7 @@ const Layer = (props) => {
     };
     switch (layer.type) {
         case 'Group':
-            return (React.createElement(LayerGroup, { layer: layer, images: images, svgs: svgs, onClick: onClick, onMouseOver: onMouseOver, onMouseOut: onMouseOut }));
+            return (React.createElement(LayerGroup, { layer: layer, images: images, svgs: svgs, onClick: onClick, onMouseOver: onMouseOver, onMouseOut: onMouseOut, setSelection: props.setSelection, setHover: props.setHover }));
         case 'Image':
             return (React.createElement(LayerImage, { layer: layer, images: images, onClick: onClick, onMouseOver: onMouseOver, onMouseOut: onMouseOut }));
         case 'Shape':

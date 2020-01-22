@@ -140,6 +140,7 @@ const App = (props: AppProps) => {
         composing={props.composing} />
       <SidebarLeft
         selection={selection}
+        setSelection={setSelection}
         artboard={props.artboard} />
       <SidebarRight
         selection={selection}

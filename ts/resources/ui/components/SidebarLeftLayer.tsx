@@ -1,31 +1,32 @@
 import React from 'react';
 import SidebarLeftLayerGroup from './SidebarLeftLayerGroup';
-import SidebarLeftLayerShape from './SidebarLeftLayerShape';
-import SidebarLeftLayerImage from './SidebarLeftLayerImage';
-import SidebarLeftLayerShapePath from './SidebarLeftLayerShapePath';
-import SidebarLeftLayerText from './SidebarLeftLayerText';
 
 interface SidebarLeftLayerProps {
   layer: srm.AppArtboardLayer;
+  selection: srm.AppLayer | null;
+  setSelection(selection: srm.AppLayer | null): void;
 }
 
 const SidebarLeftLayer = (props: SidebarLeftLayerProps) => {
-  const { layer } = props;
+  const { layer, selection, setSelection } = props;
   switch(layer.type) {
     case 'Group':
-      return <SidebarLeftLayerGroup layer={layer as srm.Group} />
-    case 'Image':
-      return <SidebarLeftLayerImage layer={layer as srm.Image} />
-    case 'Shape':
-      return <SidebarLeftLayerShape layer={layer as srm.Shape} />
-    case 'ShapePath':
-      return <SidebarLeftLayerShapePath layer={layer as srm.ShapePath} />
-    case 'Text':
-      return <SidebarLeftLayerText layer={layer as srm.Text} />
+      return <SidebarLeftLayerGroup
+                layer={layer as srm.Group}
+                selection={selection}
+                setSelection={setSelection} />
     default:
       return (
-        <div className='c-sidebar-left__layer'>
-          <span>{layer.name}</span>
+        <div
+          className={ `c-sidebar-left__layer ${
+            selection && layer.id === selection.id
+            ? 'c-sidebar-left__layer--active'
+            : null
+          }`}
+          onClick={() => setSelection(layer)}>
+          <span className='c-sidebar-left-layer__name'>
+            {layer.name}
+          </span>
         </div>
       )
   }

@@ -5,14 +5,13 @@ interface LayersProps {
   layers: srm.AppArtboardLayer[];
   images: srm.Base64Image[];
   svgs: srm.SvgPath[];
-  style: any;
   setSelection(selection: srm.AppLayer | null): void;
   setHover(hover: srm.AppLayer | null): void;
 }
 
 const Layers = (props: LayersProps) => {
   return (
-    <div className='c-layers' style={props.style}>
+    <div className='c-layers'>
       {
         props.layers.map((layer: srm.AppArtboardLayer, index: number) => (
           <Layer

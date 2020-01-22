@@ -19,10 +19,7 @@ const Artboard = (props) => {
         gsap.set(artboardRef.current, { scale: zoom });
     }, [zoom]);
     return (React.createElement("div", { className: 'c-artboard', ref: artboardRef, style: artboardStyles(artboard) },
-        React.createElement(Layers, { layers: artboard.layers, images: images, svgs: svgs, setSelection: setSelection, setHover: setHover, style: {
-                width: `${artboard.frame.width}px`,
-                height: `${artboard.frame.height}px`
-            } }),
+        React.createElement(Layers, { layers: artboard.layers, images: images, svgs: svgs, setSelection: setSelection, setHover: setHover }),
         selection
             ? React.createElement(Selection, { selection: selection, hover: hover, artboard: artboard, zoom: zoom })
             : null,

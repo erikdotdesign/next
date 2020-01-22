@@ -45,11 +45,7 @@ const Artboard = (props: ArtboardProps) => {
         images={images}
         svgs={svgs}
         setSelection={setSelection}
-        setHover={setHover}
-        style={{
-          width: `${artboard.frame.width}px`,
-          height: `${artboard.frame.height}px`
-        }} />
+        setHover={setHover} />
       {
         selection
         ? <Selection

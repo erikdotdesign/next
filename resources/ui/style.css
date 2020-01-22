@@ -225,10 +225,15 @@ textarea {
 
 .c-sidebar-left__layer {
   display: flex;
+  position: relative;
   align-items: center;
   height: 32px;
   width: 100%;
   line-height: 32px;
+}
+
+.c-sidebar-left__layer--active {
+  background: #EF2EF2;
 }
 
 .c-sidebar-left-layer__icon {
@@ -246,16 +251,17 @@ textarea {
 
 .c-sidebar-left-layer__name {
   flex-grow: 2;
-  padding-left: 4px;
-  font-size: 14px;
+  font-size: 12px;
+  padding-left: 12px;
   line-height: 32px;
 }
 
-.c-sidebar-left__group .c-sidebar-left__layers {
-  padding-left: 48px;
+.c-sidebar-left__layer--group .c-sidebar-left-layer__name {
+  padding-left: 0;
 }
-.c-sidebar-left__group .c-sidebar-left__layers .c-sidebar-left__group {
-  transform: translateX(-32px);
+
+.c-sidebar-left__group .c-sidebar-left__layers {
+  padding-left: 32px;
 }
 
 .c-sidebar--right {
@@ -511,7 +517,6 @@ textarea {
   top: 0;
   bottom: 0;
   right: 0;
-  overflow: hidden;
 }
 
 .c-layer {

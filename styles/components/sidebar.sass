@@ -32,10 +32,14 @@ $styleHeight: 40px
 
 .c-sidebar-left__layer
   display: flex
+  position: relative
   align-items: center
   height: $cellHeight
   width: 100%
   line-height: $cellHeight
+
+.c-sidebar-left__layer--active
+  background: $highlightColor
 
 .c-sidebar-left-layer__icon
   display: flex
@@ -50,16 +54,17 @@ $styleHeight: 40px
 
 .c-sidebar-left-layer__name
   flex-grow: 2
-  padding-left: 4px
-  font-size: 14px
+  font-size: 12px
+  padding-left: 12px
   line-height: $cellHeight
+
+.c-sidebar-left__layer--group
+  .c-sidebar-left-layer__name
+    padding-left: 0
 
 .c-sidebar-left__group
   .c-sidebar-left__layers
-    padding-left: 48px
-
-    .c-sidebar-left__group
-      transform: translateX(-32px)
+    padding-left: $buttonSize
 
 .c-sidebar--right
   right: 0

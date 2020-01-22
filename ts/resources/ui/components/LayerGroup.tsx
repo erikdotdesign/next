@@ -9,6 +9,8 @@ interface LayerGroupProps {
   onClick(): void;
   onMouseOver(): void;
   onMouseOut(): void;
+  setSelection(selection: srm.AppLayer | null): void;
+  setHover(hover: srm.AppLayer | null): void;
 }
 
 const LayerGroup = (props: LayerGroupProps) => {
@@ -23,7 +25,9 @@ const LayerGroup = (props: LayerGroupProps) => {
       <Layers
         layers={layer.layers as srm.AppArtboardLayer[]}
         images={images}
-        svgs={svgs} />
+        svgs={svgs}
+        setSelection={props.setSelection}
+        setHover={props.setHover} />
     </div>
   )
 };
