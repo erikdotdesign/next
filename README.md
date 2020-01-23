@@ -1,3 +1,5 @@
+![icon](images/icon.png)
+
 # Sketch Measure React
 
 A sketch plugin to export your designs as react applications. Quickly share design specs, css, and assets.
