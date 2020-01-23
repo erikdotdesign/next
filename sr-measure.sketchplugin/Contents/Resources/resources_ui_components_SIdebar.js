@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./resources/ui/components/SIdebar.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./resources/ui/components/Sidebar.js");
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -5974,9 +5974,9 @@ var IconClose = function IconClose() {
 
 /***/ }),
 
-/***/ "./resources/ui/components/SIdebar.js":
+/***/ "./resources/ui/components/Sidebar.js":
 /*!********************************************!*\
-  !*** ./resources/ui/components/SIdebar.js ***!
+  !*** ./resources/ui/components/Sidebar.js ***!
   \********************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -7423,4 +7423,4 @@ var placeTop = function placeTop(selectionOriginTop, artboardHeight) {
 /***/ })
 
 /******/ });
-//# sourceMappingURL=resources_ui_components_SIdebar.js.map
+//# sourceMappingURL=resources_ui_components_Sidebar.js.map

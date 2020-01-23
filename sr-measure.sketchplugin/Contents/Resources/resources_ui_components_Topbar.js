@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./resources/ui/components/Topbar.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./resources/ui/components/TopBar.js");
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -2937,6 +2937,75 @@ var IconZoomOut = function IconZoomOut() {
 
 /***/ }),
 
+/***/ "./resources/ui/components/TopBar.js":
+/*!*******************************************!*\
+  !*** ./resources/ui/components/TopBar.js ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _TopBarSelection__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TopBarSelection */ "./resources/ui/components/TopBarSelection.js");
+/* harmony import */ var _TopBarSave__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TopBarSave */ "./resources/ui/components/TopBarSave.js");
+/* harmony import */ var _TopBarEdit__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./TopBarEdit */ "./resources/ui/components/TopBarEdit.js");
+/* harmony import */ var _TopBarNotes__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./TopBarNotes */ "./resources/ui/components/TopBarNotes.js");
+/* harmony import */ var _TopBarRefresh__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./TopBarRefresh */ "./resources/ui/components/TopBarRefresh.js");
+/* harmony import */ var _TopBarZoom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./TopBarZoom */ "./resources/ui/components/TopBarZoom.js");
+
+
+
+
+
+
+
+
+var TopBar = function TopBar(props) {
+  var scrollToCenter = props.scrollToCenter,
+      zoom = props.zoom,
+      baseZoom = props.baseZoom,
+      setZoom = props.setZoom,
+      setShowNotes = props.setShowNotes,
+      notes = props.notes,
+      showNotes = props.showNotes,
+      edit = props.edit,
+      setEdit = props.setEdit,
+      composing = props.composing,
+      selection = props.selection;
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: 'c-topbar-wrap'
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: 'c-topbar'
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TopBarSelection__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    selection: selection
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: 'c-topbar__controls'
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TopBarSave__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    composing: composing,
+    notes: notes
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TopBarEdit__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    composing: composing,
+    edit: edit,
+    setEdit: setEdit
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TopBarNotes__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    showNotes: showNotes,
+    setShowNotes: setShowNotes
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TopBarRefresh__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    baseZoom: baseZoom,
+    setZoom: setZoom,
+    scrollToCenter: scrollToCenter
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TopBarZoom__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    zoom: zoom,
+    setZoom: setZoom
+  }))));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (TopBar);
+
+/***/ }),
+
 /***/ "./resources/ui/components/TopBarButton.js":
 /*!*************************************************!*\
   !*** ./resources/ui/components/TopBarButton.js ***!
@@ -3210,76 +3279,7 @@ var TopBarZoom = function TopBarZoom(props) {
 
 /* harmony default export */ __webpack_exports__["default"] = (TopBarZoom);
 
-/***/ }),
-
-/***/ "./resources/ui/components/Topbar.js":
-/*!*******************************************!*\
-  !*** ./resources/ui/components/Topbar.js ***!
-  \*******************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _TopBarSelection__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TopBarSelection */ "./resources/ui/components/TopBarSelection.js");
-/* harmony import */ var _TopBarSave__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TopBarSave */ "./resources/ui/components/TopBarSave.js");
-/* harmony import */ var _TopBarEdit__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./TopBarEdit */ "./resources/ui/components/TopBarEdit.js");
-/* harmony import */ var _TopBarNotes__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./TopBarNotes */ "./resources/ui/components/TopBarNotes.js");
-/* harmony import */ var _TopBarRefresh__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./TopBarRefresh */ "./resources/ui/components/TopBarRefresh.js");
-/* harmony import */ var _TopBarZoom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./TopBarZoom */ "./resources/ui/components/TopBarZoom.js");
-
-
-
-
-
-
-
-
-var TopBar = function TopBar(props) {
-  var scrollToCenter = props.scrollToCenter,
-      zoom = props.zoom,
-      baseZoom = props.baseZoom,
-      setZoom = props.setZoom,
-      setShowNotes = props.setShowNotes,
-      notes = props.notes,
-      showNotes = props.showNotes,
-      edit = props.edit,
-      setEdit = props.setEdit,
-      composing = props.composing,
-      selection = props.selection;
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: 'c-topbar-wrap'
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: 'c-topbar'
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TopBarSelection__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    selection: selection
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: 'c-topbar__controls'
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TopBarSave__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    composing: composing,
-    notes: notes
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TopBarEdit__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    composing: composing,
-    edit: edit,
-    setEdit: setEdit
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TopBarNotes__WEBPACK_IMPORTED_MODULE_4__["default"], {
-    showNotes: showNotes,
-    setShowNotes: setShowNotes
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TopBarRefresh__WEBPACK_IMPORTED_MODULE_5__["default"], {
-    baseZoom: baseZoom,
-    setZoom: setZoom,
-    scrollToCenter: scrollToCenter
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TopBarZoom__WEBPACK_IMPORTED_MODULE_6__["default"], {
-    zoom: zoom,
-    setZoom: setZoom
-  }))));
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (TopBar);
-
 /***/ })
 
 /******/ });
-//# sourceMappingURL=resources_ui_components_Topbar.js.map
+//# sourceMappingURL=resources_ui_components_TopBar.js.map
