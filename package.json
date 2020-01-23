@@ -2,8 +2,9 @@
   "name": "sr-measure",
   "version": "0.1.0",
   "engines": {
-    "sketch": ">=3.0"
+    "sketch": ">=61.2"
   },
+  "repository": "https://github.com/endswithak/sketch-measure-react",
   "skpm": {
     "name": "sr-measure",
     "manifest": "src/manifest.json",
