@@ -1,5 +1,9 @@
 import chroma from 'chroma-js';
 
+export const getNestedPosition = (layers: srm.AppArtboardLayer, id: string)  => {
+
+};
+
 export const getImage = (images: srm.Base64Image[], id: string): srm.Base64Image | undefined  => {
   return images.find((image: srm.Base64Image) => image.id === id);
 };

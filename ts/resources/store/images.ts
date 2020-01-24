@@ -51,48 +51,60 @@ const gradientToBase64 = (layer: srm.Shape | srm.ShapePath, id: string, sketch: 
 };
 
 const getBase64Gradients = (layers: srm.SketchLayer[], sketch: srm.Sketch, images: srm.Base64Image[] = []): srm.Base64Image[] => {
-  layers.forEach((layer: srm.SketchLayer) => {
-    if (layer.type === 'Shape' || layer.type === 'ShapePath') {
-      // check if fills contain any enabled gradients
-      const hasActiveGradient: boolean = (<srm.Shape | srm.ShapePath>layer).style.fills.some((fill: srm.Fill) => {
-        return fill.fillType === 'Gradient' && fill.enabled;
-      });
-      // generate gradient base64
-      if (hasActiveGradient) {
-        // duplicate layer
-        // all styles but the gradient will be removed
-        const layerDuplicate = layer.duplicate();
-        // create base64 from duplicate layer
-        const base64Gradient = gradientToBase64(layerDuplicate, layer.id, sketch);
-        // push base64 gradient to images
-        images.push(base64Gradient);
-        // remove duplicate
-        layerDuplicate.remove();
+  if (layers.length > 0) {
+    layers.forEach((layer: srm.SketchLayer) => {
+      if (layer.type === 'Group') {
+        getBase64Gradients((<srm.Group>layer).layers, sketch, images);
+      } else if (layer.type === 'Shape' || layer.type === 'ShapePath') {
+        // check if fills contain any enabled gradients
+        const hasActiveGradient: boolean = (<srm.Shape | srm.ShapePath>layer).style.fills.some((fill: srm.Fill) => {
+          return fill.fillType === 'Gradient' && fill.enabled;
+        });
+        // generate gradient base64
+        if (hasActiveGradient) {
+          // duplicate layer
+          // all styles but the gradient will be removed
+          const layerDuplicate = layer.duplicate();
+          // create base64 from duplicate layer
+          const base64Gradient = gradientToBase64(layerDuplicate, layer.id, sketch);
+          // push base64 gradient to images
+          images.push(base64Gradient);
+          // remove duplicate
+          layerDuplicate.remove();
+        }
       }
-    }
-  });
+    });
+  }
   return images;
 };
 
 const getLayerImages = (layers: srm.SketchLayer[], images: srm.ImageData[] = []): srm.ImageData[] => {
-  layers.forEach((layer: srm.SketchLayer) => {
-    if (layer.type === 'Image') {
-      images.push((<srm.Image>layer).image);
-    }
-  });
+  if (layers.length > 0) {
+    layers.forEach((layer: srm.SketchLayer) => {
+      if (layer.type === 'Group') {
+        getLayerImages((<srm.Group>layer).layers, images);
+      } else if (layer.type === 'Image') {
+        images.push((<srm.Image>layer).image);
+      }
+    });
+  }
   return images;
 };
 
 const getFillImages = (layers: srm.SketchLayer[], images: srm.ImageData[] = []): srm.ImageData[] => {
-  layers.forEach((layer: srm.SketchLayer) => {
-    if (layer.type === 'Shape' || layer.type === 'ShapePath') {
-      (<srm.Shape | srm.ShapePath>layer).style.fills.forEach((fill: srm.Fill) => {
-        if (fill.pattern.image !== null && fill.enabled) {
-          images.push(fill.pattern.image);
-        }
-      });
-    }
-  });
+  if (layers.length > 0) {
+    layers.forEach((layer: srm.SketchLayer) => {
+      if (layer.type === 'Group') {
+        getFillImages((<srm.Group>layer).layers, images);
+      } else if (layer.type === 'Shape' || layer.type === 'ShapePath') {
+        (<srm.Shape | srm.ShapePath>layer).style.fills.forEach((fill: srm.Fill) => {
+          if (fill.pattern.image !== null && fill.enabled) {
+            images.push(fill.pattern.image);
+          }
+        });
+      }
+    });
+  }
   return images;
 };
 

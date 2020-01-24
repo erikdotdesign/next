@@ -350,50 +350,68 @@ var gradientToBase64 = function gradientToBase64(layer, id, sketch) {
 
 var getBase64Gradients = function getBase64Gradients(layers, sketch) {
   var images = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
-  layers.forEach(function (layer) {
-    if (layer.type === 'Shape' || layer.type === 'ShapePath') {
-      // check if fills contain any enabled gradients
-      var hasActiveGradient = layer.style.fills.some(function (fill) {
-        return fill.fillType === 'Gradient' && fill.enabled;
-      }); // generate gradient base64
 
-      if (hasActiveGradient) {
-        // duplicate layer
-        // all styles but the gradient will be removed
-        var layerDuplicate = layer.duplicate(); // create base64 from duplicate layer
+  if (layers.length > 0) {
+    layers.forEach(function (layer) {
+      if (layer.type === 'Group') {
+        getBase64Gradients(layer.layers, sketch, images);
+      } else if (layer.type === 'Shape' || layer.type === 'ShapePath') {
+        // check if fills contain any enabled gradients
+        var hasActiveGradient = layer.style.fills.some(function (fill) {
+          return fill.fillType === 'Gradient' && fill.enabled;
+        }); // generate gradient base64
 
-        var base64Gradient = gradientToBase64(layerDuplicate, layer.id, sketch); // push base64 gradient to images
+        if (hasActiveGradient) {
+          // duplicate layer
+          // all styles but the gradient will be removed
+          var layerDuplicate = layer.duplicate(); // create base64 from duplicate layer
 
-        images.push(base64Gradient); // remove duplicate
+          var base64Gradient = gradientToBase64(layerDuplicate, layer.id, sketch); // push base64 gradient to images
 
-        layerDuplicate.remove();
+          images.push(base64Gradient); // remove duplicate
+
+          layerDuplicate.remove();
+        }
       }
-    }
-  });
+    });
+  }
+
   return images;
 };
 
 var getLayerImages = function getLayerImages(layers) {
   var images = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-  layers.forEach(function (layer) {
-    if (layer.type === 'Image') {
-      images.push(layer.image);
-    }
-  });
+
+  if (layers.length > 0) {
+    layers.forEach(function (layer) {
+      if (layer.type === 'Group') {
+        getLayerImages(layer.layers, images);
+      } else if (layer.type === 'Image') {
+        images.push(layer.image);
+      }
+    });
+  }
+
   return images;
 };
 
 var getFillImages = function getFillImages(layers) {
   var images = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-  layers.forEach(function (layer) {
-    if (layer.type === 'Shape' || layer.type === 'ShapePath') {
-      layer.style.fills.forEach(function (fill) {
-        if (fill.pattern.image !== null && fill.enabled) {
-          images.push(fill.pattern.image);
-        }
-      });
-    }
-  });
+
+  if (layers.length > 0) {
+    layers.forEach(function (layer) {
+      if (layer.type === 'Group') {
+        getFillImages(layer.layers, images);
+      } else if (layer.type === 'Shape' || layer.type === 'ShapePath') {
+        layer.style.fills.forEach(function (fill) {
+          if (fill.pattern.image !== null && fill.enabled) {
+            images.push(fill.pattern.image);
+          }
+        });
+      }
+    });
+  }
+
   return images;
 };
 
@@ -474,22 +492,60 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 var getOddShapePathSVGs = function getOddShapePathSVGs(layers, sketch) {
   var svgs = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
-  layers.forEach(function (layer) {
-    if (layer.type === 'ShapePath') {
-      var hasOpenPath = !layer.closed;
-      var notRectangle = layer.shapeType !== 'Rectangle';
-      var notOval = layer.shapeType !== 'Oval';
-      var isOddShape = notRectangle && notOval;
 
-      if (hasOpenPath || isOddShape) {
-        var _sketch$export;
+  if (layers.length > 0) {
+    layers.forEach(function (layer) {
+      if (layer.type === 'Group') {
+        getOddShapePathSVGs(layer.layers, sketch, svgs);
+      } else if (layer.type === 'ShapePath') {
+        var hasOpenPath = !layer.closed;
+        var notRectangle = layer.shapeType !== 'Rectangle';
+        var notOval = layer.shapeType !== 'Oval';
+        var isOddShape = notRectangle && notOval;
+
+        if (hasOpenPath || isOddShape) {
+          var _sketch$export;
+
+          // create svg in temp directory
+          sketch["export"](layer, (_sketch$export = {
+            formats: 'svg',
+            // @ts-ignore
+            output: NSTemporaryDirectory()
+          }, _defineProperty(_sketch$export, 'use-id-for-name', true), _defineProperty(_sketch$export, "compact", true), _defineProperty(_sketch$export, "overwriting", true), _sketch$export)); // get new svg path
+          // @ts-ignore
+
+          var filePath = "".concat(NSTemporaryDirectory()).concat(layer.id, ".svg"); // read contents of svg
+
+          var svgContent = Object(_export__WEBPACK_IMPORTED_MODULE_0__["getFileContent"])(filePath); // set contents in svgs
+
+          svgs.push({
+            id: layer.id,
+            svg: "".concat(svgContent)
+          });
+        }
+      }
+    });
+  }
+
+  return svgs;
+};
+
+var getShapeSVGs = function getShapeSVGs(layers, sketch) {
+  var svgs = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+
+  if (layers.length > 0) {
+    layers.forEach(function (layer) {
+      if (layer.type === 'Group') {
+        getShapeSVGs(layer.layers, sketch, svgs);
+      } else if (layer.type === 'Shape') {
+        var _sketch$export2;
 
         // create svg in temp directory
-        sketch["export"](layer, (_sketch$export = {
+        sketch["export"](layer, (_sketch$export2 = {
           formats: 'svg',
           // @ts-ignore
           output: NSTemporaryDirectory()
-        }, _defineProperty(_sketch$export, 'use-id-for-name', true), _defineProperty(_sketch$export, "compact", true), _defineProperty(_sketch$export, "overwriting", true), _sketch$export)); // get new svg path
+        }, _defineProperty(_sketch$export2, 'use-id-for-name', true), _defineProperty(_sketch$export2, "compact", true), _defineProperty(_sketch$export2, "overwriting", true), _sketch$export2)); // get new svg path
         // @ts-ignore
 
         var filePath = "".concat(NSTemporaryDirectory()).concat(layer.id, ".svg"); // read contents of svg
@@ -501,35 +557,9 @@ var getOddShapePathSVGs = function getOddShapePathSVGs(layers, sketch) {
           svg: "".concat(svgContent)
         });
       }
-    }
-  });
-  return svgs;
-};
+    });
+  }
 
-var getShapeSVGs = function getShapeSVGs(layers, sketch) {
-  var svgs = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
-  layers.forEach(function (layer) {
-    if (layer.type === 'Shape') {
-      var _sketch$export2;
-
-      // create svg in temp directory
-      sketch["export"](layer, (_sketch$export2 = {
-        formats: 'svg',
-        // @ts-ignore
-        output: NSTemporaryDirectory()
-      }, _defineProperty(_sketch$export2, 'use-id-for-name', true), _defineProperty(_sketch$export2, "compact", true), _defineProperty(_sketch$export2, "overwriting", true), _sketch$export2)); // get new svg path
-      // @ts-ignore
-
-      var filePath = "".concat(NSTemporaryDirectory()).concat(layer.id, ".svg"); // read contents of svg
-
-      var svgContent = Object(_export__WEBPACK_IMPORTED_MODULE_0__["getFileContent"])(filePath); // set contents in svgs
-
-      svgs.push({
-        id: layer.id,
-        svg: "".concat(svgContent)
-      });
-    }
-  });
   return svgs;
 };
 

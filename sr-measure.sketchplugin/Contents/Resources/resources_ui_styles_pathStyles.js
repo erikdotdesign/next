@@ -3901,11 +3901,12 @@ var pathStyles = function pathStyles(layer, svgs) {
 /*!*******************************!*\
   !*** ./resources/ui/utils.js ***!
   \*******************************/
-/*! exports provided: getImage, getSVG, cssColor, styleReducer, getOrigin, placeLeft, placeTop */
+/*! exports provided: getNestedPosition, getImage, getSVG, cssColor, styleReducer, getOrigin, placeLeft, placeTop */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getNestedPosition", function() { return getNestedPosition; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getImage", function() { return getImage; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getSVG", function() { return getSVG; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cssColor", function() { return cssColor; });
@@ -3916,6 +3917,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var chroma_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! chroma-js */ "./node_modules/chroma-js/chroma.js");
 /* harmony import */ var chroma_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(chroma_js__WEBPACK_IMPORTED_MODULE_0__);
 
+var getNestedPosition = function getNestedPosition(layers, id) {};
 var getImage = function getImage(images, id) {
   return images.find(function (image) {
     return image.id === id;

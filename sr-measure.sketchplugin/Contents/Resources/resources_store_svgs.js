@@ -161,22 +161,60 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 var getOddShapePathSVGs = function getOddShapePathSVGs(layers, sketch) {
   var svgs = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
-  layers.forEach(function (layer) {
-    if (layer.type === 'ShapePath') {
-      var hasOpenPath = !layer.closed;
-      var notRectangle = layer.shapeType !== 'Rectangle';
-      var notOval = layer.shapeType !== 'Oval';
-      var isOddShape = notRectangle && notOval;
 
-      if (hasOpenPath || isOddShape) {
-        var _sketch$export;
+  if (layers.length > 0) {
+    layers.forEach(function (layer) {
+      if (layer.type === 'Group') {
+        getOddShapePathSVGs(layer.layers, sketch, svgs);
+      } else if (layer.type === 'ShapePath') {
+        var hasOpenPath = !layer.closed;
+        var notRectangle = layer.shapeType !== 'Rectangle';
+        var notOval = layer.shapeType !== 'Oval';
+        var isOddShape = notRectangle && notOval;
+
+        if (hasOpenPath || isOddShape) {
+          var _sketch$export;
+
+          // create svg in temp directory
+          sketch["export"](layer, (_sketch$export = {
+            formats: 'svg',
+            // @ts-ignore
+            output: NSTemporaryDirectory()
+          }, _defineProperty(_sketch$export, 'use-id-for-name', true), _defineProperty(_sketch$export, "compact", true), _defineProperty(_sketch$export, "overwriting", true), _sketch$export)); // get new svg path
+          // @ts-ignore
+
+          var filePath = "".concat(NSTemporaryDirectory()).concat(layer.id, ".svg"); // read contents of svg
+
+          var svgContent = Object(_export__WEBPACK_IMPORTED_MODULE_0__["getFileContent"])(filePath); // set contents in svgs
+
+          svgs.push({
+            id: layer.id,
+            svg: "".concat(svgContent)
+          });
+        }
+      }
+    });
+  }
+
+  return svgs;
+};
+
+var getShapeSVGs = function getShapeSVGs(layers, sketch) {
+  var svgs = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+
+  if (layers.length > 0) {
+    layers.forEach(function (layer) {
+      if (layer.type === 'Group') {
+        getShapeSVGs(layer.layers, sketch, svgs);
+      } else if (layer.type === 'Shape') {
+        var _sketch$export2;
 
         // create svg in temp directory
-        sketch["export"](layer, (_sketch$export = {
+        sketch["export"](layer, (_sketch$export2 = {
           formats: 'svg',
           // @ts-ignore
           output: NSTemporaryDirectory()
-        }, _defineProperty(_sketch$export, 'use-id-for-name', true), _defineProperty(_sketch$export, "compact", true), _defineProperty(_sketch$export, "overwriting", true), _sketch$export)); // get new svg path
+        }, _defineProperty(_sketch$export2, 'use-id-for-name', true), _defineProperty(_sketch$export2, "compact", true), _defineProperty(_sketch$export2, "overwriting", true), _sketch$export2)); // get new svg path
         // @ts-ignore
 
         var filePath = "".concat(NSTemporaryDirectory()).concat(layer.id, ".svg"); // read contents of svg
@@ -188,35 +226,9 @@ var getOddShapePathSVGs = function getOddShapePathSVGs(layers, sketch) {
           svg: "".concat(svgContent)
         });
       }
-    }
-  });
-  return svgs;
-};
+    });
+  }
 
-var getShapeSVGs = function getShapeSVGs(layers, sketch) {
-  var svgs = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
-  layers.forEach(function (layer) {
-    if (layer.type === 'Shape') {
-      var _sketch$export2;
-
-      // create svg in temp directory
-      sketch["export"](layer, (_sketch$export2 = {
-        formats: 'svg',
-        // @ts-ignore
-        output: NSTemporaryDirectory()
-      }, _defineProperty(_sketch$export2, 'use-id-for-name', true), _defineProperty(_sketch$export2, "compact", true), _defineProperty(_sketch$export2, "overwriting", true), _sketch$export2)); // get new svg path
-      // @ts-ignore
-
-      var filePath = "".concat(NSTemporaryDirectory()).concat(layer.id, ".svg"); // read contents of svg
-
-      var svgContent = Object(_export__WEBPACK_IMPORTED_MODULE_0__["getFileContent"])(filePath); // set contents in svgs
-
-      svgs.push({
-        id: layer.id,
-        svg: "".concat(svgContent)
-      });
-    }
-  });
   return svgs;
 };
 

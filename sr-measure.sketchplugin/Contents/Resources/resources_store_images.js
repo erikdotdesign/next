@@ -162,50 +162,68 @@ var gradientToBase64 = function gradientToBase64(layer, id, sketch) {
 
 var getBase64Gradients = function getBase64Gradients(layers, sketch) {
   var images = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
-  layers.forEach(function (layer) {
-    if (layer.type === 'Shape' || layer.type === 'ShapePath') {
-      // check if fills contain any enabled gradients
-      var hasActiveGradient = layer.style.fills.some(function (fill) {
-        return fill.fillType === 'Gradient' && fill.enabled;
-      }); // generate gradient base64
 
-      if (hasActiveGradient) {
-        // duplicate layer
-        // all styles but the gradient will be removed
-        var layerDuplicate = layer.duplicate(); // create base64 from duplicate layer
+  if (layers.length > 0) {
+    layers.forEach(function (layer) {
+      if (layer.type === 'Group') {
+        getBase64Gradients(layer.layers, sketch, images);
+      } else if (layer.type === 'Shape' || layer.type === 'ShapePath') {
+        // check if fills contain any enabled gradients
+        var hasActiveGradient = layer.style.fills.some(function (fill) {
+          return fill.fillType === 'Gradient' && fill.enabled;
+        }); // generate gradient base64
 
-        var base64Gradient = gradientToBase64(layerDuplicate, layer.id, sketch); // push base64 gradient to images
+        if (hasActiveGradient) {
+          // duplicate layer
+          // all styles but the gradient will be removed
+          var layerDuplicate = layer.duplicate(); // create base64 from duplicate layer
 
-        images.push(base64Gradient); // remove duplicate
+          var base64Gradient = gradientToBase64(layerDuplicate, layer.id, sketch); // push base64 gradient to images
 
-        layerDuplicate.remove();
+          images.push(base64Gradient); // remove duplicate
+
+          layerDuplicate.remove();
+        }
       }
-    }
-  });
+    });
+  }
+
   return images;
 };
 
 var getLayerImages = function getLayerImages(layers) {
   var images = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-  layers.forEach(function (layer) {
-    if (layer.type === 'Image') {
-      images.push(layer.image);
-    }
-  });
+
+  if (layers.length > 0) {
+    layers.forEach(function (layer) {
+      if (layer.type === 'Group') {
+        getLayerImages(layer.layers, images);
+      } else if (layer.type === 'Image') {
+        images.push(layer.image);
+      }
+    });
+  }
+
   return images;
 };
 
 var getFillImages = function getFillImages(layers) {
   var images = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-  layers.forEach(function (layer) {
-    if (layer.type === 'Shape' || layer.type === 'ShapePath') {
-      layer.style.fills.forEach(function (fill) {
-        if (fill.pattern.image !== null && fill.enabled) {
-          images.push(fill.pattern.image);
-        }
-      });
-    }
-  });
+
+  if (layers.length > 0) {
+    layers.forEach(function (layer) {
+      if (layer.type === 'Group') {
+        getFillImages(layer.layers, images);
+      } else if (layer.type === 'Shape' || layer.type === 'ShapePath') {
+        layer.style.fills.forEach(function (fill) {
+          if (fill.pattern.image !== null && fill.enabled) {
+            images.push(fill.pattern.image);
+          }
+        });
+      }
+    });
+  }
+
   return images;
 };
 
