@@ -9,43 +9,20 @@ interface SidebarLeftGroupsProps {
   setSelection(selection: srm.AppLayer | null): void;
   setHover(hover: srm.AppLayer | null): void;
   setGroupSelection(groupSelection: srm.Group | null): void;
-  setGroupSelectionNest(groupSelectionNest: srm.Group[] | null): void;
 }
 
 const SidebarLeftGroups = (props: SidebarLeftGroupsProps) => {
-  const { selection, groupSelection, groupSelectionNest, setSelection, setHover, setGroupSelection, setGroupSelectionNest } = props;
+  const { selection, groupSelection, groupSelectionNest, setSelection, setHover, setGroupSelection } = props;
   const [nestPadding, setNestPadding] = useState<number>(0);
-  const updateNestPadding = () => {
+  useEffect(() => {
     if (groupSelectionNest) {
-      const groupSelectionIndex = groupSelectionNest.findIndex((group: srm.Group) => group.id === groupSelection.id);
+      const groupSelectionIndex = groupSelectionNest.findIndex((group: srm.Group) => {
+        return group.id === groupSelection.id;
+      });
       setNestPadding(((groupSelectionIndex + 1) * 8) + 8);
     } else {
       setNestPadding(16);
     }
-  }
-  const updateGroupSelectionNest = () => {
-    if (groupSelectionNest) {
-      const nestContainsGroup = groupSelectionNest?.find((group: srm.Group) => group.id === groupSelection.id);
-      if (nestContainsGroup) {
-        let i = 0;
-        let newNest = [];
-        while (groupSelectionNest[i].id !== groupSelection.id) {
-          newNest.push(groupSelectionNest[i]);
-          i++;
-        }
-        setGroupSelectionNest([...newNest, groupSelection]);
-      } else {
-        setGroupSelectionNest([...groupSelectionNest, groupSelection]);
-      }
-    } else {
-      setGroupSelectionNest([groupSelection]);
-    }
-  }
-  useEffect(() => {
-    updateGroupSelectionNest();
-  }, [groupSelection]);
-  useEffect(() => {
-    updateNestPadding();
   }, [groupSelectionNest]);
   return (
     <div className='c-sidebar c-sidebar--left'>

@@ -13,13 +13,16 @@ const SidebarNotes = (props: SidebarNotesProps) => {
   const { selection, notes, setNotes, edit, composing } = props;
   const removeNote = (noteIndex: number) => {
     if (selection) {
-      const newNotes = notes[selection.id].filter((n: any, i: number) => {
+      const newNotes = notes[selection.id].notes.filter((n: any, i: number) => {
         return i !== noteIndex;
       });
       if (newNotes.length !== 0) {
         setNotes({
           ...notes,
-          [selection.id]: newNotes
+          [selection.id]: {
+            ...notes[selection.id],
+            notes: newNotes
+          }
         });
       } else {
         let notesCopy = Object.assign({}, notes);
@@ -40,7 +43,7 @@ const SidebarNotes = (props: SidebarNotesProps) => {
               notes[selection.id]
               ? <ul className='c-sidebar__notes'>
                   {
-                    notes[selection.id].map((note: string, index: number) => (
+                    notes[selection.id].notes.map((note: string, index: number) => (
                       <li className='c-sidebar__note' key={index}>
                         <div className='c-sidebar__note-content'>
                           <span>

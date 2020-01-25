@@ -1,5 +1,5 @@
 import { getAbsolutePosition } from '../utils';
-import { createLeft, createTop, createWidth, createHeight } from './layerStyles';
+import { createLeft, createTop, createWidth, createHeight, createColorFill } from './layerStyles';
 
 export const groupSelectionStyles = (groupSelection: srm.AppLayer, artboard: srm.Artboard, zoom:number) => {
   const absolutePosition = getAbsolutePosition(artboard.id, groupSelection.id);
@@ -7,14 +7,24 @@ export const groupSelectionStyles = (groupSelection: srm.AppLayer, artboard: srm
   const height = createHeight(groupSelection.frame.height);
   const top = createTop(absolutePosition.y);
   const left = createLeft(absolutePosition.x);
-  //const borderWidth = zoom < 1 ? Math.round(1 / zoom) : 1;
 
   return {
     ...width,
     ...height,
     ...top,
     ...left
-   // boxShadow: `0 0 0 ${borderWidth}px rgba(0,0,0,0.25) inset, 0 0 0 ${borderWidth}px rgba(0,0,0,0.25)`
+  }
+}
+
+export const groupSelectionScrimStyles = (artboard: srm.Artboard) => {
+  const { background } = artboard;
+  const { color, enabled } = background;
+  const bg = enabled ? createColorFill(color) : { background: '#111' };
+  const opacity = { opacity: 0.8 };
+
+  return {
+    ...bg,
+    ...opacity
   }
 }
 

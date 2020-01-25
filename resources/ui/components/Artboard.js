@@ -17,6 +17,9 @@ const Artboard = (props) => {
         setHover(artboard);
     };
     useEffect(() => {
+        setSelection(artboard);
+    }, []);
+    useEffect(() => {
         gsap.set(artboardRef.current, { scale: zoom });
     }, [zoom]);
     return (React.createElement("div", { id: artboard.id, className: 'c-artboard', ref: artboardRef, style: artboardStyles(artboard) },
@@ -31,7 +34,7 @@ const Artboard = (props) => {
             ? React.createElement(Hover, { hover: hover, selection: selection, artboard: artboard, zoom: zoom })
             : null,
         selection && edit && composing
-            ? React.createElement(NoteAdd, { layer: selection, notes: notes, setNotes: setNotes, zoom: zoom })
+            ? React.createElement(NoteAdd, { layer: selection, artboard: artboard, notes: notes, setNotes: setNotes, zoom: zoom })
             : null,
         showNotes
             ? React.createElement(Notes, { setSelection: setSelection, artboard: artboard, notes: notes })

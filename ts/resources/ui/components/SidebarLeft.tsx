@@ -33,8 +33,7 @@ const SidebarLeft = (props: SidebarLeftProps) => {
             groupSelectionNest={groupSelectionNest}
             setSelection={setSelection}
             setHover={setHover}
-            setGroupSelection={setGroupSelection}
-            setGroupSelectionNest={setGroupSelectionNest} />
+            setGroupSelection={setGroupSelection} />
         : <SidebarLeftLayers
             layers={artboard.layers as srm.AppArtboardLayer[]}
             selection={selection}

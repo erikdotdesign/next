@@ -7,6 +7,7 @@ interface NoteComposeProps {
   layer: srm.AppLayer;
   notes: srm.Notes;
   zoom: number;
+  absolutePosition: {x: number, y: number};
   setNotes(notes: srm.Notes): void;
   setComposeNote(composeNote: boolean): void;
 }
@@ -17,7 +18,7 @@ const NoteCompose = (props: NoteComposeProps) => {
   const modalContent = useRef<HTMLDivElement>(null);
   const compose = useRef<HTMLTextAreaElement>(null);
   const composeBorder = useRef<HTMLDivElement>(null);
-  const { layer, setComposeNote, notes, setNotes, zoom } = props;
+  const { layer, setComposeNote, notes, setNotes, zoom, absolutePosition } = props;
   const handleChange = (e: any) => {
     setNote(e.target.value);
   }
@@ -27,12 +28,18 @@ const NoteCompose = (props: NoteComposeProps) => {
       if (layerNotes) {
         setNotes({
           ...notes,
-          [layer.id]: [...layerNotes, note]
+          [layer.id]: {
+            notes: [...layerNotes.notes, note],
+            layer: layer
+          }
         });
       } else {
         setNotes({
           ...notes,
-          [layer.id]: [note]
+          [layer.id]: {
+            notes: [note],
+            layer: layer
+          }
         });
       }
       setComposeNote(false);
@@ -63,8 +70,8 @@ const NoteCompose = (props: NoteComposeProps) => {
         className='c-compose'
         ref={modal}
         style={{
-          left: layer.frame.x + layer.frame.width / 2,
-          top: layer.frame.y + layer.frame.height
+          left: absolutePosition.x + layer.frame.width / 2,
+          top: absolutePosition.y + layer.frame.height
         }}>
         <div className='c-compose__content' ref={modalContent}>
           <div className='c-compose__header'>

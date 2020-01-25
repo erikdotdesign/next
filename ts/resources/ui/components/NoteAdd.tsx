@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import NoteCompose from './NoteCompose';
 import IconAddNote from './IconAddNote';
+import { getAbsolutePosition } from '../utils';
 
 interface NoteAddProps {
   layer: srm.AppLayer;
+  artboard: srm.Artboard;
   notes: srm.Notes;
   zoom: number;
   setNotes(notes: srm.Notes): void;
@@ -11,13 +13,15 @@ interface NoteAddProps {
 
 const NoteAdd = (props: NoteAddProps) => {
   const [composeNote, setComposeNote] = useState<boolean>(false);
-  const { layer, notes, setNotes, zoom } = props;
+  const { layer, artboard, notes, setNotes, zoom } = props;
+  const absolutePosition = getAbsolutePosition(artboard.id, layer.id);
   return (
     <div className='c-note-add'>
       {
         composeNote
         ? <NoteCompose
             layer={layer}
+            absolutePosition={absolutePosition}
             setComposeNote={setComposeNote}
             notes={notes}
             setNotes={setNotes}
@@ -32,8 +36,8 @@ const NoteAdd = (props: NoteAddProps) => {
         }`}
         onClick={() => setComposeNote(true)}
         style={{
-          left: layer.frame.x,
-          top: layer.frame.y
+          left: absolutePosition.x,
+          top: absolutePosition.y
         }}>
         <IconAddNote />
       </button>

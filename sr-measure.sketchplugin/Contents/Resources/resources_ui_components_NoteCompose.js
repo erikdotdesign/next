@@ -8184,7 +8184,8 @@ var NoteCompose = function NoteCompose(props) {
       setComposeNote = props.setComposeNote,
       notes = props.notes,
       setNotes = props.setNotes,
-      zoom = props.zoom;
+      zoom = props.zoom,
+      absolutePosition = props.absolutePosition;
 
   var handleChange = function handleChange(e) {
     setNote(e.target.value);
@@ -8195,9 +8196,15 @@ var NoteCompose = function NoteCompose(props) {
       var layerNotes = notes[layer.id];
 
       if (layerNotes) {
-        setNotes(Object.assign(Object.assign({}, notes), _defineProperty({}, layer.id, [].concat(_toConsumableArray(layerNotes), [note]))));
+        setNotes(Object.assign(Object.assign({}, notes), _defineProperty({}, layer.id, {
+          notes: [].concat(_toConsumableArray(layerNotes.notes), [note]),
+          layer: layer
+        })));
       } else {
-        setNotes(Object.assign(Object.assign({}, notes), _defineProperty({}, layer.id, [note])));
+        setNotes(Object.assign(Object.assign({}, notes), _defineProperty({}, layer.id, {
+          notes: [note],
+          layer: layer
+        })));
       }
 
       setComposeNote(false);
@@ -8250,8 +8257,8 @@ var NoteCompose = function NoteCompose(props) {
     className: 'c-compose',
     ref: modal,
     style: {
-      left: layer.frame.x + layer.frame.width / 2,
-      top: layer.frame.y + layer.frame.height
+      left: absolutePosition.x + layer.frame.width / 2,
+      top: absolutePosition.y + layer.frame.height
     }
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: 'c-compose__content',

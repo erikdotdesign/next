@@ -7226,6 +7226,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "placeTop", function() { return placeTop; });
 /* harmony import */ var chroma_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! chroma-js */ "./node_modules/chroma-js/chroma.js");
 /* harmony import */ var chroma_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(chroma_js__WEBPACK_IMPORTED_MODULE_0__);
+ //import _ from 'lodash';
 
 var getImage = function getImage(images, id) {
   return images.find(function (image) {
@@ -7236,17 +7237,30 @@ var getSVG = function getSVG(svgs, id) {
   return svgs.find(function (svg) {
     return svg.id === id;
   });
-};
+}; // export const getSLayer = (layers: any[], id: string) => {
+//   var layer = _.find(layers, ['id', id]);
+//   console.log(layer);
+//   return layer;
+// };
+
 var getAbsolutePosition = function getAbsolutePosition(artboardId, layerId) {
-  var artboardEl = document.getElementById(artboardId);
+  var _a, _b;
+
   var layerEl = document.getElementById(layerId);
-  var selectionBounding = layerEl.getBoundingClientRect();
-  var artboardBounding = artboardEl.getBoundingClientRect();
-  var topOffset = selectionBounding.top - artboardBounding.top;
-  var leftOffset = selectionBounding.left - artboardBounding.left;
+  var x = 0;
+  var y = 0;
+  var layer = layerEl;
+
+  while (layer && layer.id !== artboardId) {
+    x = x + ((_a = layer) === null || _a === void 0 ? void 0 : _a.offsetLeft);
+    y = y + ((_b = layer) === null || _b === void 0 ? void 0 : _b.offsetTop); // @ts-ignore
+
+    layer = layer.offsetParent;
+  }
+
   return {
-    x: leftOffset,
-    y: topOffset
+    x: x,
+    y: y
   };
 };
 var cssColor = function cssColor(color) {

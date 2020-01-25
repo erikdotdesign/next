@@ -20,12 +20,12 @@ const SidebarRight = (props: SidebarRightProps) => {
         selection={selection}
         images={images}
         svgs={svgs} />
-      {/* <SidebarNotes
+      <SidebarNotes
         selection={selection}
         notes={notes}
         setNotes={setNotes}
         edit={edit}
-        composing={composing} /> */}
+        composing={composing} />
     </div>
   )
 };

@@ -38,6 +38,9 @@ const Artboard = (props: ArtboardProps) => {
     setHover(artboard);
   }
   useEffect(() => {
+    setSelection(artboard);
+  }, []);
+  useEffect(() => {
     gsap.set(artboardRef.current, {scale: zoom});
   }, [zoom]);
   return (
@@ -88,6 +91,7 @@ const Artboard = (props: ArtboardProps) => {
         selection && edit && composing
         ? <NoteAdd
             layer={selection}
+            artboard={artboard}
             notes={notes}
             setNotes={setNotes}
             zoom={zoom} />

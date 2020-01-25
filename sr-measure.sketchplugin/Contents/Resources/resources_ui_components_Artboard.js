@@ -11366,6 +11366,9 @@ var Artboard = function Artboard(props) {
   };
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    setSelection(artboard);
+  }, []);
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     gsap__WEBPACK_IMPORTED_MODULE_2__["default"].set(artboardRef.current, {
       scale: zoom
     });
@@ -11403,6 +11406,7 @@ var Artboard = function Artboard(props) {
     zoom: zoom
   }) : null, selection && edit && composing ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_NoteAdd__WEBPACK_IMPORTED_MODULE_7__["default"], {
     layer: selection,
+    artboard: artboard,
     notes: notes,
     setNotes: setNotes,
     zoom: zoom
@@ -11433,7 +11437,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Layers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Layers */ "./resources/ui/components/Layers.js");
-/* harmony import */ var _styles_groupSelection__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../styles/groupSelection */ "./resources/ui/styles/groupSelection.js");
+/* harmony import */ var _styles_groupSelectionStyles__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../styles/groupSelectionStyles */ "./resources/ui/styles/groupSelectionStyles.js");
 
 
 
@@ -11447,22 +11451,11 @@ var GroupSelection = function GroupSelection(props) {
       setSelection = props.setSelection,
       setGroupSelection = props.setGroupSelection,
       setHover = props.setHover;
-
-  var getScrimBackground = function getScrimBackground() {
-    var background = artboard.background;
-    var color = background.color,
-        enabled = background.enabled;
-    return enabled ? color : '#111';
-  };
-
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    setSelection(groupSelection);
-  }, [groupSelection]);
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: 'c-group-selection'
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: 'c-group-selection__group c-layer',
-    style: Object(_styles_groupSelection__WEBPACK_IMPORTED_MODULE_2__["default"])(groupSelection, artboard, zoom)
+    style: Object(_styles_groupSelectionStyles__WEBPACK_IMPORTED_MODULE_2__["default"])(groupSelection, artboard, zoom)
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Layers__WEBPACK_IMPORTED_MODULE_1__["default"], {
     layers: groupSelection.layers,
     images: images,
@@ -11472,15 +11465,7 @@ var GroupSelection = function GroupSelection(props) {
     setHover: setHover
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: 'c-group-selection__scrim',
-    style: {
-      position: 'absolute',
-      left: '0px',
-      top: '0px',
-      right: '0px',
-      bottom: '0px',
-      background: getScrimBackground(),
-      opacity: 0.8
-    }
+    style: Object(_styles_groupSelectionStyles__WEBPACK_IMPORTED_MODULE_2__["groupSelectionScrimStyles"])(artboard)
   }));
 };
 
@@ -12249,6 +12234,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _NoteCompose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./NoteCompose */ "./resources/ui/components/NoteCompose.js");
 /* harmony import */ var _IconAddNote__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./IconAddNote */ "./resources/ui/components/IconAddNote.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils */ "./resources/ui/utils.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
@@ -12261,6 +12247,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 var NoteAdd = function NoteAdd(props) {
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
       _useState2 = _slicedToArray(_useState, 2),
@@ -12268,13 +12255,16 @@ var NoteAdd = function NoteAdd(props) {
       setComposeNote = _useState2[1];
 
   var layer = props.layer,
+      artboard = props.artboard,
       notes = props.notes,
       setNotes = props.setNotes,
       zoom = props.zoom;
+  var absolutePosition = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["getAbsolutePosition"])(artboard.id, layer.id);
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: 'c-note-add'
   }, composeNote ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_NoteCompose__WEBPACK_IMPORTED_MODULE_1__["default"], {
     layer: layer,
+    absolutePosition: absolutePosition,
     setComposeNote: setComposeNote,
     notes: notes,
     setNotes: setNotes,
@@ -12285,8 +12275,8 @@ var NoteAdd = function NoteAdd(props) {
       return setComposeNote(true);
     },
     style: {
-      left: layer.frame.x,
-      top: layer.frame.y
+      left: absolutePosition.x,
+      top: absolutePosition.y
     }
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_IconAddNote__WEBPACK_IMPORTED_MODULE_2__["default"], null)));
 };
@@ -12346,7 +12336,8 @@ var NoteCompose = function NoteCompose(props) {
       setComposeNote = props.setComposeNote,
       notes = props.notes,
       setNotes = props.setNotes,
-      zoom = props.zoom;
+      zoom = props.zoom,
+      absolutePosition = props.absolutePosition;
 
   var handleChange = function handleChange(e) {
     setNote(e.target.value);
@@ -12357,9 +12348,15 @@ var NoteCompose = function NoteCompose(props) {
       var layerNotes = notes[layer.id];
 
       if (layerNotes) {
-        setNotes(Object.assign(Object.assign({}, notes), _defineProperty({}, layer.id, [].concat(_toConsumableArray(layerNotes), [note]))));
+        setNotes(Object.assign(Object.assign({}, notes), _defineProperty({}, layer.id, {
+          notes: [].concat(_toConsumableArray(layerNotes.notes), [note]),
+          layer: layer
+        })));
       } else {
-        setNotes(Object.assign(Object.assign({}, notes), _defineProperty({}, layer.id, [note])));
+        setNotes(Object.assign(Object.assign({}, notes), _defineProperty({}, layer.id, {
+          notes: [note],
+          layer: layer
+        })));
       }
 
       setComposeNote(false);
@@ -12412,8 +12409,8 @@ var NoteCompose = function NoteCompose(props) {
     className: 'c-compose',
     ref: modal,
     style: {
-      left: layer.frame.x + layer.frame.width / 2,
-      top: layer.frame.y + layer.frame.height
+      left: absolutePosition.x + layer.frame.width / 2,
+      top: absolutePosition.y + layer.frame.height
     }
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: 'c-compose__content',
@@ -12517,6 +12514,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _NoteCount__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./NoteCount */ "./resources/ui/components/NoteCount.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./resources/ui/utils.js");
+
 
 
 
@@ -12525,14 +12524,13 @@ var Notes = function Notes(props) {
       setSelection = props.setSelection,
       notes = props.notes;
 
-  var getLayer = function getLayer(id) {
-    if (id === artboard.id) {
-      return artboard;
-    } else {
-      return artboard.layers.find(function (layer) {
-        return layer.id === id;
-      });
-    }
+  var getLayerPosition = function getLayerPosition(layer) {
+    var absolutePosition = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["getAbsolutePosition"])(artboard.id, layer.id);
+    var position = Object.assign({
+      width: layer.frame.width,
+      height: layer.frame.height
+    }, absolutePosition);
+    return position;
   };
 
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -12541,10 +12539,10 @@ var Notes = function Notes(props) {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_NoteCount__WEBPACK_IMPORTED_MODULE_1__["default"], {
       key: index,
       onClick: function onClick() {
-        return setSelection(getLayer(note));
+        return setSelection(notes[note].layer);
       },
-      position: getLayer(note).frame,
-      count: notes[note].length
+      position: getLayerPosition(notes[note].layer),
+      count: notes[note].notes.length
     });
   }) : null);
 };
@@ -12883,16 +12881,17 @@ var artboardStyles = function artboardStyles(artboard) {
 
 /***/ }),
 
-/***/ "./resources/ui/styles/groupSelection.js":
-/*!***********************************************!*\
-  !*** ./resources/ui/styles/groupSelection.js ***!
-  \***********************************************/
-/*! exports provided: groupSelectionStyles, default */
+/***/ "./resources/ui/styles/groupSelectionStyles.js":
+/*!*****************************************************!*\
+  !*** ./resources/ui/styles/groupSelectionStyles.js ***!
+  \*****************************************************/
+/*! exports provided: groupSelectionStyles, groupSelectionScrimStyles, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "groupSelectionStyles", function() { return groupSelectionStyles; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "groupSelectionScrimStyles", function() { return groupSelectionScrimStyles; });
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils */ "./resources/ui/utils.js");
 /* harmony import */ var _layerStyles__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./layerStyles */ "./resources/ui/styles/layerStyles.js");
 
@@ -12902,10 +12901,20 @@ var groupSelectionStyles = function groupSelectionStyles(groupSelection, artboar
   var width = Object(_layerStyles__WEBPACK_IMPORTED_MODULE_1__["createWidth"])(groupSelection.frame.width);
   var height = Object(_layerStyles__WEBPACK_IMPORTED_MODULE_1__["createHeight"])(groupSelection.frame.height);
   var top = Object(_layerStyles__WEBPACK_IMPORTED_MODULE_1__["createTop"])(absolutePosition.y);
-  var left = Object(_layerStyles__WEBPACK_IMPORTED_MODULE_1__["createLeft"])(absolutePosition.x); //const borderWidth = zoom < 1 ? Math.round(1 / zoom) : 1;
-
-  return Object.assign(Object.assign(Object.assign(Object.assign({}, width), height), top), left // boxShadow: `0 0 0 ${borderWidth}px rgba(0,0,0,0.25) inset, 0 0 0 ${borderWidth}px rgba(0,0,0,0.25)`
-  );
+  var left = Object(_layerStyles__WEBPACK_IMPORTED_MODULE_1__["createLeft"])(absolutePosition.x);
+  return Object.assign(Object.assign(Object.assign(Object.assign({}, width), height), top), left);
+};
+var groupSelectionScrimStyles = function groupSelectionScrimStyles(artboard) {
+  var background = artboard.background;
+  var color = background.color,
+      enabled = background.enabled;
+  var bg = enabled ? Object(_layerStyles__WEBPACK_IMPORTED_MODULE_1__["createColorFill"])(color) : {
+    background: '#111'
+  };
+  var opacity = {
+    opacity: 0.8
+  };
+  return Object.assign(Object.assign({}, bg), opacity);
 };
 /* harmony default export */ __webpack_exports__["default"] = (groupSelectionStyles);
 
@@ -14123,6 +14132,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "placeTop", function() { return placeTop; });
 /* harmony import */ var chroma_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! chroma-js */ "./node_modules/chroma-js/chroma.js");
 /* harmony import */ var chroma_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(chroma_js__WEBPACK_IMPORTED_MODULE_0__);
+ //import _ from 'lodash';
 
 var getImage = function getImage(images, id) {
   return images.find(function (image) {
@@ -14133,17 +14143,30 @@ var getSVG = function getSVG(svgs, id) {
   return svgs.find(function (svg) {
     return svg.id === id;
   });
-};
+}; // export const getSLayer = (layers: any[], id: string) => {
+//   var layer = _.find(layers, ['id', id]);
+//   console.log(layer);
+//   return layer;
+// };
+
 var getAbsolutePosition = function getAbsolutePosition(artboardId, layerId) {
-  var artboardEl = document.getElementById(artboardId);
+  var _a, _b;
+
   var layerEl = document.getElementById(layerId);
-  var selectionBounding = layerEl.getBoundingClientRect();
-  var artboardBounding = artboardEl.getBoundingClientRect();
-  var topOffset = selectionBounding.top - artboardBounding.top;
-  var leftOffset = selectionBounding.left - artboardBounding.left;
+  var x = 0;
+  var y = 0;
+  var layer = layerEl;
+
+  while (layer && layer.id !== artboardId) {
+    x = x + ((_a = layer) === null || _a === void 0 ? void 0 : _a.offsetLeft);
+    y = y + ((_b = layer) === null || _b === void 0 ? void 0 : _b.offsetTop); // @ts-ignore
+
+    layer = layer.offsetParent;
+  }
+
   return {
-    x: leftOffset,
-    y: topOffset
+    x: x,
+    y: y
   };
 };
 var cssColor = function cssColor(color) {

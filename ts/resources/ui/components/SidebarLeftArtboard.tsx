@@ -12,7 +12,6 @@ interface SidebarLeftArtboardProps {
 const SidebarLeftArtboard = (props: SidebarLeftArtboardProps) => {
   const { artboard, selection, setSelection, setGroupSelection, setGroupSelectionNest, setHover } = props;
   const handleDoubleClick = () => {
-    setSelection(artboard);
     setGroupSelection(null);
     setGroupSelectionNest(null);
   }
@@ -23,6 +22,7 @@ const SidebarLeftArtboard = (props: SidebarLeftArtboardProps) => {
         ? 'c-sidebar-left__layer--active'
         : null
       }`}
+      onClick={() => setSelection(artboard)}
       onDoubleClick={handleDoubleClick}
       onMouseOver={() => setHover(artboard)}
       onMouseOut={() => setHover(null)}>

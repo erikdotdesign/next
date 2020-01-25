@@ -2733,12 +2733,14 @@ var SidebarNotes = function SidebarNotes(props) {
 
   var removeNote = function removeNote(noteIndex) {
     if (selection) {
-      var newNotes = notes[selection.id].filter(function (n, i) {
+      var newNotes = notes[selection.id].notes.filter(function (n, i) {
         return i !== noteIndex;
       });
 
       if (newNotes.length !== 0) {
-        setNotes(Object.assign(Object.assign({}, notes), _defineProperty({}, selection.id, newNotes)));
+        setNotes(Object.assign(Object.assign({}, notes), _defineProperty({}, selection.id, Object.assign(Object.assign({}, notes[selection.id]), {
+          notes: newNotes
+        }))));
       } else {
         var notesCopy = Object.assign({}, notes);
         delete notesCopy[selection.id];
@@ -2753,7 +2755,7 @@ var SidebarNotes = function SidebarNotes(props) {
     className: 'c-sidebar__header'
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Notes")), selection ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, notes[selection.id] ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
     className: 'c-sidebar__notes'
-  }, notes[selection.id].map(function (note, index) {
+  }, notes[selection.id].notes.map(function (note, index) {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
       className: 'c-sidebar__note',
       key: index

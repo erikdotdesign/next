@@ -84,6 +84,41 @@ const App = (props: AppProps) => {
     }
   }
 
+  // update groupSelectionNest on group selection change
+  useEffect(() => {
+    if (groupSelection) {
+      // check if groupSelectionNest exists
+      if (groupSelectionNest) {
+        // if groupSelectionNest exists,
+        // check if it contains groupSelection
+        const nestContainsGroup = groupSelectionNest.find((group: srm.Group) => {
+          return group.id === groupSelection.id;
+        });
+        // if groupSelectionNest contains groupSelection,
+        // create new groupSelectionNest with all the parents up to groupSelection
+        if (nestContainsGroup) {
+          let i = 0;
+          let newNest = [];
+          while (groupSelectionNest[i].id !== groupSelection.id) {
+            newNest.push(groupSelectionNest[i]);
+            i++;
+          }
+          setGroupSelectionNest([...newNest, groupSelection]);
+        } else {
+          // if groupSelectionNest does not contain groupSelection,
+          // add groupSelection to the end of groupSelectionNest
+          setGroupSelectionNest([...groupSelectionNest, groupSelection]);
+        }
+      } else {
+        // if groupSelectionNest does not exist,
+        // initialize it with groupSelection
+        setGroupSelectionNest([groupSelection]);
+      }
+      // set selection to groupSelection
+      setSelection(groupSelection);
+    }
+  }, [groupSelection]);
+
   useEffect(() => {
     // focus app for key events
     app.current?.focus();

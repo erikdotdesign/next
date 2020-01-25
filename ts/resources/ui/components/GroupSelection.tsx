@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Layers from './Layers';
-import groupSelectionStyles from '../styles/groupSelection';
+import groupSelectionStyles, { groupSelectionScrimStyles } from '../styles/groupSelectionStyles';
 
 interface GroupSelectionProps {
   artboard: srm.Artboard;
@@ -15,14 +15,6 @@ interface GroupSelectionProps {
 
 const GroupSelection = (props: GroupSelectionProps) => {
   const { groupSelection, artboard, images, svgs, zoom, setSelection, setGroupSelection, setHover } = props;
-  const getScrimBackground = () => {
-    const { background } = artboard;
-    const { color, enabled } = background;
-    return enabled ? color : '#111';
-  }
-  useEffect(() => {
-    setSelection(groupSelection);
-  }, [groupSelection]);
   return (
     <div className='c-group-selection'>
       <div
@@ -38,15 +30,7 @@ const GroupSelection = (props: GroupSelectionProps) => {
       </div>
       <div
         className='c-group-selection__scrim'
-        style={{
-          position: 'absolute',
-          left: '0px',
-          top: '0px',
-          right: '0px',
-          bottom: '0px',
-          background: getScrimBackground(),
-          opacity: 0.8
-        }} />
+        style={groupSelectionScrimStyles(artboard)} />
     </div>
   )
 };
