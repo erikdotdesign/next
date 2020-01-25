@@ -40617,60 +40617,70 @@ var App = function App(props) {
 
   var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
       _useState4 = _slicedToArray(_useState3, 2),
-      selection = _useState4[0],
-      setSelection = _useState4[1];
+      groupSelectionNest = _useState4[0],
+      setGroupSelectionNest = _useState4[1];
 
   var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
       _useState6 = _slicedToArray(_useState5, 2),
-      hover = _useState6[0],
-      setHover = _useState6[1]; // zoom
+      groupSelection = _useState6[0],
+      setGroupSelection = _useState6[1];
 
-
-  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(1),
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
       _useState8 = _slicedToArray(_useState7, 2),
-      zoom = _useState8[0],
-      setZoom = _useState8[1];
+      selection = _useState8[0],
+      setSelection = _useState8[1];
 
-  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(1),
+  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
       _useState10 = _slicedToArray(_useState9, 2),
-      baseZoom = _useState10[0],
-      setBaseZoom = _useState10[1]; // scroll
+      hover = _useState10[0],
+      setHover = _useState10[1]; // zoom
+
+
+  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(1),
+      _useState12 = _slicedToArray(_useState11, 2),
+      zoom = _useState12[0],
+      setZoom = _useState12[1];
+
+  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(1),
+      _useState14 = _slicedToArray(_useState13, 2),
+      baseZoom = _useState14[0],
+      setBaseZoom = _useState14[1]; // scroll
 
 
   var canvasSize = 20000;
   var sidebarSize = 320;
 
-  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
+  var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
     x: 0,
     y: 0
   }),
-      _useState12 = _slicedToArray(_useState11, 2),
-      centerScroll = _useState12[0],
-      setCenterScroll = _useState12[1];
+      _useState16 = _slicedToArray(_useState15, 2),
+      centerScroll = _useState16[0],
+      setCenterScroll = _useState16[1];
 
-  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
+  var _useState17 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
     width: 0,
     height: 0
   }),
-      _useState14 = _slicedToArray(_useState13, 2),
-      viewPortSize = _useState14[0],
-      setViewPortSize = _useState14[1]; // notes
-
-
-  var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(props.notes),
-      _useState16 = _slicedToArray(_useState15, 2),
-      notes = _useState16[0],
-      setNotes = _useState16[1];
-
-  var _useState17 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(true),
       _useState18 = _slicedToArray(_useState17, 2),
-      showNotes = _useState18[0],
-      setShowNotes = _useState18[1];
+      viewPortSize = _useState18[0],
+      setViewPortSize = _useState18[1]; // notes
 
-  var _useState19 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(true),
+
+  var _useState19 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(props.notes),
       _useState20 = _slicedToArray(_useState19, 2),
-      edit = _useState20[0],
-      setEdit = _useState20[1];
+      notes = _useState20[0],
+      setNotes = _useState20[1];
+
+  var _useState21 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(true),
+      _useState22 = _slicedToArray(_useState21, 2),
+      showNotes = _useState22[0],
+      setShowNotes = _useState22[1];
+
+  var _useState23 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(true),
+      _useState24 = _slicedToArray(_useState23, 2),
+      edit = _useState24[0],
+      setEdit = _useState24[1];
 
   var scaleArtboardForViewport = function scaleArtboardForViewport() {
     var artboardWidth = props.artboard.frame.width;
@@ -40782,6 +40792,11 @@ var App = function App(props) {
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SidebarLeft__WEBPACK_IMPORTED_MODULE_2__["default"], {
     selection: selection,
     setSelection: setSelection,
+    setHover: setHover,
+    groupSelection: groupSelection,
+    setGroupSelection: setGroupSelection,
+    groupSelectionNest: groupSelectionNest,
+    setGroupSelectionNest: setGroupSelectionNest,
     artboard: props.artboard
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SidebarRight__WEBPACK_IMPORTED_MODULE_1__["default"], {
     selection: selection,
@@ -40797,6 +40812,10 @@ var App = function App(props) {
     setZoom: setZoom,
     selection: selection,
     setSelection: setSelection,
+    groupSelection: groupSelection,
+    setGroupSelection: setGroupSelection,
+    groupSelectionNest: groupSelectionNest,
+    setGroupSelectionNest: setGroupSelectionNest,
     hover: hover,
     setHover: setHover,
     viewPortSize: viewPortSize,
@@ -40827,10 +40846,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Layers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Layers */ "./resources/ui/components/Layers.js");
 /* harmony import */ var gsap__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! gsap */ "./node_modules/gsap/index.js");
 /* harmony import */ var _Selection__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Selection */ "./resources/ui/components/Selection.js");
-/* harmony import */ var _Hover__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Hover */ "./resources/ui/components/Hover.js");
-/* harmony import */ var _Notes__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Notes */ "./resources/ui/components/Notes.js");
-/* harmony import */ var _NoteAdd__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./NoteAdd */ "./resources/ui/components/NoteAdd.js");
-/* harmony import */ var _styles_artboardStyles__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../styles/artboardStyles */ "./resources/ui/styles/artboardStyles.js");
+/* harmony import */ var _GroupSelection__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./GroupSelection */ "./resources/ui/components/GroupSelection.js");
+/* harmony import */ var _Hover__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Hover */ "./resources/ui/components/Hover.js");
+/* harmony import */ var _Notes__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Notes */ "./resources/ui/components/Notes.js");
+/* harmony import */ var _NoteAdd__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./NoteAdd */ "./resources/ui/components/NoteAdd.js");
+/* harmony import */ var _styles_artboardStyles__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../styles/artboardStyles */ "./resources/ui/styles/artboardStyles.js");
+
 
 
 
@@ -40847,6 +40868,10 @@ var Artboard = function Artboard(props) {
       svgs = props.svgs,
       selection = props.selection,
       setSelection = props.setSelection,
+      groupSelection = props.groupSelection,
+      setGroupSelection = props.setGroupSelection,
+      groupSelectionNest = props.groupSelectionNest,
+      setGroupSelectionNest = props.setGroupSelectionNest,
       hover = props.hover,
       setHover = props.setHover,
       zoom = props.zoom,
@@ -40870,31 +40895,42 @@ var Artboard = function Artboard(props) {
     });
   }, [zoom]);
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    id: artboard.id,
     className: 'c-artboard',
     ref: artboardRef,
-    style: Object(_styles_artboardStyles__WEBPACK_IMPORTED_MODULE_7__["default"])(artboard)
+    style: Object(_styles_artboardStyles__WEBPACK_IMPORTED_MODULE_8__["default"])(artboard)
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Layers__WEBPACK_IMPORTED_MODULE_1__["default"], {
     layers: artboard.layers,
     images: images,
     svgs: svgs,
     setSelection: setSelection,
+    setGroupSelection: setGroupSelection,
     setHover: setHover
-  }), selection ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Selection__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  }), groupSelection ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_GroupSelection__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    groupSelection: groupSelection,
+    images: images,
+    svgs: svgs,
+    setSelection: setSelection,
+    setGroupSelection: setGroupSelection,
+    setHover: setHover,
+    artboard: artboard,
+    zoom: zoom
+  }) : null, selection ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Selection__WEBPACK_IMPORTED_MODULE_3__["default"], {
     selection: selection,
     hover: hover,
     artboard: artboard,
     zoom: zoom
-  }) : null, hover ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Hover__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }) : null, hover ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Hover__WEBPACK_IMPORTED_MODULE_5__["default"], {
     hover: hover,
     selection: selection,
     artboard: artboard,
     zoom: zoom
-  }) : null, selection && edit && composing ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_NoteAdd__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  }) : null, selection && edit && composing ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_NoteAdd__WEBPACK_IMPORTED_MODULE_7__["default"], {
     layer: selection,
     notes: notes,
     setNotes: setNotes,
     zoom: zoom
-  }) : null, showNotes ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Notes__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  }) : null, showNotes ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Notes__WEBPACK_IMPORTED_MODULE_6__["default"], {
     setSelection: setSelection,
     artboard: artboard,
     notes: notes
@@ -40932,6 +40968,10 @@ var Canvas = function Canvas(props) {
       svgs = props.svgs,
       selection = props.selection,
       setSelection = props.setSelection,
+      groupSelection = props.groupSelection,
+      setGroupSelection = props.setGroupSelection,
+      groupSelectionNest = props.groupSelectionNest,
+      setGroupSelectionNest = props.setGroupSelectionNest,
       hover = props.hover,
       setHover = props.setHover,
       setZoom = props.setZoom,
@@ -40947,6 +40987,7 @@ var Canvas = function Canvas(props) {
 
   var handleClick = function handleClick() {
     setSelection(null);
+    setGroupSelection(null);
   };
 
   var handleMouseOver = function handleMouseOver() {
@@ -41001,6 +41042,10 @@ var Canvas = function Canvas(props) {
     svgs: svgs,
     selection: selection,
     setSelection: setSelection,
+    groupSelection: groupSelection,
+    setGroupSelection: setGroupSelection,
+    groupSelectionNest: groupSelectionNest,
+    setGroupSelectionNest: setGroupSelectionNest,
     hover: hover,
     setHover: setHover,
     zoom: zoom,
@@ -41017,6 +41062,73 @@ var Canvas = function Canvas(props) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Canvas);
+
+/***/ }),
+
+/***/ "./resources/ui/components/GroupSelection.js":
+/*!***************************************************!*\
+  !*** ./resources/ui/components/GroupSelection.js ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Layers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Layers */ "./resources/ui/components/Layers.js");
+/* harmony import */ var _styles_groupSelection__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../styles/groupSelection */ "./resources/ui/styles/groupSelection.js");
+
+
+
+
+var GroupSelection = function GroupSelection(props) {
+  var groupSelection = props.groupSelection,
+      artboard = props.artboard,
+      images = props.images,
+      svgs = props.svgs,
+      zoom = props.zoom,
+      setSelection = props.setSelection,
+      setGroupSelection = props.setGroupSelection,
+      setHover = props.setHover;
+
+  var getScrimBackground = function getScrimBackground() {
+    var background = artboard.background;
+    var color = background.color,
+        enabled = background.enabled;
+    return enabled ? color : '#111';
+  };
+
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    setSelection(groupSelection);
+  }, [groupSelection]);
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: 'c-group-selection'
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: 'c-group-selection__group c-layer',
+    style: Object(_styles_groupSelection__WEBPACK_IMPORTED_MODULE_2__["default"])(groupSelection, artboard, zoom)
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Layers__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    layers: groupSelection.layers,
+    images: images,
+    svgs: svgs,
+    setSelection: setSelection,
+    setGroupSelection: setGroupSelection,
+    setHover: setHover
+  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: 'c-group-selection__scrim',
+    style: {
+      position: 'absolute',
+      left: '0px',
+      top: '0px',
+      right: '0px',
+      bottom: '0px',
+      background: getScrimBackground(),
+      opacity: 0.8
+    }
+  }));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (GroupSelection);
 
 /***/ }),
 
@@ -41044,12 +41156,12 @@ var Hover = function Hover(props) {
       selection = props.selection,
       artboard = props.artboard,
       zoom = props.zoom;
-  var frame = hover.frame;
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: 'c-layer c-layer--hover',
-    style: Object(_styles_hoverStyles__WEBPACK_IMPORTED_MODULE_3__["createHoveredStyles"])(frame, zoom)
+    style: Object(_styles_hoverStyles__WEBPACK_IMPORTED_MODULE_3__["createHoveredStyles"])(hover, artboard, zoom)
   }, selection ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HoverRules__WEBPACK_IMPORTED_MODULE_2__["default"], {
     hover: hover,
+    artboard: artboard,
     selection: selection,
     zoom: zoom
   }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HoverDims__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -41120,12 +41232,11 @@ __webpack_require__.r(__webpack_exports__);
 
 var HoverRules = function HoverRules(props) {
   var hover = props.hover,
+      artboard = props.artboard,
       selection = props.selection,
       zoom = props.zoom;
-  var hoverFrame = hover.frame;
-  var selectionFrame = selection.frame;
-  var hoverOrigin = Object(_utils__WEBPACK_IMPORTED_MODULE_5__["getOrigin"])(hoverFrame);
-  var selectionOrigin = Object(_utils__WEBPACK_IMPORTED_MODULE_5__["getOrigin"])(selectionFrame);
+  var hoverOrigin = Object(_utils__WEBPACK_IMPORTED_MODULE_5__["getOrigin"])(hover, artboard);
+  var selectionOrigin = Object(_utils__WEBPACK_IMPORTED_MODULE_5__["getOrigin"])(selection, artboard);
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: 'c-hover__rules'
   }, selectionOrigin.yCenter < hoverOrigin.top ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HoverRulesTop__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -41569,34 +41680,6 @@ var IconSave = function IconSave() {
 
 /***/ }),
 
-/***/ "./resources/ui/components/IconTriDown.js":
-/*!************************************************!*\
-  !*** ./resources/ui/components/IconTriDown.js ***!
-  \************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-
-
-var IconTriDown = function IconTriDown() {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
-    width: "24",
-    height: "24",
-    viewBox: "0 0 24 24"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    fill: "#fff",
-    d: "M7 10l5 5 5-5H7z"
-  }));
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (IconTriDown);
-
-/***/ }),
-
 /***/ "./resources/ui/components/IconTriRight.js":
 /*!*************************************************!*\
   !*** ./resources/ui/components/IconTriRight.js ***!
@@ -41721,10 +41804,15 @@ var Layer = function Layer(props) {
       images = props.images,
       svgs = props.svgs,
       setSelection = props.setSelection,
+      setGroupSelection = props.setGroupSelection,
       setHover = props.setHover;
 
   var onClick = function onClick() {
     setSelection(layer);
+  };
+
+  var onDoubleClick = function onDoubleClick() {
+    setGroupSelection(layer);
   };
 
   var onMouseOver = function onMouseOver() {
@@ -41742,9 +41830,11 @@ var Layer = function Layer(props) {
         images: images,
         svgs: svgs,
         onClick: onClick,
+        onDoubleClick: onDoubleClick,
         onMouseOver: onMouseOver,
         onMouseOut: onMouseOut,
         setSelection: props.setSelection,
+        setGroupSelection: props.setGroupSelection,
         setHover: props.setHover
       });
 
@@ -41818,7 +41908,9 @@ var LayerGroup = function LayerGroup(props) {
       images = props.images,
       svgs = props.svgs;
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    id: layer.id,
     onClick: props.onClick,
+    onDoubleClick: props.onDoubleClick,
     onMouseOver: props.onMouseOver,
     onMouseOut: props.onMouseOut,
     className: 'c-layer c-layer--group',
@@ -41828,6 +41920,7 @@ var LayerGroup = function LayerGroup(props) {
     images: images,
     svgs: svgs,
     setSelection: props.setSelection,
+    setGroupSelection: props.setGroupSelection,
     setHover: props.setHover
   }));
 };
@@ -41853,6 +41946,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var LayerImage = function LayerImage(props) {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    id: props.layer.id,
     onClick: props.onClick,
     onMouseOver: props.onMouseOver,
     onMouseOut: props.onMouseOut,
@@ -41893,6 +41987,7 @@ var LayerShape = function LayerShape(props) {
     }
   }, []);
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    id: layer.id,
     className: 'c-layer c-layer--shape',
     ref: shape,
     style: Object(_styles_shapeStyles__WEBPACK_IMPORTED_MODULE_1__["default"])(layer),
@@ -41986,6 +42081,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var LayerShapePathNormal = function LayerShapePathNormal(props) {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    id: props.layer.id,
     onClick: props.onClick,
     onMouseOver: props.onMouseOver,
     onMouseOut: props.onMouseOut,
@@ -42020,6 +42116,7 @@ var LayerText = function LayerText(props) {
       onMouseOver = props.onMouseOver,
       onMouseOut = props.onMouseOut;
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    id: layer.id,
     onClick: onClick,
     onMouseOver: onMouseOver,
     onMouseOut: onMouseOut,
@@ -42063,6 +42160,7 @@ var Layers = function Layers(props) {
       images: props.images,
       svgs: props.svgs,
       setSelection: props.setSelection,
+      setGroupSelection: props.setGroupSelection,
       setHover: props.setHover
     });
   }));
@@ -42415,13 +42513,13 @@ var Selection = function Selection(props) {
       zoom = props.zoom;
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: 'c-layer c-layer--selection',
-    style: Object(_styles_selectionStyles__WEBPACK_IMPORTED_MODULE_3__["createSelectionStyles"])(selection.frame, zoom)
+    style: Object(_styles_selectionStyles__WEBPACK_IMPORTED_MODULE_3__["createSelectionStyles"])(selection, artboard, zoom)
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SelectionPoints__WEBPACK_IMPORTED_MODULE_1__["default"], {
     zoom: zoom
   }), hover ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SelectionRules__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    selectionFrame: selection.frame,
-    hoverFrame: hover.frame,
-    artboardFrame: artboard.frame,
+    selection: selection,
+    hover: hover,
+    artboard: artboard,
     zoom: zoom
   }) : null);
 };
@@ -42519,33 +42617,33 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var SelectionRules = function SelectionRules(props) {
-  var selectionFrame = props.selectionFrame,
-      hoverFrame = props.hoverFrame,
-      artboardFrame = props.artboardFrame,
+  var selection = props.selection,
+      hover = props.hover,
+      artboard = props.artboard,
       zoom = props.zoom;
-  var selectionOrigin = Object(_utils__WEBPACK_IMPORTED_MODULE_5__["getOrigin"])(selectionFrame);
-  var hoverOrigin = Object(_utils__WEBPACK_IMPORTED_MODULE_5__["getOrigin"])(hoverFrame);
+  var selectionOrigin = Object(_utils__WEBPACK_IMPORTED_MODULE_5__["getOrigin"])(selection, artboard);
+  var hoverOrigin = Object(_utils__WEBPACK_IMPORTED_MODULE_5__["getOrigin"])(hover, artboard);
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: 'c-selection__rules'
   }, selectionOrigin.top > hoverOrigin.top ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SelectionRulesTop__WEBPACK_IMPORTED_MODULE_1__["default"], {
     selectionOrigin: selectionOrigin,
     hoverOrigin: hoverOrigin,
-    artboardFrame: artboardFrame,
+    artboardFrame: artboard.frame,
     zoom: zoom
   }) : null, selectionOrigin.right < hoverOrigin.right ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SelectionRulesRight__WEBPACK_IMPORTED_MODULE_2__["default"], {
     selectionOrigin: selectionOrigin,
     hoverOrigin: hoverOrigin,
-    artboardFrame: artboardFrame,
+    artboardFrame: artboard.frame,
     zoom: zoom
   }) : null, selectionOrigin.bottom < hoverOrigin.bottom ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SelectionRulesBottom__WEBPACK_IMPORTED_MODULE_3__["default"], {
     selectionOrigin: selectionOrigin,
     hoverOrigin: hoverOrigin,
-    artboardFrame: artboardFrame,
+    artboardFrame: artboard.frame,
     zoom: zoom
   }) : null, selectionOrigin.left > hoverOrigin.left ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SelectionRulesLeft__WEBPACK_IMPORTED_MODULE_4__["default"], {
     selectionOrigin: selectionOrigin,
     hoverOrigin: hoverOrigin,
-    artboardFrame: artboardFrame,
+    artboardFrame: artboard.frame,
     zoom: zoom
   }) : null);
 };
@@ -42701,24 +42799,260 @@ var SelectionRulesTop = function SelectionRulesTop(props) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _SidebarLeftLayers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SidebarLeftLayers */ "./resources/ui/components/SidebarLeftLayers.js");
+/* harmony import */ var _SidebarLeftArtboard__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SidebarLeftArtboard */ "./resources/ui/components/SidebarLeftArtboard.js");
+/* harmony import */ var _SidebarLeftLayers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SidebarLeftLayers */ "./resources/ui/components/SidebarLeftLayers.js");
+/* harmony import */ var _SidebarLeftGroups__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SidebarLeftGroups */ "./resources/ui/components/SidebarLeftGroups.js");
+
+
 
 
 
 var SidebarLeft = function SidebarLeft(props) {
   var selection = props.selection,
+      groupSelection = props.groupSelection,
+      groupSelectionNest = props.groupSelectionNest,
       artboard = props.artboard,
-      setSelection = props.setSelection;
+      setSelection = props.setSelection,
+      setHover = props.setHover,
+      setGroupSelection = props.setGroupSelection,
+      setGroupSelectionNest = props.setGroupSelectionNest;
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: 'c-sidebar c-sidebar--left'
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SidebarLeftLayers__WEBPACK_IMPORTED_MODULE_1__["default"], {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SidebarLeftArtboard__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    artboard: artboard,
+    selection: selection,
+    setHover: setHover,
+    setSelection: setSelection,
+    setGroupSelection: setGroupSelection,
+    setGroupSelectionNest: setGroupSelectionNest
+  }), groupSelection ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SidebarLeftGroups__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    selection: selection,
+    groupSelection: groupSelection,
+    groupSelectionNest: groupSelectionNest,
+    setSelection: setSelection,
+    setHover: setHover,
+    setGroupSelection: setGroupSelection,
+    setGroupSelectionNest: setGroupSelectionNest
+  }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SidebarLeftLayers__WEBPACK_IMPORTED_MODULE_2__["default"], {
     layers: artboard.layers,
     selection: selection,
-    setSelection: setSelection
+    setSelection: setSelection,
+    setHover: setHover,
+    setGroupSelection: setGroupSelection
   }));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (SidebarLeft);
+
+/***/ }),
+
+/***/ "./resources/ui/components/SidebarLeftArtboard.js":
+/*!********************************************************!*\
+  !*** ./resources/ui/components/SidebarLeftArtboard.js ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var SidebarLeftArtboard = function SidebarLeftArtboard(props) {
+  var artboard = props.artboard,
+      selection = props.selection,
+      setSelection = props.setSelection,
+      setGroupSelection = props.setGroupSelection,
+      setGroupSelectionNest = props.setGroupSelectionNest,
+      setHover = props.setHover;
+
+  var handleDoubleClick = function handleDoubleClick() {
+    setSelection(artboard);
+    setGroupSelection(null);
+    setGroupSelectionNest(null);
+  };
+
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "c-sidebar-left__layer c-sidebar-left__layer--header ".concat(selection && artboard.id === selection.id ? 'c-sidebar-left__layer--active' : null),
+    onDoubleClick: handleDoubleClick,
+    onMouseOver: function onMouseOver() {
+      return setHover(artboard);
+    },
+    onMouseOut: function onMouseOut() {
+      return setHover(null);
+    }
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: 'c-sidebar-left-layer__name'
+  }, artboard.name));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (SidebarLeftArtboard);
+
+/***/ }),
+
+/***/ "./resources/ui/components/SidebarLeftGroupHead.js":
+/*!*********************************************************!*\
+  !*** ./resources/ui/components/SidebarLeftGroupHead.js ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var SidebarLeftGroupHead = function SidebarLeftGroupHead(props) {
+  var layer = props.layer,
+      index = props.index,
+      selection = props.selection,
+      groupSelection = props.groupSelection,
+      setSelection = props.setSelection,
+      setHover = props.setHover,
+      setGroupSelection = props.setGroupSelection;
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    onClick: function onClick() {
+      return setSelection(layer);
+    },
+    onDoubleClick: function onDoubleClick() {
+      return setGroupSelection(layer);
+    },
+    onMouseOver: function onMouseOver() {
+      return setHover(layer);
+    },
+    onMouseOut: function onMouseOut() {
+      return setHover(null);
+    },
+    className: "c-sidebar-left__layer c-sidebar-left__layer--header ".concat(selection && layer.id === selection.id ? 'c-sidebar-left__layer--active' : null, " ").concat(selection && layer.id === groupSelection.id ? 'c-sidebar-left__layer--header-active' : null)
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: 'c-sidebar-left-layer__name'
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    style: {
+      paddingLeft: "".concat((index + 1) * 8, "px")
+    }
+  }, layer.name)));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (SidebarLeftGroupHead);
+
+/***/ }),
+
+/***/ "./resources/ui/components/SidebarLeftGroups.js":
+/*!******************************************************!*\
+  !*** ./resources/ui/components/SidebarLeftGroups.js ***!
+  \******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _SidebarLeftGroupHead__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SidebarLeftGroupHead */ "./resources/ui/components/SidebarLeftGroupHead.js");
+/* harmony import */ var _SidebarLeftLayers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SidebarLeftLayers */ "./resources/ui/components/SidebarLeftLayers.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+var SidebarLeftGroups = function SidebarLeftGroups(props) {
+  var selection = props.selection,
+      groupSelection = props.groupSelection,
+      groupSelectionNest = props.groupSelectionNest,
+      setSelection = props.setSelection,
+      setHover = props.setHover,
+      setGroupSelection = props.setGroupSelection,
+      setGroupSelectionNest = props.setGroupSelectionNest;
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(0),
+      _useState2 = _slicedToArray(_useState, 2),
+      nestPadding = _useState2[0],
+      setNestPadding = _useState2[1];
+
+  var updateNestPadding = function updateNestPadding() {
+    if (groupSelectionNest) {
+      var groupSelectionIndex = groupSelectionNest.findIndex(function (group) {
+        return group.id === groupSelection.id;
+      });
+      setNestPadding((groupSelectionIndex + 1) * 8 + 8);
+    } else {
+      setNestPadding(16);
+    }
+  };
+
+  var updateGroupSelectionNest = function updateGroupSelectionNest() {
+    var _a;
+
+    if (groupSelectionNest) {
+      var nestContainsGroup = (_a = groupSelectionNest) === null || _a === void 0 ? void 0 : _a.find(function (group) {
+        return group.id === groupSelection.id;
+      });
+
+      if (nestContainsGroup) {
+        var i = 0;
+        var newNest = [];
+
+        while (groupSelectionNest[i].id !== groupSelection.id) {
+          newNest.push(groupSelectionNest[i]);
+          i++;
+        }
+
+        setGroupSelectionNest([].concat(newNest, [groupSelection]));
+      } else {
+        setGroupSelectionNest([].concat(_toConsumableArray(groupSelectionNest), [groupSelection]));
+      }
+    } else {
+      setGroupSelectionNest([groupSelection]);
+    }
+  };
+
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    updateGroupSelectionNest();
+  }, [groupSelection]);
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    updateNestPadding();
+  }, [groupSelectionNest]);
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: 'c-sidebar c-sidebar--left'
+  }, groupSelectionNest ? groupSelectionNest.map(function (group, index) {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SidebarLeftGroupHead__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      key: index,
+      layer: group,
+      index: index,
+      groupSelection: groupSelection,
+      selection: selection,
+      setSelection: setSelection,
+      setHover: setHover,
+      setGroupSelection: setGroupSelection
+    });
+  }) : null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SidebarLeftLayers__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    layers: groupSelection.layers,
+    nestPadding: nestPadding,
+    selection: selection,
+    setSelection: setSelection,
+    setHover: setHover,
+    setGroupSelection: setGroupSelection
+  }));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (SidebarLeftGroups);
 
 /***/ }),
 
@@ -42733,94 +43067,72 @@ var SidebarLeft = function SidebarLeft(props) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _SidebarLeftLayerGroup__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SidebarLeftLayerGroup */ "./resources/ui/components/SidebarLeftLayerGroup.js");
+/* harmony import */ var _IconTriRight__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./IconTriRight */ "./resources/ui/components/IconTriRight.js");
 
 
 
 var SidebarLeftLayer = function SidebarLeftLayer(props) {
   var layer = props.layer,
       selection = props.selection,
-      setSelection = props.setSelection;
+      setHover = props.setHover,
+      setSelection = props.setSelection,
+      setGroupSelection = props.setGroupSelection,
+      nestPadding = props.nestPadding;
 
   switch (layer.type) {
     case 'Group':
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SidebarLeftLayerGroup__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        layer: layer,
-        selection: selection,
-        setSelection: setSelection
-      });
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "c-sidebar-left__layer ".concat(selection && layer.id === selection.id ? 'c-sidebar-left__layer--active' : null)
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: 'c-sidebar-left-layer__name'
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        style: {
+          paddingLeft: "".concat(nestPadding, "px")
+        }
+      }, layer.name)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: 'c-sidebar-left-layer__icon c-sidebar-left-layer__icon--expand',
+        onClick: function onClick() {
+          return setGroupSelection(layer);
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_IconTriRight__WEBPACK_IMPORTED_MODULE_1__["default"], null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: 'c-sidebar-left__group-click',
+        onClick: function onClick() {
+          return setSelection(layer);
+        },
+        onDoubleClick: function onDoubleClick() {
+          return setGroupSelection(layer);
+        },
+        onMouseOver: function onMouseOver() {
+          return setHover(layer);
+        },
+        onMouseOut: function onMouseOut() {
+          return setHover(null);
+        }
+      }));
 
     default:
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "c-sidebar-left__layer ".concat(selection && layer.id === selection.id ? 'c-sidebar-left__layer--active' : null),
         onClick: function onClick() {
           return setSelection(layer);
-        }
+        },
+        onMouseOver: function onMouseOver() {
+          return setHover(layer);
+        },
+        onMouseOut: function onMouseOut() {
+          return setHover(null);
+        },
+        className: "c-sidebar-left__layer ".concat(selection && layer.id === selection.id ? 'c-sidebar-left__layer--active' : null)
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: 'c-sidebar-left-layer__name'
-      }, layer.name));
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        style: {
+          paddingLeft: "".concat(nestPadding, "px")
+        }
+      }, layer.name)));
   }
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (SidebarLeftLayer);
-
-/***/ }),
-
-/***/ "./resources/ui/components/SidebarLeftLayerGroup.js":
-/*!**********************************************************!*\
-  !*** ./resources/ui/components/SidebarLeftLayerGroup.js ***!
-  \**********************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _SidebarLeftLayers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SidebarLeftLayers */ "./resources/ui/components/SidebarLeftLayers.js");
-/* harmony import */ var _IconTriRight__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./IconTriRight */ "./resources/ui/components/IconTriRight.js");
-/* harmony import */ var _IconTriDown__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./IconTriDown */ "./resources/ui/components/IconTriDown.js");
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
-
-function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-
-
-
-
-
-var SidebarLeftLayerGroup = function SidebarLeftLayerGroup(props) {
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
-      _useState2 = _slicedToArray(_useState, 2),
-      showContents = _useState2[0],
-      setShowContents = _useState2[1];
-
-  var layer = props.layer,
-      selection = props.selection,
-      setSelection = props.setSelection;
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: 'c-sidebar-left__group'
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "c-sidebar-left__layer ".concat(selection && layer.id === selection.id ? 'c-sidebar-left__layer--active' : null)
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    className: 'c-sidebar-left-layer__icon c-sidebar-left-layer__icon--expand',
-    onClick: function onClick() {
-      return setShowContents(!showContents);
-    }
-  }, showContents ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_IconTriDown__WEBPACK_IMPORTED_MODULE_3__["default"], null) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_IconTriRight__WEBPACK_IMPORTED_MODULE_2__["default"], null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: 'c-sidebar-left-layer__name'
-  }, layer.name)), showContents ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SidebarLeftLayers__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    layers: layer.layers,
-    selection: selection,
-    setSelection: setSelection
-  }) : null);
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (SidebarLeftLayerGroup);
 
 /***/ }),
 
@@ -42842,15 +43154,21 @@ __webpack_require__.r(__webpack_exports__);
 var SidebarLeftLayers = function SidebarLeftLayers(props) {
   var layers = props.layers,
       selection = props.selection,
-      setSelection = props.setSelection;
+      setSelection = props.setSelection,
+      setHover = props.setHover,
+      setGroupSelection = props.setGroupSelection,
+      nestPadding = props.nestPadding;
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: 'c-sidebar-left__layers'
   }, layers.map(function (layer, index) {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SidebarLeftLayer__WEBPACK_IMPORTED_MODULE_1__["default"], {
       key: index,
       layer: layer,
+      nestPadding: nestPadding,
       selection: selection,
-      setSelection: setSelection
+      setSelection: setSelection,
+      setHover: setHover,
+      setGroupSelection: setGroupSelection
     });
   }));
 };
@@ -43530,6 +43848,34 @@ var artboardStyles = function artboardStyles(artboard) {
 
 /***/ }),
 
+/***/ "./resources/ui/styles/groupSelection.js":
+/*!***********************************************!*\
+  !*** ./resources/ui/styles/groupSelection.js ***!
+  \***********************************************/
+/*! exports provided: groupSelectionStyles, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "groupSelectionStyles", function() { return groupSelectionStyles; });
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils */ "./resources/ui/utils.js");
+/* harmony import */ var _layerStyles__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./layerStyles */ "./resources/ui/styles/layerStyles.js");
+
+
+var groupSelectionStyles = function groupSelectionStyles(groupSelection, artboard, zoom) {
+  var absolutePosition = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["getAbsolutePosition"])(artboard.id, groupSelection.id);
+  var width = Object(_layerStyles__WEBPACK_IMPORTED_MODULE_1__["createWidth"])(groupSelection.frame.width);
+  var height = Object(_layerStyles__WEBPACK_IMPORTED_MODULE_1__["createHeight"])(groupSelection.frame.height);
+  var top = Object(_layerStyles__WEBPACK_IMPORTED_MODULE_1__["createTop"])(absolutePosition.y);
+  var left = Object(_layerStyles__WEBPACK_IMPORTED_MODULE_1__["createLeft"])(absolutePosition.x); //const borderWidth = zoom < 1 ? Math.round(1 / zoom) : 1;
+
+  return Object.assign(Object.assign(Object.assign(Object.assign({}, width), height), top), left // boxShadow: `0 0 0 ${borderWidth}px rgba(0,0,0,0.25) inset, 0 0 0 ${borderWidth}px rgba(0,0,0,0.25)`
+  );
+};
+/* harmony default export */ __webpack_exports__["default"] = (groupSelectionStyles);
+
+/***/ }),
+
 /***/ "./resources/ui/styles/hoverStyles.js":
 /*!********************************************!*\
   !*** ./resources/ui/styles/hoverStyles.js ***!
@@ -43550,11 +43896,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _layerStyles__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./layerStyles */ "./resources/ui/styles/layerStyles.js");
 
 
-var createHoveredStyles = function createHoveredStyles(hoverFrame, zoom) {
-  var width = Object(_layerStyles__WEBPACK_IMPORTED_MODULE_1__["createWidth"])(hoverFrame.width);
-  var height = Object(_layerStyles__WEBPACK_IMPORTED_MODULE_1__["createHeight"])(hoverFrame.height);
-  var top = Object(_layerStyles__WEBPACK_IMPORTED_MODULE_1__["createTop"])(hoverFrame.y);
-  var left = Object(_layerStyles__WEBPACK_IMPORTED_MODULE_1__["createLeft"])(hoverFrame.x);
+var createHoveredStyles = function createHoveredStyles(hover, artboard, zoom) {
+  var absolutePosition = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["getAbsolutePosition"])(artboard.id, hover.id);
+  var width = Object(_layerStyles__WEBPACK_IMPORTED_MODULE_1__["createWidth"])(hover.frame.width);
+  var height = Object(_layerStyles__WEBPACK_IMPORTED_MODULE_1__["createHeight"])(hover.frame.height);
+  var top = Object(_layerStyles__WEBPACK_IMPORTED_MODULE_1__["createTop"])(absolutePosition.y);
+  var left = Object(_layerStyles__WEBPACK_IMPORTED_MODULE_1__["createLeft"])(absolutePosition.x);
   var borderWidth = zoom < 1 ? Math.round(1 / zoom) : 1;
   return Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, width), height), top), left), {
     boxShadow: "0 0 0 ".concat(borderWidth, "px blue inset, 0 0 0 ").concat(borderWidth, "px blue")
@@ -44286,11 +44633,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _layerStyles__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./layerStyles */ "./resources/ui/styles/layerStyles.js");
 
 
-var createSelectionStyles = function createSelectionStyles(selectionFrame, zoom) {
-  var width = Object(_layerStyles__WEBPACK_IMPORTED_MODULE_1__["createWidth"])(selectionFrame.width);
-  var height = Object(_layerStyles__WEBPACK_IMPORTED_MODULE_1__["createHeight"])(selectionFrame.height);
-  var top = Object(_layerStyles__WEBPACK_IMPORTED_MODULE_1__["createTop"])(selectionFrame.y);
-  var left = Object(_layerStyles__WEBPACK_IMPORTED_MODULE_1__["createLeft"])(selectionFrame.x);
+var createSelectionStyles = function createSelectionStyles(selection, artboard, zoom) {
+  var absolutePosition = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["getAbsolutePosition"])(artboard.id, selection.id);
+  var width = Object(_layerStyles__WEBPACK_IMPORTED_MODULE_1__["createWidth"])(selection.frame.width);
+  var height = Object(_layerStyles__WEBPACK_IMPORTED_MODULE_1__["createHeight"])(selection.frame.height);
+  var top = Object(_layerStyles__WEBPACK_IMPORTED_MODULE_1__["createTop"])(absolutePosition.y);
+  var left = Object(_layerStyles__WEBPACK_IMPORTED_MODULE_1__["createLeft"])(absolutePosition.x);
   var borderWidth = zoom < 1 ? Math.round(1 / zoom) : 1;
   return Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, width), height), top), left), {
     boxShadow: "0 0 0 ".concat(borderWidth, "px rgba(0,0,0,0.25) inset, 0 0 0 ").concat(borderWidth, "px rgba(0,0,0,0.25)")
@@ -44748,14 +45096,14 @@ var textStyles = function textStyles(layer) {
 /*!*******************************!*\
   !*** ./resources/ui/utils.js ***!
   \*******************************/
-/*! exports provided: getNestedPosition, getImage, getSVG, cssColor, styleReducer, getOrigin, placeLeft, placeTop */
+/*! exports provided: getImage, getSVG, getAbsolutePosition, cssColor, styleReducer, getOrigin, placeLeft, placeTop */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getNestedPosition", function() { return getNestedPosition; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getImage", function() { return getImage; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getSVG", function() { return getSVG; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getAbsolutePosition", function() { return getAbsolutePosition; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cssColor", function() { return cssColor; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "styleReducer", function() { return styleReducer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getOrigin", function() { return getOrigin; });
@@ -44764,7 +45112,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var chroma_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! chroma-js */ "./node_modules/chroma-js/chroma.js");
 /* harmony import */ var chroma_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(chroma_js__WEBPACK_IMPORTED_MODULE_0__);
 
-var getNestedPosition = function getNestedPosition(layers, id) {};
 var getImage = function getImage(images, id) {
   return images.find(function (image) {
     return image.id === id;
@@ -44774,6 +45121,18 @@ var getSVG = function getSVG(svgs, id) {
   return svgs.find(function (svg) {
     return svg.id === id;
   });
+};
+var getAbsolutePosition = function getAbsolutePosition(artboardId, layerId) {
+  var artboardEl = document.getElementById(artboardId);
+  var layerEl = document.getElementById(layerId);
+  var selectionBounding = layerEl.getBoundingClientRect();
+  var artboardBounding = artboardEl.getBoundingClientRect();
+  var topOffset = selectionBounding.top - artboardBounding.top;
+  var leftOffset = selectionBounding.left - artboardBounding.left;
+  return {
+    x: leftOffset,
+    y: topOffset
+  };
 };
 var cssColor = function cssColor(color) {
   return chroma_js__WEBPACK_IMPORTED_MODULE_0___default()(color).css();
@@ -44788,11 +45147,13 @@ var styleReducer = function styleReducer(combinedStyles) {
     return Object.assign(Object.assign({}, styles), style);
   }, {});
 };
-var getOrigin = function getOrigin(frame) {
-  var x = frame.x,
-      y = frame.y,
-      width = frame.width,
-      height = frame.height;
+var getOrigin = function getOrigin(layer, artboard) {
+  var absolutePosition = getAbsolutePosition(artboard.id, layer.id);
+  var layerFrame = Object.assign(Object.assign({}, layer.frame), absolutePosition);
+  var x = layerFrame.x,
+      y = layerFrame.y,
+      width = layerFrame.width,
+      height = layerFrame.height;
   return {
     top: y,
     right: x + width,

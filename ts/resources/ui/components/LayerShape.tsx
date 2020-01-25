@@ -21,6 +21,7 @@ const LayerShape = (props: LayerShapeProps) => {
   }, []);
   return (
     <div
+      id={layer.id}
       className='c-layer c-layer--shape'
       ref={shape}
       style={shapeStyles(layer)}

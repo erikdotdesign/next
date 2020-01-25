@@ -6,6 +6,8 @@ interface CanvasProps {
   images: srm.Base64Image[];
   svgs: srm.SvgPath[];
   selection: srm.AppLayer | null;
+  groupSelection: srm.Group | null;
+  groupSelectionNest: srm.Group[] | null;
   hover: srm.AppLayer | null;
   viewPortSize: {width: number, height: number};
   zoom: number;
@@ -15,6 +17,8 @@ interface CanvasProps {
   composing: boolean;
   ready: boolean;
   setSelection(selection: srm.AppLayer | null): void;
+  setGroupSelection(groupSelection: srm.Group | null): void;
+  setGroupSelectionNest(groupSelectionNest: srm.Group[] | null): void;
   setHover(hover: srm.AppLayer | null): void;
   setZoom(zoom: number): void;
   setEdit(edit: boolean): void;
@@ -25,10 +29,11 @@ let startGestureZoom = 0;
 let gestureZoom = 1;
 
 const Canvas = (props: CanvasProps) => {
-  const { artboard, images, svgs, selection, setSelection, hover, setHover, setZoom, zoom, showNotes, edit, setEdit, notes, setNotes, composing, ready } = props;
+  const { artboard, images, svgs, selection, setSelection, groupSelection, setGroupSelection, groupSelectionNest, setGroupSelectionNest, hover, setHover, setZoom, zoom, showNotes, edit, setEdit, notes, setNotes, composing, ready } = props;
   const canvas = useRef<HTMLDivElement>(null);
   const handleClick = () => {
     setSelection(null);
+    setGroupSelection(null);
   }
   const handleMouseOver = () => {
     setHover(null);
@@ -77,6 +82,10 @@ const Canvas = (props: CanvasProps) => {
             svgs={svgs}
             selection={selection}
             setSelection={setSelection}
+            groupSelection={groupSelection}
+            setGroupSelection={setGroupSelection}
+            groupSelectionNest={groupSelectionNest}
+            setGroupSelectionNest={setGroupSelectionNest}
             hover={hover}
             setHover={setHover}
             zoom={zoom}

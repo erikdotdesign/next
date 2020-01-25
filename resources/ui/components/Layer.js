@@ -5,9 +5,12 @@ import LayerShapePath from './LayerShapePath';
 import LayerShape from './LayerShape';
 import LayerText from './LayerText';
 const Layer = (props) => {
-    const { layer, images, svgs, setSelection, setHover } = props;
+    const { layer, images, svgs, setSelection, setGroupSelection, setHover } = props;
     const onClick = () => {
         setSelection(layer);
+    };
+    const onDoubleClick = () => {
+        setGroupSelection(layer);
     };
     const onMouseOver = () => {
         setHover(layer);
@@ -17,7 +20,7 @@ const Layer = (props) => {
     };
     switch (layer.type) {
         case 'Group':
-            return (React.createElement(LayerGroup, { layer: layer, images: images, svgs: svgs, onClick: onClick, onMouseOver: onMouseOver, onMouseOut: onMouseOut, setSelection: props.setSelection, setHover: props.setHover }));
+            return (React.createElement(LayerGroup, { layer: layer, images: images, svgs: svgs, onClick: onClick, onDoubleClick: onDoubleClick, onMouseOver: onMouseOver, onMouseOut: onMouseOut, setSelection: props.setSelection, setGroupSelection: props.setGroupSelection, setHover: props.setHover }));
         case 'Image':
             return (React.createElement(LayerImage, { layer: layer, images: images, onClick: onClick, onMouseOver: onMouseOver, onMouseOut: onMouseOut }));
         case 'Shape':

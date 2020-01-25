@@ -1,11 +1,12 @@
-import { placeLeft, placeTop } from '../utils';
+import { placeLeft, placeTop, getAbsolutePosition } from '../utils';
 import { createLeft, createTop, createWidth, createHeight } from './layerStyles';
 
-export const createHoveredStyles = (hoverFrame: srm.Rectangle, zoom: number) => {
-  const width = createWidth(hoverFrame.width);
-  const height = createHeight(hoverFrame.height);
-  const top = createTop(hoverFrame.y);
-  const left = createLeft(hoverFrame.x);
+export const createHoveredStyles = (hover: srm.AppLayer, artboard: srm.Artboard, zoom: number) => {
+  const absolutePosition = getAbsolutePosition(artboard.id, hover.id);
+  const width = createWidth(hover.frame.width);
+  const height = createHeight(hover.frame.height);
+  const top = createTop(absolutePosition.y);
+  const left = createLeft(absolutePosition.x);
   const borderWidth = zoom < 1 ? Math.round(1 / zoom) : 1;
 
   return {

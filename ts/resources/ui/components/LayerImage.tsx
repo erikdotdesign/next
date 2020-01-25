@@ -11,6 +11,7 @@ interface LayerImageProps {
 
 const LayerImage = (props: LayerImageProps) => (
   <div
+    id={props.layer.id}
     onClick={props.onClick}
     onMouseOver={props.onMouseOver}
     onMouseOut={props.onMouseOut}

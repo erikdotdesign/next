@@ -15,14 +15,14 @@ const Selection = (props: SelectionProps) => {
   return (
     <div
       className='c-layer c-layer--selection'
-      style={createSelectionStyles(selection.frame, zoom)}>
+      style={createSelectionStyles(selection, artboard, zoom)}>
       <SelectionPoints zoom={zoom} />
       {
         hover
         ? <SelectionRules
-            selectionFrame={selection.frame}
-            hoverFrame={hover.frame}
-            artboardFrame={artboard.frame}
+            selection={selection}
+            hover={hover}
+            artboard={artboard}
             zoom={zoom} />
         : null
       }

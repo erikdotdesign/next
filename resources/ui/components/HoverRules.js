@@ -5,11 +5,9 @@ import HoverRulesBottom from './HoverRulesBottom';
 import HoverRulesLeft from './HoverRulesLeft';
 import { getOrigin } from '../utils';
 const HoverRules = (props) => {
-    const { hover, selection, zoom } = props;
-    const hoverFrame = hover.frame;
-    const selectionFrame = selection.frame;
-    const hoverOrigin = getOrigin(hoverFrame);
-    const selectionOrigin = getOrigin(selectionFrame);
+    const { hover, artboard, selection, zoom } = props;
+    const hoverOrigin = getOrigin(hover, artboard);
+    const selectionOrigin = getOrigin(selection, artboard);
     return (React.createElement("div", { className: 'c-hover__rules' },
         selectionOrigin.yCenter < hoverOrigin.top
             ? React.createElement(HoverRulesTop, { hoverOrigin: hoverOrigin, selectionOrigin: selectionOrigin, zoom: zoom })

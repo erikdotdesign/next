@@ -5938,6 +5938,7 @@ var LayerShape = function LayerShape(props) {
     }
   }, []);
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    id: layer.id,
     className: 'c-layer c-layer--shape',
     ref: shape,
     style: Object(_styles_shapeStyles__WEBPACK_IMPORTED_MODULE_1__["default"])(layer),
@@ -6006,6 +6007,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var LayerShapePathNormal = function LayerShapePathNormal(props) {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    id: props.layer.id,
     onClick: props.onClick,
     onMouseOver: props.onMouseOver,
     onMouseOut: props.onMouseOut,
@@ -6653,14 +6655,14 @@ var shapeStyles = function shapeStyles(layer) {
 /*!*******************************!*\
   !*** ./resources/ui/utils.js ***!
   \*******************************/
-/*! exports provided: getNestedPosition, getImage, getSVG, cssColor, styleReducer, getOrigin, placeLeft, placeTop */
+/*! exports provided: getImage, getSVG, getAbsolutePosition, cssColor, styleReducer, getOrigin, placeLeft, placeTop */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getNestedPosition", function() { return getNestedPosition; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getImage", function() { return getImage; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getSVG", function() { return getSVG; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getAbsolutePosition", function() { return getAbsolutePosition; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cssColor", function() { return cssColor; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "styleReducer", function() { return styleReducer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getOrigin", function() { return getOrigin; });
@@ -6669,7 +6671,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var chroma_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! chroma-js */ "./node_modules/chroma-js/chroma.js");
 /* harmony import */ var chroma_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(chroma_js__WEBPACK_IMPORTED_MODULE_0__);
 
-var getNestedPosition = function getNestedPosition(layers, id) {};
 var getImage = function getImage(images, id) {
   return images.find(function (image) {
     return image.id === id;
@@ -6679,6 +6680,18 @@ var getSVG = function getSVG(svgs, id) {
   return svgs.find(function (svg) {
     return svg.id === id;
   });
+};
+var getAbsolutePosition = function getAbsolutePosition(artboardId, layerId) {
+  var artboardEl = document.getElementById(artboardId);
+  var layerEl = document.getElementById(layerId);
+  var selectionBounding = layerEl.getBoundingClientRect();
+  var artboardBounding = artboardEl.getBoundingClientRect();
+  var topOffset = selectionBounding.top - artboardBounding.top;
+  var leftOffset = selectionBounding.left - artboardBounding.left;
+  return {
+    x: leftOffset,
+    y: topOffset
+  };
 };
 var cssColor = function cssColor(color) {
   return chroma_js__WEBPACK_IMPORTED_MODULE_0___default()(color).css();
@@ -6693,11 +6706,13 @@ var styleReducer = function styleReducer(combinedStyles) {
     return Object.assign(Object.assign({}, styles), style);
   }, {});
 };
-var getOrigin = function getOrigin(frame) {
-  var x = frame.x,
-      y = frame.y,
-      width = frame.width,
-      height = frame.height;
+var getOrigin = function getOrigin(layer, artboard) {
+  var absolutePosition = getAbsolutePosition(artboard.id, layer.id);
+  var layerFrame = Object.assign(Object.assign({}, layer.frame), absolutePosition);
+  var x = layerFrame.x,
+      y = layerFrame.y,
+      width = layerFrame.width,
+      height = layerFrame.height;
   return {
     top: y,
     right: x + width,

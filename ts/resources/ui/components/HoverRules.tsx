@@ -7,16 +7,15 @@ import { getOrigin } from '../utils';
 
 interface HoverRulesProps {
   hover: srm.AppLayer;
+  artboard: srm.Artboard;
   selection: srm.AppLayer;
   zoom: number;
 }
 
 const HoverRules = (props: HoverRulesProps) => {
-  const { hover, selection, zoom } = props;
-  const hoverFrame: srm.Rectangle = hover.frame;
-  const selectionFrame: srm.Rectangle = selection.frame;
-  const hoverOrigin: srm.Origin = getOrigin(hoverFrame);
-  const selectionOrigin: srm.Origin = getOrigin(selectionFrame);
+  const { hover, artboard, selection, zoom } = props;
+  const hoverOrigin: srm.Origin = getOrigin(hover, artboard);
+  const selectionOrigin: srm.Origin = getOrigin(selection, artboard);
   return (
     <div className='c-hover__rules'>
       {

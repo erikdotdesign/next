@@ -12,6 +12,7 @@ interface LayerShapePathNormalProps {
 
 const LayerShapePathNormal = (props: LayerShapePathNormalProps) => (
   <div
+    id={props.layer.id}
     onClick={props.onClick}
     onMouseOver={props.onMouseOver}
     onMouseOut={props.onMouseOut}

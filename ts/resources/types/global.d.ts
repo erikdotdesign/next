@@ -341,6 +341,7 @@ declare namespace srm {
     y: number;
     height: number;
     width: number;
+    changeBasis(basis: any): any;
   }
 
   // Models / ColorAsset

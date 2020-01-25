@@ -218,6 +218,12 @@ textarea {
   box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, 0.25);
   padding-bottom: 48px;
 }
+.c-sidebar::selection {
+  background: none !important;
+}
+.c-sidebar *::selection {
+  background: none !important;
+}
 
 .c-sidebar--left {
   left: 0;
@@ -230,6 +236,26 @@ textarea {
   height: 32px;
   width: 100%;
   line-height: 32px;
+  cursor: pointer;
+}
+
+.c-sidebar-left__layer--header {
+  background: #333;
+  box-shadow: 0px -1px 0px 0px #666 inset, 0px -1px 0px 0px #666;
+}
+
+.c-sidebar-left__layer--header-active {
+  background: #444;
+  box-shadow: 0px -1px 0px 0px #666 inset, 0px -1px 0px 0px #666;
+}
+
+.c-sidebar-left__group-click {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 1;
 }
 
 .c-sidebar-left__layer--active {
@@ -246,7 +272,9 @@ textarea {
 }
 
 .c-sidebar-left-layer__icon--expand {
+  position: relative;
   opacity: 1;
+  z-index: 2;
 }
 
 .c-sidebar-left-layer__name {
@@ -254,10 +282,12 @@ textarea {
   font-size: 12px;
   padding-left: 12px;
   line-height: 32px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-
-.c-sidebar-left__layer--group .c-sidebar-left-layer__name {
-  padding-left: 0;
+.c-sidebar-left-layer__name::selection {
+  background: none;
 }
 
 .c-sidebar-left__group .c-sidebar-left__layers {
@@ -549,7 +579,7 @@ textarea {
 
 .c-layer--selection {
   position: relative;
-  z-index: 3;
+  z-index: 4;
   pointer-events: none;
 }
 
@@ -679,7 +709,7 @@ textarea {
 }
 
 .c-layer--hover {
-  z-index: 2;
+  z-index: 3;
   pointer-events: none;
 }
 
@@ -1326,4 +1356,22 @@ textarea {
   transform-origin: center top;
   animation: popIn 0.15s ease-out;
   content: "Notes";
+}
+
+.c-group-selection {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 2;
+}
+
+.c-group-selection__scrim {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.5);
 }

@@ -10,13 +10,17 @@ interface LayerProps {
   images: srm.Base64Image[];
   svgs: srm.SvgPath[];
   setSelection(selection: srm.AppLayer | null): void;
+  setGroupSelection(selection: srm.AppLayer | null): void;
   setHover(hover: srm.AppLayer | null): void;
 }
 
 const Layer = (props: LayerProps) => {
-  const { layer, images, svgs, setSelection, setHover } = props;
+  const { layer, images, svgs, setSelection, setGroupSelection, setHover } = props;
   const onClick = () => {
     setSelection(layer);
+  }
+  const onDoubleClick = () => {
+    setGroupSelection(layer as srm.Group);
   }
   const onMouseOver = () => {
     setHover(layer);
@@ -32,9 +36,11 @@ const Layer = (props: LayerProps) => {
           images={images}
           svgs={svgs}
           onClick={onClick}
+          onDoubleClick={onDoubleClick}
           onMouseOver={onMouseOver}
           onMouseOut={onMouseOut}
           setSelection={props.setSelection}
+          setGroupSelection={props.setGroupSelection}
           setHover={props.setHover} />
       )
     case 'Image':

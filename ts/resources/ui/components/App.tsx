@@ -16,6 +16,8 @@ const App = (props: AppProps) => {
   const app = useRef<HTMLDivElement>(null);
   const [ready, setReady] = useState<boolean>(false);
   // selection and hover
+  const [groupSelectionNest, setGroupSelectionNest] = useState<srm.Group[] | null>(null);
+  const [groupSelection, setGroupSelection] = useState<srm.Group | null>(null);
   const [selection, setSelection] = useState<srm.AppLayer | null>(null);
   const [hover, setHover] = useState<srm.AppLayer | null>(null);
   // zoom
@@ -141,6 +143,11 @@ const App = (props: AppProps) => {
       <SidebarLeft
         selection={selection}
         setSelection={setSelection}
+        setHover={setHover}
+        groupSelection={groupSelection}
+        setGroupSelection={setGroupSelection}
+        groupSelectionNest={groupSelectionNest}
+        setGroupSelectionNest={setGroupSelectionNest}
         artboard={props.artboard} />
       <SidebarRight
         selection={selection}
@@ -157,6 +164,10 @@ const App = (props: AppProps) => {
         setZoom={setZoom}
         selection={selection}
         setSelection={setSelection}
+        groupSelection={groupSelection}
+        setGroupSelection={setGroupSelection}
+        groupSelectionNest={groupSelectionNest}
+        setGroupSelectionNest={setGroupSelectionNest}
         hover={hover}
         setHover={setHover}
         viewPortSize={viewPortSize}

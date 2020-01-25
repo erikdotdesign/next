@@ -27,6 +27,13 @@ $styleHeight: 40px
   box-shadow: 0px 5px 20px 0px rgba(0,0,0,0.25)
   padding-bottom: 48px
 
+  &::selection
+    background: none !important
+
+  *
+    &::selection
+      background: none !important
+
 .c-sidebar--left
   left: 0
 
@@ -37,6 +44,19 @@ $styleHeight: 40px
   height: $cellHeight
   width: 100%
   line-height: $cellHeight
+  cursor: pointer
+
+.c-sidebar-left__layer--header
+  background: $grayDark
+  box-shadow: 0px -1px 0px 0px $grayLighter inset, 0px -1px 0px 0px $grayLighter
+
+.c-sidebar-left__layer--header-active
+  background: $gray
+  box-shadow: 0px -1px 0px 0px $grayLighter inset, 0px -1px 0px 0px $grayLighter
+
+.c-sidebar-left__group-click
+  +absolute-full
+  z-index: 1
 
 .c-sidebar-left__layer--active
   background: $highlightColor
@@ -50,17 +70,22 @@ $styleHeight: 40px
   opacity: 0.5
 
 .c-sidebar-left-layer__icon--expand
+  position: relative
   opacity: 1
+  z-index: 2
 
 .c-sidebar-left-layer__name
   flex-grow: 2
   font-size: 12px
   padding-left: 12px
   line-height: $cellHeight
+  white-space: nowrap
+  overflow: hidden
+  text-overflow: ellipsis
+  //animation: slideInRight $transitionNormal ease
 
-.c-sidebar-left__layer--group
-  .c-sidebar-left-layer__name
-    padding-left: 0
+  &::selection
+    background: none
 
 .c-sidebar-left__group
   .c-sidebar-left__layers

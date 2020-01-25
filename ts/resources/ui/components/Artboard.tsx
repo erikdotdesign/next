@@ -2,6 +2,7 @@ import React, { useEffect, useRef }  from 'react';
 import Layers from './Layers';
 import gsap from 'gsap';
 import Selection from './Selection';
+import GroupSelection from './GroupSelection';
 import Hover from './Hover';
 import Notes from './Notes';
 import NoteAdd from './NoteAdd';
@@ -13,19 +14,23 @@ interface ArtboardProps {
   svgs: srm.SvgPath[];
   notes: srm.Notes;
   selection: srm.AppLayer | null;
+  groupSelection: srm.Group | null;
+  groupSelectionNest: srm.Group[] | null;
   hover: srm.AppLayer | null;
   zoom: number;
   showNotes: boolean;
   edit: boolean;
   composing: boolean;
   setSelection(selection: srm.AppLayer | null): void;
+  setGroupSelection(groupSelection: srm.Group | null): void;
+  setGroupSelectionNest(groupSelectionNest: srm.Group[] | null): void;
   setHover(hover: srm.AppLayer | null): void;
   setNotes(notes: srm.Notes): void;
 }
 
 const Artboard = (props: ArtboardProps) => {
   const artboardRef = useRef<HTMLDivElement>(null);
-  const { artboard, images, svgs, selection, setSelection, hover, setHover, zoom, showNotes, edit, notes, setNotes, composing } = props;
+  const { artboard, images, svgs, selection, setSelection, groupSelection, setGroupSelection, groupSelectionNest, setGroupSelectionNest, hover, setHover, zoom, showNotes, edit, notes, setNotes, composing } = props;
   const onClick = (): void => {
     setSelection(artboard);
   }
@@ -37,6 +42,7 @@ const Artboard = (props: ArtboardProps) => {
   }, [zoom]);
   return (
     <div
+      id={artboard.id}
       className='c-artboard'
       ref={artboardRef}
       style={artboardStyles(artboard)}>
@@ -45,7 +51,21 @@ const Artboard = (props: ArtboardProps) => {
         images={images}
         svgs={svgs}
         setSelection={setSelection}
+        setGroupSelection={setGroupSelection}
         setHover={setHover} />
+      {
+        groupSelection
+        ? <GroupSelection
+            groupSelection={groupSelection}
+            images={images}
+            svgs={svgs}
+            setSelection={setSelection}
+            setGroupSelection={setGroupSelection}
+            setHover={setHover}
+            artboard={artboard}
+            zoom={zoom} />
+        : null
+      }
       {
         selection
         ? <Selection

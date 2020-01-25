@@ -1,11 +1,12 @@
-import { placeLeft, placeTop } from '../utils';
+import { placeLeft, placeTop, getAbsolutePosition } from '../utils';
 import { createLeft, createTop, createWidth, createHeight } from './layerStyles';
 
-export const createSelectionStyles = (selectionFrame: srm.Rectangle, zoom:number) => {
-  const width = createWidth(selectionFrame.width);
-  const height = createHeight(selectionFrame.height);
-  const top = createTop(selectionFrame.y);
-  const left = createLeft(selectionFrame.x);
+export const createSelectionStyles = (selection: srm.AppLayer, artboard: srm.Artboard, zoom:number) => {
+  const absolutePosition = getAbsolutePosition(artboard.id, selection.id);
+  const width = createWidth(selection.frame.width);
+  const height = createHeight(selection.frame.height);
+  const top = createTop(absolutePosition.y);
+  const left = createLeft(absolutePosition.x);
   const borderWidth = zoom < 1 ? Math.round(1 / zoom) : 1;
 
   return {

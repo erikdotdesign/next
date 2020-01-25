@@ -13,6 +13,7 @@ const LayerText = (props: LayerTextProps) => {
   const { layer, onClick, onMouseOver, onMouseOut } = props;
   return (
     <div
+      id={layer.id}
       onClick={onClick}
       onMouseOver={onMouseOver}
       onMouseOut={onMouseOut}

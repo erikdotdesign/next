@@ -6,6 +6,7 @@ interface LayersProps {
   images: srm.Base64Image[];
   svgs: srm.SvgPath[];
   setSelection(selection: srm.AppLayer | null): void;
+  setGroupSelection(groupSelection: srm.Group | null): void;
   setHover(hover: srm.AppLayer | null): void;
 }
 
@@ -20,6 +21,7 @@ const Layers = (props: LayersProps) => {
             images={props.images}
             svgs={props.svgs}
             setSelection={props.setSelection}
+            setGroupSelection={props.setGroupSelection}
             setHover={props.setHover} />
         ))
       }
