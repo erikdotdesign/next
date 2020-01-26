@@ -34,11 +34,16 @@ const Artboard = (props: ArtboardProps) => {
   const onClick = (): void => {
     setSelection(artboard);
   }
+  const onDoubleClick = () => {
+    setGroupSelection(null);
+    setGroupSelectionNest(null);
+  }
   const onMouseOver = (): void => {
     setHover(artboard);
   }
   useEffect(() => {
     setSelection(artboard);
+    console.log(artboard.layers);
   }, []);
   useEffect(() => {
     gsap.set(artboardRef.current, {scale: zoom});
@@ -49,26 +54,27 @@ const Artboard = (props: ArtboardProps) => {
       className='c-artboard'
       ref={artboardRef}
       style={artboardStyles(artboard)}>
-      <Layers
-        layers={artboard.layers as srm.AppArtboardLayer[]}
-        images={images}
-        svgs={svgs}
-        setSelection={setSelection}
-        setGroupSelection={setGroupSelection}
-        setHover={setHover} />
-      {
-        groupSelection
-        ? <GroupSelection
-            groupSelection={groupSelection}
-            images={images}
-            svgs={svgs}
-            setSelection={setSelection}
-            setGroupSelection={setGroupSelection}
-            setHover={setHover}
-            artboard={artboard}
-            zoom={zoom} />
-        : null
-      }
+      <div className='c-artboard__layers'>
+        <Layers
+          layers={artboard.layers as srm.AppArtboardLayer[]}
+          images={images}
+          svgs={svgs}
+          setSelection={setSelection}
+          setGroupSelection={setGroupSelection}
+          setHover={setHover} />
+        {
+          groupSelection
+          ? <GroupSelection
+              groupSelection={groupSelection}
+              images={images}
+              svgs={svgs}
+              setSelection={setSelection}
+              setGroupSelection={setGroupSelection}
+              setHover={setHover}
+              artboard={artboard} />
+          : null
+        }
+      </div>
       {
         selection
         ? <Selection
@@ -97,17 +103,19 @@ const Artboard = (props: ArtboardProps) => {
             zoom={zoom} />
         : null
       }
-      {
+      {/* {
         showNotes
         ? <Notes
             setSelection={setSelection}
+            setGroupSelection={setGroupSelection}
             artboard={artboard}
             notes={notes} />
         : null
-      }
+      } */}
       <div
         className='c-artboard__click-area'
         onClick={onClick}
+        onDoubleClick={onDoubleClick}
         onMouseOver={onMouseOver} />
     </div>
   );

@@ -206,6 +206,15 @@ textarea {
   right: 0;
 }
 
+.c-artboard__layers {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  overflow: hidden;
+}
+
 .c-sidebar {
   position: fixed;
   background: #222;
@@ -1367,7 +1376,22 @@ textarea {
   z-index: 2;
 }
 
+.c-group-selection__artboard {
+  position: relative;
+  z-index: 2;
+  box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.33);
+}
+
 .c-group-selection__scrim {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background: #111;
+}
+
+.c-group-selection__click-area {
   position: absolute;
   left: 0;
   top: 0;

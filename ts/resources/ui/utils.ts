@@ -1,5 +1,4 @@
 import chroma from 'chroma-js';
-//import _ from 'lodash';
 
 export const getImage = (images: srm.Base64Image[], id: string): srm.Base64Image | undefined  => {
   return images.find((image: srm.Base64Image) => image.id === id);
@@ -8,12 +7,6 @@ export const getImage = (images: srm.Base64Image[], id: string): srm.Base64Image
 export const getSVG = (svgs: srm.SvgPath[], id: string): srm.SvgPath | undefined  => {
   return svgs.find((svg: srm.SvgPath) => svg.id === id);
 };
-
-// export const getSLayer = (layers: any[], id: string) => {
-//   var layer = _.find(layers, ['id', id]);
-//   console.log(layer);
-//   return layer;
-// };
 
 export const getAbsolutePosition = (artboardId: string, layerId: string) => {
   const layerEl = document.getElementById(layerId);

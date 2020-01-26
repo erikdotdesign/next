@@ -15,6 +15,7 @@ const webviewIdentifier = 'measure.webview';
 export default (context: any) => {
   // get document, selectedLayers, and artboard
   const document: srm.Document = sketch.getSelectedDocument();
+  const page = document.selectedPage;
   const selectedLayers: srm.Selection = document.selectedLayers;
   const artboard = selectedLayers.layers.find((layer: srm.SketchLayer) => {
     return layer.type === 'Artboard' && layer.selected;
@@ -22,7 +23,7 @@ export default (context: any) => {
   // if artboard selected, run command
   if (artboard) {
     //@ts-ignore
-    let store = getStore(artboard, sketch);
+    let store = getStore(page, artboard, sketch);
     // set webview browser window
     const browserWindow = new BrowserWindow({
       identifier: webviewIdentifier,

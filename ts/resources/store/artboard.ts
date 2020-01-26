@@ -89,12 +89,17 @@ const flattenGroups = (layers: srm.SketchLayer[]): void => {
 };
 
 const roundFrameDimensions = (layers: srm.SketchLayer[]): void => {
-  layers.forEach((layer: srm.SketchLayer) => {
-    layer.frame.x = Math.round(layer.frame.x);
-    layer.frame.y = Math.round(layer.frame.y);
-    layer.frame.width = Math.round(layer.frame.width);
-    layer.frame.height = Math.round(layer.frame.height);
-  });
+  if (layers.length > 0) {
+    layers.forEach((layer: srm.SketchLayer) => {
+      layer.frame.x = Math.round(layer.frame.x);
+      layer.frame.y = Math.round(layer.frame.y);
+      layer.frame.width = Math.round(layer.frame.width);
+      layer.frame.height = Math.round(layer.frame.height);
+      if (layer.type === "Group") {
+        roundFrameDimensions((<srm.Group>layer).layers);
+      }
+    });
+  }
 };
 
 const getArtboard = (selectedArtboard: srm.Artboard, sketch: srm.Sketch): srm.Artboard => {
@@ -111,8 +116,6 @@ const getArtboard = (selectedArtboard: srm.Artboard, sketch: srm.Sketch): srm.Ar
   removeHiddenLayers(artboard.layers);
   // turn masks into image layers
   masksToImages(artboard.layers, sketch);
-  // flatten all groups
-  // flattenGroups(artboard.layers);
   // round layer frame dimensions
   roundFrameDimensions(artboard.layers);
   // return final artboard

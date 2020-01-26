@@ -6,10 +6,11 @@ interface NotesProps {
   artboard: srm.Artboard;
   notes: srm.Notes;
   setSelection(selection: srm.AppLayer | null): void;
+  setGroupSelection(groupSelection: srm.Group | null): void;
 }
 
 const Notes = (props: NotesProps) => {
-  const { artboard, setSelection, notes } = props;
+  const { artboard, setSelection, setGroupSelection, notes } = props;
   const getLayerPosition = (layer: srm.AppLayer) => {
     const absolutePosition = getAbsolutePosition(artboard.id, layer.id);
     const position = {
@@ -19,6 +20,13 @@ const Notes = (props: NotesProps) => {
     };
     return position;
   }
+  const handleClick = (layer: srm.AppLayer) => {
+    if (layer.type === 'Group') {
+      setGroupSelection(layer as srm.Group);
+    } else {
+      setSelection(layer);
+    }
+  }
   return (
     <div className='c-notes'>
       {
@@ -26,7 +34,7 @@ const Notes = (props: NotesProps) => {
         ? Object.keys(notes).map((note: any, index: number) => (
             <NoteCount
               key={index}
-              onClick={() => setSelection(notes[note].layer)}
+              onClick={() => handleClick(notes[note].layer)}
               position={(getLayerPosition(notes[note].layer) as srm.Rectangle)}
               count={notes[note].notes.length} />
           ))

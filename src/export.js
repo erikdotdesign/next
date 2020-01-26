@@ -12,6 +12,7 @@ const webviewIdentifier = 'measure.webview';
 export default (context) => {
     // get document, selectedLayers, and artboard
     const document = sketch.getSelectedDocument();
+    const page = document.selectedPage;
     const selectedLayers = document.selectedLayers;
     const artboard = selectedLayers.layers.find((layer) => {
         return layer.type === 'Artboard' && layer.selected;
@@ -19,7 +20,7 @@ export default (context) => {
     // if artboard selected, run command
     if (artboard) {
         //@ts-ignore
-        let store = getStore(artboard, sketch);
+        let store = getStore(page, artboard, sketch);
         // set webview browser window
         const browserWindow = new BrowserWindow({
             identifier: webviewIdentifier,

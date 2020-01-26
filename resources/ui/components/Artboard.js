@@ -4,7 +4,6 @@ import gsap from 'gsap';
 import Selection from './Selection';
 import GroupSelection from './GroupSelection';
 import Hover from './Hover';
-import Notes from './Notes';
 import NoteAdd from './NoteAdd';
 import artboardStyles from '../styles/artboardStyles';
 const Artboard = (props) => {
@@ -13,20 +12,26 @@ const Artboard = (props) => {
     const onClick = () => {
         setSelection(artboard);
     };
+    const onDoubleClick = () => {
+        setGroupSelection(null);
+        setGroupSelectionNest(null);
+    };
     const onMouseOver = () => {
         setHover(artboard);
     };
     useEffect(() => {
         setSelection(artboard);
+        console.log(artboard.layers);
     }, []);
     useEffect(() => {
         gsap.set(artboardRef.current, { scale: zoom });
     }, [zoom]);
     return (React.createElement("div", { id: artboard.id, className: 'c-artboard', ref: artboardRef, style: artboardStyles(artboard) },
-        React.createElement(Layers, { layers: artboard.layers, images: images, svgs: svgs, setSelection: setSelection, setGroupSelection: setGroupSelection, setHover: setHover }),
-        groupSelection
-            ? React.createElement(GroupSelection, { groupSelection: groupSelection, images: images, svgs: svgs, setSelection: setSelection, setGroupSelection: setGroupSelection, setHover: setHover, artboard: artboard, zoom: zoom })
-            : null,
+        React.createElement("div", { className: 'c-artboard__layers' },
+            React.createElement(Layers, { layers: artboard.layers, images: images, svgs: svgs, setSelection: setSelection, setGroupSelection: setGroupSelection, setHover: setHover }),
+            groupSelection
+                ? React.createElement(GroupSelection, { groupSelection: groupSelection, images: images, svgs: svgs, setSelection: setSelection, setGroupSelection: setGroupSelection, setHover: setHover, artboard: artboard })
+                : null),
         selection
             ? React.createElement(Selection, { selection: selection, hover: hover, artboard: artboard, zoom: zoom })
             : null,
@@ -36,9 +41,6 @@ const Artboard = (props) => {
         selection && edit && composing
             ? React.createElement(NoteAdd, { layer: selection, artboard: artboard, notes: notes, setNotes: setNotes, zoom: zoom })
             : null,
-        showNotes
-            ? React.createElement(Notes, { setSelection: setSelection, artboard: artboard, notes: notes })
-            : null,
-        React.createElement("div", { className: 'c-artboard__click-area', onClick: onClick, onMouseOver: onMouseOver })));
+        React.createElement("div", { className: 'c-artboard__click-area', onClick: onClick, onDoubleClick: onDoubleClick, onMouseOver: onMouseOver })));
 };
 export default Artboard;

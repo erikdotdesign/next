@@ -47,11 +47,9 @@
     "resources/**/*.js"
   ],
   "dependencies": {
-    "@types/lodash": "^4.14.149",
     "chroma-js": "^2.1.0",
     "gsap": "^3.0.5",
     "hyphenate-style-name": "^1.0.3",
-    "lodash": "^4.17.15",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "sketch-module-web-view": "^3.1.4"
