@@ -1388,6 +1388,10 @@ textarea {
   top: 0;
   bottom: 0;
   right: 0;
+  width: calc(100% + 32px);
+  height: calc(100% + 32px);
+  top: -16px;
+  left: -16px;
   background: #111;
 }
 

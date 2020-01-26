@@ -62,19 +62,19 @@ const Artboard = (props: ArtboardProps) => {
           setSelection={setSelection}
           setGroupSelection={setGroupSelection}
           setHover={setHover} />
-        {
-          groupSelection
-          ? <GroupSelection
-              groupSelection={groupSelection}
-              images={images}
-              svgs={svgs}
-              setSelection={setSelection}
-              setGroupSelection={setGroupSelection}
-              setHover={setHover}
-              artboard={artboard} />
-          : null
-        }
       </div>
+      {
+        groupSelection
+        ? <GroupSelection
+            groupSelection={groupSelection}
+            images={images}
+            svgs={svgs}
+            setSelection={setSelection}
+            setGroupSelection={setGroupSelection}
+            setHover={setHover}
+            artboard={artboard} />
+        : null
+      }
       {
         selection
         ? <Selection

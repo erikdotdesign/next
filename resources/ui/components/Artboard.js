@@ -28,10 +28,10 @@ const Artboard = (props) => {
     }, [zoom]);
     return (React.createElement("div", { id: artboard.id, className: 'c-artboard', ref: artboardRef, style: artboardStyles(artboard) },
         React.createElement("div", { className: 'c-artboard__layers' },
-            React.createElement(Layers, { layers: artboard.layers, images: images, svgs: svgs, setSelection: setSelection, setGroupSelection: setGroupSelection, setHover: setHover }),
-            groupSelection
-                ? React.createElement(GroupSelection, { groupSelection: groupSelection, images: images, svgs: svgs, setSelection: setSelection, setGroupSelection: setGroupSelection, setHover: setHover, artboard: artboard })
-                : null),
+            React.createElement(Layers, { layers: artboard.layers, images: images, svgs: svgs, setSelection: setSelection, setGroupSelection: setGroupSelection, setHover: setHover })),
+        groupSelection
+            ? React.createElement(GroupSelection, { groupSelection: groupSelection, images: images, svgs: svgs, setSelection: setSelection, setGroupSelection: setGroupSelection, setHover: setHover, artboard: artboard })
+            : null,
         selection
             ? React.createElement(Selection, { selection: selection, hover: hover, artboard: artboard, zoom: zoom })
             : null,
