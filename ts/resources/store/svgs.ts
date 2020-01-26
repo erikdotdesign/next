@@ -1,6 +1,6 @@
 import { getFileContent } from '../export';
 
-const getOddShapePathSVGs = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm.Sketch, svgs: srm.SvgPath[] = []): srm.SvgPath[] => {
+const getOddShapePathSVGs = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm.Sketch, svgs: srm.AppAsset[] = []): srm.AppAsset[] => {
   if (layers.length > 0) {
     layers.forEach((layer: srm.SketchLayer) => {
       if (layer.type === 'Group') {
@@ -37,11 +37,11 @@ const getOddShapePathSVGs = (page: srm.Page, layers: srm.SketchLayer[], sketch: 
           // @ts-ignore
           const filePath = `${NSTemporaryDirectory()}${shapeDuplicate.id}.svg`;
           // read contents of svg
-          const svgContent = getFileContent(filePath);
+          //const svgContent = getFileContent(filePath);
           // set contents in svgs
           svgs.push({
             id: layer.id,
-            svg: `${svgContent}`
+            src: filePath
           });
           // remove shape artboard from page
           shapeArtboard.remove();
@@ -52,7 +52,7 @@ const getOddShapePathSVGs = (page: srm.Page, layers: srm.SketchLayer[], sketch: 
   return svgs;
 };
 
-const getShapeSVGs = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm.Sketch, svgs: srm.SvgPath[] = []): srm.SvgPath[] => {
+const getShapeSVGs = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm.Sketch, svgs: srm.AppAsset[] = []): srm.AppAsset[] => {
   if (layers.length > 0) {
     layers.forEach((layer: srm.SketchLayer) => {
       if (layer.type === 'Group') {
@@ -84,11 +84,11 @@ const getShapeSVGs = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm.Ske
         // @ts-ignore
         const filePath = `${NSTemporaryDirectory()}${shapeDuplicate.id}.svg`;
         // read contents of svg
-        const svgContent = getFileContent(filePath);
+        // const svgContent = getFileContent(filePath);
         // set contents in svgs
         svgs.push({
           id: layer.id,
-          svg: `${svgContent}`
+          src: filePath
         });
         // remove shape artboard from page
         shapeArtboard.remove();
@@ -99,8 +99,8 @@ const getShapeSVGs = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm.Ske
 };
 
 const getSVGs = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm.Sketch) => {
-  let shapeSvgs: srm.SvgPath[] = getShapeSVGs(page, layers, sketch);
-  let oddShapePathSvgs: srm.SvgPath[] = getOddShapePathSVGs(page, layers, sketch);
+  let shapeSvgs: srm.AppAsset[] = getShapeSVGs(page, layers, sketch);
+  let oddShapePathSvgs: srm.AppAsset[] = getOddShapePathSVGs(page, layers, sketch);
   return [...shapeSvgs, ...oddShapePathSvgs];
 };
 

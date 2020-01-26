@@ -4,8 +4,8 @@ import SidebarNotes from './SidebarNotes';
 
 interface SidebarRightProps {
   selection: srm.AppLayer | null;
-  images: srm.Base64Image[];
-  svgs: srm.SvgPath[];
+  images: srm.AppAsset[];
+  svgs: srm.AppAsset[];
   notes: srm.Notes;
   edit: boolean;
   composing: boolean;

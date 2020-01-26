@@ -3,8 +3,8 @@ import Artboard from './Artboard';
 
 interface CanvasProps {
   artboard: srm.Artboard;
-  images: srm.Base64Image[];
-  svgs: srm.SvgPath[];
+  images: srm.AppAsset[];
+  svgs: srm.AppAsset[];
   selection: srm.AppLayer | null;
   groupSelection: srm.Group | null;
   groupSelectionNest: srm.Group[] | null;

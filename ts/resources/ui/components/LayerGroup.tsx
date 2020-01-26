@@ -4,8 +4,8 @@ import { createBaseLayerStyles } from '../styles/layerStyles';
 
 interface LayerGroupProps {
   layer: srm.Group;
-  images: srm.Base64Image[];
-  svgs: srm.SvgPath[];
+  images: srm.AppAsset[];
+  svgs: srm.AppAsset[];
   onClick(): void;
   onDoubleClick(): void;
   onMouseOver(): void;

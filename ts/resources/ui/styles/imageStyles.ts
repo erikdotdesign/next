@@ -1,7 +1,7 @@
 import * as styles from './layerStyles';
 import { getImage, styleReducer } from '../utils';
 
-const getImageBackground = (imageId: string, images: srm.Base64Image[]) => {
+const getImageBackground = (imageId: string, images: srm.AppAsset[]) => {
   const image = getImage(images, imageId);
   if (image) {
     return {
@@ -14,7 +14,7 @@ const getImageBackground = (imageId: string, images: srm.Base64Image[]) => {
   }
 }
 
-const imageStyles = (layer: srm.Image, images: srm.Base64Image[]) => {
+const imageStyles = (layer: srm.Image, images: srm.AppAsset[]) => {
   const { style } = layer;
   const imageBackground = getImageBackground(layer.image.id, images);
   const baseStyles = styles.createBaseLayerStyles(layer);

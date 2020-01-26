@@ -7,13 +7,12 @@ import artboardStyles from '../styles/artboardStyles';
 import shapeStyles from '../styles/shapeStyles';
 import shapePathStyles from '../styles/shapePathStyles';
 import imageStyles from '../styles/imageStyles';
-import pathStyles from '../styles/pathStyles';
 import { textContainerStyles, textStyles } from '../styles/textStyles';
 
 interface SidebarProps {
   selection: srm.AppLayer | null;
-  images: srm.Base64Image[];
-  svgs: srm.SvgPath[];
+  images: srm.AppAsset[];
+  svgs: srm.AppAsset[];
 }
 
 const SidebarStyles = (props: SidebarProps) => {
@@ -24,9 +23,9 @@ const SidebarStyles = (props: SidebarProps) => {
         case 'Group':
           return createBaseLayerStyles(selection as srm.Group);
         case 'Shape':
-          return {...shapeStyles(selection as srm.Shape), ...pathStyles(selection as srm.Shape, svgs)};
+          return {...shapeStyles(selection as srm.Shape, svgs)};
         case 'ShapePath':
-          return {...shapePathStyles(selection as srm.ShapePath, images), ...pathStyles(selection as srm.ShapePath, svgs)};
+          return {...shapePathStyles(selection as srm.ShapePath, images, svgs)};
         case 'Image':
           return imageStyles(selection as srm.Image, images);
         case 'Text':

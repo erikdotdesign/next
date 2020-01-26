@@ -1,4 +1,4 @@
-const createTempFillImages = (layers: srm.SketchLayer[], sketch: srm.Sketch, images: any[] = []) => {
+const createTempFillImages = (layers: srm.SketchLayer[], sketch: srm.Sketch, images: srm.AppAsset[] = []): srm.AppAsset[] => {
   if (layers.length > 0) {
     layers.forEach((layer: srm.SketchLayer) => {
       if (layer.type === 'Group') {
@@ -47,7 +47,7 @@ const createTempFillImages = (layers: srm.SketchLayer[], sketch: srm.Sketch, ima
   return images;
 };
 
-const createTempLayerImages = (layers: srm.SketchLayer[], sketch: srm.Sketch, images: any[] = []) => {
+const createTempLayerImages = (layers: srm.SketchLayer[], sketch: srm.Sketch, images: srm.AppAsset[] = []): srm.AppAsset[] => {
   if (layers.length > 0) {
     layers.forEach((layer: srm.SketchLayer) => {
       if (layer.type === 'Group') {
@@ -76,7 +76,7 @@ const createTempLayerImages = (layers: srm.SketchLayer[], sketch: srm.Sketch, im
   return images;
 };
 
-const gradientToImage = (layer: srm.Shape | srm.ShapePath, id: string, sketch: srm.Sketch) => {
+const gradientToImage = (layer: srm.Shape | srm.ShapePath, id: string, sketch: srm.Sketch): srm.AppAsset => {
   // get enabled gradients
   const activeGradients: srm.Fill[] = layer.style.fills.filter((fill: srm.Fill) => {
     return fill.enabled && fill.fillType === 'Gradient';
@@ -113,7 +113,7 @@ const gradientToImage = (layer: srm.Shape | srm.ShapePath, id: string, sketch: s
   }
 };
 
-const createTempGradientImages = (layers: srm.SketchLayer[], sketch: srm.Sketch, images: any[] = []) => {
+const createTempGradientImages = (layers: srm.SketchLayer[], sketch: srm.Sketch, images: srm.AppAsset[] = []): srm.AppAsset[] => {
   if (layers.length > 0) {
     layers.forEach((layer: srm.SketchLayer) => {
       if (layer.type === 'Group') {
@@ -141,17 +141,10 @@ const createTempGradientImages = (layers: srm.SketchLayer[], sketch: srm.Sketch,
   return images;
 };
 
-const getImages = (layers: srm.SketchLayer[], sketch: srm.Sketch): srm.Base64Image[] => {
-  // get layers to turn into base64
-  const layerImages: any[] = createTempLayerImages(layers, sketch);
-  const fillImages: any[] = createTempFillImages(layers, sketch);
-  const gradientImages: any[] = createTempGradientImages(layers, sketch);
-  //const fillImages: srm.ImageData[] = getFillImages(layers);
-  // generate base64 images from layers
-  //const base64LayerImages: srm.Base64Image[] = base64ImageBatch(layerImages);
-  //const base64FillImages: srm.Base64Image[] = base64ImageBatch(fillImages);
-  // const base64Gradients: srm.Base64Image[] = getBase64Gradients(layers, sketch);
-  // return final base64 image store
+const getImages = (layers: srm.SketchLayer[], sketch: srm.Sketch): srm.AppAsset[] => {
+  const layerImages: srm.AppAsset[] = createTempLayerImages(layers, sketch);
+  const fillImages: srm.AppAsset[] = createTempFillImages(layers, sketch);
+  const gradientImages: srm.AppAsset[] = createTempGradientImages(layers, sketch);
   return [...layerImages, ...fillImages, ...gradientImages];
 };
 

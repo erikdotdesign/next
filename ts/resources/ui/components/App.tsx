@@ -6,8 +6,8 @@ import TopBar from './TopBar';
 
 interface AppProps {
   artboard: srm.Artboard;
-  images: srm.Base64Image[];
-  svgs: srm.SvgPath[];
+  images: srm.AppAsset[];
+  svgs: srm.AppAsset[];
   notes: srm.Notes;
   composing: boolean;
 }

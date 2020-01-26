@@ -5,8 +5,8 @@ import getSVGs from './svgs';
 const getStore = (page: srm.Page, selectedArtboard: srm.Artboard, sketch: srm.Sketch): srm.Store => {
   // get final store items
   const artboard: srm.Artboard = getArtboard(selectedArtboard, sketch);
-  const images: srm.Base64Image[] = getImages(artboard.layers, sketch);
-  const svgs: srm.SvgPath[] = getSVGs(page, artboard.layers, sketch);
+  const images: srm.AppAsset[] = getImages(artboard.layers, sketch);
+  const svgs: srm.AppAsset[] = getSVGs(page, artboard.layers, sketch);
   const notes: any = {};
   // remove duplicate artboard
   artboard.remove();

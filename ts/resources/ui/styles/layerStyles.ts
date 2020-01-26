@@ -1,4 +1,4 @@
-import { getImage, getSVG, cssColor, styleReducer } from '../utils';
+import { getImage, cssColor, styleReducer } from '../utils';
 
 export const createLeft = (x: number): srm.css.Left => {
   return {
@@ -187,7 +187,7 @@ export const combineBordersAndShadows = (boxShadows: any[]): srm.css.BoxShadow |
   }
 };
 
-export const createGradientFillImage = (images: srm.Base64Image[], id: string): srm.css.Background | Pick<srm.css.Background, 'background'> | null => {
+export const createGradientFillImage = (images: srm.AppAsset[], id: string): srm.css.Background | Pick<srm.css.Background, 'background'> | null => {
   const image = getImage(images, id);
   if (image) {
     return {
@@ -242,7 +242,7 @@ export const createPatternDisplay = (patternType: srm.PatternFillType): Omit<srm
   };
 };
 
-export const createPatternFill = (pattern: srm.Pattern, images: srm.Base64Image[]): srm.css.Background | null => {
+export const createPatternFill = (pattern: srm.Pattern, images: srm.AppAsset[]): srm.css.Background | null => {
   const displayStyle = createPatternDisplay(pattern.patternType);
   if (pattern.image) {
     const image = getImage(images, pattern.image.id);
@@ -259,7 +259,7 @@ export const createPatternFill = (pattern: srm.Pattern, images: srm.Base64Image[
   }
 };
 
-export const createBackground = (layer: srm.ShapePath | srm.ShapePath | srm.Image, images: srm.Base64Image[]): srm.css.Background | Pick<srm.css.Background, 'background'> | null => {
+export const createBackground = (layer: srm.ShapePath | srm.ShapePath | srm.Image, images: srm.AppAsset[]): srm.css.Background | Pick<srm.css.Background, 'background'> | null => {
   const { style, id } = layer;
   // get fills that are enabled
   const hasActiveFills = style.fills.some((fill: srm.Fill) => fill.enabled);
@@ -438,17 +438,6 @@ export const createStrokeLineCap = (sketchLineEnd: string): srm.css.StrokeLineCa
   };
   return {
     strokeLinecap: lineCap
-  }
-};
-
-export const createSVG = (id: string, svgs: srm.SvgPath[]) => {
-  const svg = getSVG(svgs, id);
-  if (svg) {
-    return {
-      svg: svg.svg
-    }
-  } else {
-    return null;
   }
 };
 

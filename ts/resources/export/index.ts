@@ -42,10 +42,22 @@ export const writeFile = (options) => {
 
 //@ts-ignore
 export const moveImages = (images: any[], savePath: string) => {
+  const imagesPath = `${savePath}/images`;
   //@ts-ignore
-  NSFileManager.defaultManager().createDirectoryAtPath_attributes(`${savePath}/images`, nil);
+  NSFileManager.defaultManager().createDirectoryAtPath_attributes(imagesPath, nil);
   images.forEach((image: any) => {
     //@ts-ignore
-    NSFileManager.defaultManager().moveItemAtPath_toPath_error(image.src, `${savePath}/images/${image.id}.png`, nil);
+    NSFileManager.defaultManager().moveItemAtPath_toPath_error(image.src, `${imagesPath}/${image.id}.png`, nil);
+  });
+};
+
+//@ts-ignore
+export const moveSVGs = (svgs: any[], savePath: string) => {
+  const svgsPath = `${savePath}/svgs`;
+  //@ts-ignore
+  NSFileManager.defaultManager().createDirectoryAtPath_attributes(svgsPath, nil);
+  svgs.forEach((svg: any) => {
+    //@ts-ignore
+    NSFileManager.defaultManager().moveItemAtPath_toPath_error(svg.src, `${svgsPath}/${svg.id}.svg`, nil);
   });
 };

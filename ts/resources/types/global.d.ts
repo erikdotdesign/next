@@ -544,22 +544,17 @@ declare namespace srm {
     xCenter: number;
   }
 
-  interface Base64Image {
+  interface AppAsset {
     id: string;
     src: string;
-  }
-
-  interface SvgPath {
-    id: string;
-    svg: string;
   }
 
   type Notes = any;
 
   interface Store {
     artboard: srm.Artboard;
-    images: srm.Base64Image[];
-    svgs: srm.SvgPath[];
+    images: srm.AppAsset[];
+    svgs: srm.AppAsset[];
     notes: Notes
   }
 

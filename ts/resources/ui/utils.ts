@@ -1,11 +1,11 @@
 import chroma from 'chroma-js';
 
-export const getImage = (images: srm.Base64Image[], id: string): srm.Base64Image | undefined  => {
-  return images.find((image: srm.Base64Image) => image.id === id);
+export const getImage = (images: srm.AppAsset[], id: string): srm.AppAsset | undefined  => {
+  return images.find((image: srm.AppAsset) => image.id === id);
 };
 
-export const getSVG = (svgs: srm.SvgPath[], id: string): srm.SvgPath | undefined  => {
-  return svgs.find((svg: srm.SvgPath) => svg.id === id);
+export const getSVG = (svgs: srm.AppAsset[], id: string): srm.AppAsset | undefined  => {
+  return svgs.find((svg: srm.AppAsset) => svg.id === id);
 };
 
 export const getAbsolutePosition = (artboardId: string, layerId: string) => {

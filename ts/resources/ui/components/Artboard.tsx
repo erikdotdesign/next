@@ -10,8 +10,8 @@ import artboardStyles from '../styles/artboardStyles';
 
 interface ArtboardProps {
   artboard: srm.Artboard;
-  images: srm.Base64Image[];
-  svgs: srm.SvgPath[];
+  images: srm.AppAsset[];
+  svgs: srm.AppAsset[];
   notes: srm.Notes;
   selection: srm.AppLayer | null;
   groupSelection: srm.Group | null;

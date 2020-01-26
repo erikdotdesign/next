@@ -55,6 +55,13 @@ export default (context) => {
                     src: `images/${image.id}.png`
                 };
             });
+            // update final store svg paths
+            finalStore.svgs = store.svgs.map((svg) => {
+                return {
+                    id: svg.id,
+                    src: `svgs/${svg.id}.svg`
+                };
+            });
             // stringify final store for export
             let finalStoreString = JSON.stringify(finalStore);
             // get save path
@@ -108,7 +115,8 @@ export default (context) => {
             });
             // move images from temp folder to spec
             pluginExport.moveImages(store.images, savePath);
-            //
+            // move svgs from temp folder to spec
+            pluginExport.moveSVGs(store.svgs, savePath);
         });
     }
     else {

@@ -3,7 +3,7 @@ import imageStyles from '../styles/imageStyles';
 
 interface LayerImageProps {
   layer: srm.Image;
-  images: srm.Base64Image[];
+  images: srm.AppAsset[];
   onClick(): void;
   onMouseOver(): void;
   onMouseOut(): void;
