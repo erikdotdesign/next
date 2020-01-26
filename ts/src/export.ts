@@ -49,8 +49,17 @@ export default (context: any) => {
     webContents.on('save', (notes: string) => {
       // add notes to store
       store.notes = JSON.parse(notes);
-      // stringify store for export
-      let data = JSON.stringify(store);
+      // set final store
+      let finalStore = Object.assign({}, store);
+      // update final store image paths
+      finalStore.images = store.images.map((image) => {
+        return {
+          id: image.id,
+          src: `images/${image.id}.png`
+        }
+      });
+      // stringify final store for export
+      let finalStoreString = JSON.stringify(finalStore);
       // get save path
       let savePath = pluginExport.getSavePath(context);
       // get plugin root
@@ -73,33 +82,36 @@ export default (context: any) => {
       // get contents of js
       let script = pluginExport.getFileContent(scriptPath);
       // add store to js string
-      let scriptWithStore = `var store = ${data}; ${script}`;
+      let scriptWithStore = `var store = ${finalStoreString}; ${script}`;
       // get contents of js map
       let scriptSourceMap = pluginExport.getFileContent(scriptSourceMapPath);
       // create final html
       pluginExport.writeFile({
         content: template,
-        path: `${savePath}`,
+        path: savePath,
         fileName: 'spec.html'
       });
       // create final css
       pluginExport.writeFile({
         content: styles,
-        path: `${savePath}`,
+        path: savePath,
         fileName: styleName
       });
       // create final js
       pluginExport.writeFile({
         content: scriptWithStore,
-        path: `${savePath}`,
+        path: savePath,
         fileName: 'resources_ui_spec.js'
       });
       // create final js map
       pluginExport.writeFile({
         content: scriptSourceMap,
-        path: `${savePath}`,
+        path: savePath,
         fileName: 'resources_ui_spec.js.map'
       });
+      // move images from temp folder to spec
+      pluginExport.moveImages(store.images, savePath);
+      //
     });
   } else {
     // if artboard not selected, alert user

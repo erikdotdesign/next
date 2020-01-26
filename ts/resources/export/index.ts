@@ -39,3 +39,13 @@ export const writeFile = (options) => {
 
   content.writeToFile_atomically_encoding_error(savePathName, false, 4, null);
 };
+
+//@ts-ignore
+export const moveImages = (images: any[], savePath: string) => {
+  //@ts-ignore
+  NSFileManager.defaultManager().createDirectoryAtPath_attributes(`${savePath}/images`, nil);
+  images.forEach((image: any) => {
+    //@ts-ignore
+    NSFileManager.defaultManager().moveItemAtPath_toPath_error(image.src, `${savePath}/images/${image.id}.png`, nil);
+  });
+};
