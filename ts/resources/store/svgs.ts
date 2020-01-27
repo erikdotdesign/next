@@ -10,7 +10,7 @@ const shapeToSVG = (page: srm.Page, layer: srm.SketchLayer, sketch: srm.Sketch):
     layers: [layer.duplicate()]
   });
   // get asset from artboard
-  let assetDuplicate = assetArtboard.layers[0];
+  const assetDuplicate = assetArtboard.layers[0];
   // reset asset position on artboard
   assetDuplicate.frame.x = 0;
   assetDuplicate.frame.y = 0;

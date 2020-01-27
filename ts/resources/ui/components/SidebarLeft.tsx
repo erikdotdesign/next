@@ -18,6 +18,9 @@ const SidebarLeft = (props: SidebarLeftProps) => {
   const { selection, groupSelection, groupSelectionNest, artboard, setSelection, setHover, setGroupSelection, setGroupSelectionNest } = props;
   return (
     <div className='c-sidebar c-sidebar--left'>
+      <div className='c-sidebar__header'>
+        <span>Layers</span>
+      </div>
       <SidebarLeftArtboard
         artboard={artboard}
         selection={selection}

@@ -1,9 +1,5 @@
-import React, { useState } from 'react';
-import SidebarLeftLayers from './SidebarLeftLayers';
-import IconTriRight from './IconTriRight';
-import IconTriDown from './IconTriDown';
-import IconFolderClosed from './IconFolderClosed';
-import IconFolderOpen from './IconFolderOpen';
+import React from 'react';
+import chroma from 'chroma-js';
 
 interface SidebarLeftGroupHeadProps {
   layer: srm.Group;
@@ -23,15 +19,14 @@ const SidebarLeftGroupHead = (props: SidebarLeftGroupHeadProps) => {
       onDoubleClick={() => setGroupSelection(layer)}
       onMouseOver={() => setHover(layer)}
       onMouseOut={() => setHover(null)}
-      className={ `c-sidebar-left__layer c-sidebar-left__layer--header ${
-        selection && layer.id === selection.id
-        ? 'c-sidebar-left__layer--active'
-        : null
-      } ${
-        selection && layer.id === groupSelection.id
-        ? 'c-sidebar-left__layer--header-active'
-        : null
-      }`}>
+      className='c-sidebar-left__layer c-sidebar-left__layer--header'
+      style={{
+        background: `${
+          selection && layer.id === selection.id
+          ? chroma('#EF2EF2').darken((index + 1) * 0.2)
+          : chroma('#333').brighten((index + 1) * 0.2)
+        }`
+      }}>
       <span className='c-sidebar-left-layer__name'>
         <span style={{paddingLeft: `${(index + 1) * 8}px`}}>
           {layer.name}

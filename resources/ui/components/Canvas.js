@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import Artboard from './Artboard';
+import BackButton from './BackButton';
 let startGestureZoom = 0;
 let gestureZoom = 1;
 const Canvas = (props) => {
@@ -45,6 +46,9 @@ const Canvas = (props) => {
         gestureZoom = zoom;
     }, [zoom]);
     return (React.createElement("div", { className: 'c-canvas', id: 'canvas', ref: canvas, onWheel: handleWheel },
+        groupSelectionNest
+            ? React.createElement(BackButton, { setGroupSelection: setGroupSelection, groupSelectionNest: groupSelectionNest, setGroupSelectionNest: setGroupSelectionNest })
+            : null,
         ready
             ? React.createElement(Artboard, { artboard: artboard, images: images, svgs: svgs, selection: selection, setSelection: setSelection, groupSelection: groupSelection, setGroupSelection: setGroupSelection, groupSelectionNest: groupSelectionNest, setGroupSelectionNest: setGroupSelectionNest, hover: hover, setHover: setHover, zoom: zoom, showNotes: showNotes, edit: edit, notes: notes, setNotes: setNotes, composing: composing })
             : null,

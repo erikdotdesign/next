@@ -85,7 +85,7 @@ const createMaskGroups = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm
         const isMaskOddShape: boolean = maskNotRectangle && maskNotOval;
         // create new group to mimic mask behavior
         // app will apply overflow hidden to groups with the name srm.mask
-        let maskGroup = new sketch.Group({
+        const maskGroup = new sketch.Group({
           name: 'srm.mask',
           frame: layer.frame,
           layers: [layer.duplicate()]
@@ -144,7 +144,7 @@ const roundFrameDimensions = (layers: srm.SketchLayer[]): void => {
 
 const getArtboard = (page: srm.Page, selectedArtboard: srm.Artboard, sketch: srm.Sketch): srm.Artboard => {
   // duplicate artboard
-  let artboard: srm.Artboard = selectedArtboard.duplicate();
+  const artboard: srm.Artboard = selectedArtboard.duplicate();
   // reset duplicated artboard position
   artboard.frame.x = 0;
   artboard.frame.y = 0;

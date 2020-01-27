@@ -234,75 +234,6 @@ textarea {
   background: none !important;
 }
 
-.c-sidebar--left {
-  left: 0;
-}
-
-.c-sidebar-left__layer {
-  display: flex;
-  position: relative;
-  align-items: center;
-  height: 32px;
-  width: 100%;
-  line-height: 32px;
-  cursor: pointer;
-}
-
-.c-sidebar-left__layer--header {
-  background: #333;
-  box-shadow: 0px -1px 0px 0px #666 inset, 0px -1px 0px 0px #666;
-}
-
-.c-sidebar-left__layer--header-active {
-  background: #444;
-  box-shadow: 0px -1px 0px 0px #666 inset, 0px -1px 0px 0px #666;
-}
-
-.c-sidebar-left__group-click {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  z-index: 1;
-}
-
-.c-sidebar-left__layer--active {
-  background: #EF2EF2;
-}
-
-.c-sidebar-left-layer__icon {
-  display: flex;
-  width: 32px;
-  height: 32px;
-  align-items: center;
-  justify-content: center;
-  opacity: 0.5;
-}
-
-.c-sidebar-left-layer__icon--expand {
-  position: relative;
-  opacity: 1;
-  z-index: 2;
-}
-
-.c-sidebar-left-layer__name {
-  flex-grow: 2;
-  font-size: 12px;
-  padding-left: 12px;
-  line-height: 32px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.c-sidebar-left-layer__name::selection {
-  background: none;
-}
-
-.c-sidebar-left__group .c-sidebar-left__layers {
-  padding-left: 32px;
-}
-
 .c-sidebar--right {
   right: 0;
 }
@@ -350,7 +281,7 @@ textarea {
 }
 
 .c-sidebar-styles {
-  padding: 16px;
+  padding: 8px 16px 12px 16px;
 }
 
 .c-sidebar-styles__style {
@@ -361,7 +292,7 @@ textarea {
 
 .c-sidebar-styles__prop {
   color: #fff;
-  font-size: 14px;
+  font-size: 12px;
   line-height: 40px;
   flex-grow: 2;
   color: rgba(255, 255, 255, 0.5);
@@ -378,12 +309,12 @@ textarea {
   border: none;
   margin: 0;
   background: #222;
-  min-height: 16px;
-  font-size: 14px;
-  line-height: 16px;
+  min-height: 14px;
+  font-size: 12px;
+  line-height: 14px;
   color: #fff;
   max-width: 100px;
-  padding: 16px 0;
+  padding: 14px 0;
   transition: all 0.15s;
 }
 .c-sidebar-styles__value input:focus {
@@ -402,8 +333,8 @@ textarea {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 14px;
-  line-height: 16px;
+  font-size: 12px;
+  line-height: 14px;
   color: #fff;
   pointer-events: none;
   overflow: hidden;
@@ -1394,4 +1325,83 @@ textarea {
   top: 0;
   bottom: 0;
   right: 0;
+}
+
+.c-sidebar--left {
+  left: 0;
+}
+
+.c-sidebar-left__layer {
+  display: flex;
+  position: relative;
+  align-items: center;
+  height: 40px;
+  width: 100%;
+  line-height: 40px;
+  cursor: pointer;
+}
+
+.c-sidebar-left__layer--header {
+  background: #333;
+  box-shadow: 0px -1px 0px 0px #666 inset, 0px -1px 0px 0px #666;
+}
+
+.c-sidebar-left__group-click {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 1;
+}
+
+.c-sidebar-left__layer--active {
+  background: #EF2EF2;
+}
+
+.c-sidebar-left-layer__icon {
+  display: flex;
+  width: 32px;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.5;
+}
+
+.c-sidebar-left-layer__icon--expand {
+  position: relative;
+  opacity: 1;
+  z-index: 2;
+}
+
+.c-sidebar-left-layer__name {
+  flex-grow: 2;
+  font-size: 12px;
+  padding-left: 16px;
+  line-height: 40px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.c-sidebar-left-layer__name::selection {
+  background: none;
+}
+
+.c-sidebar-left__group .c-sidebar-left__layers {
+  padding-left: 32px;
+}
+
+.c-back-button {
+  position: fixed;
+  top: 48px;
+  left: 320px;
+  height: 32px;
+  padding: 0 16px;
+  line-height: 32px;
+  font-size: 14px;
+  background: #333;
+  color: #fff;
+  margin: 8px;
+  box-shadow: 0px 0px 0px 1px #666 inset, 0px 5px 10px 0px rgba(0, 0, 0, 0.33);
+  z-index: 99999999999;
 }

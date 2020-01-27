@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import Artboard from './Artboard';
+import BackButton from './BackButton';
 
 interface CanvasProps {
   artboard: srm.Artboard;
@@ -74,6 +75,14 @@ const Canvas = (props: CanvasProps) => {
       id='canvas'
       ref={canvas}
       onWheel={handleWheel}>
+      {
+        groupSelectionNest
+        ? <BackButton
+            setGroupSelection={setGroupSelection}
+            groupSelectionNest={groupSelectionNest}
+            setGroupSelectionNest={setGroupSelectionNest} />
+        : null
+      }
       {
         ready
         ? <Artboard

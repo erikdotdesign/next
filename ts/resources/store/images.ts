@@ -10,7 +10,7 @@ const imageLayerToImage = (page: srm.Page, layer: srm.SketchLayer, sketch: srm.S
     layers: [layer.duplicate()]
   });
   // get asset from artboard
-  let assetDuplicate = assetArtboard.layers[0];
+  const assetDuplicate = assetArtboard.layers[0];
   // reset asset position on artboard
   assetDuplicate.frame.x = 0;
   assetDuplicate.frame.y = 0;
@@ -73,7 +73,7 @@ const fillImageToImage = (page: srm.Page, image: srm.ImageData, sketch: srm.Sket
   const width = image.nsimage.size().width;
   const height = image.nsimage.size().height;
   // create image from fill image
-  let fillImage = new sketch.Image({
+  const fillImage = new sketch.Image({
     image: image,
     parent: page,
     frame: { width, height, x: 0, y: 0 }

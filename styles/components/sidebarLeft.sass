@@ -1,0 +1,54 @@
+$sidebarLeftCellHeight: 40px
+
+.c-sidebar--left
+  left: 0
+
+.c-sidebar-left__layer
+  display: flex
+  position: relative
+  align-items: center
+  height: $sidebarLeftCellHeight
+  width: 100%
+  line-height: $sidebarLeftCellHeight
+  cursor: pointer
+
+.c-sidebar-left__layer--header
+  background: $grayDark
+  box-shadow: 0px -1px 0px 0px $grayLighter inset, 0px -1px 0px 0px $grayLighter
+
+.c-sidebar-left__group-click
+  +absolute-full
+  z-index: 1
+
+.c-sidebar-left__layer--active
+  background: $highlightColor
+
+.c-sidebar-left-layer__icon
+  display: flex
+  width: $buttonSize
+  height: $buttonSize
+  align-items: center
+  justify-content: center
+  opacity: 0.5
+
+.c-sidebar-left-layer__icon--expand
+  position: relative
+  opacity: 1
+  z-index: 2
+
+.c-sidebar-left-layer__name
+  flex-grow: 2
+  font-size: 12px
+  padding-left: 16px
+  line-height: $sidebarLeftCellHeight
+  white-space: nowrap
+  overflow: hidden
+  text-overflow: ellipsis
+  //animation: slideInRight $transitionNormal ease
+
+  &::selection
+    background: none
+
+.c-sidebar-left__group
+  .c-sidebar-left__layers
+    padding-left: $buttonSize

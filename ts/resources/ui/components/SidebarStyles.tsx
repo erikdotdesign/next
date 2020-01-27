@@ -42,9 +42,9 @@ const SidebarStyles = (props: SidebarProps) => {
   const selectionStyles: any = getLayerStyles();
   return (
     <div className='c-sidebar__section'>
-      {/* <div className='c-sidebar__header'>
+      <div className='c-sidebar__header'>
         <span>Styles</span>
-      </div> */}
+      </div>
       {
         selection
         ? <div className='c-sidebar-styles'>
