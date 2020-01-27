@@ -28,11 +28,9 @@ const removeHiddenLayers = (layers: srm.SketchLayer[]): void => {
   if (layers.length > 0) {
     layers.forEach((layer: srm.SketchLayer) => {
       const hidden = (<srm.Group | srm.Shape | srm.Image | srm.ShapePath | srm.Text | srm.SymbolInstance>layer).hidden;
-      const transparent = (<srm.Group | srm.Shape | srm.Image | srm.ShapePath | srm.Text | srm.SymbolInstance>layer).style.opacity === 0;
-      const hiddenOrTransparent = hidden || transparent;
-      if (layer.type === 'Group' && !hiddenOrTransparent) {
+      if (layer.type === 'Group' && !hidden) {
         removeHiddenLayers((<srm.Group>layer).layers);
-      } else if (hiddenOrTransparent) {
+      } else if (hidden) {
         layer.remove();
       }
     });
@@ -62,7 +60,7 @@ const maskGroupToImageLayer = (page: srm.Page, maskGroup: srm.Group, sketch: srm
   });
   // create image layer from buffer data
   const imageLayer: srm.Image = new sketch.Image({
-    name: 'masked-group',
+    name: 'srm.mask',
     image: buffer,
     frame: maskGroup.frame
   });
