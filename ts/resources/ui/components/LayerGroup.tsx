@@ -1,6 +1,6 @@
 import React from 'react';
 import Layers from './Layers';
-import { createBaseLayerStyles } from '../styles/layerStyles';
+import groupStyles from '../styles/groupStyles';
 
 interface LayerGroupProps {
   layer: srm.Group;
@@ -25,7 +25,7 @@ const LayerGroup = (props: LayerGroupProps) => {
       onMouseOver={props.onMouseOver}
       onMouseOut={props.onMouseOut}
       className='c-layer c-layer--group'
-      style={createBaseLayerStyles(layer)}>
+      style={groupStyles(layer)}>
       <Layers
         layers={layer.layers as srm.AppArtboardLayer[]}
         images={images}

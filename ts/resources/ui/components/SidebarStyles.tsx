@@ -2,7 +2,7 @@ import React from 'react';
 import SidebarStylesValue from './SidebarStylesValue';
 import SidebarStylesProp from './SidebarStylesProp';
 
-import { createBaseLayerStyles } from '../styles/layerStyles';
+import groupStyles from '../styles/groupStyles';
 import artboardStyles from '../styles/artboardStyles';
 import shapeStyles from '../styles/shapeStyles';
 import shapePathStyles from '../styles/shapePathStyles';
@@ -21,11 +21,11 @@ const SidebarStyles = (props: SidebarProps) => {
     if (selection) {
       switch(selection.type) {
         case 'Group':
-          return createBaseLayerStyles(selection as srm.Group);
+          return groupStyles(selection as srm.Group);
         case 'Shape':
-          return {...shapeStyles(selection as srm.Shape, svgs)};
+          return shapeStyles(selection as srm.Shape, svgs);
         case 'ShapePath':
-          return {...shapePathStyles(selection as srm.ShapePath, images, svgs)};
+          return shapePathStyles(selection as srm.ShapePath, images, svgs);
         case 'Image':
           return imageStyles(selection as srm.Image, images);
         case 'Text':

@@ -72,21 +72,48 @@ const maskGroupToImageLayer = (page: srm.Page, maskGroup: srm.Group, sketch: srm
   return imageLayer;
 };
 
-const masksToImages = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm.Sketch): void => {
+const createMaskGroups = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm.Sketch): void => {
   if (layers.length > 0) {
     layers.forEach((layer: srm.SketchLayer) => {
       const hasClippingMask: boolean = layer.sketchObject.hasClippingMask();
-      const hasParentGroup: boolean = layer.parent && layer.parent.type === 'Group';
-      if (layer.type === 'Group' && !hasClippingMask) {
-        masksToImages(page, (<srm.Group>layer).layers, sketch);
-      } else if (hasClippingMask && hasParentGroup) {
-        // @ts-ignore
-        const parent: srm.Group = layer.parent;
-        const parentIndex: number = parent.index;
-        const parentsParent: srm.Group | srm.Artboard = parent.parent;
-        const imageLayer: srm.Image = maskGroupToImageLayer(page, parent, sketch);
-        // splice in new image, splice out old mask group
-        parentsParent.layers.splice(parentIndex, 1, imageLayer);
+      if (hasClippingMask) {
+        // get mask index and parent
+        const maskIndex = layer.index;
+        const maskParent = layer.parent;
+        // check if mask is an odd shape
+        const isMaskShapePath = layer.type === 'ShapePath';
+        const maskNotRectangle: boolean = isMaskShapePath && (<srm.ShapePath>layer).shapeType !== 'Rectangle';
+        const maskNotOval: boolean = isMaskShapePath && (<srm.ShapePath>layer).shapeType !== 'Oval';
+        const isMaskOddShape: boolean = maskNotRectangle && maskNotOval;
+        // create new group to mimic mask behavior
+        // app will apply overflow hidden to groups with the name srm.mask
+        let maskGroup = new sketch.Group({
+          name: 'srm.mask',
+          frame: layer.frame,
+          layers: [layer.duplicate()]
+        });
+        // splice in mask group, splice out old mask
+        maskParent.layers.splice(maskIndex, 1, maskGroup);
+        maskGroup.layers[0].frame.x = 0;
+        maskGroup.layers[0].frame.y = 0;
+        // loop through mask parent layers,
+        // any layer with an index higher than the mask will be masked
+        // push masked layers to maskGroup
+        maskParent.layers.forEach((maskedLayer: srm.SketchLayer, index: number) => {
+          if (index > maskIndex) {
+            maskedLayer.frame.x = maskedLayer.frame.x - maskGroup.frame.x;
+            maskedLayer.frame.y = maskedLayer.frame.y - maskGroup.frame.y;
+            maskGroup.layers.push(maskedLayer);
+          }
+        });
+        // if mask is an odd shape,
+        // turn it into an image layer
+        if (isMaskOddShape) {
+          const imageLayer: srm.Image = maskGroupToImageLayer(page, maskGroup, sketch);
+          maskParent.layers.splice(maskIndex, 1, imageLayer);
+        }
+      } else if (layer.type === "Group") {
+        createMaskGroups(page, (<srm.Group>layer).layers, sketch);
       }
     });
   }
@@ -129,8 +156,8 @@ const getArtboard = (page: srm.Page, selectedArtboard: srm.Artboard, sketch: srm
   detatchSymbols(artboard.layers);
   // remove hidden layers
   removeHiddenLayers(artboard.layers);
-  // turn masks into image layers
-  masksToImages(page, artboard.layers, sketch);
+  // create mask groups
+  createMaskGroups(page, artboard.layers, sketch);
   // round layer frame dimensions
   roundFrameDimensions(artboard.layers);
   // return final artboard
