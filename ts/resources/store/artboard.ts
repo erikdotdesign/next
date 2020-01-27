@@ -39,37 +39,52 @@ const removeHiddenLayers = (layers: srm.SketchLayer[]): void => {
   }
 };
 
-const maskGroupToImageLayer = (maskGroup: srm.Group, sketch: srm.Sketch): srm.Image => {
+const maskGroupToImageLayer = (page: srm.Page, maskGroup: srm.Group, sketch: srm.Sketch): srm.Image => {
+  // exporting an image with dims that exceed the artboard dims,
+  // will only export the portion within the artboard
+  // solution: create artboard for each image to make sure,
+  // whole image is exported
+  const maskArtboard = new sketch.Artboard({
+    name: `${maskGroup.id}-mask-artboard`,
+    frame: maskGroup.frame,
+    parent: page,
+    layers: [maskGroup.duplicate()]
+  });
+  // get image from artboard
+  let maskDuplicate = maskArtboard.layers[0];
+  // reset image position on artboard
+  maskDuplicate.frame.x = 0;
+  maskDuplicate.frame.y = 0;
   // create image buffer from layer
-  const buffer: srm.Buffer = sketch.export(maskGroup, {
+  const buffer: srm.Buffer = sketch.export(maskDuplicate, {
     formats: 'png',
     output: false,
-    ['save-for-web']: true
   });
   // create image layer from buffer data
   const imageLayer: srm.Image = new sketch.Image({
     name: 'masked-group',
-    image: buffer
+    image: buffer,
+    frame: maskGroup.frame
   });
-  // set image layer frame to match mask group frame
-  imageLayer.frame = maskGroup.frame;
+  // remove artboard
+  maskArtboard.remove();
   // return image layer
   return imageLayer;
 };
 
-const masksToImages = (layers: srm.SketchLayer[], sketch: srm.Sketch): void => {
+const masksToImages = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm.Sketch): void => {
   if (layers.length > 0) {
     layers.forEach((layer: srm.SketchLayer) => {
       const hasClippingMask: boolean = layer.sketchObject.hasClippingMask();
       const hasParentGroup: boolean = layer.parent && layer.parent.type === 'Group';
       if (layer.type === 'Group' && !hasClippingMask) {
-        masksToImages((<srm.Group>layer).layers, sketch);
+        masksToImages(page, (<srm.Group>layer).layers, sketch);
       } else if (hasClippingMask && hasParentGroup) {
         // @ts-ignore
         const parent: srm.Group = layer.parent;
         const parentIndex: number = parent.index;
         const parentsParent: srm.Group | srm.Artboard = parent.parent;
-        const imageLayer: srm.Image = maskGroupToImageLayer(parent, sketch);
+        const imageLayer: srm.Image = maskGroupToImageLayer(page, parent, sketch);
         // splice in new image, splice out old mask group
         parentsParent.layers.splice(parentIndex, 1, imageLayer);
       }
@@ -102,7 +117,7 @@ const roundFrameDimensions = (layers: srm.SketchLayer[]): void => {
   }
 };
 
-const getArtboard = (selectedArtboard: srm.Artboard, sketch: srm.Sketch): srm.Artboard => {
+const getArtboard = (page: srm.Page, selectedArtboard: srm.Artboard, sketch: srm.Sketch): srm.Artboard => {
   // duplicate artboard
   let artboard: srm.Artboard = selectedArtboard.duplicate();
   // reset duplicated artboard position
@@ -115,7 +130,7 @@ const getArtboard = (selectedArtboard: srm.Artboard, sketch: srm.Sketch): srm.Ar
   // remove hidden layers
   removeHiddenLayers(artboard.layers);
   // turn masks into image layers
-  masksToImages(artboard.layers, sketch);
+  masksToImages(page, artboard.layers, sketch);
   // round layer frame dimensions
   roundFrameDimensions(artboard.layers);
   // return final artboard

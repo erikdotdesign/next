@@ -117,9 +117,13 @@ export default (context: any) => {
         fileName: 'resources_ui_spec.js.map'
       });
       // move images from temp folder to spec
-      pluginExport.moveImages(store.images, savePath);
+      if (store.images.length > 0) {
+        pluginExport.moveImages(store.images, savePath);
+      }
       // move svgs from temp folder to spec
-      pluginExport.moveSVGs(store.svgs, savePath);
+      if (store.svgs.length > 0) {
+        pluginExport.moveSVGs(store.svgs, savePath);
+      }
     });
   } else {
     // if artboard not selected, alert user
