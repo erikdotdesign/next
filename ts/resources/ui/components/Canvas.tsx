@@ -34,7 +34,6 @@ const Canvas = (props: CanvasProps) => {
   const canvas = useRef<HTMLDivElement>(null);
   const handleClick = () => {
     setSelection(null);
-    setGroupSelection(null);
   }
   const handleMouseOver = () => {
     setHover(null);

@@ -2,6 +2,7 @@ $headerHeight: 48px
 $cellHeight: 32px
 $cellPadding: 16px
 $styleHeight: 40px
+$noteInputHeight: 144px
 
 .c-sidebar
   position: fixed
@@ -15,15 +16,67 @@ $styleHeight: 40px
   box-shadow: 0px 5px 20px 0px rgba(0,0,0,0.25)
   padding-bottom: 48px
 
-  &::selection
-    background: none !important
-
-  *
-    &::selection
-      background: none !important
-
 .c-sidebar--right
   right: 0
+  padding-bottom: $noteInputHeight + 48px
+
+.c-sidebar-right__add-note
+  position: fixed
+  display: flex
+  flex-direction: column
+  bottom: 0
+  height: $noteInputHeight
+  background: $grayDarker
+  width: $sidebarWidth
+  box-shadow: 0px 1px 0px 0px $grayLighter inset
+  z-index: 99999999
+
+.c-sidebar-right__input
+  position: relative
+  width: 100%
+  height: 96px
+  font-size: 14px
+  margin: 0
+  padding: 16px
+  line-height: 18px
+  background: $grayDark
+  color: #fff
+  resize: none
+  border: none
+  outline: none
+  transition: all $transitionNormal
+
+.c-sidebar-right__submit
+  position: relative
+  width: 100%
+  height: 48px
+  line-height: 48px
+  font-size: 14px
+  color: #fff
+  text-align: center
+  cursor: not-allowed
+  display: flex
+  align-items: center
+  justify-content: center
+
+  svg
+    z-index: 1
+
+.c-sidebar-right__submit--enabled
+  font-weight: bold
+  cursor: pointer
+
+  &:before
+    +content-block
+    background: $highlightColor
+    transition: background $transitionNormal
+    animation: growInHeight $transitionNormal ease
+    transform-origin: center top
+    z-index: 0
+
+  &:hover
+    &:before
+      background: $highlightColorDark
 
 .c-sidebar__section
   position: relative
@@ -49,7 +102,7 @@ $styleHeight: 40px
   padding: 0
   height: $headerHeight
   background: $grayDark
-  box-shadow: 0px 1px 0px 0px $grayLighter, 0px -1px 0px 0px $grayLighter
+  box-shadow: 0px 1px 0px 0px rgba(255,255,255,0.25), 0px -1px 0px 0px rgba(255,255,255,0.25)
 
   span
     +absolute-full
@@ -152,12 +205,12 @@ $styleHeight: 40px
   width: 25%
 
 .c-sidebar__notes
-  padding: $cellPadding 0
+  padding: $cellPadding / 2 0
 
 .c-sidebar__note
-  padding: $cellPadding / 2 $cellPadding
+  padding: 4px $cellPadding
   padding-left: $cellPadding * 2
-  font-size: 14px
+  font-size: 12px
   line-height: $cellHeight
   color: #fff
   position: relative
@@ -189,6 +242,8 @@ $styleHeight: 40px
     flex-grow: 2
 
 .c-sidebar__note-remove
+  position: relative
+  right: -8px
   height: $buttonSize
   width: $buttonSize
   display: none

@@ -8,7 +8,6 @@ const Canvas = (props) => {
     const canvas = useRef(null);
     const handleClick = () => {
         setSelection(null);
-        setGroupSelection(null);
     };
     const handleMouseOver = () => {
         setHover(null);

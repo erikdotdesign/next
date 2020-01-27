@@ -93,7 +93,7 @@ const Artboard = (props: ArtboardProps) => {
             zoom={zoom} />
         : null
       }
-      {
+      {/* {
         selection && edit && composing
         ? <NoteAdd
             layer={selection}
@@ -102,7 +102,7 @@ const Artboard = (props: ArtboardProps) => {
             setNotes={setNotes}
             zoom={zoom} />
         : null
-      }
+      } */}
       {/* {
         showNotes
         ? <Notes

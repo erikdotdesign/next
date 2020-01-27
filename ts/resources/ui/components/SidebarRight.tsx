@@ -1,6 +1,7 @@
 import React from 'react';
 import SidebarStyles from './SidebarStyles';
 import SidebarNotes from './SidebarNotes';
+import SidebarRightInput from './SidebarRightInput';
 
 interface SidebarRightProps {
   selection: srm.AppLayer | null;
@@ -26,6 +27,14 @@ const SidebarRight = (props: SidebarRightProps) => {
         setNotes={setNotes}
         edit={edit}
         composing={composing} />
+      {
+        composing
+        ? <SidebarRightInput
+            selection={selection}
+            notes={notes}
+            setNotes={setNotes} />
+        : null
+      }
     </div>
   )
 };
