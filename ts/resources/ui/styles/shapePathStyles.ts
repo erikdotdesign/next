@@ -2,7 +2,7 @@ import * as styles from './layerStyles';
 import shapeStyles from './shapeStyles';
 import { styleReducer } from '../utils';
 
-const shapePathStyles = (layer: srm.ShapePath, images: srm.Asset[], svgs: any[]) => {
+const shapePathStyles = (layer: srm.ShapePath, images: srm.ImgAsset[], svgs: any[]) => {
   const { style, shapeType, points } = layer;
   // get shape path and type
   const hasOpenPath = !layer.closed;

@@ -25,12 +25,17 @@ export const getNestedNoteCount = (groupLayer: srm.AppLayer, notes: srm.Note[]) 
   return count;
 };
 
-export const getImage = (images: srm.Asset[], id: string): srm.Asset | undefined  => {
-  return images.find((image: srm.Asset) => image.id === id);
+export const getScaledImage = (image: srm.ImgAsset): string  => {
+  const dpr = window.devicePixelRatio;
+  return dpr > 1 ? image.src[`2x`] : image.src[`1x`];
 };
 
-export const getSVG = (svgs: srm.Asset[], id: string): srm.Asset | undefined  => {
-  return svgs.find((svg: srm.Asset) => svg.id === id);
+export const getImage = (images: srm.ImgAsset[], id: string): srm.ImgAsset | undefined  => {
+  return images.find((image: srm.ImgAsset) => image.id === id);
+};
+
+export const getSVG = (svgs: srm.SvgAsset[], id: string): srm.SvgAsset | undefined  => {
+  return svgs.find((svg: srm.SvgAsset) => svg.id === id);
 };
 
 export const getAbsolutePosition = (artboardId: string, layerId: string) => {

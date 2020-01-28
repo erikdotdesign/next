@@ -11,8 +11,8 @@ import { textContainerStyles, textStyles } from '../styles/textStyles';
 
 interface SidebarRightStylesProps {
   selection: srm.AppLayer | null;
-  images: srm.Asset[];
-  svgs: srm.Asset[];
+  images: srm.ImgAsset[];
+  svgs: srm.SvgAsset[];
 }
 
 const SidebarRightStyles = (props: SidebarRightStylesProps) => {

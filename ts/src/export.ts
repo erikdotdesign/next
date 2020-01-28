@@ -55,7 +55,10 @@ export default (context: any) => {
       finalStore.images = store.images.map((image) => {
         return {
           id: image.id,
-          src: `images/${image.id}.png`
+          src: {
+            [`1x`]: `images/${image.id}.png`,
+            [`2x`]: `images/${image.id}@2x.png`
+          }
         }
       });
       // update final store svg paths

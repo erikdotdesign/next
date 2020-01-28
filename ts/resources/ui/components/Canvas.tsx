@@ -4,8 +4,8 @@ import BackButton from './BackButton';
 
 interface CanvasProps {
   artboard: srm.Artboard;
-  images: srm.Asset[];
-  svgs: srm.Asset[];
+  images: srm.ImgAsset[];
+  svgs: srm.SvgAsset[];
   selection: srm.AppLayer | null;
   groupSelection: srm.Group | null;
   groupSelectionNest: srm.Group[] | null;

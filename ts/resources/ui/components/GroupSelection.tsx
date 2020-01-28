@@ -5,8 +5,8 @@ import groupSelectionStyles, { groupSelectionArtboardStyles } from '../styles/gr
 interface GroupSelectionProps {
   artboard: srm.Artboard;
   groupSelection: srm.Group;
-  images: srm.Asset[];
-  svgs: srm.Asset[];
+  images: srm.ImgAsset[];
+  svgs: srm.SvgAsset[];
   setSelection(selection: srm.AppLayer | null): void;
   setGroupSelection(groupSelection: srm.Group | null): void;
   setHover(hover: srm.AppLayer | null): void;

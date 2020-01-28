@@ -544,9 +544,17 @@ declare namespace srm {
     xCenter: number;
   }
 
-  interface Asset {
+  interface SvgAsset {
     id: string;
     src: string;
+  }
+
+  interface ImgAsset {
+    id: string;
+    src: {
+      [`1x`]: string,
+      [`2x`]: string
+    };
   }
 
   interface Note {
@@ -556,8 +564,8 @@ declare namespace srm {
 
   interface Store {
     artboard: srm.Artboard;
-    images: srm.Asset[];
-    svgs: srm.Asset[];
+    images: srm.ImgAsset[];
+    svgs: srm.SvgAsset[];
     notes: Note[]
   }
 

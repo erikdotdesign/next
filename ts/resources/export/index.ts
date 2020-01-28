@@ -47,7 +47,9 @@ export const moveImages = (images: any[], savePath: string) => {
   NSFileManager.defaultManager().createDirectoryAtPath_attributes(imagesPath, nil);
   images.forEach((image: any) => {
     //@ts-ignore
-    NSFileManager.defaultManager().moveItemAtPath_toPath_error(image.src, `${imagesPath}/${image.id}.png`, nil);
+    NSFileManager.defaultManager().moveItemAtPath_toPath_error(image.src[`1x`], `${imagesPath}/${image.id}.png`, nil);
+    //@ts-ignore
+    NSFileManager.defaultManager().moveItemAtPath_toPath_error(image.src[`2x`], `${imagesPath}/${image.id}@2x.png`, nil);
   });
 };
 

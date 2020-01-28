@@ -1,4 +1,4 @@
-const imageLayerToImage = (page: srm.Page, layer: srm.SketchLayer, sketch: srm.Sketch): srm.Asset => {
+const imageLayerToImage = (page: srm.Page, layer: srm.SketchLayer, sketch: srm.Sketch): srm.ImgAsset => {
   // exporting an asset with dims that exceed the artboard dims,
   // will only export the portion within the artboard
   // solution: create artboard for each asset to make sure,
@@ -16,6 +16,7 @@ const imageLayerToImage = (page: srm.Page, layer: srm.SketchLayer, sketch: srm.S
   assetDuplicate.frame.y = 0;
   // export asset to temp folder
   sketch.export(assetDuplicate, {
+    scales: '1, 2',
     formats: 'png',
     // @ts-ignore
     output: NSTemporaryDirectory(),
@@ -28,12 +29,16 @@ const imageLayerToImage = (page: srm.Page, layer: srm.SketchLayer, sketch: srm.S
   // return AppAsset
   return {
     id: (<srm.Image>layer).image.id,
-    // @ts-ignore
-    src: `${NSTemporaryDirectory()}${assetDuplicate.id}.png`
+    src: {
+      // @ts-ignore
+      [`1x`]: `${NSTemporaryDirectory()}${assetDuplicate.id}.png`,
+      // @ts-ignore
+      [`2x`]: `${NSTemporaryDirectory()}${assetDuplicate.id}@2x.png`
+    },
   }
 }
 
-const fillGradientToImage = (page: srm.Page, layer: srm.Shape | srm.ShapePath, sketch: srm.Sketch) => {
+const fillGradientToImage = (page: srm.Page, layer: srm.Shape | srm.ShapePath, sketch: srm.Sketch): srm.ImgAsset => {
   // get enabled gradients
   const activeGradients: srm.Fill[] = layer.style.fills.filter((fill: srm.Fill) => {
     return fill.enabled && fill.fillType === 'Gradient';
@@ -51,6 +56,7 @@ const fillGradientToImage = (page: srm.Page, layer: srm.Shape | srm.ShapePath, s
   });
   // export image to temp dir
   sketch.export(gradientImage, {
+    scales: '1, 2',
     formats: 'png',
     // @ts-ignore
     output: NSTemporaryDirectory(),
@@ -63,12 +69,16 @@ const fillGradientToImage = (page: srm.Page, layer: srm.Shape | srm.ShapePath, s
   // return final image
   return {
     id: layer.id,
-    // @ts-ignore
-    src: `${NSTemporaryDirectory()}${gradientImage.id}.png`
+    src: {
+      // @ts-ignore
+      [`1x`]: `${NSTemporaryDirectory()}${gradientImage.id}.png`,
+      // @ts-ignore
+      [`2x`]: `${NSTemporaryDirectory()}${gradientImage.id}@2x.png`,
+    }
   }
 }
 
-const fillImageToImage = (page: srm.Page, image: srm.ImageData, sketch: srm.Sketch) => {
+const fillImageToImage = (page: srm.Page, image: srm.ImageData, sketch: srm.Sketch): srm.ImgAsset => {
   // get image size
   const width = image.nsimage.size().width;
   const height = image.nsimage.size().height;
@@ -80,6 +90,7 @@ const fillImageToImage = (page: srm.Page, image: srm.ImageData, sketch: srm.Sket
   });
   // export image to temp dir
   sketch.export(fillImage, {
+    scales: '1, 2',
     formats: 'png',
     // @ts-ignore
     output: NSTemporaryDirectory(),
@@ -92,12 +103,16 @@ const fillImageToImage = (page: srm.Page, image: srm.ImageData, sketch: srm.Sket
   // return final image
   return {
     id: image.id,
-    // @ts-ignore
-    src: `${NSTemporaryDirectory()}${fillImage.id}.png`
+    src: {
+      // @ts-ignore
+      [`1x`]: `${NSTemporaryDirectory()}${fillImage.id}.png`,
+      // @ts-ignore
+      [`2x`]: `${NSTemporaryDirectory()}${fillImage.id}@2x.png`
+    }
   }
 }
 
-const createTempImages = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm.Sketch, images: srm.Asset[] = []): srm.Asset[] => {
+const createTempImages = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm.Sketch, images: srm.ImgAsset[] = []): srm.ImgAsset[] => {
   if (layers.length > 0) {
     layers.forEach((layer: srm.SketchLayer) => {
       if (layer.type === 'Group') {
@@ -125,8 +140,8 @@ const createTempImages = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm
   return images;
 };
 
-const getImages = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm.Sketch): srm.Asset[] => {
-  const layerImages: srm.Asset[] = createTempImages(page, layers, sketch);
+const getImages = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm.Sketch): srm.ImgAsset[] => {
+  const layerImages: srm.ImgAsset[] = createTempImages(page, layers, sketch);
   return layerImages;
 };
 

@@ -53,6 +53,11 @@ $buttonSize: 32px
   ::selection
     background: none
 
+  &:hover
+    &:after
+      +tooltip
+      content: 'Zoom'
+
 .c-topbar__button-bb
   position: absolute
   top: 100%
@@ -107,7 +112,7 @@ $buttonSize: 32px
   &:hover
     &:after
       +tooltip
-      content: 'Re-Center Canvas'
+      content: 'Center Canvas'
 
 .c-topbar__button--zoom-reset
 
@@ -116,37 +121,13 @@ $buttonSize: 32px
       +tooltip
       content: 'Reset Zoom'
 
-.c-topbar__button--edit-on
-
-  &:hover
-    &:after
-      +tooltip
-      content: 'Disable Edit'
-
-.c-topbar__button--edit-off
-
-  &:hover
-    &:after
-      +tooltip
-      content: 'Enable Edit'
-
-.c-topbar__button--notes-on
-
-  &:hover
-    &:after
-      +tooltip
-      content: 'Hide Notes'
-
-.c-topbar__button--notes-off
-
-  &:hover
-    &:after
-      +tooltip
-      content: 'Show Notes'
-
 .c-topbar__button--save
+  position: absolute
+  right: 0
+  top: 0
 
   &:hover
     &:after
       +tooltip
+      right: 8px
       content: 'Export Spec'

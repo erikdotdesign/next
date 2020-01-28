@@ -5,8 +5,8 @@ import SidebarRightInput from './SidebarRightInput';
 
 interface SidebarRightProps {
   selection: srm.AppLayer | null;
-  images: srm.Asset[];
-  svgs: srm.Asset[];
+  images: srm.ImgAsset[];
+  svgs: srm.SvgAsset[];
   notes: srm.Note[];
   composing: boolean;
   setNotes(notes: srm.Note[]): void;

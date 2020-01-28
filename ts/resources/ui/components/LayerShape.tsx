@@ -3,8 +3,8 @@ import shapeStyles from '../styles/shapeStyles';
 
 interface LayerShapeProps {
   layer: srm.Shape | srm.ShapePath;
-  images: srm.Asset[];
-  svgs: srm.Asset[];
+  images: srm.ImgAsset[];
+  svgs: srm.SvgAsset[];
   onClick(): void;
   onMouseOver(): void;
   onMouseOut(): void;

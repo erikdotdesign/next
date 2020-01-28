@@ -115,6 +115,7 @@ const App = (props) => {
         // scale artboard
         // set app ready
         handleInitialRender(() => setReady(true));
+        console.log(props.images);
     }, []);
     useEffect(() => {
         // get and set base zoom

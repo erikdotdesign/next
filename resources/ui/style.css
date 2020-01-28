@@ -876,6 +876,26 @@ textarea {
 .c-topbar__zoom-status ::selection {
   background: none;
 }
+.c-topbar__zoom-status:hover:after {
+  white-space: nowrap;
+  word-wrap: none;
+  position: absolute;
+  font-weight: 400;
+  text-align: center;
+  top: calc(100% + 8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  line-height: 32px;
+  padding: 0 8px;
+  font-size: 12px;
+  background: #444;
+  color: #fff;
+  transform-origin: center top;
+  animation: popIn 0.15s ease-out;
+  content: "Zoom";
+}
 
 .c-topbar__button-bb {
   position: absolute;
@@ -983,7 +1003,7 @@ textarea {
   color: #fff;
   transform-origin: center top;
   animation: popIn 0.15s ease-out;
-  content: "Re-Center Canvas";
+  content: "Center Canvas";
 }
 
 .c-topbar__button--zoom-reset:hover:after {
@@ -1007,90 +1027,11 @@ textarea {
   content: "Reset Zoom";
 }
 
-.c-topbar__button--edit-on:hover:after {
-  white-space: nowrap;
-  word-wrap: none;
+.c-topbar__button--save {
   position: absolute;
-  font-weight: 400;
-  text-align: center;
-  top: calc(100% + 8px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 32px;
-  line-height: 32px;
-  padding: 0 8px;
-  font-size: 12px;
-  background: #444;
-  color: #fff;
-  transform-origin: center top;
-  animation: popIn 0.15s ease-out;
-  content: "Disable Edit";
+  right: 0;
+  top: 0;
 }
-
-.c-topbar__button--edit-off:hover:after {
-  white-space: nowrap;
-  word-wrap: none;
-  position: absolute;
-  font-weight: 400;
-  text-align: center;
-  top: calc(100% + 8px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 32px;
-  line-height: 32px;
-  padding: 0 8px;
-  font-size: 12px;
-  background: #444;
-  color: #fff;
-  transform-origin: center top;
-  animation: popIn 0.15s ease-out;
-  content: "Enable Edit";
-}
-
-.c-topbar__button--notes-on:hover:after {
-  white-space: nowrap;
-  word-wrap: none;
-  position: absolute;
-  font-weight: 400;
-  text-align: center;
-  top: calc(100% + 8px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 32px;
-  line-height: 32px;
-  padding: 0 8px;
-  font-size: 12px;
-  background: #444;
-  color: #fff;
-  transform-origin: center top;
-  animation: popIn 0.15s ease-out;
-  content: "Hide Notes";
-}
-
-.c-topbar__button--notes-off:hover:after {
-  white-space: nowrap;
-  word-wrap: none;
-  position: absolute;
-  font-weight: 400;
-  text-align: center;
-  top: calc(100% + 8px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 32px;
-  line-height: 32px;
-  padding: 0 8px;
-  font-size: 12px;
-  background: #444;
-  color: #fff;
-  transform-origin: center top;
-  animation: popIn 0.15s ease-out;
-  content: "Show Notes";
-}
-
 .c-topbar__button--save:hover:after {
   white-space: nowrap;
   word-wrap: none;
@@ -1109,6 +1050,7 @@ textarea {
   color: #fff;
   transform-origin: center top;
   animation: popIn 0.15s ease-out;
+  right: 8px;
   content: "Export Spec";
 }
 

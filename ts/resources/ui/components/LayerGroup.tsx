@@ -4,8 +4,8 @@ import groupStyles from '../styles/groupStyles';
 
 interface LayerGroupProps {
   layer: srm.Group;
-  images: srm.Asset[];
-  svgs: srm.Asset[];
+  images: srm.ImgAsset[];
+  svgs: srm.SvgAsset[];
   onClick(): void;
   onDoubleClick(): void;
   onMouseOver(): void;

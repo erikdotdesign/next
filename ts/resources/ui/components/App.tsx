@@ -6,8 +6,8 @@ import TopBar from './TopBar';
 
 interface AppProps {
   artboard: srm.Artboard;
-  images: srm.Asset[];
-  svgs: srm.Asset[];
+  images: srm.ImgAsset[];
+  svgs: srm.SvgAsset[];
   notes: srm.Note[];
   composing: boolean;
 }
@@ -126,6 +126,7 @@ const App = (props: AppProps) => {
     // scale artboard
     // set app ready
     handleInitialRender(() => setReady(true));
+    console.log(props.images);
   }, []);
 
   useEffect(() => {
