@@ -1,31 +1,29 @@
 import React from 'react';
-import SidebarStyles from './SidebarStyles';
-import SidebarNotes from './SidebarNotes';
+import SidebarRightStyles from './SidebarRightStyles';
+import SidebarRightNotes from './SidebarRightNotes';
 import SidebarRightInput from './SidebarRightInput';
 
 interface SidebarRightProps {
   selection: srm.AppLayer | null;
-  images: srm.AppAsset[];
-  svgs: srm.AppAsset[];
-  notes: srm.Notes;
-  edit: boolean;
+  images: srm.Asset[];
+  svgs: srm.Asset[];
+  notes: srm.Note[];
   composing: boolean;
-  setNotes(notes: srm.Notes): void;
+  setNotes(notes: srm.Note[]): void;
 }
 
 const SidebarRight = (props: SidebarRightProps) => {
-  const { selection, images, svgs, notes, setNotes, edit, composing } = props;
+  const { selection, images, svgs, notes, setNotes, composing } = props;
   return (
     <div className='c-sidebar c-sidebar--right'>
-      <SidebarStyles
+      <SidebarRightStyles
         selection={selection}
         images={images}
         svgs={svgs} />
-      <SidebarNotes
+      <SidebarRightNotes
         selection={selection}
         notes={notes}
         setNotes={setNotes}
-        edit={edit}
         composing={composing} />
       {
         composing

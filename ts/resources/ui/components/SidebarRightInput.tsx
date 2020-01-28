@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import IconAdd from './IconAdd';
 
 interface SidebarRightInputProps {
   selection: srm.AppLayer | null;
-  notes: srm.Notes;
-  setNotes(notes: srm.Notes): void;
+  notes: srm.Note[];
+  setNotes(notes: srm.Note[]): void;
 }
 
 const SidebarRightInput = (props: SidebarRightInputProps) => {
@@ -16,23 +16,23 @@ const SidebarRightInput = (props: SidebarRightInputProps) => {
   }
   const handleSubmit = () => {
     if (selection && note.trim().length > 0) {
-      let layerNotes = notes[selection.id];
-      if (layerNotes) {
-        setNotes({
-          ...notes,
-          [selection.id]: {
-            notes: [...layerNotes.notes, note],
-            layer: selection
+      const selectionHasNotes = notes.some((layer: srm.Note) => {
+        return layer.id === selection.id;
+      });
+      if (selectionHasNotes) {
+        let newNotes = notes.map((layerNotes: any) => {
+          if (layerNotes.id === selection.id) {
+            layerNotes.notes.push(note);
           }
+          return layerNotes;
         });
+        setNotes(newNotes);
       } else {
-        setNotes({
-          ...notes,
-          [selection.id]: {
-            notes: [note],
-            layer: selection
-          }
-        });
+        const newNote = {
+          id: selection.id,
+          notes: [note]
+        }
+        setNotes([...notes, newNote]);
       }
       setNote('');
       input.current?.focus();

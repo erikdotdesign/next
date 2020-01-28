@@ -8,6 +8,7 @@ interface SidebarLeftProps {
   groupSelection: srm.Group | null;
   groupSelectionNest: srm.Group[] | null;
   artboard: srm.Artboard;
+  notes: srm.Note[];
   setSelection(selection: srm.AppLayer | null): void;
   setHover(hover: srm.AppLayer | null): void;
   setGroupSelection(groupSelection: srm.Group | null): void;
@@ -15,7 +16,7 @@ interface SidebarLeftProps {
 }
 
 const SidebarLeft = (props: SidebarLeftProps) => {
-  const { selection, groupSelection, groupSelectionNest, artboard, setSelection, setHover, setGroupSelection, setGroupSelectionNest } = props;
+  const { selection, groupSelection, groupSelectionNest, artboard, notes, setSelection, setHover, setGroupSelection, setGroupSelectionNest } = props;
   return (
     <div className='c-sidebar c-sidebar--left'>
       <div className='c-sidebar__header'>
@@ -24,6 +25,7 @@ const SidebarLeft = (props: SidebarLeftProps) => {
       <SidebarLeftArtboard
         artboard={artboard}
         selection={selection}
+        notes={notes}
         setHover={setHover}
         setSelection={setSelection}
         setGroupSelection={setGroupSelection}

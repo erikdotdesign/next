@@ -1,4 +1,4 @@
-const shapeToSVG = (page: srm.Page, layer: srm.SketchLayer, sketch: srm.Sketch): srm.AppAsset => {
+const shapeToSVG = (page: srm.Page, layer: srm.SketchLayer, sketch: srm.Sketch): srm.Asset => {
   // exporting an asset with dims that exceed the artboard dims,
   // will only export the portion within the artboard
   // solution: create artboard for each asset to make sure,
@@ -32,7 +32,7 @@ const shapeToSVG = (page: srm.Page, layer: srm.SketchLayer, sketch: srm.Sketch):
   }
 }
 
-const createTempSVGs = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm.Sketch, svgs: srm.AppAsset[] = []): srm.AppAsset[] => {
+const createTempSVGs = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm.Sketch, svgs: srm.Asset[] = []): srm.Asset[] => {
   if (layers.length > 0) {
     layers.forEach((layer: srm.SketchLayer) => {
       if (layer.type === 'Group') {
@@ -56,7 +56,7 @@ const createTempSVGs = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm.S
 };
 
 const getSVGs = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm.Sketch) => {
-  let shapeSvgs: srm.AppAsset[] = createTempSVGs(page, layers, sketch);
+  let shapeSvgs: srm.Asset[] = createTempSVGs(page, layers, sketch);
   return shapeSvgs;
 };
 

@@ -986,6 +986,27 @@ textarea {
   content: "Re-Center Canvas";
 }
 
+.c-topbar__button--zoom-reset:hover:after {
+  white-space: nowrap;
+  word-wrap: none;
+  position: absolute;
+  font-weight: 400;
+  text-align: center;
+  top: calc(100% + 8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  line-height: 32px;
+  padding: 0 8px;
+  font-size: 12px;
+  background: #444;
+  color: #fff;
+  transform-origin: center top;
+  animation: popIn 0.15s ease-out;
+  content: "Reset Zoom";
+}
+
 .c-topbar__button--edit-on:hover:after {
   white-space: nowrap;
   word-wrap: none;
@@ -1440,6 +1461,13 @@ textarea {
   align-items: center;
   justify-content: center;
   opacity: 0.5;
+}
+
+.c-sidebar-left-layer__note-count {
+  font-size: 12px;
+  padding-left: 16px;
+  line-height: 40px;
+  text-align: right;
 }
 
 .c-sidebar-left-layer__icon--expand {

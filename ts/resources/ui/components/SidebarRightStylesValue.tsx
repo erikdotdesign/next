@@ -1,11 +1,11 @@
 import React, { useRef, useState } from 'react';
-import SidebarSwatches from './SidebarSwatches';
+import SidebarRightSwatches from './SidebarRightSwatches';
 
-interface SidebarStylesValueProps {
+interface SidebarRightStylesValueProps {
   value: string;
 }
 
-const SidebarStylesValue = (props: SidebarStylesValueProps) => {
+const SidebarRightStylesValue = (props: SidebarRightStylesValueProps) => {
   const [hovering, setHovering] = useState(false);
   const [copied, setCopied] = useState(false);
   const textInput = useRef<HTMLInputElement>(null);
@@ -51,9 +51,9 @@ const SidebarStylesValue = (props: SidebarStylesValueProps) => {
           </div>
         : null
       }
-      <SidebarSwatches value={props.value} />
+      <SidebarRightSwatches value={props.value} />
     </div>
   );
 }
 
-export default SidebarStylesValue;
+export default SidebarRightStylesValue;

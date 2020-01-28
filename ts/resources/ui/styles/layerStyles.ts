@@ -187,7 +187,7 @@ export const combineBordersAndShadows = (boxShadows: any[]): srm.css.BoxShadow |
   }
 };
 
-export const createGradientFillImage = (images: srm.AppAsset[], id: string): srm.css.Background | Pick<srm.css.Background, 'background'> | null => {
+export const createGradientFillImage = (images: srm.Asset[], id: string): srm.css.Background | Pick<srm.css.Background, 'background'> | null => {
   const image = getImage(images, id);
   if (image) {
     return {
@@ -242,7 +242,7 @@ export const createPatternDisplay = (patternType: srm.PatternFillType): Omit<srm
   };
 };
 
-export const createPatternFill = (pattern: srm.Pattern, images: srm.AppAsset[]): srm.css.Background | null => {
+export const createPatternFill = (pattern: srm.Pattern, images: srm.Asset[]): srm.css.Background | null => {
   const displayStyle = createPatternDisplay(pattern.patternType);
   if (pattern.image) {
     const image = getImage(images, pattern.image.id);
@@ -259,7 +259,7 @@ export const createPatternFill = (pattern: srm.Pattern, images: srm.AppAsset[]):
   }
 };
 
-export const createBackground = (layer: srm.ShapePath | srm.ShapePath | srm.Image, images: srm.AppAsset[]): srm.css.Background | Pick<srm.css.Background, 'background'> | null => {
+export const createBackground = (layer: srm.ShapePath | srm.ShapePath | srm.Image, images: srm.Asset[]): srm.css.Background | Pick<srm.css.Background, 'background'> | null => {
   const { style, id } = layer;
   // get fills that are enabled
   const hasActiveFills = style.fills.some((fill: srm.Fill) => fill.enabled);

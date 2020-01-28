@@ -1,32 +1,34 @@
 import React from 'react';
 import IconClose from './IconClose';
 
-interface SidebarNotesProps {
+interface SidebarRightNotesProps {
   selection: srm.AppLayer | null;
-  notes: srm.Notes;
-  edit: boolean;
+  notes: srm.Note[];
   composing: boolean;
-  setNotes(notes: srm.Notes): void;
+  setNotes(notes: srm.Note[]): void;
 }
 
-const SidebarNotes = (props: SidebarNotesProps) => {
-  const { selection, notes, setNotes, edit, composing } = props;
+const SidebarRightNotes = (props: SidebarRightNotesProps) => {
+  const { selection, notes, setNotes, composing } = props;
+  const selectionNotes = notes.find((layer: srm.Note) => {
+    return selection && layer.id === selection.id;
+  });
   const removeNote = (noteIndex: number) => {
     if (selection) {
-      const newNotes = notes[selection.id].notes.filter((n: any, i: number) => {
-        return i !== noteIndex;
-      });
-      if (newNotes.length !== 0) {
-        setNotes({
-          ...notes,
-          [selection.id]: {
-            ...notes[selection.id],
-            notes: newNotes
+      if ((selectionNotes as srm.Note).notes.length > 1) {
+        let newNotes = notes.map((layerNotes: any) => {
+          if (layerNotes.id === selection.id) {
+            layerNotes.notes.splice(noteIndex, 1);
           }
+          return layerNotes;
         });
+        setNotes(newNotes);
       } else {
-        let notesCopy = Object.assign({}, notes);
-        delete notesCopy[selection.id];
+        let notesCopy = [...notes];
+        let selectionIndex = notes.findIndex((layer: srm.Note) => {
+          return layer.id === selection.id;
+        });
+        notesCopy.splice(selectionIndex, 1);
         setNotes(notesCopy);
       }
     }
@@ -40,17 +42,17 @@ const SidebarNotes = (props: SidebarNotesProps) => {
         selection
         ? <div>
             {
-              notes[selection.id]
+              selectionNotes
               ? <ul className='c-sidebar__notes'>
                   {
-                    notes[selection.id].notes.map((note: string, index: number) => (
+                    selectionNotes.notes.map((note: string, index: number) => (
                       <li className='c-sidebar__note' key={index}>
                         <div className='c-sidebar__note-content'>
                           <span>
                             { note }
                           </span>
                           {
-                            edit && composing
+                            composing
                             ? <button
                                 className='c-sidebar__note-remove'
                                 onClick={() => removeNote(index)}>
@@ -76,4 +78,4 @@ const SidebarNotes = (props: SidebarNotesProps) => {
   )
 };
 
-export default SidebarNotes;
+export default SidebarRightNotes;

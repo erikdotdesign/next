@@ -1,11 +1,11 @@
 import React from 'react';
 import chroma from 'chroma-js';
 
-interface SidebarSwatchesProps {
+interface SidebarRightSwatchesProps {
   value: string;
 }
 
-const SidebarSwatches = (props: SidebarSwatchesProps) => {
+const SidebarRightSwatches = (props: SidebarRightSwatchesProps) => {
   const getColors = () => {
     const values = String(props.value).split(' ');
     const colors: string[] = [];
@@ -52,4 +52,4 @@ const SidebarSwatches = (props: SidebarSwatchesProps) => {
   );
 }
 
-export default SidebarSwatches;
+export default SidebarRightSwatches;

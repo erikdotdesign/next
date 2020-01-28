@@ -7,7 +7,7 @@ import Hover from './Hover';
 import artboardStyles from '../styles/artboardStyles';
 const Artboard = (props) => {
     const artboardRef = useRef(null);
-    const { artboard, images, svgs, selection, setSelection, groupSelection, setGroupSelection, groupSelectionNest, setGroupSelectionNest, hover, setHover, zoom, showNotes, edit, notes, setNotes, composing } = props;
+    const { artboard, images, svgs, selection, setSelection, groupSelection, setGroupSelection, setGroupSelectionNest, hover, setHover, zoom } = props;
     const onClick = () => {
         setSelection(artboard);
     };

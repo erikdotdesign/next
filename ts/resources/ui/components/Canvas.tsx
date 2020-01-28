@@ -4,33 +4,26 @@ import BackButton from './BackButton';
 
 interface CanvasProps {
   artboard: srm.Artboard;
-  images: srm.AppAsset[];
-  svgs: srm.AppAsset[];
+  images: srm.Asset[];
+  svgs: srm.Asset[];
   selection: srm.AppLayer | null;
   groupSelection: srm.Group | null;
   groupSelectionNest: srm.Group[] | null;
   hover: srm.AppLayer | null;
-  viewPortSize: {width: number, height: number};
   zoom: number;
-  showNotes: boolean;
-  edit: boolean;
-  notes: srm.Notes;
-  composing: boolean;
   ready: boolean;
   setSelection(selection: srm.AppLayer | null): void;
   setGroupSelection(groupSelection: srm.Group | null): void;
   setGroupSelectionNest(groupSelectionNest: srm.Group[] | null): void;
   setHover(hover: srm.AppLayer | null): void;
   setZoom(zoom: number): void;
-  setEdit(edit: boolean): void;
-  setNotes(notes: srm.Notes): void;
 }
 
 let startGestureZoom = 0;
 let gestureZoom = 1;
 
 const Canvas = (props: CanvasProps) => {
-  const { artboard, images, svgs, selection, setSelection, groupSelection, setGroupSelection, groupSelectionNest, setGroupSelectionNest, hover, setHover, setZoom, zoom, showNotes, edit, setEdit, notes, setNotes, composing, ready } = props;
+  const { artboard, images, svgs, selection, setSelection, groupSelection, setGroupSelection, groupSelectionNest, setGroupSelectionNest, hover, setHover, setZoom, zoom, ready } = props;
   const canvas = useRef<HTMLDivElement>(null);
   const handleClick = () => {
     setSelection(null);
@@ -96,12 +89,7 @@ const Canvas = (props: CanvasProps) => {
             setGroupSelectionNest={setGroupSelectionNest}
             hover={hover}
             setHover={setHover}
-            zoom={zoom}
-            showNotes={showNotes}
-            edit={edit}
-            notes={notes}
-            setNotes={setNotes}
-            composing={composing} />
+            zoom={zoom} />
         : null
       }
       <div

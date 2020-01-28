@@ -3,8 +3,8 @@ import Layer from './Layer';
 
 interface LayersProps {
   layers: srm.AppArtboardLayer[];
-  images: srm.AppAsset[];
-  svgs: srm.AppAsset[];
+  images: srm.Asset[];
+  svgs: srm.Asset[];
   setSelection(selection: srm.AppLayer | null): void;
   setGroupSelection(groupSelection: srm.Group | null): void;
   setHover(hover: srm.AppLayer | null): void;

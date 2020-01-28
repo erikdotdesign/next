@@ -3,8 +3,8 @@ import shapePathStyles from '../styles/shapePathStyles';
 
 interface LayerShapePathNormalProps {
   layer: srm.ShapePath;
-  svgs: srm.AppAsset[];
-  images: srm.AppAsset[];
+  svgs: srm.Asset[];
+  images: srm.Asset[];
   onClick(): void;
   onMouseOver(): void;
   onMouseOut(): void;

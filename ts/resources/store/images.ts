@@ -1,4 +1,4 @@
-const imageLayerToImage = (page: srm.Page, layer: srm.SketchLayer, sketch: srm.Sketch): srm.AppAsset => {
+const imageLayerToImage = (page: srm.Page, layer: srm.SketchLayer, sketch: srm.Sketch): srm.Asset => {
   // exporting an asset with dims that exceed the artboard dims,
   // will only export the portion within the artboard
   // solution: create artboard for each asset to make sure,
@@ -97,7 +97,7 @@ const fillImageToImage = (page: srm.Page, image: srm.ImageData, sketch: srm.Sket
   }
 }
 
-const createTempImages = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm.Sketch, images: srm.AppAsset[] = []): srm.AppAsset[] => {
+const createTempImages = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm.Sketch, images: srm.Asset[] = []): srm.Asset[] => {
   if (layers.length > 0) {
     layers.forEach((layer: srm.SketchLayer) => {
       if (layer.type === 'Group') {
@@ -125,8 +125,8 @@ const createTempImages = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm
   return images;
 };
 
-const getImages = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm.Sketch): srm.AppAsset[] => {
-  const layerImages: srm.AppAsset[] = createTempImages(page, layers, sketch);
+const getImages = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm.Sketch): srm.Asset[] => {
+  const layerImages: srm.Asset[] = createTempImages(page, layers, sketch);
   return layerImages;
 };
 

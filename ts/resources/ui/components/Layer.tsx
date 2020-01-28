@@ -7,8 +7,8 @@ import LayerText from './LayerText';
 
 interface LayerProps {
   layer: srm.AppArtboardLayer;
-  images: srm.AppAsset[];
-  svgs: srm.AppAsset[];
+  images: srm.Asset[];
+  svgs: srm.Asset[];
   setSelection(selection: srm.AppLayer | null): void;
   setGroupSelection(selection: srm.AppLayer | null): void;
   setHover(hover: srm.AppLayer | null): void;

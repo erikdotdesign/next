@@ -1,6 +1,6 @@
 import React from 'react';
-import SidebarStylesValue from './SidebarStylesValue';
-import SidebarStylesProp from './SidebarStylesProp';
+import SidebarRightStylesValue from './SidebarRightStylesValue';
+import SidebarRightStylesProp from './SidebarRightStylesProp';
 
 import groupStyles from '../styles/groupStyles';
 import artboardStyles from '../styles/artboardStyles';
@@ -9,13 +9,13 @@ import shapePathStyles from '../styles/shapePathStyles';
 import imageStyles from '../styles/imageStyles';
 import { textContainerStyles, textStyles } from '../styles/textStyles';
 
-interface SidebarProps {
+interface SidebarRightStylesProps {
   selection: srm.AppLayer | null;
-  images: srm.AppAsset[];
-  svgs: srm.AppAsset[];
+  images: srm.Asset[];
+  svgs: srm.Asset[];
 }
 
-const SidebarStyles = (props: SidebarProps) => {
+const SidebarRightStyles = (props: SidebarRightStylesProps) => {
   const { selection, images, svgs } = props;
   const getLayerStyles = () => {
     if (selection) {
@@ -51,8 +51,8 @@ const SidebarStyles = (props: SidebarProps) => {
             {
               Object.keys(selectionStyles).map((key: any, index: number) => (
                 <div className='c-sidebar-styles__style' key={index}>
-                  <SidebarStylesProp prop={key} />
-                  <SidebarStylesValue value={selectionStyles[key]} />
+                  <SidebarRightStylesProp prop={key} />
+                  <SidebarRightStylesValue value={selectionStyles[key]} />
                 </div>
               ))
             }
@@ -65,4 +65,4 @@ const SidebarStyles = (props: SidebarProps) => {
   )
 };
 
-export default SidebarStyles;
+export default SidebarRightStyles;

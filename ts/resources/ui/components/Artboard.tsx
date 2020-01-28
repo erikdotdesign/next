@@ -4,33 +4,26 @@ import gsap from 'gsap';
 import Selection from './Selection';
 import GroupSelection from './GroupSelection';
 import Hover from './Hover';
-import Notes from './Notes';
-import NoteAdd from './NoteAdd';
 import artboardStyles from '../styles/artboardStyles';
 
 interface ArtboardProps {
   artboard: srm.Artboard;
-  images: srm.AppAsset[];
-  svgs: srm.AppAsset[];
-  notes: srm.Notes;
+  images: srm.Asset[];
+  svgs: srm.Asset[];
   selection: srm.AppLayer | null;
   groupSelection: srm.Group | null;
   groupSelectionNest: srm.Group[] | null;
   hover: srm.AppLayer | null;
   zoom: number;
-  showNotes: boolean;
-  edit: boolean;
-  composing: boolean;
   setSelection(selection: srm.AppLayer | null): void;
   setGroupSelection(groupSelection: srm.Group | null): void;
   setGroupSelectionNest(groupSelectionNest: srm.Group[] | null): void;
   setHover(hover: srm.AppLayer | null): void;
-  setNotes(notes: srm.Notes): void;
 }
 
 const Artboard = (props: ArtboardProps) => {
   const artboardRef = useRef<HTMLDivElement>(null);
-  const { artboard, images, svgs, selection, setSelection, groupSelection, setGroupSelection, groupSelectionNest, setGroupSelectionNest, hover, setHover, zoom, showNotes, edit, notes, setNotes, composing } = props;
+  const { artboard, images, svgs, selection, setSelection, groupSelection, setGroupSelection, setGroupSelectionNest, hover, setHover, zoom } = props;
   const onClick = (): void => {
     setSelection(artboard);
   }
@@ -93,25 +86,6 @@ const Artboard = (props: ArtboardProps) => {
             zoom={zoom} />
         : null
       }
-      {/* {
-        selection && edit && composing
-        ? <NoteAdd
-            layer={selection}
-            artboard={artboard}
-            notes={notes}
-            setNotes={setNotes}
-            zoom={zoom} />
-        : null
-      } */}
-      {/* {
-        showNotes
-        ? <Notes
-            setSelection={setSelection}
-            setGroupSelection={setGroupSelection}
-            artboard={artboard}
-            notes={notes} />
-        : null
-      } */}
       <div
         className='c-artboard__click-area'
         onClick={onClick}

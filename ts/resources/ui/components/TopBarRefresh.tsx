@@ -3,21 +3,15 @@ import TopBarButton from './TopBarButton';
 import IconRefresh from './IconRefresh';
 
 interface TopBarRefreshProps {
-  baseZoom: number;
-  setZoom(zoom: number): void;
   scrollToCenter(): void;
 }
 
 const TopBarRefresh = (props: TopBarRefreshProps) => {
-  const { baseZoom, setZoom, scrollToCenter } = props;
-  const refresh = () => {
-    setZoom(baseZoom);
-    scrollToCenter();
-  };
+  const { scrollToCenter } = props;
   return (
     <div className='c-topbar__control'>
       <TopBarButton
-        onClick={refresh}
+        onClick={() => scrollToCenter()}
         className={'c-topbar__button--refresh'}
         icon={<IconRefresh />} />
     </div>

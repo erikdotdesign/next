@@ -3,6 +3,7 @@ import React from 'react';
 interface SidebarLeftArtboardProps {
   artboard: srm.Artboard;
   selection: srm.AppLayer | null;
+  notes: srm.Note[];
   setSelection(selection: srm.AppLayer | null): void;
   setHover(hover: srm.AppLayer | null): void;
   setGroupSelection(groupSelection: srm.Group | null): void;
@@ -10,7 +11,7 @@ interface SidebarLeftArtboardProps {
 }
 
 const SidebarLeftArtboard = (props: SidebarLeftArtboardProps) => {
-  const { artboard, selection, setSelection, setGroupSelection, setGroupSelectionNest, setHover } = props;
+  const { artboard, selection, notes, setSelection, setGroupSelection, setGroupSelectionNest, setHover } = props;
   const handleDoubleClick = () => {
     setGroupSelection(null);
     setGroupSelectionNest(null);

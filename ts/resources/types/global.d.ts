@@ -544,18 +544,21 @@ declare namespace srm {
     xCenter: number;
   }
 
-  interface AppAsset {
+  interface Asset {
     id: string;
     src: string;
   }
 
-  type Notes = any;
+  interface Note {
+    id: string;
+    notes: string[];
+  }
 
   interface Store {
     artboard: srm.Artboard;
-    images: srm.AppAsset[];
-    svgs: srm.AppAsset[];
-    notes: Notes
+    images: srm.Asset[];
+    svgs: srm.Asset[];
+    notes: Note[]
   }
 
   namespace css {

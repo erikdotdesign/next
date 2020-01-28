@@ -6,9 +6,9 @@ import TopBar from './TopBar';
 
 interface AppProps {
   artboard: srm.Artboard;
-  images: srm.AppAsset[];
-  svgs: srm.AppAsset[];
-  notes: srm.Notes;
+  images: srm.Asset[];
+  svgs: srm.Asset[];
+  notes: srm.Note[];
   composing: boolean;
 }
 
@@ -29,9 +29,7 @@ const App = (props: AppProps) => {
   const [centerScroll, setCenterScroll] = useState<{x: number, y: number}>({x: 0, y: 0});
   const [viewPortSize, setViewPortSize] = useState<{width: number, height: number}>({width: 0, height: 0});
   // notes
-  const [notes, setNotes] = useState<any>(props.notes);
-  const [showNotes, setShowNotes] = useState<boolean>(true);
-  const [edit, setEdit] = useState<boolean>(true);
+  const [notes, setNotes] = useState<srm.Note[]>(props.notes);
 
   const scaleArtboardForViewport = (): number => {
     const artboardWidth: number = props.artboard.frame.width;
@@ -164,21 +162,17 @@ const App = (props: AppProps) => {
       ref={app}
       onKeyDown={handleKeyPress}>
       <TopBar
-        selection={selection}
         zoom={zoom}
         setZoom={setZoom}
         baseZoom={baseZoom}
         notes={notes}
-        showNotes={showNotes}
-        setShowNotes={setShowNotes}
-        edit={edit}
-        setEdit={setEdit}
         scrollToCenter={scrollToCenter}
         composing={props.composing} />
       <SidebarLeft
         selection={selection}
         setSelection={setSelection}
         setHover={setHover}
+        notes={notes}
         groupSelection={groupSelection}
         setGroupSelection={setGroupSelection}
         groupSelectionNest={groupSelectionNest}
@@ -190,7 +184,6 @@ const App = (props: AppProps) => {
         svgs={props.svgs}
         notes={notes}
         setNotes={setNotes}
-        edit={edit}
         composing={props.composing} />
       <Canvas
         {...props}
@@ -204,14 +197,7 @@ const App = (props: AppProps) => {
         groupSelectionNest={groupSelectionNest}
         setGroupSelectionNest={setGroupSelectionNest}
         hover={hover}
-        setHover={setHover}
-        viewPortSize={viewPortSize}
-        showNotes={showNotes}
-        edit={edit}
-        setEdit={setEdit}
-        notes={notes}
-        setNotes={setNotes}
-        composing={props.composing} />
+        setHover={setHover} />
     </div>
   );
 }

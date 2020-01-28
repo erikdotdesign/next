@@ -21,8 +21,6 @@ const App = (props) => {
     const [viewPortSize, setViewPortSize] = useState({ width: 0, height: 0 });
     // notes
     const [notes, setNotes] = useState(props.notes);
-    const [showNotes, setShowNotes] = useState(true);
-    const [edit, setEdit] = useState(true);
     const scaleArtboardForViewport = () => {
         const artboardWidth = props.artboard.frame.width;
         const artboardHeight = props.artboard.frame.height;
@@ -144,9 +142,9 @@ const App = (props) => {
     }, [viewPortSize]);
     // SCROLL PERFORMANCE IS HORRIBLE ON SAFARI FOR NESTED COMPONENTS
     return (React.createElement("div", { className: 'c-app', tabIndex: -1, ref: app, onKeyDown: handleKeyPress },
-        React.createElement(TopBar, { selection: selection, zoom: zoom, setZoom: setZoom, baseZoom: baseZoom, notes: notes, showNotes: showNotes, setShowNotes: setShowNotes, edit: edit, setEdit: setEdit, scrollToCenter: scrollToCenter, composing: props.composing }),
-        React.createElement(SidebarLeft, { selection: selection, setSelection: setSelection, setHover: setHover, groupSelection: groupSelection, setGroupSelection: setGroupSelection, groupSelectionNest: groupSelectionNest, setGroupSelectionNest: setGroupSelectionNest, artboard: props.artboard }),
-        React.createElement(SidebarRight, { selection: selection, images: props.images, svgs: props.svgs, notes: notes, setNotes: setNotes, edit: edit, composing: props.composing }),
-        React.createElement(Canvas, Object.assign({}, props, { ready: ready, zoom: zoom, setZoom: setZoom, selection: selection, setSelection: setSelection, groupSelection: groupSelection, setGroupSelection: setGroupSelection, groupSelectionNest: groupSelectionNest, setGroupSelectionNest: setGroupSelectionNest, hover: hover, setHover: setHover, viewPortSize: viewPortSize, showNotes: showNotes, edit: edit, setEdit: setEdit, notes: notes, setNotes: setNotes, composing: props.composing }))));
+        React.createElement(TopBar, { zoom: zoom, setZoom: setZoom, baseZoom: baseZoom, notes: notes, scrollToCenter: scrollToCenter, composing: props.composing }),
+        React.createElement(SidebarLeft, { selection: selection, setSelection: setSelection, setHover: setHover, notes: notes, groupSelection: groupSelection, setGroupSelection: setGroupSelection, groupSelectionNest: groupSelectionNest, setGroupSelectionNest: setGroupSelectionNest, artboard: props.artboard }),
+        React.createElement(SidebarRight, { selection: selection, images: props.images, svgs: props.svgs, notes: notes, setNotes: setNotes, composing: props.composing }),
+        React.createElement(Canvas, Object.assign({}, props, { ready: ready, zoom: zoom, setZoom: setZoom, selection: selection, setSelection: setSelection, groupSelection: groupSelection, setGroupSelection: setGroupSelection, groupSelectionNest: groupSelectionNest, setGroupSelectionNest: setGroupSelectionNest, hover: hover, setHover: setHover }))));
 };
 export default App;
