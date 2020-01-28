@@ -13,7 +13,7 @@ const getImageBackground = (imageId: string, images: srm.ImgAsset[]) => {
   } else {
     return null;
   }
-}
+};
 
 const imageStyles = (layer: srm.Image, images: srm.ImgAsset[]) => {
   const { style } = layer;

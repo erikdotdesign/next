@@ -63,3 +63,18 @@ export const moveSVGs = (svgs: any[], savePath: string) => {
     NSFileManager.defaultManager().moveItemAtPath_toPath_error(svg.src, `${svgsPath}/${svg.id}.svg`, nil);
   });
 };
+
+//@ts-ignore
+export const copyFonts = (fonts: string[], savePath: string) => {
+  const fontsPath = `${savePath}/fonts`;
+  //@ts-ignore
+  NSFileManager.defaultManager().createDirectoryAtPath_attributes(fontsPath, nil);
+  fonts.forEach((font: any) => {
+    //@ts-ignore
+    //NSFileManager.defaultManager().createDirectoryAtPath_attributes(`${fontsPath}/${font}`, nil);
+    //@ts-ignore
+    const FontBook = NSFontManager.sharedFontManager().availableFonts();
+    //@ts-ignore
+    //NSFileManager.defaultManager().moveItemAtPath_toPath_error(svg.src, `${svgsPath}/${svg.id}.svg`, nil);
+  });
+};

@@ -552,8 +552,8 @@ declare namespace srm {
   interface ImgAsset {
     id: string;
     src: {
-      [`1x`]: string,
-      [`2x`]: string
+      [`1x`]: string;
+      [`2x`]: string;
     };
   }
 
@@ -566,7 +566,8 @@ declare namespace srm {
     artboard: srm.Artboard;
     images: srm.ImgAsset[];
     svgs: srm.SvgAsset[];
-    notes: Note[]
+    fonts: string[];
+    notes: Note[];
   }
 
   namespace css {

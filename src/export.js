@@ -124,6 +124,10 @@ export default (context) => {
             if (store.svgs.length > 0) {
                 pluginExport.moveSVGs(store.svgs, savePath);
             }
+            // copy fonts
+            if (store.fonts.length > 0) {
+                pluginExport.copyFonts(store.fonts, savePath);
+            }
         });
     }
     else {
