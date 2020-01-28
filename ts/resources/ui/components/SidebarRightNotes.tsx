@@ -1,5 +1,6 @@
 import React from 'react';
 import IconClose from './IconClose';
+import { getLayerNotes } from '../utils';
 
 interface SidebarRightNotesProps {
   selection: srm.AppLayer | null;
@@ -10,9 +11,7 @@ interface SidebarRightNotesProps {
 
 const SidebarRightNotes = (props: SidebarRightNotesProps) => {
   const { selection, notes, setNotes, composing } = props;
-  const selectionNotes = notes.find((layer: srm.Note) => {
-    return selection && layer.id === selection.id;
-  });
+  const selectionNotes = selection ? getLayerNotes(selection.id, notes) : null;
   const removeNote = (noteIndex: number) => {
     if (selection) {
       if ((selectionNotes as srm.Note).notes.length > 1) {

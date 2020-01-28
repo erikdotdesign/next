@@ -1436,6 +1436,11 @@ textarea {
   cursor: pointer;
 }
 
+.c-sidebar-left__layer--group .c-sidebar-left-layer__note-count {
+  margin-right: 4px;
+  margin-left: 4px;
+}
+
 .c-sidebar-left__layer--header {
   background: #333;
   box-shadow: 0px -1px 0px 0px #666 inset, 0px -1px 0px 0px #666;
@@ -1453,6 +1458,10 @@ textarea {
 .c-sidebar-left__layer--active {
   background: #EF2EF2;
 }
+.c-sidebar-left__layer--active .c-sidebar-left-layer__note-count {
+  background: #fff;
+  color: black;
+}
 
 .c-sidebar-left-layer__icon {
   display: flex;
@@ -1463,11 +1472,27 @@ textarea {
   opacity: 0.5;
 }
 
-.c-sidebar-left-layer__note-count {
+.c-sidebar-left-layer__note-count,
+.c-sidebar-left-layer__nested-note-count {
+  flex-shrink: 0;
   font-size: 12px;
-  padding-left: 16px;
-  line-height: 40px;
-  text-align: right;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  color: #fff;
+  border-radius: 100%;
+}
+
+.c-sidebar-left-layer__note-count {
+  background: #EF2EF2;
+  margin-right: 8px;
+}
+
+.c-sidebar-left-layer__nested-note-count {
+  color: black;
+  background: #77F22E;
+  margin-right: 4px;
 }
 
 .c-sidebar-left-layer__icon--expand {

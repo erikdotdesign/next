@@ -6,13 +6,14 @@ interface SidebarLeftGroupsProps {
   selection: srm.AppLayer | null;
   groupSelection: srm.Group;
   groupSelectionNest: srm.Group[] | null;
+  notes: srm.Note[];
   setSelection(selection: srm.AppLayer | null): void;
   setHover(hover: srm.AppLayer | null): void;
   setGroupSelection(groupSelection: srm.Group | null): void;
 }
 
 const SidebarLeftGroups = (props: SidebarLeftGroupsProps) => {
-  const { selection, groupSelection, groupSelectionNest, setSelection, setHover, setGroupSelection } = props;
+  const { selection, groupSelection, groupSelectionNest, notes, setSelection, setHover, setGroupSelection } = props;
   const [nestPadding, setNestPadding] = useState<number>(0);
   useEffect(() => {
     if (groupSelectionNest) {
@@ -33,8 +34,9 @@ const SidebarLeftGroups = (props: SidebarLeftGroupsProps) => {
               key={index}
               layer={group}
               index={index}
-              groupSelection={groupSelection}
               selection={selection}
+              groupSelection={groupSelection}
+              notes={notes}
               setSelection={setSelection}
               setHover={setHover}
               setGroupSelection={setGroupSelection} />
@@ -45,6 +47,7 @@ const SidebarLeftGroups = (props: SidebarLeftGroupsProps) => {
         layers={groupSelection.layers as srm.AppArtboardLayer[]}
         nestPadding={nestPadding}
         selection={selection}
+        notes={notes}
         setSelection={setSelection}
         setHover={setHover}
         setGroupSelection={setGroupSelection} />

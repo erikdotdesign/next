@@ -1,5 +1,30 @@
 import chroma from 'chroma-js';
 
+export const getLayerNotes = (layerId: string, notes: srm.Note[]) => {
+  return notes.find((layerNote: srm.Note) => {
+    return layerNote.id === layerId;
+  });
+};
+
+export const getNestedNoteCount = (groupLayer: srm.AppLayer, notes: srm.Note[])  => {
+  let groups: any[] = [groupLayer];
+  let count = 0;
+  let i = 0;
+  while (i < groups.length) {
+    groups[i].layers.forEach((layer: srm.SketchLayer) => {
+      const layerNotes = notes.find((layerNote: srm.Note) => {
+        return layerNote.id === layer.id;
+      });
+      count = count + (layerNotes ? layerNotes.notes.length : 0);
+      if (layer.type === 'Group') {
+        groups.push(layer);
+      }
+    });
+    i++;
+  }
+  return count;
+};
+
 export const getImage = (images: srm.Asset[], id: string): srm.Asset | undefined  => {
   return images.find((image: srm.Asset) => image.id === id);
 };

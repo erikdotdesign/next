@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import IconAdd from './IconAdd';
+import { getLayerNotes } from '../utils';
 
 interface SidebarRightInputProps {
   selection: srm.AppLayer | null;
@@ -16,10 +17,8 @@ const SidebarRightInput = (props: SidebarRightInputProps) => {
   }
   const handleSubmit = () => {
     if (selection && note.trim().length > 0) {
-      const selectionHasNotes = notes.some((layer: srm.Note) => {
-        return layer.id === selection.id;
-      });
-      if (selectionHasNotes) {
+      const selectionNotes = getLayerNotes(selection.id, notes);
+      if (selectionNotes) {
         let newNotes = notes.map((layerNotes: any) => {
           if (layerNotes.id === selection.id) {
             layerNotes.notes.push(note);

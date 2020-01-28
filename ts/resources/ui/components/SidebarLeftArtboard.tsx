@@ -1,4 +1,5 @@
 import React from 'react';
+import { getLayerNotes } from '../utils';
 
 interface SidebarLeftArtboardProps {
   artboard: srm.Artboard;
@@ -16,6 +17,7 @@ const SidebarLeftArtboard = (props: SidebarLeftArtboardProps) => {
     setGroupSelection(null);
     setGroupSelectionNest(null);
   }
+  const artboardNotes = getLayerNotes(artboard.id, notes);
   return (
     <div
       className={ `c-sidebar-left__layer c-sidebar-left__layer--header ${
@@ -30,6 +32,13 @@ const SidebarLeftArtboard = (props: SidebarLeftArtboardProps) => {
       <span className='c-sidebar-left-layer__name'>
         {artboard.name}
       </span>
+      {
+        artboardNotes
+        ? <span className='c-sidebar-left-layer__note-count'>
+            { artboardNotes.notes.length }
+          </span>
+        : null
+      }
     </div>
   )
 };

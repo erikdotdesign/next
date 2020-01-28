@@ -1,9 +1,11 @@
 import React from 'react';
 import IconTriRight from './IconTriRight';
+import { getLayerNotes, getNestedNoteCount } from '../utils';
 
 interface SidebarLeftLayerProps {
   layer: srm.AppLayer;
   selection: srm.AppLayer | null;
+  notes: srm.Note[];
   setSelection(selection: srm.AppLayer | null): void;
   setHover(hover: srm.AppLayer | null): void;
   setGroupSelection(groupSelection: srm.Group | null): void;
@@ -11,11 +13,13 @@ interface SidebarLeftLayerProps {
 }
 
 const SidebarLeftLayer = (props: SidebarLeftLayerProps) => {
-  const { layer, selection, setHover, setSelection, setGroupSelection, nestPadding } = props;
+  const { layer, selection, notes, setHover, setSelection, setGroupSelection, nestPadding } = props;
+  const layerNotes = getLayerNotes(layer.id, notes);
+  const nestedNotes = layer.type === 'Group' ? getNestedNoteCount(layer, notes) : null;
   switch(layer.type) {
     case 'Group':
       return (
-        <div className={ `c-sidebar-left__layer ${
+        <div className={ `c-sidebar-left__layer c-sidebar-left__layer--group ${
           selection && layer.id === selection.id
           ? 'c-sidebar-left__layer--active'
           : null
@@ -25,11 +29,23 @@ const SidebarLeftLayer = (props: SidebarLeftLayerProps) => {
               {layer.name}
             </span>
           </span>
-          <button
-            className='c-sidebar-left-layer__icon c-sidebar-left-layer__icon--expand'
-            onClick={() => setGroupSelection(layer as srm.Group)}>
+          {
+            nestedNotes && nestedNotes > 0
+            ? <span className='c-sidebar-left-layer__nested-note-count'>
+                { nestedNotes }
+              </span>
+            : null
+          }
+          {
+            layerNotes
+            ? <span className='c-sidebar-left-layer__note-count'>
+                { layerNotes.notes.length }
+              </span>
+            : null
+          }
+          <span className='c-sidebar-left-layer__icon c-sidebar-left-layer__icon--expand'>
             <IconTriRight />
-          </button>
+          </span>
           <div
             className='c-sidebar-left__group-click'
             onClick={() => setSelection(layer)}
@@ -54,6 +70,13 @@ const SidebarLeftLayer = (props: SidebarLeftLayerProps) => {
               {layer.name}
             </span>
           </span>
+          {
+            layerNotes
+            ? <span className='c-sidebar-left-layer__note-count'>
+                { layerNotes.notes.length }
+              </span>
+            : null
+          }
         </div>
       )
   }
