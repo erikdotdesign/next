@@ -13,21 +13,25 @@ const palette = {
   accent: accentColor
 }
 
-const darkBgMin = '#111';
-const darkBgMax = '#777';
-const darkBgScale = chroma.scale([darkBgMin, darkBgMax]).colors(7);
+const createScale = (min: string, max: string, count: number) => {
+  return chroma.scale([min, max]).colors(count);
+}
 
-const lightBgMin = '#fefefe';
-const lightBgMax = '#999';
-const lightBgScale = chroma.scale([lightBgMin, lightBgMax]).colors(7);
+const darkBgMin = '#131415';
+const darkBgMax = '#58595A';
+const darkBgScale = createScale(darkBgMin, darkBgMax, 7);
+
+const lightBgMin = '#F9F9F9';
+const lightBgMax = '#E1E1E1';
+const lightBgScale = createScale(lightBgMin, lightBgMax, 7);
 
 const darkTextMin = 'rgba(255,255,255,0.25)';
 const darkTextMax = 'rgba(255,255,255,1)';
-const darkTextScale = chroma.scale([darkTextMin, darkTextMax]).colors(4);
+const darkTextScale = createScale(darkTextMin, darkTextMax, 4);
 
 const lightTextMin = 'rgba(0,0,0,0.25)';
 const lightTextMax = 'rgba(0,0,0,1)';
-const lightTextScale = chroma.scale([lightTextMin, lightTextMax]).colors(4);
+const lightTextScale = createScale(lightTextMin, lightTextMax, 4);
 
 const createBackgrounds = (scale: string[]) => ({
   lightest: scale[6],
@@ -48,13 +52,11 @@ const createText = (scale: string[]) => ({
 
 export const themes = {
   light: {
-    theme: 'light',
     palette: palette,
     background: createBackgrounds(lightBgScale),
     text: createText(lightTextScale)
   },
   dark: {
-    theme: 'dark',
     palette: palette,
     background: createBackgrounds(darkBgScale),
     text: createText(darkTextScale)

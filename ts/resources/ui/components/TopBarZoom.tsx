@@ -2,6 +2,7 @@ import React from 'react';
 import TopBarButton from './TopBarButton';
 import IconZoomOut from './IconZoomOut';
 import IconZoomIn from './IconZoomIn';
+import ThemeContext from './ThemeContext';
 
 interface TopBarZoomProps {
   zoom: number;
@@ -21,19 +22,25 @@ const TopBarZoom = (props: TopBarZoomProps) => {
     }
   };
   return (
-    <div className='c-topbar__control'>
-      <TopBarButton
-        onClick={zoomOut}
-        className={'c-topbar__button--zoom-out'}
-        icon={<IconZoomOut />} />
-      <div className='c-topbar__zoom-status'>
-        <span>{`${Math.round(props.zoom * 100)}%`}</span>
-      </div>
-      <TopBarButton
-        onClick={zoomIn}
-        className={'c-topbar__button--zoom-in'}
-        icon={<IconZoomIn />} />
-    </div>
+    <ThemeContext.Consumer>
+      {(theme) => (
+        <div className='c-topbar__control'>
+          <TopBarButton
+            onClick={zoomOut}
+            className={'c-topbar__button--zoom-out'}
+            icon={<IconZoomOut />} />
+          <div className='c-topbar__zoom-status'>
+            <span style={{color: theme.text.base}}>
+              {`${Math.round(props.zoom * 100)}%`}
+            </span>
+          </div>
+          <TopBarButton
+            onClick={zoomIn}
+            className={'c-topbar__button--zoom-in'}
+            icon={<IconZoomIn />} />
+        </div>
+      )}
+    </ThemeContext.Consumer>
   );
 }
 

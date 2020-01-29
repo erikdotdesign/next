@@ -23,14 +23,8 @@ const TopBar = (props: TopbarProps) => {
           <div
             className='c-topbar'
             style={{
-              background:
-                theme.theme === 'dark'
-                ? theme.background.dark
-                : theme.background.darker,
-              boxShadow:
-                theme.theme === 'dark'
-                ? `0px 1px 0px 0px ${theme.background.light}`
-                : `0px 1px 0px 0px ${theme.background.base}`
+              background: theme.background.dark,
+              boxShadow: `0px 1px 0px 0px ${theme.background.lighter}`
             }}>
             <div className='c-topbar__controls'>
               <TopBarRefresh

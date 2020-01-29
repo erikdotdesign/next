@@ -15,10 +15,7 @@ const SidebarRightStylesCopied = (props: SidebarRightStylesCopiedProps) => {
             className='c-sidebar-right__style-copy c-sidebar-right__style-copy--copied'
             style={{
               color: theme.text.base,
-              background:
-                theme.theme === 'dark'
-                ? theme.background.darkest
-                : theme.background.light
+              background: theme.background.darkest
             }}>
             <span className='c-sidebar-right__style-copy-text'>
               Copied!

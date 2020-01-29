@@ -21,12 +21,7 @@ const SidebarRightNote = (props: SidebarRightNoteProps) => {
           className='c-sidebar-right__note'
           style={
             hovering
-            ? {
-                background:
-                  theme.theme === 'dark'
-                  ? theme.background.darkest
-                  : theme.background.dark
-              }
+            ? {background: theme.background.darkest}
             : {background: theme.background.darker}
           }>
           <div

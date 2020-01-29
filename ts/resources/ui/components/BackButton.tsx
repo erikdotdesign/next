@@ -28,14 +28,8 @@ const BackButton = (props: BackButtonProps) => {
           onClick={handleClick}
           style={{
             color: theme.text.base,
-            background:
-              theme.theme === 'dark'
-              ? theme.background.dark
-              : theme.background.darker,
-            boxShadow:
-              theme.theme === 'dark'
-              ? `0px 0px 0px 1px ${theme.background.light}`
-              : `0px 0px 0px 1px ${theme.background.base}`
+            background: theme.background.dark,
+            boxShadow: `0px 0px 0px 1px ${theme.background.light}`
           }}>
           Go back
         </button>

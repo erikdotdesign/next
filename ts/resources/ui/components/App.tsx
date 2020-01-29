@@ -165,8 +165,7 @@ const App = (props: AppProps) => {
           ref={app}
           onKeyDown={handleKeyPress}
           style={{
-            background: theme.background.darker,
-            color: theme.text.base
+            background: theme.background.darker
           }}>
           <TopBar
             zoom={zoom}

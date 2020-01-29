@@ -31,14 +31,8 @@ const SidebarLeftGroupHead = (props: SidebarLeftGroupHeadProps) => {
           onMouseOut={() => setHover(null)}
           className='c-sidebar-left__layer c-sidebar-left__layer--header'
           style={{
-            background:
-              theme.theme === 'dark'
-              ? theme.background.dark
-              : theme.background.darker,
-            boxShadow:
-              theme.theme === 'dark'
-              ? `0px -1px 0px 0px ${theme.background.light} inset`
-              : `0px -1px 0px 0px ${theme.background.base} inset`,
+            background: theme.background.dark,
+            boxShadow: `0px -1px 0px 0px ${theme.background.lighter} inset`,
           }}>
           <SidebarLeftLayerName
             name={layer.name}

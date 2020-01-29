@@ -13,20 +13,12 @@ const SidebarHeader = (props: SidebarHeaderProps) => {
         <div
           className='c-sidebar__header'
           style={{
-            background:
-              theme.theme === 'dark'
-              ? theme.background.dark
-              : theme.background.darker,
-            boxShadow:
-              theme.theme === 'dark'
-              ? `
-                  0px 1px 0px 0px ${theme.background.light} inset,
-                  0px -1px 0px 0px ${theme.background.light} inset
-                `
-              : `
-                  0px 1px 0px 0px ${theme.background.base} inset,
-                  0px -1px 0px 0px ${theme.background.base} inset
-                `
+            color: theme.text.base,
+            background: theme.background.dark,
+            boxShadow: `
+              0px 1px 0px 0px ${theme.background.lighter} inset,
+              0px -1px 0px 0px ${theme.background.lighter} inset
+            `
           }}>
           <span>{text}</span>
         </div>

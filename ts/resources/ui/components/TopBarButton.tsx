@@ -27,12 +27,7 @@ const TopBarButton = (props: TopBarButtonProps) => {
           {icon}
           <div
             className='c-topbar__button-bg'
-            style={{
-              background:
-                theme.theme === 'dark'
-                ? theme.background.darker
-                : theme.background.base
-            }} />
+            style={{background: theme.background.darker}} />
           <div className='c-topbar__button-bb' />
         </button>
       )}

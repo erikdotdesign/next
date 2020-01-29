@@ -23,20 +23,11 @@ const SidebarRightTextArea = (props: SidebarRightInputProps) => {
           onChange={handleChange}
           style={{
             color: theme.text.base,
-            background:
-              theme.theme === 'dark'
-              ? theme.background.dark
-              : theme.background.darker,
-            boxShadow:
-              theme.theme === 'dark'
-              ? `
-                  0px 1px 0px 0px ${theme.background.light} inset,
-                  0px -1px 0px 0px ${theme.background.light} inset
-                `
-              : `
-                  0px 1px 0px 0px ${theme.background.base} inset,
-                  0px -1px 0px 0px ${theme.background.base} inset
-                `
+            background: theme.background.dark,
+            boxShadow: `
+              0px 1px 0px 0px ${theme.background.light} inset,
+              0px -1px 0px 0px ${theme.background.light} inset
+            `
           }} />
       )}
     </ThemeContext.Consumer>
