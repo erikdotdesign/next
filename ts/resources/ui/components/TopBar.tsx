@@ -3,6 +3,7 @@ import TopBarSave from './TopBarSave';
 import TopBarRefresh from './TopBarRefresh';
 import TopBarZoom from './TopBarZoom';
 import TopBarZoomReset from './TopBarZoomReset';
+import ThemeContext from './ThemeContext';
 
 interface TopbarProps {
   baseZoom: number;
@@ -16,23 +17,38 @@ interface TopbarProps {
 const TopBar = (props: TopbarProps) => {
   const { scrollToCenter, zoom, baseZoom, setZoom, notes, composing } = props;
   return (
-    <div className='c-topbar-wrap'>
-      <div className='c-topbar'>
-        <div className='c-topbar__controls'>
-          <TopBarRefresh
-            scrollToCenter={scrollToCenter} />
-          <TopBarZoom
-            zoom={zoom}
-            setZoom={setZoom} />
-          <TopBarZoomReset
-            baseZoom={baseZoom}
-            setZoom={setZoom} />
-          <TopBarSave
-            composing={composing}
-            notes={notes} />
+    <ThemeContext.Consumer>
+      {(theme) => (
+        <div className='c-topbar-wrap'>
+          <div
+            className='c-topbar'
+            style={{
+              background:
+                theme.theme === 'dark'
+                ? theme.background.dark
+                : theme.background.darker,
+              boxShadow:
+                theme.theme === 'dark'
+                ? `0px 1px 0px 0px ${theme.background.light}`
+                : `0px 1px 0px 0px ${theme.background.base}`
+            }}>
+            <div className='c-topbar__controls'>
+              <TopBarRefresh
+                scrollToCenter={scrollToCenter} />
+              <TopBarZoom
+                zoom={zoom}
+                setZoom={setZoom} />
+              <TopBarZoomReset
+                baseZoom={baseZoom}
+                setZoom={setZoom} />
+              <TopBarSave
+                composing={composing}
+                notes={notes} />
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      )}
+    </ThemeContext.Consumer>
   );
 }
 

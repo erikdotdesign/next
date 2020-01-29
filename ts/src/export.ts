@@ -24,6 +24,7 @@ export default (context: any) => {
   if (artboard) {
     //@ts-ignore
     let store = getStore(page, artboard, sketch);
+    const theme = ui.getTheme();
     // set webview browser window
     const browserWindow = new BrowserWindow({
       identifier: webviewIdentifier,
@@ -43,7 +44,10 @@ export default (context: any) => {
     // render app once webview contents loaded
     webContents.on('did-finish-load', () => {
       //@ts-ignore
-      webContents.executeJavaScript(`renderApp(${JSON.stringify(store)})`);
+      webContents.executeJavaScript(`renderApp(
+        ${JSON.stringify(store)},
+        ${JSON.stringify(theme)}
+      )`);
     });
     // open save prompt on save
     webContents.on('save', (notes: string) => {
@@ -126,10 +130,6 @@ export default (context: any) => {
       // move svgs from temp folder to spec
       if (store.svgs.length > 0) {
         pluginExport.moveSVGs(store.svgs, savePath);
-      }
-      // copy fonts
-      if (store.fonts.length > 0) {
-        pluginExport.copyFonts(store.fonts, savePath);
       }
     });
   } else {

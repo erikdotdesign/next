@@ -1,89 +1,20 @@
-$headerHeight: 48px
-$cellHeight: 32px
-$cellPadding: 16px
-$styleHeight: 40px
-$noteInputHeight: 144px
+$headerHeight: $unit * 12 // 48
+$cellHeight: $unit * 8 // 32
+$cellPadding: $unit * 4 // 16
+$styleHeight: $unit * 10 // 40
+$noteInputHeight: $unit * 36 // 144
 
 .c-sidebar
   position: fixed
-  background: $grayDarker
   min-width: $sidebarWidth
   width: $sidebarWidth
-  height: 100%
+  height: calc(100% - #{$topbarHeight})
   z-index: 3
   overflow-y: scroll
   overflow-x: hidden
-  box-shadow: 0px 5px 20px 0px rgba(0,0,0,0.25)
-  padding-bottom: 48px
-
-.c-sidebar--right
-  right: 0
-  padding-bottom: $noteInputHeight + 48px
-
-.c-sidebar-right__add-note
-  position: fixed
-  display: flex
-  flex-direction: column
-  bottom: 0
-  height: $noteInputHeight
-  background: $grayDarker
-  width: $sidebarWidth
-  box-shadow: 0px 1px 0px 0px $grayLighter inset
-  z-index: 99999999
-
-.c-sidebar-right__input
-  position: relative
-  width: 100%
-  height: 96px
-  font-size: 14px
-  margin: 0
-  padding: 16px
-  line-height: 18px
-  background: $grayDark
-  color: #fff
-  resize: none
-  border: none
-  outline: none
-  transition: all $transitionNormal
-
-  &:focus
-    box-shadow: 0px -1px 0px 0px $highlightColor inset
-
-.c-sidebar-right__submit
-  position: relative
-  width: 100%
-  height: 48px
-  line-height: 48px
-  font-size: 14px
-  color: #fff
-  text-align: center
-  cursor: not-allowed
-  display: flex
-  align-items: center
-  justify-content: center
-
-  svg
-    z-index: 1
-
-.c-sidebar-right__submit--enabled
-  font-weight: bold
-  cursor: pointer
-
-  &:before
-    +content-block
-    background: $highlightColor
-    transition: background $transitionNormal
-    animation: growInHeight $transitionNormal ease
-    transform-origin: center top
-    z-index: 0
-
-  &:hover
-    &:before
-      background: $highlightColorDark
 
 .c-sidebar__section
   position: relative
-  background: $grayDarker
 
 .c-sidebar__placeholder
   height: 200px
@@ -93,8 +24,7 @@ $noteInputHeight: 144px
   padding: 0 $cellPadding
 
   span
-    color: $textLighter
-    font-size: 14px
+    font-size: $fontSizeMd
     line-height: 24px
     text-align: center
     animation: slideInLeft $transitionNormal ease
@@ -104,158 +34,11 @@ $noteInputHeight: 144px
   margin: 0
   padding: 0
   height: $headerHeight
-  background: $grayDark
-  box-shadow: 0px 1px 0px 0px rgba(255,255,255,0.25), 0px -1px 0px 0px rgba(255,255,255,0.25)
 
   span
     +absolute-full
     padding: 0 $cellPadding
-    font-size: 14px
+    font-size: $fontSizeMd
     line-height: $headerHeight
-    color: #fff
-    font-weight: 700
+    font-weight: $fontWeightBold
     animation: slideInRight $transitionNormal ease
-
-
-.c-sidebar-styles
-  padding: $cellPadding / 2 $cellPadding 12px $cellPadding
-
-.c-sidebar-styles__style
-  display: flex
-  align-items: center
-  height: $styleHeight
-
-.c-sidebar-styles__prop
-  color: #fff
-  font-size: 12px
-  line-height: $styleHeight
-  flex-grow: 2
-  color: $textLighter
-  animation: slideInRight $transitionNormal ease
-
-.c-sidebar-styles__value
-  position: relative
-  max-height: $styleHeight
-  display: flex
-  animation: slideInLeft $transitionNormal ease
-
-  input
-    border: none
-    margin: 0
-    background: $grayDarker
-    min-height: 14px
-    font-size: 12px
-    line-height: 14px
-    color: #fff
-    max-width: 100px
-    padding: 14px 0
-    transition: all $transitionNormal
-
-    &:focus
-      outline: none
-
-    &::selection
-      background: none
-
-.c-sidebar-styles__value-copy
-  +absolute-full
-  display: flex
-  align-items: center
-  justify-content: center
-  font-size: 12px
-  line-height: 14px
-  color: #fff
-  pointer-events: none
-  overflow: hidden
-
-  &:before
-    +content-block
-    background: $grayDarkest
-    animation: growInWidth $transitionNormal ease
-    z-index: 0
-
-  span
-    +absolute-full
-    display: flex
-    align-items: center
-    justify-content: center
-    text-align: center
-    animation: slideInDelayed $transitionSlow ease
-
-.c-sidebar-styles__value-copy--copied
-  background: $grayDarkest
-
-  &:before
-    +content-block
-    background: $highlightColor
-
-  span
-    animation: shrinkIn $transitionNormal ease
-
-.c-sidebar-styles__swatch-group
-  +absolute-full
-  width: $cellPadding
-  overflow: hidden
-  left: 100%
-  display: flex
-  justify-content: flex-end
-  pointer-events: none
-
-.c-sidebar-styles__swatch
-  width: 25%
-
-.c-sidebar-styles__swatch--image
-  width: 25%
-
-.c-sidebar__notes
-  padding: $cellPadding / 2 0
-
-.c-sidebar__note
-  padding: 4px $cellPadding
-  padding-left: $cellPadding * 2
-  font-size: 12px
-  line-height: $cellHeight
-  color: #fff
-  position: relative
-  min-height: $cellHeight
-  word-break: break-word
-  transition: background $transitionNormal
-  animation: slideInRight $transitionNormal ease
-
-  &:hover
-    background: $grayDarkest
-
-    .c-sidebar__note-remove
-      display: flex
-      animation: slideInLeft $transitionNormal ease-out
-
-.c-sidebar__note-content
-  display: flex
-  align-items: flex-start
-
-  &:before
-    position: absolute
-    left: 16px
-    content: '\2022'
-    color: $textLighter
-    font-weight: bold
-    display: inline-block
-
-  span
-    flex-grow: 2
-
-.c-sidebar__note-remove
-  position: relative
-  right: -8px
-  height: $buttonSize
-  width: $buttonSize
-  display: none
-  align-items: center
-  justify-content: center
-  flex-shrink: 0
-  margin-left: 4px
-  border-radius: $buttonBR
-  transition: background $transitionNormal, transform $transitionNormal
-
-  &:hover
-    background: $highlightColor

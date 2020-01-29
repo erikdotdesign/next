@@ -52,17 +52,17 @@
   white-space: nowrap
   word-wrap: none
   position: absolute
-  font-weight: 400
+  font-weight: $fontWeightNormal
   text-align: center
-  top: calc(100% + 8px)
+  top: calc(100% + #{$unit * 2})
   display: flex
   align-items: center
   justify-content: center
   height: $buttonSize
   line-height: $buttonSize
-  padding: 0 8px
-  font-size: 12px
-  background: $gray
-  color: #fff
+  padding: 0 $unit * 2 // 8
+  font-size: $fontSizeSm
+  background: $background
+  color: $text
   transform-origin: center top
   animation: popIn $transitionNormal ease-out

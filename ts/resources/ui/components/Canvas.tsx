@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import Artboard from './Artboard';
 import BackButton from './BackButton';
+import ThemeContext from './ThemeContext';
 
 interface CanvasProps {
   artboard: srm.Artboard;
@@ -62,41 +63,46 @@ const Canvas = (props: CanvasProps) => {
     gestureZoom = zoom;
   }, [zoom]);
   return (
-    <div
-      className='c-canvas'
-      id='canvas'
-      ref={canvas}
-      onWheel={handleWheel}>
-      {
-        groupSelectionNest
-        ? <BackButton
-            setGroupSelection={setGroupSelection}
-            groupSelectionNest={groupSelectionNest}
-            setGroupSelectionNest={setGroupSelectionNest} />
-        : null
-      }
-      {
-        ready
-        ? <Artboard
-            artboard={artboard}
-            images={images}
-            svgs={svgs}
-            selection={selection}
-            setSelection={setSelection}
-            groupSelection={groupSelection}
-            setGroupSelection={setGroupSelection}
-            groupSelectionNest={groupSelectionNest}
-            setGroupSelectionNest={setGroupSelectionNest}
-            hover={hover}
-            setHover={setHover}
-            zoom={zoom} />
-        : null
-      }
-      <div
-        className='c-canvas__escape'
-        onClick={handleClick}
-        onMouseOver={handleMouseOver} />
-    </div>
+    <ThemeContext.Consumer>
+      {(theme) => (
+        <div
+          className='c-canvas'
+          id='canvas'
+          ref={canvas}
+          onWheel={handleWheel}
+          style={{background: theme.background.darkest}}>
+          {
+            groupSelectionNest
+            ? <BackButton
+                setGroupSelection={setGroupSelection}
+                groupSelectionNest={groupSelectionNest}
+                setGroupSelectionNest={setGroupSelectionNest} />
+            : null
+          }
+          {
+            ready
+            ? <Artboard
+                artboard={artboard}
+                images={images}
+                svgs={svgs}
+                selection={selection}
+                setSelection={setSelection}
+                groupSelection={groupSelection}
+                setGroupSelection={setGroupSelection}
+                groupSelectionNest={groupSelectionNest}
+                setGroupSelectionNest={setGroupSelectionNest}
+                hover={hover}
+                setHover={setHover}
+                zoom={zoom} />
+            : null
+          }
+          <div
+            className='c-canvas__escape'
+            onClick={handleClick}
+            onMouseOver={handleMouseOver} />
+        </div>
+      )}
+    </ThemeContext.Consumer>
   );
 }
 

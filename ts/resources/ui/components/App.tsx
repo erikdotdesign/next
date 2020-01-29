@@ -3,6 +3,7 @@ import SidebarRight from './SidebarRight';
 import SidebarLeft from './SidebarLeft';
 import Canvas from './Canvas';
 import TopBar from './TopBar';
+import ThemeContext from './ThemeContext';
 
 interface AppProps {
   artboard: srm.Artboard;
@@ -126,7 +127,6 @@ const App = (props: AppProps) => {
     // scale artboard
     // set app ready
     handleInitialRender(() => setReady(true));
-    console.log(props.images);
   }, []);
 
   useEffect(() => {
@@ -157,49 +157,57 @@ const App = (props: AppProps) => {
 
   // SCROLL PERFORMANCE IS HORRIBLE ON SAFARI FOR NESTED COMPONENTS
   return (
-    <div
-      className='c-app'
-      tabIndex={-1}
-      ref={app}
-      onKeyDown={handleKeyPress}>
-      <TopBar
-        zoom={zoom}
-        setZoom={setZoom}
-        baseZoom={baseZoom}
-        notes={notes}
-        scrollToCenter={scrollToCenter}
-        composing={props.composing} />
-      <SidebarLeft
-        selection={selection}
-        setSelection={setSelection}
-        setHover={setHover}
-        notes={notes}
-        groupSelection={groupSelection}
-        setGroupSelection={setGroupSelection}
-        groupSelectionNest={groupSelectionNest}
-        setGroupSelectionNest={setGroupSelectionNest}
-        artboard={props.artboard} />
-      <SidebarRight
-        selection={selection}
-        images={props.images}
-        svgs={props.svgs}
-        notes={notes}
-        setNotes={setNotes}
-        composing={props.composing} />
-      <Canvas
-        {...props}
-        ready={ready}
-        zoom={zoom}
-        setZoom={setZoom}
-        selection={selection}
-        setSelection={setSelection}
-        groupSelection={groupSelection}
-        setGroupSelection={setGroupSelection}
-        groupSelectionNest={groupSelectionNest}
-        setGroupSelectionNest={setGroupSelectionNest}
-        hover={hover}
-        setHover={setHover} />
-    </div>
+    <ThemeContext.Consumer>
+      {(theme) => (
+        <div
+          className='c-app'
+          tabIndex={-1}
+          ref={app}
+          onKeyDown={handleKeyPress}
+          style={{
+            background: theme.background.darker,
+            color: theme.text.base
+          }}>
+          <TopBar
+            zoom={zoom}
+            setZoom={setZoom}
+            baseZoom={baseZoom}
+            notes={notes}
+            scrollToCenter={scrollToCenter}
+            composing={props.composing} />
+          <SidebarLeft
+            selection={selection}
+            setSelection={setSelection}
+            setHover={setHover}
+            notes={notes}
+            groupSelection={groupSelection}
+            setGroupSelection={setGroupSelection}
+            groupSelectionNest={groupSelectionNest}
+            setGroupSelectionNest={setGroupSelectionNest}
+            artboard={props.artboard} />
+          <SidebarRight
+            selection={selection}
+            images={props.images}
+            svgs={props.svgs}
+            notes={notes}
+            setNotes={setNotes}
+            composing={props.composing} />
+          <Canvas
+            {...props}
+            ready={ready}
+            zoom={zoom}
+            setZoom={setZoom}
+            selection={selection}
+            setSelection={setSelection}
+            groupSelection={groupSelection}
+            setGroupSelection={setGroupSelection}
+            groupSelectionNest={groupSelectionNest}
+            setGroupSelectionNest={setGroupSelectionNest}
+            hover={hover}
+            setHover={setHover} />
+        </div>
+      )}
+    </ThemeContext.Consumer>
   );
 }
 

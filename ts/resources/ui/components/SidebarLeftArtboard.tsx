@@ -1,5 +1,8 @@
 import React from 'react';
+import SidebarLeftLayerName from './SidebarLeftLayerName';
+import SidebarLeftLayerNotes from './SidebarLeftLayerNotes';
 import { getLayerNotes } from '../utils';
+import ThemeContext from './ThemeContext';
 
 interface SidebarLeftArtboardProps {
   artboard: srm.Artboard;
@@ -19,27 +22,33 @@ const SidebarLeftArtboard = (props: SidebarLeftArtboardProps) => {
   }
   const artboardNotes = getLayerNotes(artboard.id, notes);
   return (
-    <div
-      className={ `c-sidebar-left__layer c-sidebar-left__layer--header ${
-        selection && artboard.id === selection.id
-        ? 'c-sidebar-left__layer--active'
-        : null
-      }`}
-      onClick={() => setSelection(artboard)}
-      onDoubleClick={handleDoubleClick}
-      onMouseOver={() => setHover(artboard)}
-      onMouseOut={() => setHover(null)}>
-      <span className='c-sidebar-left-layer__name'>
-        {artboard.name}
-      </span>
-      {
-        artboardNotes
-        ? <span className='c-sidebar-left-layer__note-count'>
-            { artboardNotes.notes.length }
-          </span>
-        : null
-      }
-    </div>
+    <ThemeContext.Consumer>
+      {(theme) => (
+        <div
+          onClick={() => setSelection(artboard)}
+          onDoubleClick={handleDoubleClick}
+          onMouseOver={() => setHover(artboard)}
+          onMouseOut={() => setHover(null)}
+          className={ `c-sidebar-left__layer c-sidebar-left__layer--header ${
+            selection && artboard.id === selection.id
+            ? 'c-sidebar-left__layer--active'
+            : null
+          }`}
+          style={{
+            background:
+              theme.theme === 'dark'
+              ? theme.background.dark
+              : theme.background.darker,
+            boxShadow:
+              theme.theme === 'dark'
+              ? `0px -1px 0px 0px ${theme.background.light} inset`
+              : `0px -1px 0px 0px ${theme.background.base} inset`,
+          }}>
+          <SidebarLeftLayerName name={artboard.name} />
+          <SidebarLeftLayerNotes notes={artboardNotes} />
+        </div>
+      )}
+    </ThemeContext.Consumer>
   )
 };
 

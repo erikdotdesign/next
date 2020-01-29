@@ -1,4 +1,5 @@
 import React from 'react';
+import ThemeContext from './ThemeContext';
 
 interface BackButtonProps {
   groupSelectionNest: srm.Group[] | null;
@@ -20,11 +21,26 @@ const BackButton = (props: BackButtonProps) => {
     }
   }
   return (
-    <button
-      className='c-back-button'
-      onClick={handleClick}>
-      Go back
-    </button>
+    <ThemeContext.Consumer>
+      {(theme) => (
+        <button
+          className='c-back-button'
+          onClick={handleClick}
+          style={{
+            color: theme.text.base,
+            background:
+              theme.theme === 'dark'
+              ? theme.background.dark
+              : theme.background.darker,
+            boxShadow:
+              theme.theme === 'dark'
+              ? `0px 0px 0px 1px ${theme.background.light}`
+              : `0px 0px 0px 1px ${theme.background.base}`
+          }}>
+          Go back
+        </button>
+      )}
+    </ThemeContext.Consumer>
   )
 };
 

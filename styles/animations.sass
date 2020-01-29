@@ -12,18 +12,10 @@
   100%
     opacity: 1
 
-@keyframes modalSlide
-  from
-    height: 0
-    width: 0
-  to
-    height: 164px
-    width: 400px
-
 @keyframes slideInRight
   from
     opacity: 0
-    transform: translate(-8px, 0px)
+    transform: translate(-($unit * 2), 0px) // -8 0
   to
     opacity: 1
     transform: translate(0px, 0px)
@@ -31,7 +23,7 @@
 @keyframes slideInLeft
   from
     opacity: 0
-    transform: translate(8px, 0px)
+    transform: translate($unit * 2, 0px) // 8 0
   to
     opacity: 1
     transform: translate(0px, 0px)
@@ -45,10 +37,10 @@
 @keyframes slideInDelayed
   0%
     opacity: 0
-    transform: translate(-8px, 0)
+    transform: translate(-($unit * 2), 0) // -8 0
   50%
     opacity: 0
-    transform: translate(-8px, 0)
+    transform: translate(-($unit * 2), 0) // -8 0
   100%
     opacity: 1
     transform: translate(0, 0)

@@ -1,4 +1,5 @@
 import React from 'react';
+import ThemeContext from './ThemeContext';
 // @ts-ignore
 import hyphenate from 'hyphenate-style-name';
 
@@ -7,9 +8,15 @@ interface SidebarRightStylesPropProps {
 }
 
 const SidebarRightStylesProp = (props: SidebarRightStylesPropProps) => (
-  <div className='c-sidebar-styles__prop'>
-    {hyphenate(props.prop)}
-  </div>
+  <ThemeContext.Consumer>
+    {(theme) => (
+      <div
+        className='c-sidebar-right__style-prop'
+        style={{color: theme.text.lighter}}>
+        {hyphenate(props.prop)}
+      </div>
+    )}
+  </ThemeContext.Consumer>
 );
 
 export default SidebarRightStylesProp;

@@ -2,6 +2,8 @@ import React from 'react';
 import SidebarLeftArtboard from './SidebarLeftArtboard';
 import SidebarLeftLayers from './SidebarLeftLayers';
 import SidebarLeftGroups from './SidebarLeftGroups';
+import SidebarHeader from './SidebarHeader';
+import ThemeContext from './ThemeContext';
 
 interface SidebarLeftProps {
   selection: srm.AppLayer | null;
@@ -18,37 +20,50 @@ interface SidebarLeftProps {
 const SidebarLeft = (props: SidebarLeftProps) => {
   const { selection, groupSelection, groupSelectionNest, artboard, notes, setSelection, setHover, setGroupSelection, setGroupSelectionNest } = props;
   return (
-    <div className='c-sidebar c-sidebar--left'>
-      <div className='c-sidebar__header'>
-        <span>Layers</span>
-      </div>
-      <SidebarLeftArtboard
-        artboard={artboard}
-        selection={selection}
-        notes={notes}
-        setHover={setHover}
-        setSelection={setSelection}
-        setGroupSelection={setGroupSelection}
-        setGroupSelectionNest={setGroupSelectionNest} />
-      {
-        groupSelection
-        ? <SidebarLeftGroups
-            selection={selection}
-            groupSelection={groupSelection}
-            groupSelectionNest={groupSelectionNest}
-            notes={notes}
-            setSelection={setSelection}
-            setHover={setHover}
-            setGroupSelection={setGroupSelection} />
-        : <SidebarLeftLayers
-            layers={artboard.layers as srm.AppArtboardLayer[]}
+    <ThemeContext.Consumer>
+      {(theme) => (
+        <div
+          className='c-sidebar c-sidebar--left'
+          style={{
+            background:
+              theme.theme === 'dark'
+              ? theme.background.darker
+              : theme.background.dark,
+            boxShadow:
+              theme.theme === 'dark'
+              ? `1px 0px 0px 0px ${theme.background.light}`
+              : `1px 0px 0px 0px ${theme.background.base}`
+          }}>
+          <SidebarHeader text='Layers' />
+          <SidebarLeftArtboard
+            artboard={artboard}
             selection={selection}
             notes={notes}
-            setSelection={setSelection}
             setHover={setHover}
-            setGroupSelection={setGroupSelection} />
-      }
-    </div>
+            setSelection={setSelection}
+            setGroupSelection={setGroupSelection}
+            setGroupSelectionNest={setGroupSelectionNest} />
+          {
+            groupSelection
+            ? <SidebarLeftGroups
+                selection={selection}
+                groupSelection={groupSelection}
+                groupSelectionNest={groupSelectionNest}
+                notes={notes}
+                setSelection={setSelection}
+                setHover={setHover}
+                setGroupSelection={setGroupSelection} />
+            : <SidebarLeftLayers
+                layers={artboard.layers as srm.AppArtboardLayer[]}
+                selection={selection}
+                notes={notes}
+                setSelection={setSelection}
+                setHover={setHover}
+                setGroupSelection={setGroupSelection} />
+          }
+        </div>
+      )}
+    </ThemeContext.Consumer>
   )
 };
 

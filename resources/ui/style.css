@@ -18,16 +18,6 @@
     opacity: 1;
   }
 }
-@keyframes modalSlide {
-  from {
-    height: 0;
-    width: 0;
-  }
-  to {
-    height: 164px;
-    width: 400px;
-  }
-}
 @keyframes slideInRight {
   from {
     opacity: 0;
@@ -183,8 +173,6 @@ textarea {
   width: 100%;
   height: 100%;
   font-family: "Space Mono", Menlo, Helvetica, Arial, sans-serif;
-  background: #222;
-  color: white;
 }
 
 .c-artboard {
@@ -217,96 +205,16 @@ textarea {
 
 .c-sidebar {
   position: fixed;
-  background: #222;
   min-width: 320px;
   width: 320px;
-  height: 100%;
+  height: calc(100% - 48px);
   z-index: 3;
   overflow-y: scroll;
   overflow-x: hidden;
-  box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, 0.25);
-  padding-bottom: 48px;
-}
-
-.c-sidebar--right {
-  right: 0;
-  padding-bottom: 192px;
-}
-
-.c-sidebar-right__add-note {
-  position: fixed;
-  display: flex;
-  flex-direction: column;
-  bottom: 0;
-  height: 144px;
-  background: #222;
-  width: 320px;
-  box-shadow: 0px 1px 0px 0px #666 inset;
-  z-index: 99999999;
-}
-
-.c-sidebar-right__input {
-  position: relative;
-  width: 100%;
-  height: 96px;
-  font-size: 14px;
-  margin: 0;
-  padding: 16px;
-  line-height: 18px;
-  background: #333;
-  color: #fff;
-  resize: none;
-  border: none;
-  outline: none;
-  transition: all 0.15s;
-}
-.c-sidebar-right__input:focus {
-  box-shadow: 0px -1px 0px 0px #EF2EF2 inset;
-}
-
-.c-sidebar-right__submit {
-  position: relative;
-  width: 100%;
-  height: 48px;
-  line-height: 48px;
-  font-size: 14px;
-  color: #fff;
-  text-align: center;
-  cursor: not-allowed;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.c-sidebar-right__submit svg {
-  z-index: 1;
-}
-
-.c-sidebar-right__submit--enabled {
-  font-weight: bold;
-  cursor: pointer;
-}
-.c-sidebar-right__submit--enabled:before {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  content: "";
-  width: 100%;
-  display: block;
-  background: #EF2EF2;
-  transition: background 0.15s;
-  animation: growInHeight 0.15s ease;
-  transform-origin: center top;
-  z-index: 0;
-}
-.c-sidebar-right__submit--enabled:hover:before {
-  background: #dc0edf;
 }
 
 .c-sidebar__section {
   position: relative;
-  background: #222;
 }
 
 .c-sidebar__placeholder {
@@ -317,7 +225,6 @@ textarea {
   padding: 0 16px;
 }
 .c-sidebar__placeholder span {
-  color: rgba(255, 255, 255, 0.5);
   font-size: 14px;
   line-height: 24px;
   text-align: center;
@@ -329,8 +236,6 @@ textarea {
   margin: 0;
   padding: 0;
   height: 48px;
-  background: #333;
-  box-shadow: 0px 1px 0px 0px rgba(255, 255, 255, 0.25), 0px -1px 0px 0px rgba(255, 255, 255, 0.25);
 }
 .c-sidebar__header span {
   position: absolute;
@@ -341,191 +246,8 @@ textarea {
   padding: 0 16px;
   font-size: 14px;
   line-height: 48px;
-  color: #fff;
   font-weight: 700;
   animation: slideInRight 0.15s ease;
-}
-
-.c-sidebar-styles {
-  padding: 8px 16px 12px 16px;
-}
-
-.c-sidebar-styles__style {
-  display: flex;
-  align-items: center;
-  height: 40px;
-}
-
-.c-sidebar-styles__prop {
-  color: #fff;
-  font-size: 12px;
-  line-height: 40px;
-  flex-grow: 2;
-  color: rgba(255, 255, 255, 0.5);
-  animation: slideInRight 0.15s ease;
-}
-
-.c-sidebar-styles__value {
-  position: relative;
-  max-height: 40px;
-  display: flex;
-  animation: slideInLeft 0.15s ease;
-}
-.c-sidebar-styles__value input {
-  border: none;
-  margin: 0;
-  background: #222;
-  min-height: 14px;
-  font-size: 12px;
-  line-height: 14px;
-  color: #fff;
-  max-width: 100px;
-  padding: 14px 0;
-  transition: all 0.15s;
-}
-.c-sidebar-styles__value input:focus {
-  outline: none;
-}
-.c-sidebar-styles__value input::selection {
-  background: none;
-}
-
-.c-sidebar-styles__value-copy {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  line-height: 14px;
-  color: #fff;
-  pointer-events: none;
-  overflow: hidden;
-}
-.c-sidebar-styles__value-copy:before {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  content: "";
-  width: 100%;
-  display: block;
-  background: #111;
-  animation: growInWidth 0.15s ease;
-  z-index: 0;
-}
-.c-sidebar-styles__value-copy span {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  animation: slideInDelayed 0.33s ease;
-}
-
-.c-sidebar-styles__value-copy--copied {
-  background: #111;
-}
-.c-sidebar-styles__value-copy--copied:before {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  content: "";
-  width: 100%;
-  display: block;
-  background: #EF2EF2;
-}
-.c-sidebar-styles__value-copy--copied span {
-  animation: shrinkIn 0.15s ease;
-}
-
-.c-sidebar-styles__swatch-group {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  width: 16px;
-  overflow: hidden;
-  left: 100%;
-  display: flex;
-  justify-content: flex-end;
-  pointer-events: none;
-}
-
-.c-sidebar-styles__swatch {
-  width: 25%;
-}
-
-.c-sidebar-styles__swatch--image {
-  width: 25%;
-}
-
-.c-sidebar__notes {
-  padding: 8px 0;
-}
-
-.c-sidebar__note {
-  padding: 4px 16px;
-  padding-left: 32px;
-  font-size: 12px;
-  line-height: 32px;
-  color: #fff;
-  position: relative;
-  min-height: 32px;
-  word-break: break-word;
-  transition: background 0.15s;
-  animation: slideInRight 0.15s ease;
-}
-.c-sidebar__note:hover {
-  background: #111;
-}
-.c-sidebar__note:hover .c-sidebar__note-remove {
-  display: flex;
-  animation: slideInLeft 0.15s ease-out;
-}
-
-.c-sidebar__note-content {
-  display: flex;
-  align-items: flex-start;
-}
-.c-sidebar__note-content:before {
-  position: absolute;
-  left: 16px;
-  content: "•";
-  color: rgba(255, 255, 255, 0.5);
-  font-weight: bold;
-  display: inline-block;
-}
-.c-sidebar__note-content span {
-  flex-grow: 2;
-}
-
-.c-sidebar__note-remove {
-  position: relative;
-  right: -8px;
-  height: 32px;
-  width: 32px;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  margin-left: 4px;
-  border-radius: 0px;
-  transition: background 0.15s, transform 0.15s;
-}
-.c-sidebar__note-remove:hover {
-  background: #EF2EF2;
 }
 
 .c-canvas {
@@ -536,7 +258,6 @@ textarea {
   z-index: 2;
   width: 20000px;
   height: 20000px;
-  background: #111;
   overflow: scroll;
 }
 
@@ -827,8 +548,6 @@ textarea {
   justify-content: center;
   width: 100%;
   height: 48px;
-  background: #333;
-  box-shadow: 0px 1px 0px 0px #666;
   z-index: 100000000000000020000;
   padding: 0 16px;
 }
@@ -869,7 +588,6 @@ textarea {
   justify-content: center;
   font-size: 12px;
   line-height: 32px;
-  background: #333;
   width: 64px;
   height: 48px;
 }
@@ -891,7 +609,7 @@ textarea {
   padding: 0 8px;
   font-size: 12px;
   background: #444;
-  color: #fff;
+  color: white;
   transform-origin: center top;
   animation: popIn 0.15s ease-out;
   content: "Zoom";
@@ -904,12 +622,21 @@ textarea {
   width: 100%;
 }
 
+.c-topbar__button-bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  visibility: hidden;
+  transform-origin: center top;
+}
+
 .c-topbar__button {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #333;
   width: 48px;
   height: 48px;
   cursor: pointer;
@@ -918,19 +645,9 @@ textarea {
 .c-topbar__button svg {
   z-index: 1;
 }
-.c-topbar__button:hover:before {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  content: "";
-  width: 100%;
-  display: block;
-  background: #222;
+.c-topbar__button:hover .c-topbar__button-bg {
+  visibility: visible;
   animation: growInHeight 0.15s ease;
-  z-index: 0;
-  transform-origin: center top;
 }
 .c-topbar__button:hover .c-topbar__button-bb {
   animation: popIn 0.33s ease-in;
@@ -955,7 +672,7 @@ textarea {
   padding: 0 8px;
   font-size: 12px;
   background: #444;
-  color: #fff;
+  color: white;
   transform-origin: center top;
   animation: popIn 0.15s ease-out;
   content: "Zoom In";
@@ -979,7 +696,7 @@ textarea {
   padding: 0 8px;
   font-size: 12px;
   background: #444;
-  color: #fff;
+  color: white;
   transform-origin: center top;
   animation: popIn 0.15s ease-out;
   content: "Zoom Out";
@@ -1000,7 +717,7 @@ textarea {
   padding: 0 8px;
   font-size: 12px;
   background: #444;
-  color: #fff;
+  color: white;
   transform-origin: center top;
   animation: popIn 0.15s ease-out;
   content: "Center Canvas";
@@ -1021,7 +738,7 @@ textarea {
   padding: 0 8px;
   font-size: 12px;
   background: #444;
-  color: #fff;
+  color: white;
   transform-origin: center top;
   animation: popIn 0.15s ease-out;
   content: "Reset Zoom";
@@ -1047,7 +764,7 @@ textarea {
   padding: 0 8px;
   font-size: 12px;
   background: #444;
-  color: #fff;
+  color: white;
   transform-origin: center top;
   animation: popIn 0.15s ease-out;
   right: 8px;
@@ -1060,266 +777,6 @@ textarea {
   top: 0;
   bottom: 0;
   right: 0;
-}
-
-.c-note-add {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
-}
-
-.c-note-add__compose {
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 32px;
-  width: 32px;
-  transform: translate(-50%, -50%);
-  background: #EF2EF2;
-  box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.25);
-  z-index: 999;
-  transition: background 0.15s, transform 0.15s;
-  transform-origin: center center;
-  border-radius: 0px;
-}
-.c-note-add__compose:hover {
-  background: #dc0edf;
-}
-.c-note-add__compose:hover:before {
-  white-space: nowrap;
-  word-wrap: none;
-  position: absolute;
-  font-weight: 400;
-  text-align: center;
-  top: calc(100% + 8px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 32px;
-  line-height: 32px;
-  padding: 0 8px;
-  font-size: 12px;
-  background: #444;
-  color: #fff;
-  transform-origin: center top;
-  animation: popIn 0.15s ease-out;
-  content: "Add Note";
-}
-
-.c-note-add__compose--disabled {
-  background: #444;
-}
-
-.c-note-compose {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  z-index: 10000000000000000000000000000000000;
-}
-.c-note-compose:before {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  content: "";
-  width: 100%;
-  display: block;
-  width: calc(100% + 32px);
-  height: calc(100% + 32px);
-  top: -16px;
-  left: -16px;
-}
-
-.c-compose {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  width: 400px;
-  background: #333;
-  box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.33);
-  z-index: 10000000000000000000000000000000000;
-  transform: translate(-50%, 8px);
-  transform-origin: center top;
-  will-change: transform;
-}
-.c-compose:before {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  content: "";
-  width: 100%;
-  display: block;
-  top: -8px;
-  left: 50%;
-  transform: translate(-50%, 0);
-  width: 0;
-  height: 0;
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-  border-bottom: 8px solid #333;
-}
-
-.c-compose__content {
-  opacity: 0;
-}
-
-.c-compose__header {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 48px;
-  padding: 0 8px;
-  font-weight: 700;
-}
-
-.c-compose__footer {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.c-compose__title {
-  padding-left: 8px;
-  color: #fff;
-  font-size: 16px;
-}
-
-.c-compose__close {
-  height: 32px;
-  width: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.15s;
-  border-radius: 0px;
-}
-.c-compose__close:hover {
-  background: #EF2EF2;
-}
-
-.c-compose__body {
-  height: 68px;
-  width: 100%;
-  position: relative;
-}
-
-.c-compose__submit {
-  position: relative;
-  width: 100%;
-  height: 48px;
-  line-height: 32px;
-  font-size: 14px;
-  color: #fff;
-  text-align: center;
-  cursor: not-allowed;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.c-compose__submit svg {
-  z-index: 1;
-}
-
-.c-compose__submit--enabled {
-  font-weight: bold;
-  cursor: pointer;
-}
-.c-compose__submit--enabled:before {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  content: "";
-  width: 100%;
-  display: block;
-  background: #EF2EF2;
-  transition: background 0.15s;
-  animation: growInHeight 0.15s ease;
-  transform-origin: center top;
-  z-index: 0;
-}
-.c-compose__submit--enabled:hover:before {
-  background: #dc0edf;
-}
-
-.c-compose__input-bb {
-  position: absolute;
-  background: #EF2EF2;
-  top: 100%;
-  width: 100%;
-  height: 1px;
-  transform: scaleX(0);
-}
-
-.c-compose__input {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  font-size: 14px;
-  margin: 0;
-  padding: 16px;
-  line-height: 18px;
-  background: #333;
-  color: #fff;
-  resize: none;
-  border: none;
-  outline: none;
-  transition: all 0.15s;
-  box-shadow: 0px 1px 0px 0px #666;
-}
-
-.c-note-count {
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  font-size: 14px;
-  line-height: 32px;
-  color: #fff;
-  font-weight: bold;
-  height: 32px;
-  width: 32px;
-  transform: translate(-50%, -50%) scale(0);
-  background: #EF2EF2;
-  box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.25);
-  z-index: 999;
-  transition: background 0.15s;
-  border-radius: 0px;
-}
-.c-note-count:hover {
-  background: #dc0edf;
-}
-.c-note-count:hover:before {
-  white-space: nowrap;
-  word-wrap: none;
-  position: absolute;
-  font-weight: 400;
-  text-align: center;
-  top: calc(100% + 8px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 32px;
-  line-height: 32px;
-  padding: 0 8px;
-  font-size: 12px;
-  background: #444;
-  color: #fff;
-  transform-origin: center top;
-  animation: popIn 0.15s ease-out;
-  content: "Notes";
 }
 
 .c-group-selection {
@@ -1347,7 +804,6 @@ textarea {
   height: calc(100% + 32px);
   top: -16px;
   left: -16px;
-  background: #111;
 }
 
 .c-group-selection__click-area {
@@ -1383,11 +839,6 @@ textarea {
   margin-left: 4px;
 }
 
-.c-sidebar-left__layer--header {
-  background: #333;
-  box-shadow: 0px -1px 0px 0px #666 inset, 0px -1px 0px 0px #666;
-}
-
 .c-sidebar-left__group-click {
   position: absolute;
   left: 0;
@@ -1401,7 +852,7 @@ textarea {
   background: #EF2EF2;
 }
 .c-sidebar-left__layer--active .c-sidebar-left-layer__note-count {
-  background: #fff;
+  background: white;
   color: black;
 }
 
@@ -1411,7 +862,6 @@ textarea {
   height: 32px;
   align-items: center;
   justify-content: center;
-  opacity: 0.5;
 }
 
 .c-sidebar-left-layer__note-count,
@@ -1422,7 +872,7 @@ textarea {
   height: 20px;
   line-height: 20px;
   text-align: center;
-  color: #fff;
+  color: white;
   border-radius: 100%;
 }
 
@@ -1435,12 +885,6 @@ textarea {
   color: black;
   background: #77F22E;
   margin-right: 4px;
-}
-
-.c-sidebar-left-layer__icon--expand {
-  position: relative;
-  opacity: 1;
-  z-index: 2;
 }
 
 .c-sidebar-left-layer__name {
@@ -1460,6 +904,237 @@ textarea {
   padding-left: 32px;
 }
 
+.c-sidebar--right {
+  right: 0;
+  padding-bottom: 144px;
+}
+
+.c-sidebar-right__add-note {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  bottom: 0;
+  height: 144px;
+  width: 320px;
+  z-index: 99999999;
+}
+
+.c-sidebar-right__input {
+  position: relative;
+  width: 100%;
+  height: 96px;
+  font-size: 14px;
+  margin: 0;
+  padding: 16px;
+  line-height: 24px;
+  resize: none;
+  border: none;
+  outline: none;
+  transition: all 0.15s;
+}
+.c-sidebar-right__input:focus {
+  box-shadow: 0px -1px 0px 0px #EF2EF2 inset;
+}
+
+.c-sidebar-right__submit {
+  position: relative;
+  width: 100%;
+  height: 48px;
+  text-align: center;
+  cursor: not-allowed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.c-sidebar-right__submit svg {
+  z-index: 1;
+}
+
+.c-sidebar-right__submit--enabled {
+  cursor: pointer;
+}
+.c-sidebar-right__submit--enabled:before {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  content: "";
+  width: 100%;
+  display: block;
+  background: #EF2EF2;
+  transition: background 0.15s;
+  animation: growInHeight 0.15s ease;
+  transform-origin: center top;
+  z-index: 0;
+}
+.c-sidebar-right__submit--enabled:hover:before {
+  background: #dc0edf;
+}
+
+.c-sidebar-right__styles {
+  padding-top: 8px;
+  padding-right: 16px;
+  padding-bottom: 12px;
+  padding-left: 16px;
+}
+
+.c-sidebar-right__style {
+  display: flex;
+  align-items: center;
+  height: 40px;
+}
+
+.c-sidebar-right__style-prop {
+  color: white;
+  font-size: 12px;
+  line-height: 40px;
+  flex-grow: 2;
+  animation: slideInRight 0.15s ease;
+}
+
+.c-sidebar-right__style-value {
+  position: relative;
+  max-height: 40px;
+  display: flex;
+  animation: slideInLeft 0.15s ease;
+}
+
+.c-sidebar-right__style-input {
+  border: none;
+  margin: 0;
+  min-height: 14px;
+  font-size: 12px;
+  line-height: 14px;
+  max-width: 100px;
+  padding: 14px 0;
+  transition: all 0.15s;
+}
+.c-sidebar-right__style-input:focus {
+  outline: none;
+}
+.c-sidebar-right__style-input::selection {
+  background: none;
+}
+
+.c-sidebar-right__style-copy {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  line-height: 14px;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.c-sidebar-right__style-copy-text {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  animation: slideInDelayed 0.33s ease;
+  z-index: 1;
+}
+
+.c-sidebar-right__style-copy-bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  animation: growInWidth 0.15s ease;
+  z-index: 0;
+}
+
+.c-sidebar-right__style-copy--copied .c-sidebar-right__style-copy-text {
+  animation: shrinkIn 0.15s ease;
+}
+
+.c-sidebar-right__swatch-group {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 16px;
+  overflow: hidden;
+  left: 100%;
+  display: flex;
+  justify-content: flex-end;
+  pointer-events: none;
+}
+
+.c-sidebar-right__swatch {
+  width: 25%;
+}
+
+.c-sidebar-right__swatch--image {
+  width: 25%;
+}
+
+.c-sidebar-right__notes {
+  padding: 8px 0;
+}
+
+.c-sidebar-right__note {
+  padding: 4px 16px;
+  padding-left: 32px;
+  font-size: 12px;
+  line-height: 32px;
+  color: white;
+  position: relative;
+  min-height: 32px;
+  word-break: break-word;
+  transition: background 0.15s;
+  animation: slideInRight 0.15s ease;
+}
+.c-sidebar-right__note:hover .c-sidebar-right__note-remove {
+  display: flex;
+  animation: slideInLeft 0.15s ease-out;
+}
+
+.c-sidebar-right__note-content {
+  display: flex;
+  align-items: flex-start;
+}
+.c-sidebar-right__note-content:before {
+  position: absolute;
+  left: 16px;
+  content: "•";
+  font-weight: 700;
+  display: inline-block;
+}
+.c-sidebar-right__note-content span {
+  flex-grow: 2;
+}
+
+.c-sidebar-right__note-remove {
+  position: relative;
+  right: -8px;
+  height: 32px;
+  width: 32px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-left: 4px;
+  border-radius: 0px;
+  transition: background 0.15s, transform 0.15s;
+}
+.c-sidebar-right__note-remove:hover {
+  background: #EF2EF2;
+}
+
 .c-back-button {
   position: fixed;
   top: 48px;
@@ -1468,10 +1143,7 @@ textarea {
   padding: 0 16px;
   line-height: 32px;
   font-size: 14px;
-  background: #333;
-  color: #fff;
   margin: 8px;
-  box-shadow: 0px 0px 0px 1px rgba(255, 255, 255, 0.25) inset, 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
   z-index: 99999999999;
 }
 .c-back-button:hover {

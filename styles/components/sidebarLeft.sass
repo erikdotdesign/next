@@ -21,12 +21,8 @@ $sidebarLeftCellHeight: 40px
 
 .c-sidebar-left__layer--group
   .c-sidebar-left-layer__note-count
-    margin-right: 4px
-    margin-left: 4px
-
-.c-sidebar-left__layer--header
-  background: $grayDark
-  box-shadow: 0px -1px 0px 0px $grayLighter inset, 0px -1px 0px 0px $grayLighter
+    margin-right: $unit
+    margin-left: $unit
 
 .c-sidebar-left__group-click
   +absolute-full
@@ -36,7 +32,7 @@ $sidebarLeftCellHeight: 40px
   background: $highlightColor
 
   .c-sidebar-left-layer__note-count
-    background: #fff
+    background: $text
     color: black
 
 .c-sidebar-left-layer__icon
@@ -45,37 +41,31 @@ $sidebarLeftCellHeight: 40px
   height: $buttonSize
   align-items: center
   justify-content: center
-  opacity: 0.5
 
 .c-sidebar-left-layer__note-count,
 .c-sidebar-left-layer__nested-note-count
   flex-shrink: 0
-  font-size: 12px
-  width: 20px
-  height: 20px
-  line-height: 20px
+  font-size: $fontSizeSm
+  width: $unit * 5
+  height: $unit * 5
+  line-height: $unit * 5
   text-align: center
-  color: #fff
+  color: $text
   border-radius: 100%
 
 .c-sidebar-left-layer__note-count
   background: $highlightColor
-  margin-right: 8px
+  margin-right: $unit * 2 // 8
 
 .c-sidebar-left-layer__nested-note-count
   color: black
   background: $accentColor
-  margin-right: 4px
-
-.c-sidebar-left-layer__icon--expand
-  position: relative
-  opacity: 1
-  z-index: 2
+  margin-right: $unit
 
 .c-sidebar-left-layer__name
   flex-grow: 2
-  font-size: 12px
-  padding-left: 16px
+  font-size: $fontSizeSm
+  padding-left: $unit * 4 // 16
   line-height: $sidebarLeftCellHeight
   white-space: nowrap
   overflow: hidden

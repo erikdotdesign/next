@@ -7,6 +7,8 @@ import App from './components/App';
 ReactDOM.render(
   <App
     // @ts-ignore
+    theme={theme}
+    // @ts-ignore
     artboard={store.artboard}
     // @ts-ignore
     images={store.images}

@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import Artboard from './Artboard';
 import BackButton from './BackButton';
+import ThemeContext from './ThemeContext';
 let startGestureZoom = 0;
 let gestureZoom = 1;
 const Canvas = (props) => {
@@ -44,13 +45,13 @@ const Canvas = (props) => {
     useEffect(() => {
         gestureZoom = zoom;
     }, [zoom]);
-    return (React.createElement("div", { className: 'c-canvas', id: 'canvas', ref: canvas, onWheel: handleWheel },
+    return (React.createElement(ThemeContext.Consumer, null, (theme) => (React.createElement("div", { className: 'c-canvas', id: 'canvas', ref: canvas, onWheel: handleWheel, style: { background: theme.background.darkest } },
         groupSelectionNest
             ? React.createElement(BackButton, { setGroupSelection: setGroupSelection, groupSelectionNest: groupSelectionNest, setGroupSelectionNest: setGroupSelectionNest })
             : null,
         ready
             ? React.createElement(Artboard, { artboard: artboard, images: images, svgs: svgs, selection: selection, setSelection: setSelection, groupSelection: groupSelection, setGroupSelection: setGroupSelection, groupSelectionNest: groupSelectionNest, setGroupSelectionNest: setGroupSelectionNest, hover: hover, setHover: setHover, zoom: zoom })
             : null,
-        React.createElement("div", { className: 'c-canvas__escape', onClick: handleClick, onMouseOver: handleMouseOver })));
+        React.createElement("div", { className: 'c-canvas__escape', onClick: handleClick, onMouseOver: handleMouseOver })))));
 };
 export default Canvas;

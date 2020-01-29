@@ -25,13 +25,13 @@ const SidebarRightSwatches = (props: SidebarRightSwatchesProps) => {
   }
   const colors = getColors();
   return (
-    <div className='c-sidebar-styles__swatch-group'>
+    <div className='c-sidebar-right__swatch-group'>
       {
         colors.length > 0
         ? colors.map((color: any, index: number) => (
             <div
               key={index}
-              className='c-sidebar-styles__swatch'
+              className='c-sidebar-right__swatch'
               style={{backgroundColor: color}} />
           ))
         : null
@@ -39,7 +39,7 @@ const SidebarRightSwatches = (props: SidebarRightSwatchesProps) => {
       {
         String(props.value).startsWith('url')
         ? <div
-            className='c-sidebar-styles__swatch c-sidebar-styles__swatch--image'
+            className='c-sidebar-right__swatch c-sidebar-right__swatch--image'
             style={{
               background: props.value,
               backgroundRepeat: 'no-repeat',

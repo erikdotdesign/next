@@ -1,5 +1,7 @@
 import React from 'react';
-import IconClose from './IconClose';
+import SidebarRightNote from './SidebarRightNote';
+import SidebarHeader from './SidebarHeader';
+import SidebarPlaceholder from './SidebarPlaceholder';
 import { getLayerNotes } from '../utils';
 
 interface SidebarRightNotesProps {
@@ -34,44 +36,28 @@ const SidebarRightNotes = (props: SidebarRightNotesProps) => {
   }
   return (
     <div className='c-sidebar__section'>
-      <div className='c-sidebar__header'>
-        <span>Notes</span>
-      </div>
+      <SidebarHeader text='Notes' />
       {
         selection
         ? <div>
             {
               selectionNotes
-              ? <ul className='c-sidebar__notes'>
+              ? <ul className='c-sidebar-right__notes'>
                   {
                     selectionNotes.notes.map((note: string, index: number) => (
-                      <li className='c-sidebar__note' key={index}>
-                        <div className='c-sidebar__note-content'>
-                          <span>
-                            { note }
-                          </span>
-                          {
-                            composing
-                            ? <button
-                                className='c-sidebar__note-remove'
-                                onClick={() => removeNote(index)}>
-                                <IconClose />
-                              </button>
-                            : null
-                          }
-                        </div>
-                      </li>
+                      <SidebarRightNote
+                        key={index}
+                        note={note}
+                        index={index}
+                        composing={composing}
+                        onClick={() => removeNote(index)} />
                     ))
                   }
                 </ul>
-              : <div className='c-sidebar__placeholder'>
-                  <span>This layer has no notes</span>
-                </div>
+              : <SidebarPlaceholder text='This layer has no notes' />
             }
           </div>
-        : <div className='c-sidebar__placeholder'>
-            <span>Click layer to see notes</span>
-          </div>
+        : <SidebarPlaceholder text='Click layer to see notes' />
       }
     </div>
   )

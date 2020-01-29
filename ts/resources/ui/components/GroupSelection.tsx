@@ -1,5 +1,6 @@
 import React from 'react';
 import Layers from './Layers';
+import ThemeContext from './ThemeContext';
 import groupSelectionStyles, { groupSelectionArtboardStyles } from '../styles/groupSelectionStyles';
 
 interface GroupSelectionProps {
@@ -15,29 +16,35 @@ interface GroupSelectionProps {
 const GroupSelection = (props: GroupSelectionProps) => {
   const { groupSelection, artboard, images, svgs, setSelection, setGroupSelection, setHover } = props;
   return (
-    <div className='c-group-selection'>
-      <div
-        className='c-group-selection__artboard'
-        style={groupSelectionArtboardStyles(groupSelection, artboard)}>
-        <div
-          className='c-layer c-layer--group'
-          style={groupSelectionStyles(groupSelection)}>
-            <Layers
-              layers={groupSelection.layers as srm.AppArtboardLayer[]}
-              images={images}
-              svgs={svgs}
-              setSelection={setSelection}
-              setGroupSelection={setGroupSelection}
-              setHover={setHover} />
+    <ThemeContext.Consumer>
+      {(theme) => (
+        <div className='c-group-selection'>
+          <div
+            className='c-group-selection__artboard'
+            style={groupSelectionArtboardStyles(groupSelection, artboard)}>
             <div
-              className='c-group-selection__click-area'
-              onClick={() => setSelection(groupSelection)}
-              onMouseOver={() => setHover(groupSelection)}
-              onMouseOut={() => setHover(null)} />
+              className='c-layer c-layer--group'
+              style={groupSelectionStyles(groupSelection)}>
+                <Layers
+                  layers={groupSelection.layers as srm.AppArtboardLayer[]}
+                  images={images}
+                  svgs={svgs}
+                  setSelection={setSelection}
+                  setGroupSelection={setGroupSelection}
+                  setHover={setHover} />
+                <div
+                  className='c-group-selection__click-area'
+                  onClick={() => setSelection(groupSelection)}
+                  onMouseOver={() => setHover(groupSelection)}
+                  onMouseOut={() => setHover(null)} />
+            </div>
+          </div>
+          <div
+            className='c-group-selection__scrim'
+            style={{background: theme.background.darkest}} />
         </div>
-      </div>
-      <div className='c-group-selection__scrim' />
-    </div>
+      )}
+    </ThemeContext.Consumer>
   )
 };
 

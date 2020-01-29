@@ -1,4 +1,6 @@
 import React from 'react';
+import SidebarHeader from './SidebarHeader';
+import SidebarPlaceholder from './SidebarPlaceholder';
 import SidebarRightStylesValue from './SidebarRightStylesValue';
 import SidebarRightStylesProp from './SidebarRightStylesProp';
 
@@ -42,24 +44,20 @@ const SidebarRightStyles = (props: SidebarRightStylesProps) => {
   const selectionStyles: any = getLayerStyles();
   return (
     <div className='c-sidebar__section'>
-      <div className='c-sidebar__header'>
-        <span>Styles</span>
-      </div>
+      <SidebarHeader text='Styles' />
       {
         selection
-        ? <div className='c-sidebar-styles'>
+        ? <div className='c-sidebar-right__styles'>
             {
               Object.keys(selectionStyles).map((key: any, index: number) => (
-                <div className='c-sidebar-styles__style' key={index}>
+                <div className='c-sidebar-right__style' key={index}>
                   <SidebarRightStylesProp prop={key} />
                   <SidebarRightStylesValue value={selectionStyles[key]} />
                 </div>
               ))
             }
           </div>
-        : <div className='c-sidebar__placeholder'>
-            <span>Click layer to see styles</span>
-          </div>
+        : <SidebarPlaceholder text='Click layer to see styles' />
       }
     </div>
   )

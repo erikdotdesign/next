@@ -1,5 +1,3 @@
-$buttonSize: 32px
-
 .c-topbar-wrap
   position: relative
   height: $topbarHeight
@@ -12,10 +10,8 @@ $buttonSize: 32px
   justify-content: center
   width: 100%
   height: $topbarHeight
-  background: $grayDark
-  box-shadow: 0px 1px 0px 0px $grayLighter
   z-index: 99999999999999999999
-  padding: 0 16px
+  padding: 0 $unit * 4 // 0 16
 
 .c-topbar__selection
   position: relative
@@ -24,7 +20,7 @@ $buttonSize: 32px
 
   span
     +absolute-full
-    font-weight: 700
+    font-weight: $fontWeightBold
     line-height: $topbarHeight
     white-space: nowrap
     overflow: hidden
@@ -44,9 +40,8 @@ $buttonSize: 32px
   display: flex
   align-items: center
   justify-content: center
-  font-size: 12px
+  font-size: $fontSizeSm
   line-height: $buttonSize
-  background: $grayDark
   width: $buttonSize * 2
   height: $buttonSizeLg
 
@@ -64,12 +59,16 @@ $buttonSize: 32px
   height: 1px
   width: 100%
 
+.c-topbar__button-bg
+  +absolute-full
+  visibility: hidden
+  transform-origin: center top
+
 .c-topbar__button
   position: relative
   display: flex
   align-items: center
   justify-content: center
-  background: $grayDark
   width: $buttonSizeLg
   height: $buttonSizeLg
   cursor: pointer
@@ -80,12 +79,9 @@ $buttonSize: 32px
 
   &:hover
 
-    &:before
-      +content-block
-      background: $grayDarker
+    .c-topbar__button-bg
+      visibility: visible
       animation: growInHeight $transitionNormal ease
-      z-index: 0
-      transform-origin: center top
 
     .c-topbar__button-bb
       animation: popIn $transitionSlow ease-in
@@ -129,5 +125,5 @@ $buttonSize: 32px
   &:hover
     &:after
       +tooltip
-      right: 8px
+      right: $unit * 2 // 8
       content: 'Export Spec'

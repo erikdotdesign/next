@@ -1,4 +1,7 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
+import SidebarRightStylesCopy from './SidebarRightStylesCopy';
+import SidebarRightStylesCopied from './SidebarRightStylesCopied';
+import SidebarRightStylesInput from './SidebarRightStylesInput';
 import SidebarRightSwatches from './SidebarRightSwatches';
 
 interface SidebarRightStylesValueProps {
@@ -8,15 +11,6 @@ interface SidebarRightStylesValueProps {
 const SidebarRightStylesValue = (props: SidebarRightStylesValueProps) => {
   const [hovering, setHovering] = useState(false);
   const [copied, setCopied] = useState(false);
-  const textInput = useRef<HTMLInputElement>(null);
-  const copyToClipBoard = () => {
-    if (textInput.current) {
-      textInput.current.focus();
-      textInput.current.select();
-      document.execCommand('copy');
-      setCopied(true);
-    }
-  }
   const handleMouseEnter = () => {
     setHovering(true);
   }
@@ -28,30 +22,19 @@ const SidebarRightStylesValue = (props: SidebarRightStylesValueProps) => {
   }
   return (
     <div
-      className='c-sidebar-styles__value'
+      className='c-sidebar-right__style-value'
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}>
-      <input
-        ref={textInput}
-        onClick={copyToClipBoard}
-        type='text'
-        readOnly
+      <SidebarRightStylesInput
+        value={props.value}
+        setCopied={setCopied} />
+      <SidebarRightStylesCopy
+        hovering={hovering}
+        copied={copied} />
+      <SidebarRightStylesCopied
+        copied={copied} />
+      <SidebarRightSwatches
         value={props.value} />
-      {
-        hovering && !copied
-        ? <div className='c-sidebar-styles__value-copy'>
-            <span>Copy</span>
-          </div>
-        : null
-      }
-      {
-        copied
-        ? <div className='c-sidebar-styles__value-copy c-sidebar-styles__value-copy--copied'>
-            <span>Copied!</span>
-          </div>
-        : null
-      }
-      <SidebarRightSwatches value={props.value} />
     </div>
   );
 }
