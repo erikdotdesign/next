@@ -562,6 +562,8 @@ declare namespace srm {
     notes: string[];
   }
 
+  type Theme = 'light' | 'dark';
+
   interface Store {
     artboard: srm.Artboard;
     images: srm.ImgAsset[];

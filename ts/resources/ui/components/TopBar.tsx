@@ -1,4 +1,5 @@
 import React from 'react';
+import TopBarTheme from './TopBarTheme';
 import TopBarSave from './TopBarSave';
 import TopBarRefresh from './TopBarRefresh';
 import TopBarZoom from './TopBarZoom';
@@ -10,12 +11,14 @@ interface TopbarProps {
   zoom: number;
   notes: srm.Note[];
   composing: boolean;
+  appTheme: srm.Theme;
+  setAppTheme(appTheme: srm.Theme): void;
   setZoom(zoom: number): void;
   scrollToCenter(): void;
 }
 
 const TopBar = (props: TopbarProps) => {
-  const { scrollToCenter, zoom, baseZoom, setZoom, notes, composing } = props;
+  const { scrollToCenter, zoom, appTheme, setAppTheme, baseZoom, setZoom, notes, composing } = props;
   return (
     <ThemeContext.Consumer>
       {(theme) => (
@@ -35,9 +38,14 @@ const TopBar = (props: TopbarProps) => {
               <TopBarZoomReset
                 baseZoom={baseZoom}
                 setZoom={setZoom} />
-              <TopBarSave
-                composing={composing}
-                notes={notes} />
+              <div className='c-topbar__right'>
+                <TopBarTheme
+                  appTheme={appTheme}
+                  setAppTheme={setAppTheme} />
+                <TopBarSave
+                  composing={composing}
+                  notes={notes} />
+              </div>
             </div>
           </div>
         </div>

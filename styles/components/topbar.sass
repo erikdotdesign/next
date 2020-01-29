@@ -33,6 +33,15 @@
   justify-content: flex-end
   height: $topbarHeight
 
+.c-topbar__right
+  position: absolute
+  top: 0
+  right: 0
+  display: flex
+  align-items: center
+  justify-content: flex-end
+  height: $topbarHeight
+
 .c-topbar__control
   display: flex
 
@@ -118,12 +127,17 @@
       content: 'Reset Zoom'
 
 .c-topbar__button--save
-  position: absolute
-  right: 0
-  top: 0
 
   &:hover
     &:after
       +tooltip
-      right: $unit * 2 // 8
+      right: 0
       content: 'Export Spec'
+
+.c-topbar__button--theme
+
+  &:hover
+    &:after
+      +tooltip
+      right: 0
+      content: 'Toggle Theme'

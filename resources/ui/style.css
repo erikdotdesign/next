@@ -578,6 +578,16 @@ textarea {
   height: 48px;
 }
 
+.c-topbar__right {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 48px;
+}
+
 .c-topbar__control {
   display: flex;
 }
@@ -744,11 +754,6 @@ textarea {
   content: "Reset Zoom";
 }
 
-.c-topbar__button--save {
-  position: absolute;
-  right: 0;
-  top: 0;
-}
 .c-topbar__button--save:hover:after {
   white-space: nowrap;
   word-wrap: none;
@@ -767,8 +772,30 @@ textarea {
   color: white;
   transform-origin: center top;
   animation: popIn 0.15s ease-out;
-  right: 8px;
+  right: 0;
   content: "Export Spec";
+}
+
+.c-topbar__button--theme:hover:after {
+  white-space: nowrap;
+  word-wrap: none;
+  position: absolute;
+  font-weight: 400;
+  text-align: center;
+  top: calc(100% + 8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  line-height: 32px;
+  padding: 0 8px;
+  font-size: 12px;
+  background: #444;
+  color: white;
+  transform-origin: center top;
+  animation: popIn 0.15s ease-out;
+  right: 0;
+  content: "Toggle Theme";
 }
 
 .c-notes {

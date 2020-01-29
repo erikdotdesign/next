@@ -3,6 +3,7 @@ import SidebarRight from './SidebarRight';
 import SidebarLeft from './SidebarLeft';
 import Canvas from './Canvas';
 import TopBar from './TopBar';
+import ThemeProvider from './ThemeProvider';
 import ThemeContext from './ThemeContext';
 
 interface AppProps {
@@ -10,12 +11,14 @@ interface AppProps {
   images: srm.ImgAsset[];
   svgs: srm.SvgAsset[];
   notes: srm.Note[];
+  theme: srm.Theme;
   composing: boolean;
 }
 
 const App = (props: AppProps) => {
   const app = useRef<HTMLDivElement>(null);
   const [ready, setReady] = useState<boolean>(false);
+  const [appTheme, setAppTheme] = useState<srm.Theme>(props.theme);
   // selection and hover
   const [groupSelectionNest, setGroupSelectionNest] = useState<srm.Group[] | null>(null);
   const [groupSelection, setGroupSelection] = useState<srm.Group | null>(null);
@@ -157,56 +160,60 @@ const App = (props: AppProps) => {
 
   // SCROLL PERFORMANCE IS HORRIBLE ON SAFARI FOR NESTED COMPONENTS
   return (
-    <ThemeContext.Consumer>
-      {(theme) => (
-        <div
-          className='c-app'
-          tabIndex={-1}
-          ref={app}
-          onKeyDown={handleKeyPress}
-          style={{
-            background: theme.background.darker
-          }}>
-          <TopBar
-            zoom={zoom}
-            setZoom={setZoom}
-            baseZoom={baseZoom}
-            notes={notes}
-            scrollToCenter={scrollToCenter}
-            composing={props.composing} />
-          <SidebarLeft
-            selection={selection}
-            setSelection={setSelection}
-            setHover={setHover}
-            notes={notes}
-            groupSelection={groupSelection}
-            setGroupSelection={setGroupSelection}
-            groupSelectionNest={groupSelectionNest}
-            setGroupSelectionNest={setGroupSelectionNest}
-            artboard={props.artboard} />
-          <SidebarRight
-            selection={selection}
-            images={props.images}
-            svgs={props.svgs}
-            notes={notes}
-            setNotes={setNotes}
-            composing={props.composing} />
-          <Canvas
-            {...props}
-            ready={ready}
-            zoom={zoom}
-            setZoom={setZoom}
-            selection={selection}
-            setSelection={setSelection}
-            groupSelection={groupSelection}
-            setGroupSelection={setGroupSelection}
-            groupSelectionNest={groupSelectionNest}
-            setGroupSelectionNest={setGroupSelectionNest}
-            hover={hover}
-            setHover={setHover} />
-        </div>
-      )}
-    </ThemeContext.Consumer>
+    <ThemeProvider theme={appTheme}>
+      <ThemeContext.Consumer>
+        {(theme) => (
+          <div
+            className='c-app'
+            tabIndex={-1}
+            ref={app}
+            onKeyDown={handleKeyPress}
+            style={{
+              background: theme.background.darker
+            }}>
+            <TopBar
+              zoom={zoom}
+              setZoom={setZoom}
+              baseZoom={baseZoom}
+              notes={notes}
+              scrollToCenter={scrollToCenter}
+              appTheme={appTheme}
+              setAppTheme={setAppTheme}
+              composing={props.composing} />
+            <SidebarLeft
+              selection={selection}
+              setSelection={setSelection}
+              setHover={setHover}
+              notes={notes}
+              groupSelection={groupSelection}
+              setGroupSelection={setGroupSelection}
+              groupSelectionNest={groupSelectionNest}
+              setGroupSelectionNest={setGroupSelectionNest}
+              artboard={props.artboard} />
+            <SidebarRight
+              selection={selection}
+              images={props.images}
+              svgs={props.svgs}
+              notes={notes}
+              setNotes={setNotes}
+              composing={props.composing} />
+            <Canvas
+              {...props}
+              ready={ready}
+              zoom={zoom}
+              setZoom={setZoom}
+              selection={selection}
+              setSelection={setSelection}
+              groupSelection={groupSelection}
+              setGroupSelection={setGroupSelection}
+              groupSelectionNest={groupSelectionNest}
+              setGroupSelectionNest={setGroupSelectionNest}
+              hover={hover}
+              setHover={setHover} />
+          </div>
+        )}
+      </ThemeContext.Consumer>
+    </ThemeProvider>
   );
 }
 
