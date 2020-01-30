@@ -29,7 +29,7 @@ const SidebarRightStylesInput = (props: SidebarRightStylesValueProps) => {
           value={value}
           style={{
             color: theme.text.base,
-            background: theme.background.darker
+            background: theme.background.z1
           }} />
       )}
     </ThemeContext.Consumer>

@@ -70,10 +70,12 @@ const Canvas = (props: CanvasProps) => {
           id='canvas'
           ref={canvas}
           onWheel={handleWheel}
-          style={{background: theme.background.darkest}}>
+          style={{background: theme.background.z0}}>
           {
             groupSelectionNest
             ? <BackButton
+                artboard={artboard}
+                setSelection={setSelection}
                 setGroupSelection={setGroupSelection}
                 groupSelectionNest={groupSelectionNest}
                 setGroupSelectionNest={setGroupSelectionNest} />

@@ -1,12 +1,13 @@
 import React from 'react';
 import Sidebar from './Sidebar';
-import SidebarLeftArtboard from './SidebarLeftArtboard';
+import SidebarLeftGroupHead from './SidebarLeftGroupHead';
 import SidebarLeftLayers from './SidebarLeftLayers';
 import SidebarLeftGroups from './SidebarLeftGroups';
 import SidebarHeader from './SidebarHeader';
 
 interface SidebarLeftProps {
   selection: srm.AppLayer | null;
+  hover: srm.AppLayer | null;
   groupSelection: srm.Group | null;
   groupSelectionNest: srm.Group[] | null;
   artboard: srm.Artboard;
@@ -18,14 +19,16 @@ interface SidebarLeftProps {
 }
 
 const SidebarLeft = (props: SidebarLeftProps) => {
-  const { selection, groupSelection, groupSelectionNest, artboard, notes, setSelection, setHover, setGroupSelection, setGroupSelectionNest } = props;
+  const { selection, hover, groupSelection, groupSelectionNest, artboard, notes, setSelection, setHover, setGroupSelection, setGroupSelectionNest } = props;
   return (
     <Sidebar side='left'>
       <SidebarHeader text='Layers' />
-        <SidebarLeftArtboard
-          artboard={artboard}
+        <SidebarLeftGroupHead
+          layer={artboard}
           selection={selection}
+          hover={hover}
           notes={notes}
+          groupSelection={groupSelection}
           setHover={setHover}
           setSelection={setSelection}
           setGroupSelection={setGroupSelection}
@@ -34,6 +37,7 @@ const SidebarLeft = (props: SidebarLeftProps) => {
           groupSelection
           ? <SidebarLeftGroups
               selection={selection}
+              hover={hover}
               groupSelection={groupSelection}
               groupSelectionNest={groupSelectionNest}
               notes={notes}
@@ -43,6 +47,7 @@ const SidebarLeft = (props: SidebarLeftProps) => {
           : <SidebarLeftLayers
               layers={artboard.layers as srm.AppArtboardLayer[]}
               selection={selection}
+              hover={hover}
               notes={notes}
               setSelection={setSelection}
               setHover={setHover}

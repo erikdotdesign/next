@@ -1,4 +1,4 @@
-$sidebarLeftCellHeight: 40px
+$sidebarLeftCellHeight: $unit * 10 // 40
 
 .c-sidebar--left
   left: 0
@@ -19,6 +19,10 @@ $sidebarLeftCellHeight: 40px
   line-height: $sidebarLeftCellHeight
   cursor: pointer
 
+.c-sidebar-left__layer--header
+  .c-sidebar-left-layer__name
+    font-weight: $fontWeightBold
+
 .c-sidebar-left__layer--group
   .c-sidebar-left-layer__note-count
     margin-right: $unit
@@ -27,13 +31,6 @@ $sidebarLeftCellHeight: 40px
 .c-sidebar-left__group-click
   +absolute-full
   z-index: 1
-
-.c-sidebar-left__layer--active
-  background: $highlightColor
-
-  .c-sidebar-left-layer__note-count
-    background: $text
-    color: black
 
 .c-sidebar-left-layer__icon
   display: flex
@@ -50,16 +47,12 @@ $sidebarLeftCellHeight: 40px
   height: $unit * 5
   line-height: $unit * 5
   text-align: center
-  color: $text
   border-radius: 100%
 
 .c-sidebar-left-layer__note-count
-  background: $highlightColor
   margin-right: $unit * 2 // 8
 
 .c-sidebar-left-layer__nested-note-count
-  color: black
-  background: $accentColor
   margin-right: $unit
 
 .c-sidebar-left-layer__name

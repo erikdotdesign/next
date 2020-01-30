@@ -116,8 +116,6 @@ const App = (props: AppProps) => {
         // initialize it with groupSelection
         setGroupSelectionNest([groupSelection]);
       }
-      // set selection to groupSelection
-      setSelection(groupSelection);
     }
   }, [groupSelection]);
 
@@ -169,7 +167,7 @@ const App = (props: AppProps) => {
             ref={app}
             onKeyDown={handleKeyPress}
             style={{
-              background: theme.background.darker
+              background: theme.background.z1
             }}>
             <TopBar
               zoom={zoom}
@@ -183,6 +181,7 @@ const App = (props: AppProps) => {
             <SidebarLeft
               selection={selection}
               setSelection={setSelection}
+              hover={hover}
               setHover={setHover}
               notes={notes}
               groupSelection={groupSelection}

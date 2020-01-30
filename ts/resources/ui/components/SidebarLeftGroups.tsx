@@ -4,6 +4,7 @@ import SidebarLeftLayers from './SidebarLeftLayers';
 
 interface SidebarLeftGroupsProps {
   selection: srm.AppLayer | null;
+  hover: srm.AppLayer | null;
   groupSelection: srm.Group;
   groupSelectionNest: srm.Group[] | null;
   notes: srm.Note[];
@@ -13,7 +14,7 @@ interface SidebarLeftGroupsProps {
 }
 
 const SidebarLeftGroups = (props: SidebarLeftGroupsProps) => {
-  const { selection, groupSelection, groupSelectionNest, notes, setSelection, setHover, setGroupSelection } = props;
+  const { selection, hover, groupSelection, groupSelectionNest, notes, setSelection, setHover, setGroupSelection } = props;
   const [nestPadding, setNestPadding] = useState<number>(0);
   useEffect(() => {
     if (groupSelectionNest) {
@@ -35,6 +36,7 @@ const SidebarLeftGroups = (props: SidebarLeftGroupsProps) => {
               layer={group}
               index={index}
               selection={selection}
+              hover={hover}
               groupSelection={groupSelection}
               notes={notes}
               setSelection={setSelection}
@@ -47,6 +49,7 @@ const SidebarLeftGroups = (props: SidebarLeftGroupsProps) => {
         layers={groupSelection.layers as srm.AppArtboardLayer[]}
         nestPadding={nestPadding}
         selection={selection}
+        hover={hover}
         notes={notes}
         setSelection={setSelection}
         setHover={setHover}

@@ -13,6 +13,7 @@ interface SidebarRightSubmitProps {
 
 const SidebarRightSubmit = (props: SidebarRightSubmitProps) => {
   const { selection, note, notes, setNote, setNotes } = props;
+  const noteValid = selection && note.trim().length > 0;
   const handleSubmit = () => {
     if (selection && note.trim().length > 0) {
       const selectionNotes = getLayerNotes(selection.id, notes);
@@ -40,13 +41,14 @@ const SidebarRightSubmit = (props: SidebarRightSubmitProps) => {
         <button
           className={
             `c-sidebar-right__submit ${
-              selection && note.trim().length > 0
+              noteValid
               ? 'c-sidebar-right__submit--enabled'
               : null
             }`
           }
           onClick={handleSubmit}>
-          <IconAdd />
+          <IconAdd
+            style={{fill: noteValid ? theme.text.onPrimary : theme.text.base}} />
         </button>
       )}
     </ThemeContext.Consumer>

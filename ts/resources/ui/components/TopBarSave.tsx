@@ -5,13 +5,17 @@ import IconSave from './IconSave';
 interface TopBarSaveProps {
   composing: boolean;
   notes: srm.Note[];
+  appTheme: srm.Theme;
 }
 
 const TopBarSave = (props: TopBarSaveProps) => {
-  const { composing, notes } = props;
+  const { composing, notes, appTheme } = props;
   const save = () => {
     // @ts-ignore
-    window.postMessage('save', JSON.stringify(notes));
+    window.postMessage('save', JSON.stringify({
+      notes: notes,
+      theme: appTheme
+    }));
   };
   return (
     composing

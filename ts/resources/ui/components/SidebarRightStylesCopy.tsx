@@ -21,7 +21,7 @@ const SidebarRightStylesCopy = (props: SidebarRightStylesCopyProps) => {
             <div
               className='c-sidebar-right__style-copy-bg'
               style={{
-                background: theme.background.darkest
+                background: theme.background.z3
               }} />
           </div>
         )}

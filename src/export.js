@@ -47,9 +47,10 @@ export default (context) => {
       )`);
         });
         // open save prompt on save
-        webContents.on('save', (notes) => {
+        webContents.on('save', (params) => {
+            const saveParams = JSON.parse(params);
             // add notes to store
-            store.notes = JSON.parse(notes);
+            store.notes = saveParams.notes;
             // set final store
             let finalStore = Object.assign({}, store);
             // update final store image paths
@@ -94,6 +95,8 @@ export default (context) => {
             let script = pluginExport.getFileContent(scriptPath);
             // add store to js string
             let scriptWithStore = `var store = ${finalStoreString}; ${script}`;
+            // // add theme to js string
+            let scriptWithTheme = `var theme = '${saveParams.theme}'; ${scriptWithStore}`;
             // get contents of js map
             let scriptSourceMap = pluginExport.getFileContent(scriptSourceMapPath);
             // create final html
@@ -110,7 +113,7 @@ export default (context) => {
             });
             // create final js
             pluginExport.writeFile({
-                content: scriptWithStore,
+                content: scriptWithTheme,
                 path: savePath,
                 fileName: 'resources_ui_spec.js'
             });

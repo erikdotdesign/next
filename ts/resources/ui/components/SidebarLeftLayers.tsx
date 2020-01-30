@@ -3,6 +3,7 @@ import SidebarLeftLayer from './SidebarLeftLayer';
 
 interface SidebarLeftLayersProps {
   layers: srm.AppArtboardLayer[];
+  hover: srm.AppLayer | null;
   selection: srm.AppLayer | null;
   notes: srm.Note[];
   setSelection(selection: srm.AppLayer | null): void;
@@ -12,7 +13,7 @@ interface SidebarLeftLayersProps {
 }
 
 const SidebarLeftLayers = (props: SidebarLeftLayersProps) => {
-  const { layers, selection, notes, setSelection, setHover, setGroupSelection, nestPadding } = props;
+  const { layers, selection, hover, notes, setSelection, setHover, setGroupSelection, nestPadding } = props;
   return (
     <div className='c-sidebar-left__layers'>
       {
@@ -23,6 +24,7 @@ const SidebarLeftLayers = (props: SidebarLeftLayersProps) => {
             notes={notes}
             nestPadding={nestPadding}
             selection={selection}
+            hover={hover}
             setSelection={setSelection}
             setHover={setHover}
             setGroupSelection={setGroupSelection} />

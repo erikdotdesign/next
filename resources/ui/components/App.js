@@ -104,8 +104,6 @@ const App = (props) => {
                 // initialize it with groupSelection
                 setGroupSelectionNest([groupSelection]);
             }
-            // set selection to groupSelection
-            setSelection(groupSelection);
         }
     }, [groupSelection]);
     useEffect(() => {
@@ -146,10 +144,10 @@ const App = (props) => {
     // SCROLL PERFORMANCE IS HORRIBLE ON SAFARI FOR NESTED COMPONENTS
     return (React.createElement(ThemeProvider, { theme: appTheme },
         React.createElement(ThemeContext.Consumer, null, (theme) => (React.createElement("div", { className: 'c-app', tabIndex: -1, ref: app, onKeyDown: handleKeyPress, style: {
-                background: theme.background.darker
+                background: theme.background.z1
             } },
             React.createElement(TopBar, { zoom: zoom, setZoom: setZoom, baseZoom: baseZoom, notes: notes, scrollToCenter: scrollToCenter, appTheme: appTheme, setAppTheme: setAppTheme, composing: props.composing }),
-            React.createElement(SidebarLeft, { selection: selection, setSelection: setSelection, setHover: setHover, notes: notes, groupSelection: groupSelection, setGroupSelection: setGroupSelection, groupSelectionNest: groupSelectionNest, setGroupSelectionNest: setGroupSelectionNest, artboard: props.artboard }),
+            React.createElement(SidebarLeft, { selection: selection, setSelection: setSelection, hover: hover, setHover: setHover, notes: notes, groupSelection: groupSelection, setGroupSelection: setGroupSelection, groupSelectionNest: groupSelectionNest, setGroupSelectionNest: setGroupSelectionNest, artboard: props.artboard }),
             React.createElement(SidebarRight, { selection: selection, images: props.images, svgs: props.svgs, notes: notes, setNotes: setNotes, composing: props.composing }),
             React.createElement(Canvas, Object.assign({}, props, { ready: ready, zoom: zoom, setZoom: setZoom, selection: selection, setSelection: setSelection, groupSelection: groupSelection, setGroupSelection: setGroupSelection, groupSelectionNest: groupSelectionNest, setGroupSelectionNest: setGroupSelectionNest, hover: hover, setHover: setHover })))))));
 };

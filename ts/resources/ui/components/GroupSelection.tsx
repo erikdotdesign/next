@@ -41,7 +41,7 @@ const GroupSelection = (props: GroupSelectionProps) => {
           </div>
           <div
             className='c-group-selection__scrim'
-            style={{background: theme.background.darkest}} />
+            style={{background: theme.background.z0}} />
         </div>
       )}
     </ThemeContext.Consumer>

@@ -14,10 +14,10 @@ const SidebarHeader = (props: SidebarHeaderProps) => {
           className='c-sidebar__header'
           style={{
             color: theme.text.base,
-            background: theme.background.dark,
+            background: theme.background.z2,
             boxShadow: `
-              0px 1px 0px 0px ${theme.background.lighter} inset,
-              0px -1px 0px 0px ${theme.background.lighter} inset
+              0px 1px 0px 0px ${theme.background.z5} inset,
+              0px -1px 0px 0px ${theme.background.z5} inset
             `
           }}>
           <span>{text}</span>

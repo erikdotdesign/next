@@ -26,8 +26,8 @@ const TopBar = (props: TopbarProps) => {
           <div
             className='c-topbar'
             style={{
-              background: theme.background.dark,
-              boxShadow: `0px 1px 0px 0px ${theme.background.lighter}`
+              background: theme.background.z2,
+              boxShadow: `0px 1px 0px 0px ${theme.background.z5}`
             }}>
             <div className='c-topbar__controls'>
               <TopBarRefresh
@@ -44,7 +44,8 @@ const TopBar = (props: TopbarProps) => {
                   setAppTheme={setAppTheme} />
                 <TopBarSave
                   composing={composing}
-                  notes={notes} />
+                  notes={notes}
+                  appTheme={appTheme} />
               </div>
             </div>
           </div>

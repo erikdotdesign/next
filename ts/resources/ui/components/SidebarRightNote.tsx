@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import IconClose from './IconClose';
+import React, { useState } from 'react';
+import SidebarRightNoteRemove from './SidebarRightNoteRemove';
 import ThemeContext from './ThemeContext';
 
 interface SidebarRightNoteProps {
@@ -16,13 +16,13 @@ const SidebarRightNote = (props: SidebarRightNoteProps) => {
     <ThemeContext.Consumer>
       {(theme) => (
         <li
-          onMouseEnter={() => setHovering(true)}
-          onMouseLeave={() => setHovering(false)}
+          onMouseOver={() => setHovering(true)}
+          onMouseOut={() => setHovering(false)}
           className='c-sidebar-right__note'
           style={
             hovering
-            ? {background: theme.background.darkest}
-            : {background: theme.background.darker}
+            ? {background: theme.background.z3}
+            : {background: theme.background.z1}
           }>
           <div
             className='c-sidebar-right__note-content'
@@ -30,15 +30,9 @@ const SidebarRightNote = (props: SidebarRightNoteProps) => {
             <span style={{color: theme.text.base}}>
               { note }
             </span>
-            {
-              composing
-              ? <button
-                  className='c-sidebar-right__note-remove'
-                  onClick={onClick}>
-                  <IconClose />
-                </button>
-              : null
-            }
+            <SidebarRightNoteRemove
+              onClick={onClick}
+              composing={composing} />
           </div>
         </li>
       )}

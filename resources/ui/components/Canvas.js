@@ -45,9 +45,9 @@ const Canvas = (props) => {
     useEffect(() => {
         gestureZoom = zoom;
     }, [zoom]);
-    return (React.createElement(ThemeContext.Consumer, null, (theme) => (React.createElement("div", { className: 'c-canvas', id: 'canvas', ref: canvas, onWheel: handleWheel, style: { background: theme.background.darkest } },
+    return (React.createElement(ThemeContext.Consumer, null, (theme) => (React.createElement("div", { className: 'c-canvas', id: 'canvas', ref: canvas, onWheel: handleWheel, style: { background: theme.background.z0 } },
         groupSelectionNest
-            ? React.createElement(BackButton, { setGroupSelection: setGroupSelection, groupSelectionNest: groupSelectionNest, setGroupSelectionNest: setGroupSelectionNest })
+            ? React.createElement(BackButton, { artboard: artboard, setSelection: setSelection, setGroupSelection: setGroupSelection, groupSelectionNest: groupSelectionNest, setGroupSelectionNest: setGroupSelectionNest })
             : null,
         ready
             ? React.createElement(Artboard, { artboard: artboard, images: images, svgs: svgs, selection: selection, setSelection: setSelection, groupSelection: groupSelection, setGroupSelection: setGroupSelection, groupSelectionNest: groupSelectionNest, setGroupSelectionNest: setGroupSelectionNest, hover: hover, setHover: setHover, zoom: zoom })

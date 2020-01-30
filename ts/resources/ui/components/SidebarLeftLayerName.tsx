@@ -1,25 +1,21 @@
 import React from 'react';
-import ThemeContext from './ThemeContext';
 
 interface SidebarLeftLayerNameProps {
   name: string;
-  style?: any;
+  paddingLeft: number;
+  color: string;
 }
 
 const SidebarLeftLayerName = (props: SidebarLeftLayerNameProps) => {
+  const { paddingLeft, name, color } = props;
   return (
-    <ThemeContext.Consumer>
-      {(theme) => (
-        <span className='c-sidebar-left-layer__name'>
-          <span style={{
-            color: theme.text.base,
-            ...props.style
-          }}>
-            {props.name}
-          </span>
-        </span>
-      )}
-    </ThemeContext.Consumer>
+    <div
+      className='c-sidebar-left-layer__name'
+      style={{color}}>
+      <span style={{paddingLeft}}>
+        {name}
+      </span>
+    </div>
   )
 };
 

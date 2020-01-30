@@ -22,7 +22,6 @@
   resize: none
   border: none
   outline: none
-  transition: all $transitionNormal
 
   &:focus
     box-shadow: 0px -1px 0px 0px $highlightColor inset
@@ -67,7 +66,6 @@
   height: $styleHeight
 
 .c-sidebar-right__style-prop
-  color: $text
   font-size: $fontSizeSm
   line-height: $styleHeight
   flex-grow: 2
@@ -87,7 +85,6 @@
   line-height: 14px
   max-width: 100px
   padding: 14px 0
-  transition: all $transitionNormal
 
   &:focus
     outline: none
@@ -146,11 +143,9 @@
   padding-left: $cellPadding * 2
   font-size: $fontSizeSm
   line-height: $cellHeight
-  color: $text
   position: relative
   min-height: $cellHeight
   word-break: break-word
-  transition: background $transitionNormal
   animation: slideInRight $transitionNormal ease
 
   &:hover

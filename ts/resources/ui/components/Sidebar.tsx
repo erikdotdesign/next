@@ -17,8 +17,8 @@ const Sidebar = (props: SidebarProps) => {
         <div
           className={`c-sidebar c-sidebar--${side}`}
           style={{
-            background: theme.background.darker,
-            boxShadow: `${shadowOffset} 0px 0px 0px ${theme.background.lighter}`
+            background: theme.background.z1,
+            boxShadow: `${shadowOffset} 0px 0px 0px ${theme.background.z5}`
           }}>
           { children }
         </div>
