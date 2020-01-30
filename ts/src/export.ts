@@ -97,9 +97,9 @@ export default (context: any) => {
       // get contents of js
       let script = pluginExport.getFileContent(scriptPath);
       // add store to js string
-      let scriptWithStore = `var store = ${finalStoreString}; ${script}`;
+      let scriptWithStore = `var SRM_APP_STORE = ${finalStoreString}; ${script}`;
       // // add theme to js string
-      let scriptWithTheme = `var theme = '${saveParams.theme}'; ${scriptWithStore}`;
+      let scriptWithTheme = `var SRM_APP_THEME = '${saveParams.theme}'; ${scriptWithStore}`;
       // get contents of js map
       let scriptSourceMap = pluginExport.getFileContent(scriptSourceMapPath);
       // create final html

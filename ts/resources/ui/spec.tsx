@@ -7,15 +7,15 @@ import App from './components/App';
 ReactDOM.render(
   <App
     // @ts-ignore
-    theme={theme}
+    theme={SRM_APP_THEME}
     // @ts-ignore
-    artboard={store.artboard}
+    artboard={SRM_APP_STORE.artboard}
     // @ts-ignore
-    images={store.images}
+    images={SRM_APP_STORE.images}
     // @ts-ignore
-    svgs={store.svgs}
+    svgs={SRM_APP_STORE.svgs}
     // @ts-ignore
-    notes={store.notes}
+    notes={SRM_APP_STORE.notes}
     composing={false} />,
   document.getElementById('root')
 );
