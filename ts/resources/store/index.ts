@@ -3,20 +3,38 @@ import getImages from './images';
 import getSVGs from './svgs';
 //import getFonts from './fonts';
 
-const getStore = (page: srm.Page, selectedArtboard: srm.Artboard, sketch: srm.Sketch): srm.Store => {
+export const createArtboardImage = (artboard: srm.Artboard, sketch: srm.Sketch) => {
+  const buffer = sketch.export(artboard, {
+    scales: '0.10',
+    formats: 'png',
+    output: false,
+    ['save-for-web']: true
+  });
+  // create image from buffer data
+  const bufferImg: srm.Image = new sketch.Image({
+    image: buffer
+  });
+  const base64 = bufferImg.image.nsdata.base64EncodedStringWithOptions(0);
+  return `data:image/png;base64, ${base64}`;
+}
+
+const getStore = (page: srm.Page, selectedArtboard: srm.Artboard, sketch: srm.Sketch) => {
   // get final store items
   const artboard: srm.Artboard = getArtboard(page, selectedArtboard, sketch);
   const images: srm.ImgAsset[] = getImages(page, artboard.layers, sketch);
   const svgs: srm.SvgAsset[] = getSVGs(page, artboard.layers, sketch);
+  const artboardImage = createArtboardImage(artboard, sketch);
   //const fonts: string[] = getFonts(artboard.layers);
   const notes: srm.Note[] = [];
   // remove duplicate artboard
   artboard.remove();
+  // return store
   return {
     artboard,
     images,
     svgs,
-    notes
+    notes,
+    artboardImage
   }
 };
 

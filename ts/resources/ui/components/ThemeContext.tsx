@@ -1,18 +1,8 @@
 import { createContext } from 'react';
 import chroma from 'chroma-js';
 
-const hoverColor = 'red';
-const selectionColor = 'blue';
-const primaryColor = '#EF2EF2';
-const primaryHover = chroma(primaryColor).darken(0.5);
-const accentColor = chroma(primaryColor).set('hsl.h', '+180').css();
-
-const palette = {
-  hover: hoverColor,
-  selection: selectionColor,
-  primary: primaryColor,
-  primaryHover: primaryHover,
-  accent: accentColor
+const getCompliment = (color: string) => {
+  return chroma(color).set('hsl.h', '+180').css();
 }
 
 const createScale = (min: string, max: string, count: number) => {
@@ -40,6 +30,19 @@ const textOnColor = (color: string | chroma.Color) => {
   return contrast > 3 ? darkTextMax : lightTextMax;
 }
 
+const createPalette = (avgColor: chroma.Color | null) => {
+  const primary = avgColor ? chroma(avgColor).set('hsl.h', '+180').set('lch.c', 500) : '#EF2EF2';
+  const primaryHover = chroma(primary).darken(0.5);
+  const accent = getCompliment(primary);
+  const accentHover = chroma(accent).darken(0.5);
+  return {
+    primary,
+    primaryHover,
+    accent,
+    accentHover
+  }
+}
+
 const createDarkBackgrounds = (scale: string[]) => ({
   z6: scale[6],
   z5: scale[5],
@@ -60,30 +63,33 @@ const createLightBackgrounds = (scale: string[]) => ({
   z0: scale[0]
 });
 
-const createText = (scale: string[]) => ({
+const createText = (scale: string[], palette: any) => ({
   base: scale[3],
   light: scale[2],
   lighter: scale[1],
   lightest: scale[0],
-  onPrimary: textOnColor(primaryColor),
-  onHover: textOnColor(hoverColor),
-  onSelection: textOnColor(selectionColor),
-  onAccent: textOnColor(accentColor),
+  onPrimary: textOnColor(palette.primary),
+  onAccent: textOnColor(palette.accent),
 });
 
-export const themes = {
-  light: {
-    palette: palette,
-    background: createLightBackgrounds(lightBgScale),
-    text: createText(lightTextScale)
-  },
-  dark: {
-    palette: palette,
-    background: createDarkBackgrounds(darkBgScale),
-    text: createText(darkTextScale)
-  },
-};
+export const getTheme = (theme: srm.Theme, avgColor: chroma.Color | null) => {
+  const palette = createPalette(avgColor);
+  switch(theme) {
+    case 'dark':
+      return {
+        palette: palette,
+        background: createDarkBackgrounds(darkBgScale),
+        text: createText(darkTextScale, palette)
+      }
+    case 'light':
+      return {
+        palette: palette,
+        background: createLightBackgrounds(lightBgScale),
+        text: createText(lightTextScale, palette)
+      }
+  }
+}
 
-const ThemeContext = createContext(themes.dark);
+const ThemeContext = createContext(getTheme('dark', null));
 
 export default ThemeContext;

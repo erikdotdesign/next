@@ -5,6 +5,7 @@ import Canvas from './Canvas';
 import TopBar from './TopBar';
 import ThemeProvider from './ThemeProvider';
 import ThemeContext from './ThemeContext';
+import chroma from 'chroma-js';
 
 interface AppProps {
   artboard: srm.Artboard;
@@ -12,6 +13,7 @@ interface AppProps {
   svgs: srm.SvgAsset[];
   notes: srm.Note[];
   theme: srm.Theme;
+  artboardImage: HTMLImageElement;
   composing: boolean;
 }
 
@@ -19,6 +21,7 @@ const App = (props: AppProps) => {
   const app = useRef<HTMLDivElement>(null);
   const [ready, setReady] = useState<boolean>(false);
   const [appTheme, setAppTheme] = useState<srm.Theme>(props.theme);
+  const [avgColor, setAvgColor] = useState<chroma.Color | null>(null);
   // selection and hover
   const [groupSelectionNest, setGroupSelectionNest] = useState<srm.Group[] | null>(null);
   const [groupSelection, setGroupSelection] = useState<srm.Group | null>(null);
@@ -50,6 +53,26 @@ const App = (props: AppProps) => {
       // width is the constraining dimension
       return maxWidth / artboardWidth;
     }
+  }
+
+  const getAvgColor = () => {
+    const colors = [];
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+    const width = props.artboard.frame.width * 0.10;
+    const height = props.artboard.frame.height * 0.10;
+    canvas.width = width;
+    canvas.height = height;
+    context.drawImage(props.artboardImage, 0, 0);
+    const pixels = context.getImageData(0, 0, width, height).data;
+    for (let i = 0, n = pixels.length; i < n; i += 4) {
+      let r = pixels[i];
+      let g = pixels[i+1];
+      let b = pixels[i+2];
+      colors.push(`rgb(${r}, ${g}, ${b})`);
+    }
+    console.log(chroma.average(colors, 'lch'));
+    return chroma.average(colors, 'lch');
   }
 
   const getViewPortSize = (): {width: number, height: number} => {
@@ -127,6 +150,7 @@ const App = (props: AppProps) => {
     // set viewportsize
     // scale artboard
     // set app ready
+    setAvgColor(getAvgColor());
     handleInitialRender(() => setReady(true));
   }, []);
 
@@ -158,7 +182,10 @@ const App = (props: AppProps) => {
 
   // SCROLL PERFORMANCE IS HORRIBLE ON SAFARI FOR NESTED COMPONENTS
   return (
-    <ThemeProvider theme={appTheme}>
+    <ThemeProvider
+      theme={appTheme}
+      avgColor={avgColor}
+      artboardBackground={props.artboard.background}>
       <ThemeContext.Consumer>
         {(theme) => (
           <div

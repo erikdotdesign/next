@@ -1,16 +1,20 @@
-import React from 'react';
-import ThemeContext, { themes } from './ThemeContext';
+import React, {useEffect} from 'react';
+import ThemeContext, { getTheme } from './ThemeContext';
+import { Color } from 'chroma-js';
 
 interface ThemeProviderProps {
-  theme: string;
+  theme: srm.Theme;
+  avgColor: Color | null;
+  artboardBackground: srm.Background;
   children: React.ReactNode;
 }
 
 const ThemeProvider = (props: ThemeProviderProps) => {
-  const appTheme = props.theme === 'dark' ? themes.dark : themes.light;
+  const { theme, avgColor, children } = props;
+  const appTheme = getTheme(theme, avgColor);
   return (
     <ThemeContext.Provider value={appTheme}>
-      { props.children }
+      { children }
     </ThemeContext.Provider>
   )
 };

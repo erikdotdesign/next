@@ -148,6 +148,7 @@ const getArtboard = (page: srm.Page, selectedArtboard: srm.Artboard, sketch: srm
   // reset duplicated artboard position
   artboard.frame.x = 0;
   artboard.frame.y = 0;
+  artboard.background.includedInExport = true;
   // removes hotspots, slices, and artboards
   removeIrrelevantLayers(artboard.layers);
   // detach all symbols from artboard, returns layer groups
