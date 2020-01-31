@@ -837,11 +837,11 @@ textarea {
   height: 20px;
   line-height: 20px;
   text-align: center;
-  border-radius: 100%;
 }
 
 .c-sidebar-left-layer__note-count {
   margin-right: 8px;
+  border-radius: 100%;
 }
 
 .c-sidebar-left-layer__nested-note-count {

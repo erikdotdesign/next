@@ -21,7 +21,7 @@ export const groupSelectionArtboardStyles = (groupSelection: srm.AppArtboardLaye
   const height = styles.createHeight(groupSelection.frame.height);
   const top = styles.createTop(absolutePosition.y);
   const left = styles.createLeft(absolutePosition.x);
-  const bg = enabled ? styles.createColorFill(color) : { background: '#111' };
+  const bg = enabled ? styles.createColorFill(color) : { background: '#fff' };
 
   return {
     ...width,

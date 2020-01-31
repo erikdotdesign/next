@@ -30,13 +30,13 @@ const textOnColor = (color: string | chroma.Color) => {
 
 const createPalette = (avgColor: Color) => {
   //@ts-ignore
-  const primary: Color = chroma(avgColor).set('hsl.h', '+180').set('lch.c', 700).saturate(100);
+  let primary: Color = chroma(avgColor).set('hsl.h', '+180').set('lch.c', 700).saturate(100).darken();
   //@ts-ignore
-  const primaryHover: Color = chroma(primary).darken(0.5);
+  let primaryHover: Color = chroma(primary).darken(0.5);
   //@ts-ignore
-  const accent: Color = chroma(primary).set('hsl.h', '+180');
+  let accent: Color = chroma(primary).set('hsl.h', '+180');
   //@ts-ignore
-  const accentHover: Color = chroma(accent).darken(0.5);
+  let accentHover: Color = chroma(accent).darken(0.5);
   return {
     //@ts-ignore
     primary: chroma(primary).css(),
