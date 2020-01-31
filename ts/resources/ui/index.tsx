@@ -10,24 +10,14 @@ window.renderApp = (store: any, theme: srm.Theme) => {
   image.onload = () => {
     ReactDOM.render(
       <App
+        composing={true}
         artboard={store.artboard}
         images={store.images}
         svgs={store.svgs}
         notes={store.notes}
         theme={theme}
-        composing={true}
         artboardImage={image} />,
       document.getElementById('root')
     );
   };
-  // ReactDOM.render(
-  //   <App
-  //     artboard={store.artboard}
-  //     images={store.images}
-  //     svgs={store.svgs}
-  //     notes={store.notes}
-  //     theme={theme}
-  //     composing={true} />,
-  //   document.getElementById('root')
-  // );
 };

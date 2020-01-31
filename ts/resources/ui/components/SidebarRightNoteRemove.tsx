@@ -18,7 +18,12 @@ const SidebarRightNoteRemove = (props: SidebarRightNoteProps) => {
             onMouseOver={() => setHovering(true)}
             onMouseOut={() => setHovering(false)}
             className='c-sidebar-right__note-remove'
-            onClick={onClick}>
+            onClick={onClick}
+            style={
+              hovering
+              ? {background: theme.palette.primary}
+              : {background: 'none'}
+            }>
             <IconClose
               style={
                 hovering

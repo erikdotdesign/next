@@ -366,7 +366,6 @@ textarea {
 .c-selection__dim {
   position: absolute;
   height: 16px;
-  background: blue;
   font-size: 10px;
   line-height: 16px;
   padding: 0 6px;
@@ -374,58 +373,52 @@ textarea {
   text-align: center;
 }
 
-.c-selection__rule {
+.c-selection__rule,
+.c-selection__rule-leg {
   position: absolute;
-  background: blue;
-}
-.c-selection__rule:after {
-  position: absolute;
-  content: "";
-  display: block;
-  background: blue;
 }
 
-.c-selection__rule--t,
-.c-selection__rule--b {
+.c-selection__rule--top,
+.c-selection__rule--bottom {
   left: 50%;
   transform: translateX(-50%);
   width: 1px;
 }
-.c-selection__rule--t:after,
-.c-selection__rule--b:after {
+.c-selection__rule--top .c-selection__rule-leg,
+.c-selection__rule--bottom .c-selection__rule-leg {
   left: 50%;
   transform: translateX(-50%);
   height: 1px;
   width: 10px;
 }
 
-.c-selection__rule--t:after {
+.c-selection__rule--top .c-selection__rule-leg {
   top: 0;
 }
 
-.c-selection__rule--b:after {
+.c-selection__rule--bottom .c-selection__rule-leg {
   bottom: 0;
 }
 
-.c-selection__rule--r,
-.c-selection__rule--l {
+.c-selection__rule--right,
+.c-selection__rule--left {
   top: 50%;
   transform: translateY(-50%);
   height: 1px;
 }
-.c-selection__rule--r:after,
-.c-selection__rule--l:after {
+.c-selection__rule--right .c-selection__rule-leg,
+.c-selection__rule--left .c-selection__rule-leg {
   top: 50%;
   transform: translateY(-50%);
   height: 10px;
   width: 1px;
 }
 
-.c-selection__rule--l:after {
+.c-selection__rule--left .c-selection__rule-leg {
   left: 0;
 }
 
-.c-selection__rule--r:after {
+.c-selection__rule--right .c-selection__rule-leg {
   right: 0;
 }
 
@@ -446,41 +439,41 @@ textarea {
   position: absolute;
 }
 
-.c-hover__rule--tl,
-.c-hover__rule--tr,
-.c-hover__rule--bl,
-.c-hover__rule--br {
+.c-hover__rule--top-left,
+.c-hover__rule--top-right,
+.c-hover__rule--bottom-left,
+.c-hover__rule--bottom-right {
   width: 1px;
 }
 
-.c-hover__rule--tl,
-.c-hover__rule--bl {
-  border-left: 1px dashed red;
+.c-hover__rule--top-left,
+.c-hover__rule--bottom-left {
+  border-left: 1px dashed;
   left: -1px;
 }
 
-.c-hover__rule--tr,
-.c-hover__rule--br {
-  border-right: 1px dashed red;
+.c-hover__rule--top-right,
+.c-hover__rule--bottom-right {
+  border-right: 1px dashed;
   right: -1px;
 }
 
-.c-hover__rule--rt,
-.c-hover__rule--rb,
-.c-hover__rule--lt,
-.c-hover__rule--lb {
+.c-hover__rule--right-top,
+.c-hover__rule--right-bottom,
+.c-hover__rule--left-top,
+.c-hover__rule--left-bottom {
   height: 1px;
 }
 
-.c-hover__rule--rt,
-.c-hover__rule--lt {
-  border-top: 1px dashed red;
+.c-hover__rule--right-top,
+.c-hover__rule--left-top {
+  border-top: 1px dashed;
   top: -1px;
 }
 
-.c-hover__rule--rb,
-.c-hover__rule--lb {
-  border-bottom: 1px dashed red;
+.c-hover__rule--right-bottom,
+.c-hover__rule--left-bottom {
+  border-bottom: 1px dashed;
   bottom: -1px;
 }
 
@@ -887,10 +880,15 @@ textarea {
   z-index: 99999999;
 }
 
+.c-sidebar-right__input-wrap {
+  position: relative;
+  height: 96px;
+}
+
 .c-sidebar-right__input {
   position: relative;
   width: 100%;
-  height: 96px;
+  height: 100%;
   font-size: 14px;
   margin: 0;
   padding: 16px;
@@ -899,8 +897,13 @@ textarea {
   border: none;
   outline: none;
 }
-.c-sidebar-right__input:focus {
-  box-shadow: 0px -1px 0px 0px #EF2EF2 inset;
+
+.c-sidebar-right__input-bb {
+  position: absolute;
+  height: 1px;
+  width: 100%;
+  top: calc(100% - 1px);
+  transform: scale(0);
 }
 
 .c-sidebar-right__submit {
@@ -920,23 +923,16 @@ textarea {
 .c-sidebar-right__submit--enabled {
   cursor: pointer;
 }
-.c-sidebar-right__submit--enabled:before {
+.c-sidebar-right__submit--enabled .c-sidebar-right__submit-bg {
   position: absolute;
   left: 0;
   top: 0;
   bottom: 0;
   right: 0;
-  content: "";
-  width: 100%;
-  display: block;
-  background: #EF2EF2;
   transition: background 0.15s;
   animation: growInHeight 0.15s ease;
   transform-origin: center top;
   z-index: 0;
-}
-.c-sidebar-right__submit--enabled:hover:before {
-  background: #dc0edf;
 }
 
 .c-sidebar-right__styles {
@@ -1093,9 +1089,6 @@ textarea {
   margin-left: 4px;
   border-radius: 0px;
   transition: background 0.15s, transform 0.15s;
-}
-.c-sidebar-right__note-remove:hover {
-  background: #EF2EF2;
 }
 
 .c-back-button {

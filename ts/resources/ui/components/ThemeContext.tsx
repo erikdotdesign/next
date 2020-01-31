@@ -1,9 +1,7 @@
 import { createContext } from 'react';
-import chroma from 'chroma-js';
+import chroma, { Color } from 'chroma-js';
 
-const getCompliment = (color: string) => {
-  return chroma(color).set('hsl.h', '+180').css();
-}
+export const SRM_DEFAULT_PRIMARY = chroma('#EF2EF2');
 
 const createScale = (min: string, max: string, count: number) => {
   return chroma.scale([min, max]).mode('lch').colors(count);
@@ -30,16 +28,24 @@ const textOnColor = (color: string | chroma.Color) => {
   return contrast > 3 ? darkTextMax : lightTextMax;
 }
 
-const createPalette = (avgColor: chroma.Color | null) => {
-  const primary = avgColor ? chroma(avgColor).set('hsl.h', '+180').set('lch.c', 500) : '#EF2EF2';
-  const primaryHover = chroma(primary).darken(0.5);
-  const accent = getCompliment(primary);
-  const accentHover = chroma(accent).darken(0.5);
+const createPalette = (avgColor: Color) => {
+  //@ts-ignore
+  const primary: Color = chroma(avgColor).set('hsl.h', '+180').set('lch.c', 700).saturate(100);
+  //@ts-ignore
+  const primaryHover: Color = chroma(primary).darken(0.5);
+  //@ts-ignore
+  const accent: Color = chroma(primary).set('hsl.h', '+180');
+  //@ts-ignore
+  const accentHover: Color = chroma(accent).darken(0.5);
   return {
-    primary,
-    primaryHover,
-    accent,
-    accentHover
+    //@ts-ignore
+    primary: chroma(primary).css(),
+    //@ts-ignore
+    primaryHover: chroma(primaryHover).css(),
+    //@ts-ignore
+    accent: chroma(accent).css(),
+    //@ts-ignore
+    accentHover: chroma(accentHover).css()
   }
 }
 
@@ -72,7 +78,7 @@ const createText = (scale: string[], palette: any) => ({
   onAccent: textOnColor(palette.accent),
 });
 
-export const getTheme = (theme: srm.Theme, avgColor: chroma.Color | null) => {
+export const getTheme = (theme: srm.Theme, avgColor: Color) => {
   const palette = createPalette(avgColor);
   switch(theme) {
     case 'dark':
@@ -90,6 +96,6 @@ export const getTheme = (theme: srm.Theme, avgColor: chroma.Color | null) => {
   }
 }
 
-const ThemeContext = createContext(getTheme('dark', null));
+const ThemeContext = createContext(getTheme('dark', SRM_DEFAULT_PRIMARY));
 
 export default ThemeContext;

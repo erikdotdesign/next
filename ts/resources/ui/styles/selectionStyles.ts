@@ -18,55 +18,59 @@ export const createSelectionStyles = (selection: srm.AppLayer, artboard: srm.Art
   }
 }
 
-export const createRuleTopStyles = (selectionOrigin: srm.Origin, hoverOrigin: srm.Origin, inset: boolean, zoom: number) => {
+export const createRuleTopStyles = (selectionOrigin: srm.Origin, hoverOrigin: srm.Origin, zoom: number, color: string) => {
   const height = selectionOrigin.top <= hoverOrigin.bottom
                   ? selectionOrigin.top - hoverOrigin.top
                   : selectionOrigin.top - hoverOrigin.bottom;
-  const top = inset ? 0 : -height;
+  const top = -height;
   const width = zoom < 1 ? Math.round(1 / zoom) : 1;
   return {
     height: `${height}px`,
     top: `${top}px`,
-    width: `${width}px`
+    width: `${width}px`,
+    background: color
   }
 }
 
-export const createRuleRightStyles = (selectionOrigin: srm.Origin, hoverOrigin: srm.Origin, inset: boolean, zoom: number) => {
+export const createRuleRightStyles = (selectionOrigin: srm.Origin, hoverOrigin: srm.Origin, zoom: number, color: string) => {
   const width = selectionOrigin.right >= hoverOrigin.left
                 ? hoverOrigin.right - selectionOrigin.right
                 : hoverOrigin.left - selectionOrigin.right;
-  const right = inset ? 0 : -width;
+  const right = -width;
   const height = zoom < 1 ? Math.round(1 / zoom) : 1;
   return {
     width: `${width}px`,
     right: `${right}px`,
-    height: `${height}px`
+    height: `${height}px`,
+    background: color
   }
 }
 
-export const createRuleBottomStyles = (selectionOrigin: srm.Origin, hoverOrigin: srm.Origin, inset: boolean, zoom: number) => {
+export const createRuleBottomStyles = (selectionOrigin: srm.Origin, hoverOrigin: srm.Origin, zoom: number, color: string) => {
   const height = selectionOrigin.bottom >= hoverOrigin.top
                   ? hoverOrigin.bottom - selectionOrigin.bottom
                   : hoverOrigin.top - selectionOrigin.bottom;
-  const bottom = inset ? 0 : -height;
+  const bottom = -height;
   const width = zoom < 1 ? Math.round(1 / zoom) : 1;
   return {
     height: `${height}px`,
     bottom: `${bottom}px`,
-    width: `${width}px`
+    width: `${width}px`,
+    background: color
   }
 }
 
-export const createRuleLeftStyles = (selectionOrigin: srm.Origin, hoverOrigin: srm.Origin, inset: boolean, zoom: number) => {
+export const createRuleLeftStyles = (selectionOrigin: srm.Origin, hoverOrigin: srm.Origin, zoom: number, color: string) => {
   const width = selectionOrigin.left <= hoverOrigin.right
                 ? selectionOrigin.left - hoverOrigin.left
                 : selectionOrigin.left - hoverOrigin.right;
-  const left = inset ? 0 : -width;
+  const left = -width;
   const height = zoom < 1 ? Math.round(1 / zoom) : 1;
   return {
     width: `${width}px`,
     left: `${left}px`,
-    height: `${height}px`
+    height: `${height}px`,
+    background: color
   }
 }
 

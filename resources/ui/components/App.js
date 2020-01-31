@@ -4,13 +4,13 @@ import SidebarLeft from './SidebarLeft';
 import Canvas from './Canvas';
 import TopBar from './TopBar';
 import ThemeProvider from './ThemeProvider';
-import ThemeContext from './ThemeContext';
+import ThemeContext, { SRM_DEFAULT_PRIMARY } from './ThemeContext';
 import chroma from 'chroma-js';
 const App = (props) => {
     const app = useRef(null);
     const [ready, setReady] = useState(false);
     const [appTheme, setAppTheme] = useState(props.theme);
-    const [avgColor, setAvgColor] = useState(null);
+    const [avgColor, setAvgColor] = useState(SRM_DEFAULT_PRIMARY);
     // selection and hover
     const [groupSelectionNest, setGroupSelectionNest] = useState(null);
     const [groupSelection, setGroupSelection] = useState(null);
@@ -51,15 +51,16 @@ const App = (props) => {
         const height = props.artboard.frame.height * 0.10;
         canvas.width = width;
         canvas.height = height;
-        context.drawImage(props.artboardImage, 0, 0);
-        const pixels = context.getImageData(0, 0, width, height).data;
-        for (let i = 0, n = pixels.length; i < n; i += 4) {
-            let r = pixels[i];
-            let g = pixels[i + 1];
-            let b = pixels[i + 2];
-            colors.push(`rgb(${r}, ${g}, ${b})`);
+        if (context) {
+            context.drawImage(props.artboardImage, 0, 0);
+            const pixels = context.getImageData(0, 0, width, height).data;
+            for (let i = 0, n = pixels.length; i < n; i += 4) {
+                let r = pixels[i];
+                let g = pixels[i + 1];
+                let b = pixels[i + 2];
+                colors.push(`rgb(${r}, ${g}, ${b})`);
+            }
         }
-        console.log(chroma.average(colors, 'lch'));
         return chroma.average(colors, 'lch');
     };
     const getViewPortSize = () => {
@@ -72,6 +73,7 @@ const App = (props) => {
         setViewPortSize(getViewPortSize());
     };
     const handleInitialRender = (callback) => {
+        setAvgColor(getAvgColor());
         handleResize();
         callback();
     };
@@ -136,7 +138,6 @@ const App = (props) => {
         // set viewportsize
         // scale artboard
         // set app ready
-        setAvgColor(getAvgColor());
         handleInitialRender(() => setReady(true));
     }, []);
     useEffect(() => {
@@ -164,7 +165,7 @@ const App = (props) => {
         });
     }, [viewPortSize]);
     // SCROLL PERFORMANCE IS HORRIBLE ON SAFARI FOR NESTED COMPONENTS
-    return (React.createElement(ThemeProvider, { theme: appTheme, avgColor: avgColor, artboardBackground: props.artboard.background },
+    return (React.createElement(ThemeProvider, { theme: appTheme, avgColor: avgColor },
         React.createElement(ThemeContext.Consumer, null, (theme) => (React.createElement("div", { className: 'c-app', tabIndex: -1, ref: app, onKeyDown: handleKeyPress, style: {
                 background: theme.background.z1
             } },

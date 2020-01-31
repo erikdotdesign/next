@@ -1,6 +1,5 @@
 $borderWidth: 1px
 $borderStyle: dashed
-$borderColor: $hoverColor
 
 .c-layer--hover
   z-index: 3
@@ -12,34 +11,34 @@ $borderColor: $hoverColor
 .c-hover__rule
   position: absolute
 
-.c-hover__rule--tl,
-.c-hover__rule--tr,
-.c-hover__rule--bl,
-.c-hover__rule--br
+.c-hover__rule--top-left,
+.c-hover__rule--top-right,
+.c-hover__rule--bottom-left,
+.c-hover__rule--bottom-right
   width: 1px
 
-.c-hover__rule--tl,
-.c-hover__rule--bl
-  border-left: $borderWidth $borderStyle $borderColor
+.c-hover__rule--top-left,
+.c-hover__rule--bottom-left
+  border-left: $borderWidth $borderStyle
   left: -1px
 
-.c-hover__rule--tr,
-.c-hover__rule--br
-  border-right: $borderWidth $borderStyle $borderColor
+.c-hover__rule--top-right,
+.c-hover__rule--bottom-right
+  border-right: $borderWidth $borderStyle
   right: -1px
 
-.c-hover__rule--rt,
-.c-hover__rule--rb,
-.c-hover__rule--lt,
-.c-hover__rule--lb
+.c-hover__rule--right-top,
+.c-hover__rule--right-bottom,
+.c-hover__rule--left-top,
+.c-hover__rule--left-bottom
   height: 1px
 
-.c-hover__rule--rt,
-.c-hover__rule--lt
-  border-top: $borderWidth $borderStyle $borderColor
+.c-hover__rule--right-top,
+.c-hover__rule--left-top
+  border-top: $borderWidth $borderStyle
   top: -1px
 
-.c-hover__rule--rb,
-.c-hover__rule--lb
-  border-bottom: $borderWidth $borderStyle $borderColor
+.c-hover__rule--right-bottom,
+.c-hover__rule--left-bottom
+  border-bottom: $borderWidth $borderStyle
   bottom: -1px

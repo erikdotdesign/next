@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import IconAdd from './IconAdd';
 import ThemeContext from './ThemeContext';
 import { getLayerNotes } from '../utils';
@@ -12,6 +12,7 @@ interface SidebarRightSubmitProps {
 }
 
 const SidebarRightSubmit = (props: SidebarRightSubmitProps) => {
+  const [hovering, setHovering] = useState(false);
   const { selection, note, notes, setNote, setNotes } = props;
   const noteValid = selection && note.trim().length > 0;
   const handleSubmit = () => {
@@ -39,16 +40,36 @@ const SidebarRightSubmit = (props: SidebarRightSubmitProps) => {
     <ThemeContext.Consumer>
       {(theme) => (
         <button
+          onClick={handleSubmit}
+          onMouseEnter={() => setHovering(true)}
+          onMouseLeave={() => setHovering(false)}
+          style={{background: theme.background.z1}}
           className={
             `c-sidebar-right__submit ${
               noteValid
               ? 'c-sidebar-right__submit--enabled'
               : null
             }`
-          }
-          onClick={handleSubmit}>
+          }>
           <IconAdd
-            style={{fill: noteValid ? theme.text.onPrimary : theme.text.base}} />
+            style={{
+              fill:
+              noteValid
+              ? theme.text.onPrimary
+              : theme.text.base
+            }} />
+          {
+            noteValid
+            ? <div
+                className='c-sidebar-right__submit-bg'
+                style={{
+                  background:
+                  hovering
+                  ? theme.palette.primaryHover
+                  : theme.palette.primary
+                }} />
+            : null
+          }
         </button>
       )}
     </ThemeContext.Consumer>

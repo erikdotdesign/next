@@ -11,10 +11,14 @@
   width: $sidebarWidth
   z-index: 99999999
 
+.c-sidebar-right__input-wrap
+  position: relative
+  height: $unit * 24 // 96
+
 .c-sidebar-right__input
   position: relative
   width: 100%
-  height: $unit * 24 // 96
+  height: 100%
   font-size: $fontSizeMd
   margin: 0
   padding: $unit * 4 // 16
@@ -23,8 +27,12 @@
   border: none
   outline: none
 
-  &:focus
-    box-shadow: 0px -1px 0px 0px $highlightColor inset
+.c-sidebar-right__input-bb
+  position: absolute
+  height: 1px
+  width: 100%
+  top: calc(100% - 1px)
+  transform: scale(0)
 
 .c-sidebar-right__submit
   position: relative
@@ -42,17 +50,12 @@
 .c-sidebar-right__submit--enabled
   cursor: pointer
 
-  &:before
-    +content-block
-    background: $highlightColor
+  .c-sidebar-right__submit-bg
+    +absolute-full
     transition: background $transitionNormal
     animation: growInHeight $transitionNormal ease
     transform-origin: center top
     z-index: 0
-
-  &:hover
-    &:before
-      background: $highlightColorDark
 
 .c-sidebar-right__styles
   padding-top: $unit * 2 // 8
@@ -179,6 +182,3 @@
   margin-left: $unit
   border-radius: $buttonBR
   transition: background $transitionNormal, transform $transitionNormal
-
-  &:hover
-    background: $highlightColor

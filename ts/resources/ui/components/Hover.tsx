@@ -1,6 +1,7 @@
 import React from 'react';
 import HoverDims from './HoverDims';
 import HoverRules from './HoverRules';
+import ThemeContext from './ThemeContext';
 import { createHoveredStyles } from '../styles/hoverStyles';
 
 interface HoverProps {
@@ -13,22 +14,26 @@ interface HoverProps {
 const Hover = (props: HoverProps) => {
   const { hover, selection, artboard, zoom } = props;
   return (
-    <div
-      className='c-layer c-layer--hover'
-      style={createHoveredStyles(hover, artboard, zoom)}>
-      {
-        selection
-        ? <HoverRules
-            hover={hover}
-            artboard={artboard}
-            selection={selection}
-            zoom={zoom} />
-        : <HoverDims
-            hover={hover}
-            artboard={artboard}
-            zoom={zoom} />
-      }
-    </div>
+    <ThemeContext.Consumer>
+      {(theme) => (
+        <div
+          className='c-layer c-layer--hover'
+          style={createHoveredStyles(hover, artboard, zoom, theme.palette.primary)}>
+          {
+            selection
+            ? <HoverRules
+                hover={hover}
+                artboard={artboard}
+                selection={selection}
+                zoom={zoom} />
+            : <HoverDims
+                hover={hover}
+                artboard={artboard}
+                zoom={zoom} />
+          }
+        </div>
+      )}
+    </ThemeContext.Consumer>
   )
 };
 

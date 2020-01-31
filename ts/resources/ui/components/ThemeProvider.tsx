@@ -1,11 +1,10 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import ThemeContext, { getTheme } from './ThemeContext';
 import { Color } from 'chroma-js';
 
 interface ThemeProviderProps {
   theme: srm.Theme;
-  avgColor: Color | null;
-  artboardBackground: srm.Background;
+  avgColor: Color;
   children: React.ReactNode;
 }
 

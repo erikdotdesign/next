@@ -1,7 +1,7 @@
 import { placeLeft, placeTop, getAbsolutePosition } from '../utils';
 import { createLeft, createTop, createWidth, createHeight } from './layerStyles';
 
-export const createHoveredStyles = (hover: srm.AppLayer, artboard: srm.Artboard, zoom: number) => {
+export const createHoveredStyles = (hover: srm.AppLayer, artboard: srm.Artboard, zoom: number, color: string) => {
   const absolutePosition = getAbsolutePosition(artboard.id, hover.id);
   const width = createWidth(hover.frame.width);
   const height = createHeight(hover.frame.height);
@@ -14,47 +14,51 @@ export const createHoveredStyles = (hover: srm.AppLayer, artboard: srm.Artboard,
     ...height,
     ...top,
     ...left,
-    boxShadow: `0 0 0 ${borderWidth}px blue inset, 0 0 0 ${borderWidth}px blue`
+    boxShadow: `0 0 0 ${borderWidth}px ${color} inset, 0 0 0 ${borderWidth}px ${color}`
   }
 }
 
-export const createRuleTopStyles = (hoverOrigin: srm.Origin, selectionOrigin: srm.Origin, zoom: number) => {
+export const createRuleTopStyles = (hoverOrigin: srm.Origin, selectionOrigin: srm.Origin, zoom: number, color: string) => {
   const height = hoverOrigin.top - selectionOrigin.top;
   const borderWidth = zoom < 1 ? Math.round(1 / zoom) : 1;
   return {
     height: `${height}px`,
     top: `-${height}px`,
-    borderWidth: `${borderWidth}px`
+    borderWidth: `${borderWidth}px`,
+    borderColor: color
   }
 }
 
-export const createRuleRightStyles = (hoverOrigin: srm.Origin, selectionOrigin: srm.Origin, zoom: number) => {
+export const createRuleRightStyles = (hoverOrigin: srm.Origin, selectionOrigin: srm.Origin, zoom: number, color: string) => {
   const width = selectionOrigin.right - hoverOrigin.right;
   const borderWidth = zoom < 1 ? Math.round(1 / zoom) : 1;
   return {
     width: `${width}px`,
     right: `-${width}px`,
-    borderWidth: `${borderWidth}px`
+    borderWidth: `${borderWidth}px`,
+    borderColor: color
   }
 }
 
-export const createRuleBottomStyles = (hoverOrigin: srm.Origin, selectionOrigin: srm.Origin, zoom: number) => {
+export const createRuleBottomStyles = (hoverOrigin: srm.Origin, selectionOrigin: srm.Origin, zoom: number, color: string) => {
   const height = selectionOrigin.bottom - hoverOrigin.bottom;
   const borderWidth = zoom < 1 ? Math.round(1 / zoom) : 1;
   return {
     height: `${height}px`,
     bottom: `-${height}px`,
-    borderWidth: `${borderWidth}px`
+    borderWidth: `${borderWidth}px`,
+    borderColor: color
   }
 }
 
-export const createRuleLeftStyles = (hoverOrigin: srm.Origin, selectionOrigin: srm.Origin, zoom: number) => {
+export const createRuleLeftStyles = (hoverOrigin: srm.Origin, selectionOrigin: srm.Origin, zoom: number, color: string) => {
   const width = hoverOrigin.left - selectionOrigin.left;
   const borderWidth = zoom < 1 ? Math.round(1 / zoom) : 1;
   return {
     width: `${width}px`,
     left: `-${width}px`,
-    borderWidth: `${borderWidth}px`
+    borderWidth: `${borderWidth}px`,
+    borderColor: color
   }
 }
 

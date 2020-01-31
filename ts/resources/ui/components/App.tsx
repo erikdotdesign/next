@@ -4,8 +4,8 @@ import SidebarLeft from './SidebarLeft';
 import Canvas from './Canvas';
 import TopBar from './TopBar';
 import ThemeProvider from './ThemeProvider';
-import ThemeContext from './ThemeContext';
-import chroma from 'chroma-js';
+import ThemeContext, { SRM_DEFAULT_PRIMARY } from './ThemeContext';
+import chroma, { Color } from 'chroma-js';
 
 interface AppProps {
   artboard: srm.Artboard;
@@ -21,7 +21,7 @@ const App = (props: AppProps) => {
   const app = useRef<HTMLDivElement>(null);
   const [ready, setReady] = useState<boolean>(false);
   const [appTheme, setAppTheme] = useState<srm.Theme>(props.theme);
-  const [avgColor, setAvgColor] = useState<chroma.Color | null>(null);
+  const [avgColor, setAvgColor] = useState<Color>(SRM_DEFAULT_PRIMARY);
   // selection and hover
   const [groupSelectionNest, setGroupSelectionNest] = useState<srm.Group[] | null>(null);
   const [groupSelection, setGroupSelection] = useState<srm.Group | null>(null);
@@ -57,21 +57,22 @@ const App = (props: AppProps) => {
 
   const getAvgColor = () => {
     const colors = [];
-    const canvas = document.createElement('canvas');
+    const canvas: HTMLCanvasElement = document.createElement('canvas');
     const context = canvas.getContext('2d');
     const width = props.artboard.frame.width * 0.10;
     const height = props.artboard.frame.height * 0.10;
     canvas.width = width;
     canvas.height = height;
-    context.drawImage(props.artboardImage, 0, 0);
-    const pixels = context.getImageData(0, 0, width, height).data;
-    for (let i = 0, n = pixels.length; i < n; i += 4) {
-      let r = pixels[i];
-      let g = pixels[i+1];
-      let b = pixels[i+2];
-      colors.push(`rgb(${r}, ${g}, ${b})`);
+    if (context) {
+      context.drawImage(props.artboardImage, 0, 0);
+      const pixels = context.getImageData(0, 0, width, height).data;
+      for (let i = 0, n = pixels.length; i < n; i += 4) {
+        let r = pixels[i];
+        let g = pixels[i+1];
+        let b = pixels[i+2];
+        colors.push(`rgb(${r}, ${g}, ${b})`);
+      }
     }
-    console.log(chroma.average(colors, 'lch'));
     return chroma.average(colors, 'lch');
   }
 
@@ -87,6 +88,7 @@ const App = (props: AppProps) => {
   }
 
   const handleInitialRender = (callback: any): void => {
+    setAvgColor(getAvgColor());
     handleResize();
     callback();
   }
@@ -150,7 +152,6 @@ const App = (props: AppProps) => {
     // set viewportsize
     // scale artboard
     // set app ready
-    setAvgColor(getAvgColor());
     handleInitialRender(() => setReady(true));
   }, []);
 
@@ -184,8 +185,7 @@ const App = (props: AppProps) => {
   return (
     <ThemeProvider
       theme={appTheme}
-      avgColor={avgColor}
-      artboardBackground={props.artboard.background}>
+      avgColor={avgColor}>
       <ThemeContext.Consumer>
         {(theme) => (
           <div

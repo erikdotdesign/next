@@ -1,8 +1,5 @@
 import React from 'react';
-import SelectionRulesTop from './SelectionRulesTop';
-import SelectionRulesRight from './SelectionRulesRight';
-import SelectionRulesBottom from './SelectionRulesBottom';
-import SelectionRulesLeft from './SelectionRulesLeft';
+import SelectionRule from './SelectionRule';
 import { getOrigin } from '../utils';
 
 interface SelectionRulesProps {
@@ -20,7 +17,8 @@ const SelectionRules = (props: SelectionRulesProps) => {
     <div className='c-selection__rules'>
       {
         selectionOrigin.top > hoverOrigin.top
-        ? <SelectionRulesTop
+        ? <SelectionRule
+            side='top'
             selectionOrigin={selectionOrigin}
             hoverOrigin={hoverOrigin}
             artboardFrame={artboard.frame}
@@ -29,7 +27,8 @@ const SelectionRules = (props: SelectionRulesProps) => {
       }
       {
         selectionOrigin.right < hoverOrigin.right
-        ? <SelectionRulesRight
+        ? <SelectionRule
+            side='right'
             selectionOrigin={selectionOrigin}
             hoverOrigin={hoverOrigin}
             artboardFrame={artboard.frame}
@@ -38,7 +37,8 @@ const SelectionRules = (props: SelectionRulesProps) => {
       }
       {
         selectionOrigin.bottom < hoverOrigin.bottom
-        ? <SelectionRulesBottom
+        ? <SelectionRule
+            side='bottom'
             selectionOrigin={selectionOrigin}
             hoverOrigin={hoverOrigin}
             artboardFrame={artboard.frame}
@@ -47,7 +47,8 @@ const SelectionRules = (props: SelectionRulesProps) => {
       }
       {
         selectionOrigin.left > hoverOrigin.left
-        ? <SelectionRulesLeft
+        ? <SelectionRule
+            side='left'
             selectionOrigin={selectionOrigin}
             hoverOrigin={hoverOrigin}
             artboardFrame={artboard.frame}
