@@ -37,39 +37,6 @@ const removeHiddenLayers = (layers: srm.SketchLayer[]): void => {
   }
 };
 
-const maskGroupToImageLayer = (page: srm.Page, maskGroup: srm.Group, sketch: srm.Sketch): srm.Image => {
-  // exporting an image with dims that exceed the artboard dims,
-  // will only export the portion within the artboard
-  // solution: create artboard for each image to make sure,
-  // whole image is exported
-  const maskArtboard = new sketch.Artboard({
-    name: `${maskGroup.id}-mask-artboard`,
-    frame: maskGroup.frame,
-    parent: page,
-    layers: [maskGroup.duplicate()]
-  });
-  // get image from artboard
-  let maskDuplicate = maskArtboard.layers[0];
-  // reset image position on artboard
-  maskDuplicate.frame.x = 0;
-  maskDuplicate.frame.y = 0;
-  // create image buffer from layer
-  const buffer: srm.Buffer = sketch.export(maskDuplicate, {
-    formats: 'png',
-    output: false,
-  });
-  // create image layer from buffer data
-  const imageLayer: srm.Image = new sketch.Image({
-    name: 'srm.mask',
-    image: buffer,
-    frame: maskGroup.frame
-  });
-  // remove artboard
-  maskArtboard.remove();
-  // return image layer
-  return imageLayer;
-};
-
 const createMaskGroups = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm.Sketch): void => {
   if (layers.length > 0) {
     layers.forEach((layer: srm.SketchLayer) => {
