@@ -9,6 +9,10 @@ const shapeStyles = (layer: srm.Shape | srm.ShapePath, svgs: any[]) => {
   const top = styles.createTop(frame.y);
   const left = styles.createLeft(frame.x);
   const svg = getSVG(svgs, layer.id);
+  const transformRotation = styles.createRotation(layer.transform);
+  const transformHFlip = styles.createHorizontalFlip(layer.transform);
+  const transformVFlip = styles.createVerticalFlip(layer.transform);
+  const transform = styles.createTransform([transformRotation, transformHFlip, transformVFlip]);
   const background = {
     background: `url(${svg ? svg.src : null})`,
     backgroundRepeat: 'no-repeat',
@@ -20,7 +24,8 @@ const shapeStyles = (layer: srm.Shape | srm.ShapePath, svgs: any[]) => {
     height,
     top,
     left,
-    background
+    background,
+    transform
   ];
   // return final style object
   return styleReducer(combined);

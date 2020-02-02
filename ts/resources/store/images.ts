@@ -1,21 +1,9 @@
 const imageLayerToImage = (page: srm.Page, layer: srm.SketchLayer, sketch: srm.Sketch): srm.ImgAsset => {
-  // exporting an asset with dims that exceed the artboard dims,
-  // will only export the portion within the artboard
-  // solution: create artboard for each asset to make sure,
-  // whole asset is exported
-  const assetArtboard = new sketch.Artboard({
-    name: `${layer.id}-asset-artboard`,
-    frame: layer.frame,
-    parent: page,
-    layers: [layer.duplicate()]
-  });
-  // get asset from artboard
-  const assetDuplicate = assetArtboard.layers[0];
+  const layerDuplicate = layer.duplicate();
   // reset asset position on artboard
-  assetDuplicate.frame.x = 0;
-  assetDuplicate.frame.y = 0;
+  layerDuplicate.parent = page;
   // export asset to temp folder
-  sketch.export(assetDuplicate, {
+  sketch.export(layerDuplicate, {
     scales: '1, 2',
     formats: 'png',
     // @ts-ignore
@@ -25,15 +13,15 @@ const imageLayerToImage = (page: srm.Page, layer: srm.SketchLayer, sketch: srm.S
     overwriting: true
   });
   // remove asset artboard from page
-  assetArtboard.remove();
+  layerDuplicate.remove();
   // return AppAsset
   return {
     id: (<srm.Image>layer).image.id,
     src: {
       // @ts-ignore
-      [`1x`]: `${NSTemporaryDirectory()}${assetDuplicate.id}.png`,
+      [`1x`]: `${NSTemporaryDirectory()}${layerDuplicate.id}.png`,
       // @ts-ignore
-      [`2x`]: `${NSTemporaryDirectory()}${assetDuplicate.id}@2x.png`
+      [`2x`]: `${NSTemporaryDirectory()}${layerDuplicate.id}@2x.png`
     },
   }
 }

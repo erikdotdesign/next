@@ -76,20 +76,23 @@ const createMaskGroups = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm
       const hasClippingMask: boolean = layer.sketchObject.hasClippingMask();
       if (hasClippingMask) {
         // get mask index and parent
+        let maskShape = layer.duplicate();
         const maskIndex = layer.index;
         const maskParent = layer.parent;
-        // check if mask is an odd shape
-        const isMaskShapePath = layer.type === 'ShapePath';
-        const maskNotRectangle: boolean = isMaskShapePath && (<srm.ShapePath>layer).shapeType !== 'Rectangle';
-        const maskNotOval: boolean = isMaskShapePath && (<srm.ShapePath>layer).shapeType !== 'Oval';
-        const isMaskOddShape: boolean = maskNotRectangle && maskNotOval;
         // create new group to mimic mask behavior
         // app will apply overflow hidden to groups with the name srm.mask
         const maskGroup = new sketch.Group({
-          name: `srm.mask`,
-          frame: layer.frame,
-          layers: [layer.duplicate()]
+          name: 'srm.mask',
+          frame: layer.frame
         });
+        // if clipping mask is a group
+        // run through the layers to find the mask shape
+        if (layer.type === 'Group') {
+          while (maskShape.type === 'Group') {
+            maskShape = (maskShape as srm.Group).layers[0];
+          }
+        }
+        maskGroup.layers.push(maskShape);
         // splice in mask group, splice out old mask
         maskParent.layers.splice(maskIndex, 1, maskGroup);
         maskGroup.layers[0].frame.x = 0;

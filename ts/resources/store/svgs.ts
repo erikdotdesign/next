@@ -1,34 +1,28 @@
 const shapeToSVG = (page: srm.Page, layer: srm.Shape | srm.ShapePath, sketch: srm.Sketch): srm.SvgAsset => {
-  // exporting an asset with dims that exceed the artboard dims,
-  // will only export the portion within the artboard
-  // solution: create artboard for each asset to make sure,
-  // whole asset is exported
-  const assetArtboard = new sketch.Artboard({
-    name: `${layer.id}-asset-artboard`,
-    frame: layer.frame,
-    parent: page,
-    layers: [layer.duplicate()]
-  });
-  // get asset from artboard
-  const assetDuplicate = assetArtboard.layers[0];
-  // reset asset position on artboard
-  assetDuplicate.frame.x = 0;
-  assetDuplicate.frame.y = 0;
-  // export asset to temp folder
-  sketch.export(assetDuplicate, {
+  // duplicate layer
+  const layerDuplicate = layer.duplicate();
+  // set parne to page
+  layerDuplicate.parent = page;
+  // remove transforms
+  // transforms will be applied on the div, not svg
+  layerDuplicate.transform.rotation = 0;
+  layerDuplicate.transform.flippedHorizontally = false;
+  layerDuplicate.transform.flippedVertically = false;
+  // export duplicate layer
+  sketch.export(layerDuplicate, {
     formats: 'svg',
     // @ts-ignore
     output: NSTemporaryDirectory(),
     ['use-id-for-name']: true,
     overwriting: true
   });
-  // remove asset artboard from page
-  assetArtboard.remove();
+  // remove duplicate layer
+  layerDuplicate.remove();
   // return AppAsset
   return {
     id: layer.id,
     // @ts-ignore
-    src: `${NSTemporaryDirectory()}${assetDuplicate.id}.svg`
+    src: `${NSTemporaryDirectory()}${layerDuplicate.id}.svg`
   }
 }
 
