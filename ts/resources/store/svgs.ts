@@ -1,4 +1,4 @@
-const shapeToSVG = (page: srm.Page, layer: srm.SketchLayer, sketch: srm.Sketch): srm.SvgAsset => {
+const shapeToSVG = (page: srm.Page, layer: srm.Shape | srm.ShapePath, sketch: srm.Sketch): srm.SvgAsset => {
   // exporting an asset with dims that exceed the artboard dims,
   // will only export the portion within the artboard
   // solution: create artboard for each asset to make sure,
@@ -38,7 +38,7 @@ const createTempSVGs = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm.S
       if (layer.type === 'Group') {
         createTempSVGs(page, (<srm.Group>layer).layers, sketch, svgs);
       } else if (layer.type === 'Shape') {
-        const svg = shapeToSVG(page, layer, sketch);
+        const svg = shapeToSVG(page, layer as srm.Shape, sketch);
         svgs.push(svg);
       } else if (layer.type === 'ShapePath') {
         const hasOpenPath: boolean = !(<srm.ShapePath>layer).closed;
@@ -46,7 +46,7 @@ const createTempSVGs = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm.S
         const notOval: boolean = (<srm.ShapePath>layer).shapeType !== 'Oval';
         const isOddShape: boolean = notRectangle && notOval;
         if (hasOpenPath || isOddShape) {
-          const svg = shapeToSVG(page, layer, sketch);
+          const svg = shapeToSVG(page, layer as srm.ShapePath, sketch);
           svgs.push(svg);
         }
       }

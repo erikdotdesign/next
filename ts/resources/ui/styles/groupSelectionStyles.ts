@@ -32,16 +32,4 @@ export const groupSelectionArtboardStyles = (groupSelection: srm.AppArtboardLaye
   }
 }
 
-export const groupSelectionScrimStyles = (artboard: srm.Artboard) => {
-  const { background } = artboard;
-  const { color, enabled } = background;
-  const bg = enabled ? styles.createColorFill(color) : { background: '#111' };
-  const opacity = { opacity: 0.8 };
-
-  return {
-    ...bg,
-    ...opacity
-  }
-}
-
 export default groupSelectionStyles;

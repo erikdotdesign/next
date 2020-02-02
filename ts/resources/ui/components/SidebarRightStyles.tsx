@@ -23,7 +23,7 @@ const SidebarRightStyles = (props: SidebarRightStylesProps) => {
     if (selection) {
       switch(selection.type) {
         case 'Group':
-          return groupStyles(selection as srm.Group);
+          return groupStyles(selection as srm.Group, svgs);
         case 'Shape':
           return shapeStyles(selection as srm.Shape, svgs);
         case 'ShapePath':

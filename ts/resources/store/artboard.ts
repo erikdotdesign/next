@@ -86,7 +86,7 @@ const createMaskGroups = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm
         // create new group to mimic mask behavior
         // app will apply overflow hidden to groups with the name srm.mask
         const maskGroup = new sketch.Group({
-          name: 'srm.mask',
+          name: `srm.mask`,
           frame: layer.frame,
           layers: [layer.duplicate()]
         });
@@ -104,12 +104,6 @@ const createMaskGroups = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm
             maskGroup.layers.push(maskedLayer);
           }
         });
-        // if mask is an odd shape,
-        // turn it into an image layer
-        if (isMaskOddShape) {
-          const imageLayer: srm.Image = maskGroupToImageLayer(page, maskGroup, sketch);
-          maskParent.layers.splice(maskIndex, 1, imageLayer);
-        }
       } else if (layer.type === "Group") {
         createMaskGroups(page, (<srm.Group>layer).layers, sketch);
       }

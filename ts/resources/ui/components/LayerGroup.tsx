@@ -25,7 +25,7 @@ const LayerGroup = (props: LayerGroupProps) => {
       onMouseOver={props.onMouseOver}
       onMouseOut={props.onMouseOut}
       className='c-layer c-layer--group'
-      style={groupStyles(layer)}>
+      style={groupStyles(layer, svgs)}>
       <Layers
         layers={layer.layers as srm.AppArtboardLayer[]}
         images={images}
