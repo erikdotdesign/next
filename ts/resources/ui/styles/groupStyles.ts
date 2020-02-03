@@ -13,14 +13,14 @@ const groupStyles = (layer: srm.Group, svgs: srm.SvgAsset[]) => {
   const isMaskOddShape: boolean = maskNotRectangle && maskNotOval || isMaskShape;
   const oddShapeMaskSvg: srm.SvgAsset | null | undefined = isMaskOddShape ? getSVG(svgs, maskLayer.id) : null;
   const borderRadius: srm.css.BorderRadius | null = isMask && isMaskShapePath ? styles.createBorderRadius((maskLayer as srm.ShapePath).shapeType, (maskLayer as srm.ShapePath).points) : null;
-  const overflow = isMask ? { overflow: 'hidden' } : null;
-  const maskSVG = isMask && isMaskOddShape ? { mask: `url(${oddShapeMaskSvg?.src})`, WebkitMaskBoxImage: `url(${oddShapeMaskSvg?.src}) 100 100 0 0 stretch stretch` } : null;
+  const overflow: srm.css.Overflow | null = isMask ? styles.createOverflow('hidden') : null;
+  const mask: srm.css.Mask | null = isMask && isMaskOddShape && oddShapeMaskSvg ? styles.createMask(oddShapeMaskSvg.src) : null;
 
   const combined = [
     baseStyles,
     borderRadius,
     overflow,
-    maskSVG
+    mask
   ];
 
   return styleReducer(combined);

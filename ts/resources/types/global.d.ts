@@ -614,6 +614,9 @@ declare namespace srm {
       type TextAlign = 'left' | 'right' | 'center' | 'justify';
       type FontStyle = 'italic';
       type JustifyContent = 'flex-start' | 'center' | 'flex-end';
+      type Overflow = 'visible' | 'hidden';
+      type Mask = string;
+      type WebkitMaskBoxImage = string;
     }
 
     interface Left {
@@ -760,6 +763,15 @@ declare namespace srm {
 
     interface JustifyContent {
       justifyContent: srm.css.value.JustifyContent;
+    }
+
+    interface Overflow {
+      overflow: srm.css.value.Overflow;
+    }
+
+    interface Mask {
+      mask: srm.css.value.Mask;
+      WebkitMaskBoxImage: srm.css.value.WebkitMaskBoxImage;
     }
   }
 }

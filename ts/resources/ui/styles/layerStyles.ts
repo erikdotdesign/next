@@ -1,5 +1,18 @@
 import { getImage, getScaledImage, cssColor, styleReducer } from '../utils';
 
+export const createOverflow = (overflow: srm.css.value.Overflow): srm.css.Overflow => {
+  return {
+    overflow
+  }
+};
+
+export const createMask = (mask: string): srm.css.Mask => {
+  return {
+    mask: `url(${mask})`,
+    WebkitMaskBoxImage: `url(${mask}) 100 100 0 0 stretch stretch`
+  }
+};
+
 export const createLeft = (x: number): srm.css.Left => {
   return {
     left: `${x}px`
