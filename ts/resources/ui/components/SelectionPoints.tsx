@@ -5,8 +5,8 @@ interface SelectionPointsProps {
 }
 
 const SelectionPoints = (props: SelectionPointsProps) => {
-  const scale: number = props.zoom < 1 ? 1 / props.zoom : 1;
-  const origin: number = props.zoom < 1 ? 50 * props.zoom : 50;
+  const scale: number = 1 / props.zoom;
+  const origin: number = 50 * props.zoom;
   return (
     <div className='c-selection__points'>
       <div

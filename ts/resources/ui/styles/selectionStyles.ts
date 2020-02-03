@@ -75,8 +75,8 @@ export const createRuleLeftStyles = (selectionOrigin: srm.Origin, hoverOrigin: s
 }
 
 export const createDimRightLeftStyles = (selectionOrigin: srm.Origin, artboardFrame: srm.Rectangle, zoom: number) => {
-  const scale = zoom < 1 ? 1 / zoom : 1;
-  const origin = zoom < 1 ? 50 / zoom : 50;
+  const scale = 1 / zoom;
+  const origin = 50 / zoom;
   const translate = (100 - origin) * -1;
   if (placeTop(selectionOrigin.top, artboardFrame.height)) {
     // displays above rule
@@ -98,8 +98,8 @@ export const createDimRightLeftStyles = (selectionOrigin: srm.Origin, artboardFr
 }
 
 export const createDimTopBottomStyles = (selectionOrigin: srm.Origin, artboardFrame: srm.Rectangle, zoom: number) => {
-  const scale = zoom < 1 ? 1 / zoom : 1;
-  const origin = zoom < 1 ? 50 / zoom : 50;
+  const scale = 1 / zoom;
+  const origin = 50 / zoom;
   const translate = (100 - origin) * -1;
   if (placeLeft(selectionOrigin.left, artboardFrame.width)) {
     // displays left of rule

@@ -63,8 +63,8 @@ export const createRuleLeftStyles = (hoverOrigin: srm.Origin, selectionOrigin: s
 }
 
 export const createDimWidthStyles = (hoverFrame: srm.Rectangle, artboardFrame: srm.Rectangle, zoom: number) => {
-  const scale = zoom < 1 ? 1 / zoom : 1;
-  const origin = zoom < 1 ? 50 / zoom : 50;
+  const scale = 1 / zoom;
+  const origin = 50 / zoom;
   const translate = (100 - origin) * -1;
   if (placeTop(hoverFrame.y, artboardFrame.height)) {
     // displays on top of element
@@ -86,8 +86,8 @@ export const createDimWidthStyles = (hoverFrame: srm.Rectangle, artboardFrame: s
 }
 
 export const createDimHeightStyles = (hoverFrame: srm.Rectangle, artboardFrame: srm.Rectangle, zoom: number) => {
-  const scale = zoom < 1 ? 1 / zoom : 1;
-  const origin = zoom < 1 ? 50 / zoom : 50;
+  const scale = 1 / zoom;
+  const origin = 50 / zoom;
   const translate = (100 - origin) * -1;
   if (placeLeft(hoverFrame.x, artboardFrame.width)) {
     // displays on left of element
