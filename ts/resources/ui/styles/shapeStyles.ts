@@ -16,7 +16,8 @@ const shapeStyles = (layer: srm.Shape | srm.ShapePath, svgs: any[]) => {
   const background = {
     background: `url(${svg ? svg.src : null})`,
     backgroundRepeat: 'no-repeat',
-    backgroundSize: 'contain',
+    backgroundSize: `${frame.width} ${frame.height}`,
+    backgroundPosition: 'center center'
   }
   // combine styles
   const combined = [

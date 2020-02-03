@@ -37,25 +37,79 @@ const removeHiddenLayers = (layers: srm.SketchLayer[]): void => {
   }
 };
 
+const flattenShapePath = (layer: srm.ShapePath, sketch: srm.Sketch): srm.ShapePath => {
+  let shapeBuffer = sketch.export(layer, {
+    formats: 'svg',
+    output: false
+  });
+  let shapeGroup = sketch.createLayerFromData(shapeBuffer, 'svg');
+  let flatShape = shapeGroup.layers[0];
+  flatShape.frame.x = 0;
+  flatShape.frame.y = 0;
+  return flatShape;
+}
+
+const getFlatMaskShape = (layer: srm.SketchLayer, sketch: srm.Sketch): srm.SketchLayer => {
+  switch(layer.type) {
+    case 'ShapePath':
+      switch((layer as srm.ShapePath).shapeType) {
+        case 'Oval':
+        case 'Rectangle':
+        case 'Custom':
+          return layer.duplicate();
+        case 'Polygon':
+        case 'Star':
+        case 'Triangle':
+          return flattenShapePath(layer as srm.ShapePath, sketch);
+      }
+    case 'Image':
+    case 'Shape':
+    default:
+        return layer.duplicate();
+  }
+}
+
+const getMaskShape = (layer: srm.SketchLayer): srm.SketchLayer => {
+  let lastLayer = layer;
+  while(lastLayer.type === 'Group') {
+    lastLayer = (lastLayer as srm.Group).layers[0];
+  }
+  return lastLayer;
+}
+
 const createMaskGroups = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm.Sketch): void => {
   if (layers.length > 0) {
     layers.forEach((layer: srm.SketchLayer) => {
       const hasClippingMask: boolean = layer.sketchObject.hasClippingMask();
       if (hasClippingMask) {
-        // get mask index and parent
         const maskIndex = layer.index;
         const maskParent = layer.parent;
+        // get mask shape
+        const maskShape = getMaskShape(layer);
+        // flatten shape if polygon, star, or triangle
+        const flatMaskShape = getFlatMaskShape(maskShape, sketch);
+        // add prefix to name
+        flatMaskShape.name = `[srm.mask.shape]${layer.name}`;
+        // add offset to group if flat mask shape if slimmer than mask shape
+        const maskGroupOffset = flatMaskShape.frame.width !== maskShape.frame.width ? (maskShape.frame.width - flatMaskShape.frame.width) / 2 : maskShape.frame.x;
         // create new group to mimic mask behavior
         // app will apply overflow hidden to groups with the name srm.mask
         const maskGroup = new sketch.Group({
           name: 'srm.mask',
-          frame: layer.frame,
-          layers: [layer.duplicate()]
+          frame: {
+            ...flatMaskShape.frame,
+            x: maskGroupOffset
+          },
+          layers: [flatMaskShape]
         });
         // splice in mask group, splice out old mask
         maskParent.layers.splice(maskIndex, 1, maskGroup);
-        maskGroup.layers[0].frame.x = 0;
-        maskGroup.layers[0].frame.y = 0;
+        // if mask is a group, push group layers to mask group
+        if (layer.type === 'Group') {
+          (layer as srm.Group).layers.forEach((maskedLayer: srm.SketchLayer) => {
+            maskGroup.layers.push(maskedLayer);
+          });
+        }
         // loop through mask parent layers,
         // any layer with an index higher than the mask will be masked
         // push masked layers to maskGroup

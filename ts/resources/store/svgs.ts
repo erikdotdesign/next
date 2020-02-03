@@ -1,4 +1,13 @@
 const shapeToSVG = (page: srm.Page, layer: srm.Shape | srm.ShapePath, sketch: srm.Sketch): srm.SvgAsset => {
+  let borderSize = 0;
+  const activeBorders = layer.style.borders.filter((border: srm.Border) => border.enabled);
+  if (activeBorders) {
+    activeBorders.forEach((border: srm.Border) => {
+      if (border.thickness > borderSize) {
+        borderSize = border.thickness;
+      }
+    });
+  }
   // duplicate layer
   const layerDuplicate = layer.duplicate();
   // set parne to page
@@ -16,6 +25,11 @@ const shapeToSVG = (page: srm.Page, layer: srm.Shape | srm.ShapePath, sketch: sr
     ['use-id-for-name']: true,
     overwriting: true
   });
+  // update layer frame to include bordersize
+  layer.frame.width = Math.round(layer.frame.width + (borderSize * 1.5));
+  layer.frame.height = Math.round(layer.frame.height + (borderSize * 1.5));
+  layer.frame.x = Math.round(layer.frame.x - ((borderSize * 1.5) / 2));
+  layer.frame.y = Math.round(layer.frame.y - ((borderSize * 1.5) / 2));
   // remove duplicate layer
   layerDuplicate.remove();
   // return AppAsset
@@ -39,7 +53,8 @@ const createTempSVGs = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm.S
         const notRectangle: boolean = (<srm.ShapePath>layer).shapeType !== 'Rectangle';
         const notOval: boolean = (<srm.ShapePath>layer).shapeType !== 'Oval';
         const isOddShape: boolean = notRectangle && notOval;
-        if (hasOpenPath || isOddShape) {
+        const hasDashPattern: boolean = (<srm.ShapePath>layer).style.borderOptions.dashPattern.length > 0;
+        if (hasOpenPath || isOddShape || hasDashPattern) {
           const svg = shapeToSVG(page, layer as srm.ShapePath, sketch);
           svgs.push(svg);
         }
