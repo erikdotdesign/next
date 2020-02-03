@@ -110,6 +110,53 @@ export const moveSVGs = (svgs: any[], savePath: string) => {
 //   });
 // };
 
+const getFontPostScriptFamily = (font: string) => {
+  let pastWeight = false;
+  let family = [];
+  let i = 0;
+  const postScriptArray = font.split('').reverse();
+  while(i < postScriptArray.length) {
+    if (pastWeight) {
+      family.push(postScriptArray[i]);
+    }
+    if (postScriptArray[i] === '-' && !pastWeight) {
+      pastWeight = true;
+    }
+    i++
+  }
+  return family.reverse().join('');
+}
+
+const getSpaceCase = (str: string) => {
+  return str.replace(/([A-Z][a-z])/g, (g) => ` ${g}`);
+};
+
+const getHyphenCase = (str: string) => {
+  return str.replace(/([A-Z][a-z])/g, (g) => `-${g[0].toLowerCase()}${g.substring(1)}`).toLowerCase();
+};
+
+const getHyphenCaseAlt = (str: string) => {
+  return str.replace(/([A-Z][a-z])/g, (g) => `-${g}`);
+}
+
+const getFontNameVariations = (font: string) => {
+  const postScript = font;
+  const family = getFontPostScriptFamily(font);
+  const familySpaceCase = getSpaceCase(family);
+  const familyHyphenCase = getHyphenCaseAlt(family);
+  const weight = font.substr(family.length + 1, family.length);
+  // const weightSpaceCase = getSpaceCase(weight);
+  // const weightHyphenCase = getHyphenCaseAlt(weight);
+  const spaceCase = `${familySpaceCase} ${weight}`;
+  const hyphenCase = `${familyHyphenCase}-${weight}`;
+  return [
+    postScript,
+    family,
+    spaceCase,
+    hyphenCase
+  ];
+}
+
 export const copyFonts = (fonts: string[], savePath: string) => {
   const userFontsLoc = getUserFontsLocation();
   const systemFontsLoc = getSystemFontsLocation();
@@ -120,22 +167,18 @@ export const copyFonts = (fonts: string[], savePath: string) => {
   //@ts-ignore
   NSFileManager.defaultManager().createDirectoryAtPath_attributes(fontsSavePath, nil);
   fonts.forEach((font: any) => {
+    const nameVariants = getFontNameVariations(font);
     fontLocations.forEach((location: string | null) => {
       if (location) {
         fontExtensions.forEach((extension: string) => {
-          //@ts-ignore
-          const postScriptPath = `${location}${font.postScript}.${extension}`;
-          //@ts-ignore
-          const familyPath = `${location}${font.family}.${extension}`;
-          //@ts-ignore
-          if (NSFileManager.defaultManager().fileExistsAtPath(postScriptPath)) {
+          nameVariants.forEach((nameVariant: string) => {
+            const fontVariantPath = `${location}${nameVariant}.${extension}`;
             //@ts-ignore
-            NSFileManager.defaultManager().copyItemAtPath_toPath_error(postScriptPath, `${fontsSavePath}/${font.postScript}.${extension}`, nil);
-          //@ts-ignore
-          } else if (NSFileManager.defaultManager().fileExistsAtPath(familyPath)) {
-            //@ts-ignore
-            NSFileManager.defaultManager().copyItemAtPath_toPath_error(familyPath, `${fontsSavePath}/${font.family}.${extension}`, nil);
-          }
+            if (NSFileManager.defaultManager().fileExistsAtPath(fontVariantPath)) {
+              //@ts-ignore
+              NSFileManager.defaultManager().copyItemAtPath_toPath_error(fontVariantPath, `${fontsSavePath}/${nameVariant}.${extension}`, nil);
+            }
+          });
         });
       }
     });

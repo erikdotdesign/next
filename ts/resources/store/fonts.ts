@@ -12,23 +12,7 @@ const getFonts = (layers: srm.SketchLayer[], fonts: any[] = []) => {
           return String(family) === String(fontFamily);
         });
         if (fonts && fontAvailable && !fonts.includes(font)) {
-          let pastWeight = false;
-          let family = [];
-          let i = 0;
-          const postScriptArray = font.split('').reverse();
-          while(i < postScriptArray.length) {
-            if (pastWeight) {
-              family.push(postScriptArray[i]);
-            }
-            if (postScriptArray[i] === '-' && !pastWeight) {
-              pastWeight = true;
-            }
-            i++
-          }
-          fonts.push({
-            family: family.reverse().join(''),
-            postScript: font
-          });
+          fonts.push(font);
         }
       }
     });
