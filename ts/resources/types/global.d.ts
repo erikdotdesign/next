@@ -569,6 +569,7 @@ declare namespace srm {
     images: srm.ImgAsset[];
     svgs: srm.SvgAsset[];
     notes: Note[];
+    fonts: string[];
     artboardImage: string;
   }
 

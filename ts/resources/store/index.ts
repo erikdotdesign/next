@@ -1,7 +1,7 @@
 import getArtboard from './artboard';
 import getImages from './images';
 import getSVGs from './svgs';
-//import getFonts from './fonts';
+import getFonts from './fonts';
 
 export const createArtboardImage = (artboard: srm.Artboard, sketch: srm.Sketch) => {
   const buffer = sketch.export(artboard, {
@@ -24,7 +24,7 @@ const getStore = (page: srm.Page, selectedArtboard: srm.Artboard, sketch: srm.Sk
   const images: srm.ImgAsset[] = getImages(page, artboard.layers, sketch);
   const svgs: srm.SvgAsset[] = getSVGs(page, artboard.layers, sketch);
   const artboardImage: string = createArtboardImage(artboard, sketch);
-  //const fonts: string[] = getFonts(artboard.layers);
+  const fonts: string[] = getFonts(artboard.layers);
   const notes: srm.Note[] = [];
   // remove duplicate artboard
   artboard.remove();
@@ -34,6 +34,7 @@ const getStore = (page: srm.Page, selectedArtboard: srm.Artboard, sketch: srm.Sk
     images,
     svgs,
     notes,
+    fonts,
     artboardImage
   }
 };

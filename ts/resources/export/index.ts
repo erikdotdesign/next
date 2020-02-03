@@ -1,3 +1,29 @@
+export const getSystemFontsLocation = () => {
+  //@ts-ignore
+  const systemLibrary = NSFileManager.defaultManager().URLsForDirectory_inDomains(NSLibraryDirectory, 8)[0];
+  const systemLibraryPath = systemLibrary ? systemLibrary.absoluteString().replace('file://', '') : null;
+  //@ts-ignore
+  const systemFonts = systemLibraryPath ? NSFileManager.defaultManager().fileExistsAtPath(`${systemLibraryPath}Fonts`) : null;
+  if (systemFonts) {
+    return `${systemLibraryPath}Fonts/`;
+  } else {
+    return null;
+  }
+}
+
+export const getUserFontsLocation = () => {
+  //@ts-ignore
+  const userLibrary = NSFileManager.defaultManager().URLsForDirectory_inDomains(NSLibraryDirectory, 1)[0];
+  const userLibraryPath = userLibrary ? userLibrary.absoluteString().replace('file://', '') : null;
+  //@ts-ignore
+  const userFonts = userLibraryPath ? NSFileManager.defaultManager().fileExistsAtPath(`${userLibraryPath}Fonts`) : null;
+  if (userFonts) {
+    return `${userLibraryPath}Fonts/`;
+  } else {
+    return null;
+  }
+}
+
 export const getRoot = (context: any) => {
   return context.scriptPath.stringByDeletingLastPathComponent().stringByDeletingLastPathComponent().stringByDeletingLastPathComponent();
 };
@@ -66,10 +92,52 @@ export const moveSVGs = (svgs: any[], savePath: string) => {
 
 //@ts-ignore
 // export const copyFonts = (fonts: string[], savePath: string) => {
+//   const extensions = ['ttf', 'otf', 'ttc'];
 //   const fontsPath = `${savePath}/fonts`;
 //   //@ts-ignore
 //   NSFileManager.defaultManager().createDirectoryAtPath_attributes(fontsPath, nil);
 //   fonts.forEach((font: any) => {
-//     const FontBook = NSFontManager.sharedFontManager().availableFonts();
+//     extensions.forEach((extension: string) => {
+//       //@ts-ignore
+//       const fontPath = `${NSHomeDirectory()}/Library/Fonts/${font}.`;
+//       if (NSFileManager.defaultManager().) {
+
+//       }
+//     });
+//     //@ts-ignore
+//     NSFileManager.defaultManager().copyItemAtPath_toPath_error(`${NSHomeDirectory()}/Library/Fonts/${font}.ttf`, `${fontsPath}/${font}.ttf`, nil);
+//     //const FontBook = NSFontManager.sharedFontManager().availableFonts();
 //   });
 // };
+
+export const copyFonts = (fonts: string[], savePath: string) => {
+  const userFontsLoc = getUserFontsLocation();
+  const systemFontsLoc = getSystemFontsLocation();
+  const suplimentalFontsLoc = `${systemFontsLoc}Supplemental/`
+  const fontExtensions = ['ttf', 'otf', 'ttc'];
+  const fontLocations = [userFontsLoc, systemFontsLoc, suplimentalFontsLoc];
+  const fontsSavePath = `${savePath}/fonts`;
+  //@ts-ignore
+  NSFileManager.defaultManager().createDirectoryAtPath_attributes(fontsSavePath, nil);
+  fonts.forEach((font: any) => {
+    fontLocations.forEach((location: string | null) => {
+      if (location) {
+        fontExtensions.forEach((extension: string) => {
+          //@ts-ignore
+          const postScriptPath = `${location}${font.postScript}.${extension}`;
+          //@ts-ignore
+          const familyPath = `${location}${font.family}.${extension}`;
+          //@ts-ignore
+          if (NSFileManager.defaultManager().fileExistsAtPath(postScriptPath)) {
+            //@ts-ignore
+            NSFileManager.defaultManager().copyItemAtPath_toPath_error(postScriptPath, `${fontsSavePath}/${font.postScript}.${extension}`, nil);
+          //@ts-ignore
+          } else if (NSFileManager.defaultManager().fileExistsAtPath(familyPath)) {
+            //@ts-ignore
+            NSFileManager.defaultManager().copyItemAtPath_toPath_error(familyPath, `${fontsSavePath}/${font.family}.${extension}`, nil);
+          }
+        });
+      }
+    });
+  });
+};
