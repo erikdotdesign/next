@@ -10,7 +10,7 @@ const shapeToSVG = (page: srm.Page, layer: srm.Shape | srm.ShapePath, sketch: sr
   }
   // duplicate layer
   const layerDuplicate = layer.duplicate();
-  // set parne to page
+  // set parent to page
   layerDuplicate.parent = page;
   // remove transforms
   // transforms will be applied on the div, not svg
