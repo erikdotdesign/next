@@ -1,5 +1,6 @@
 # build artefacts
-# sr-measure.sketchplugin
+sr-measure.sketchplugin
+assets/icon.sketch
 
 resources/export
 resources/store
