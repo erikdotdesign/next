@@ -1,4 +1,4 @@
-export const getSystemFontsLocation = () => {
+export const getSystemFontsLocation = (): string | null => {
   //@ts-ignore
   const systemLibrary = NSFileManager.defaultManager().URLsForDirectory_inDomains(NSLibraryDirectory, 8)[0];
   const systemLibraryPath = systemLibrary ? systemLibrary.absoluteString().replace('file://', '') : null;
@@ -11,7 +11,7 @@ export const getSystemFontsLocation = () => {
   }
 }
 
-export const getUserFontsLocation = () => {
+export const getUserFontsLocation = (): string | null => {
   //@ts-ignore
   const userLibrary = NSFileManager.defaultManager().URLsForDirectory_inDomains(NSLibraryDirectory, 1)[0];
   const userLibraryPath = userLibrary ? userLibrary.absoluteString().replace('file://', '') : null;
@@ -24,7 +24,7 @@ export const getUserFontsLocation = () => {
   }
 }
 
-export const getSupplementalFontsLocation = () => {
+export const getSupplementalFontsLocation = (): string | null => {
   //@ts-ignore
   const systemLibrary = NSFileManager.defaultManager().URLsForDirectory_inDomains(NSLibraryDirectory, 8)[0];
   const systemLibraryPath = systemLibrary ? systemLibrary.absoluteString().replace('file://', '') : null;
@@ -37,7 +37,7 @@ export const getSupplementalFontsLocation = () => {
   }
 }
 
-export const getUserFonts = () => {
+export const getUserFonts = (): string[] | null => {
   const userFontsLoc = getUserFontsLocation();
   if (userFontsLoc) {
     //@ts-ignore
@@ -48,7 +48,7 @@ export const getUserFonts = () => {
   }
 }
 
-export const getSystemFonts = () => {
+export const getSystemFonts = (): string[] | null => {
   const systemFontsLoc = getSystemFontsLocation();
   if (systemFontsLoc) {
     //@ts-ignore
@@ -59,7 +59,7 @@ export const getSystemFonts = () => {
   }
 }
 
-export const getSupplimentalFonts = () => {
+export const getSupplimentalFonts = (): string[] | null => {
   const supplementalFontsLoc = getSupplementalFontsLocation();
   if (supplementalFontsLoc) {
     //@ts-ignore
@@ -70,7 +70,7 @@ export const getSupplimentalFonts = () => {
   }
 }
 
-export const getAllFonts = () => {
+export const getAllFonts = (): srm.FontDir[] | null => {
   const userFontsLoc = getUserFontsLocation();
   const systemFontsLoc = getSystemFontsLocation();
   const supplementalFontsLoc = getSupplementalFontsLocation();
@@ -79,12 +79,18 @@ export const getAllFonts = () => {
   const supplementalFonts = getSupplimentalFonts();
   const fontLocations = [userFontsLoc, systemFontsLoc, supplementalFontsLoc];
   const fontLocationContents = [userFonts, systemFonts, supplementalFonts];
-  return fontLocations.map((fontLocation: string | null, index: number) => {
-    return {
-      location: fontLocation,
-      contents: fontLocationContents[index]
-    }
-  });
+  const availableFontLocations = fontLocations.filter((fontDir: string | null) => fontDir !== null);
+  if (availableFontLocations.length > 0) {
+    const allFonts = (availableFontLocations as string[]).map((fontLocation: string, index: number) => {
+      return {
+        location: fontLocation,
+        contents: fontLocationContents[index]
+      }
+    });
+    return allFonts as srm.FontDir[];
+  } else {
+    return null;
+  }
 }
 
 export const getRoot = (context: any) => {
@@ -130,11 +136,11 @@ export const writeFile = (options) => {
 };
 
 //@ts-ignore
-export const moveImages = (images: any[], savePath: string) => {
-  const imagesPath = `${savePath}/images`;
+export const moveImages = (images: srm.ImgAsset[], savePath: string) => {
+  const imagesPath: string = `${savePath}/images`;
   //@ts-ignore
   NSFileManager.defaultManager().createDirectoryAtPath_attributes(imagesPath, nil);
-  images.forEach((image: any) => {
+  images.forEach((image: srm.ImgAsset) => {
     //@ts-ignore
     NSFileManager.defaultManager().moveItemAtPath_toPath_error(image.src[`1x`], `${imagesPath}/${image.id}.png`, nil);
     //@ts-ignore
@@ -143,19 +149,19 @@ export const moveImages = (images: any[], savePath: string) => {
 };
 
 //@ts-ignore
-export const moveSVGs = (svgs: any[], savePath: string) => {
-  const svgsPath = `${savePath}/svgs`;
+export const moveSVGs = (svgs: srm.SvgAsset[], savePath: string) => {
+  const svgsPath: string = `${savePath}/svgs`;
   //@ts-ignore
   NSFileManager.defaultManager().createDirectoryAtPath_attributes(svgsPath, nil);
-  svgs.forEach((svg: any) => {
+  svgs.forEach((svg: srm.SvgAsset) => {
     //@ts-ignore
     NSFileManager.defaultManager().moveItemAtPath_toPath_error(svg.src, `${svgsPath}/${svg.id}.svg`, nil);
   });
 };
 
-const getFontNameVariations = (font: string) => {
-  const noSpace = font.replace(/\s/g, '');
-  const hyphenCase = font.replace(/\s/g, '-');
+const getFontNameVariations = (font: string): string[] => {
+  const noSpace: string = font.replace(/\s/g, '');
+  const hyphenCase: string = font.replace(/\s/g, '-');
   return [
     font,
     noSpace,
@@ -163,12 +169,12 @@ const getFontNameVariations = (font: string) => {
   ];
 }
 
-const containsFontVariation = (string: string, variations: string[]) => {
-  let contains = false;
-  const normalizedString = string.toUpperCase();
-  variations.forEach((variation: string) => {
-    const normalizedVariant = variation.toUpperCase();
-    if (normalizedString.indexOf(normalizedVariant) !== -1) {
+const containsFontNameVariation = (fontFileName: string, fontNameVariations: string[]): boolean => {
+  let contains: boolean = false;
+  const normalizedFileName: string = fontFileName.toUpperCase();
+  fontNameVariations.forEach((variation: string) => {
+    const normalizedNameVariant = variation.toUpperCase();
+    if (normalizedFileName.indexOf(normalizedNameVariant) !== -1) {
       contains = true;
     }
   });
@@ -176,18 +182,25 @@ const containsFontVariation = (string: string, variations: string[]) => {
 }
 
 export const copyFonts = (fonts: string[], savePath: string) => {
-  const allFonts = getAllFonts();
-  const fontsSavePath = `${savePath}/fonts`;
-  //@ts-ignore
-  NSFileManager.defaultManager().createDirectoryAtPath_attributes(fontsSavePath, nil);
-  fonts.forEach((font: string) => {
-    allFonts.forEach((fontDir: any) => {
-      if (fontDir.location) {
+  // get user, system, and supplemental fonts
+  const allFonts: srm.FontDir[] | null = getAllFonts();
+  // set font save location
+  const fontsSavePath: string = `${savePath}/fonts`;
+  // if some font directories exist, move forward
+  if (allFonts) {
+    // create base font directory in spec folder
+    //@ts-ignore
+    NSFileManager.defaultManager().createDirectoryAtPath_attributes(fontsSavePath, nil);
+    // loop through app fonts
+    fonts.forEach((font: string) => {
+      // loop through font directories
+      allFonts.forEach((fontDir: srm.FontDir) => {
+        // if directory exists, move forward
         const fontNameVariations = getFontNameVariations(font);
-        const fontFiles = fontDir.contents.filter((fontFile: string) => {
-          return containsFontVariation(fontFile, fontNameVariations);
+        const fontFiles = fontDir.contents.filter((fontFileName: string) => {
+          return containsFontNameVariation(fontFileName, fontNameVariations);
         });
-        if (fontFiles) {
+        if (fontFiles.length > 0) {
           //@ts-ignore
           NSFileManager.defaultManager().createDirectoryAtPath_attributes(`${fontsSavePath}/${font}`, nil);
           fontFiles.forEach((fontFile: string) => {
@@ -195,7 +208,7 @@ export const copyFonts = (fonts: string[], savePath: string) => {
             NSFileManager.defaultManager().copyItemAtPath_toPath_error(`${fontDir.location}/${fontFile}`, `${fontsSavePath}/${font}/${fontFile}`, nil);
           });
         }
-      }
+      });
     });
-  });
+  }
 };

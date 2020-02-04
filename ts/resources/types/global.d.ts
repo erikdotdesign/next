@@ -544,6 +544,11 @@ declare namespace srm {
     xCenter: number;
   }
 
+  interface FontDir {
+    location: string;
+    contents: string[];
+  }
+
   interface SvgAsset {
     id: string;
     src: string;
