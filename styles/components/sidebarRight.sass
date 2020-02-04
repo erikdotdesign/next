@@ -1,0 +1,184 @@
+.c-sidebar--right
+  right: 0
+  padding-bottom: $noteInputHeight
+
+.c-sidebar-right__add-note
+  position: fixed
+  display: flex
+  flex-direction: column
+  bottom: 0
+  height: $noteInputHeight
+  width: $sidebarWidth
+  z-index: 99999999
+
+.c-sidebar-right__input-wrap
+  position: relative
+  height: $unit * 24 // 96
+
+.c-sidebar-right__input
+  position: relative
+  width: 100%
+  height: 100%
+  font-size: $fontSizeMd
+  margin: 0
+  padding: $unit * 4 // 16
+  line-height: $unit * 6 // 24
+  resize: none
+  border: none
+  outline: none
+
+.c-sidebar-right__input-bb
+  position: absolute
+  height: 1px
+  width: 100%
+  top: calc(100% - 1px)
+  transform: scale(0)
+
+.c-sidebar-right__submit
+  position: relative
+  width: 100%
+  height: $unit * 12 // 48
+  text-align: center
+  cursor: not-allowed
+  display: flex
+  align-items: center
+  justify-content: center
+
+  svg
+    z-index: 1
+
+.c-sidebar-right__submit--enabled
+  cursor: pointer
+
+  .c-sidebar-right__submit-bg
+    +absolute-full
+    transition: background $transitionNormal
+    animation: growInHeight $transitionNormal ease
+    transform-origin: center top
+    z-index: 0
+
+.c-sidebar-right__styles
+  padding-top: $unit * 2 // 8
+  padding-right: $unit * 4 // 16
+  padding-bottom: $unit * 3 // 12
+  padding-left: $unit * 4 // 16
+
+.c-sidebar-right__style
+  display: flex
+  align-items: center
+  height: $styleHeight
+
+.c-sidebar-right__style-prop
+  font-size: $fontSizeSm
+  line-height: $styleHeight
+  flex-grow: 2
+  animation: slideInRight $transitionNormal ease
+
+.c-sidebar-right__style-value
+  position: relative
+  max-height: $styleHeight
+  display: flex
+  animation: slideInLeft $transitionNormal ease
+
+.c-sidebar-right__style-input
+  border: none
+  margin: 0
+  min-height: 14px
+  font-size: $fontSizeSm
+  line-height: 14px
+  max-width: 100px
+  padding: 14px 0
+
+  &:focus
+    outline: none
+
+  &::selection
+    background: none
+
+.c-sidebar-right__style-copy
+  +absolute-full
+  display: flex
+  align-items: center
+  justify-content: center
+  font-size: $fontSizeSm
+  line-height: 14px
+  pointer-events: none
+  overflow: hidden
+
+.c-sidebar-right__style-copy-text
+  +absolute-full
+  display: flex
+  align-items: center
+  justify-content: center
+  text-align: center
+  animation: slideInDelayed $transitionSlow ease
+  z-index: 1
+
+.c-sidebar-right__style-copy-bg
+  +absolute-full
+  animation: growInWidth $transitionNormal ease
+  z-index: 0
+
+.c-sidebar-right__style-copy--copied
+  .c-sidebar-right__style-copy-text
+    animation: shrinkIn $transitionNormal ease
+
+.c-sidebar-right__swatch-group
+  +absolute-full
+  width: $cellPadding
+  overflow: hidden
+  left: 100%
+  display: flex
+  justify-content: flex-end
+  pointer-events: none
+
+.c-sidebar-right__swatch
+  width: 25%
+
+.c-sidebar-right__swatch--image
+  width: 25%
+
+.c-sidebar-right__notes
+  padding: $unit * 2 0
+
+.c-sidebar-right__note
+  padding: $unit $cellPadding
+  padding-left: $cellPadding * 2
+  font-size: $fontSizeSm
+  line-height: $cellHeight
+  position: relative
+  min-height: $cellHeight
+  word-break: break-word
+  animation: slideInRight $transitionNormal ease
+
+  &:hover
+    .c-sidebar-right__note-remove
+      display: flex
+      animation: slideInLeft $transitionNormal ease-out
+
+.c-sidebar-right__note-content
+  display: flex
+  align-items: flex-start
+
+  &:before
+    position: absolute
+    left: $unit * 4 // 16
+    content: '\2022'
+    font-weight: $fontWeightBold
+    display: inline-block
+
+  span
+    flex-grow: 2
+
+.c-sidebar-right__note-remove
+  position: relative
+  right: -($unit * 2) // -8
+  height: $buttonSize
+  width: $buttonSize
+  display: none
+  align-items: center
+  justify-content: center
+  flex-shrink: 0
+  margin-left: $unit
+  border-radius: $buttonBR
+  transition: background $transitionNormal, transform $transitionNormal

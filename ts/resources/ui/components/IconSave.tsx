@@ -1,10 +1,23 @@
 import React from 'react';
+import ThemeContext from './ThemeContext';
 
-const IconSave = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24">
-    <path fill="#fff" opacity=".3" d="M5 5v14h14V7.83L16.17 5H5zm7 13c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-8H6V6h9v4z"/>
-    <path fill="#fff" d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm2 16H5V5h11.17L19 7.83V19zm-7-7c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3zM6 6h9v4H6z"/>
-  </svg>
+interface IconSaveProps {
+  style?: any;
+}
+
+const IconSave = (props: IconSaveProps) => (
+  <ThemeContext.Consumer>
+    {(theme) => (
+      <svg width='24' height='24' viewBox='0 0 24 24'>
+        <path
+          d='M19 12v7H5v-7H3v7c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zm-6 .67l2.59-2.58L17 11.5l-5 5-5-5 1.41-1.41L11 12.67V3h2v9.67z'
+          style={{
+            fill: theme.text.base,
+            ...props.style
+          }} />
+      </svg>
+    )}
+  </ThemeContext.Consumer>
 );
 
 export default IconSave;

@@ -3,7 +3,7 @@ import imageStyles from '../styles/imageStyles';
 
 interface LayerImageProps {
   layer: srm.Image;
-  images: srm.Base64Image[];
+  images: srm.ImgAsset[];
   onClick(): void;
   onMouseOver(): void;
   onMouseOut(): void;
@@ -11,6 +11,7 @@ interface LayerImageProps {
 
 const LayerImage = (props: LayerImageProps) => (
   <div
+    id={props.layer.id}
     onClick={props.onClick}
     onMouseOver={props.onMouseOver}
     onMouseOut={props.onMouseOut}

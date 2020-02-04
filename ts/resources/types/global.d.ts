@@ -341,6 +341,7 @@ declare namespace srm {
     y: number;
     height: number;
     width: number;
+    changeBasis(basis: any): any;
   }
 
   // Models / ColorAsset
@@ -531,7 +532,8 @@ declare namespace srm {
   //++++++++++++++++++++++++++++++++++++++++++++++++++++++
   ////////////////////////////////////////////////////////
 
-  type AppLayer = Artboard | Image | Shape | ShapePath | Text;
+  type AppLayer = Artboard | Image | Shape | ShapePath | Text | Group;
+  type AppArtboardLayer = Image | Shape | ShapePath | Text | Group;
 
   interface Origin {
     top: number;
@@ -542,23 +544,38 @@ declare namespace srm {
     xCenter: number;
   }
 
-  interface Base64Image {
+  interface FontDir {
+    location: string;
+    contents: string[];
+  }
+
+  interface SvgAsset {
     id: string;
     src: string;
   }
 
-  interface SvgPath {
+  interface ImgAsset {
     id: string;
-    svg: string;
+    src: {
+      [`1x`]: string;
+      [`2x`]: string;
+    };
   }
 
-  type Notes = any;
+  interface Note {
+    id: string;
+    notes: string[];
+  }
+
+  type Theme = 'light' | 'dark';
 
   interface Store {
     artboard: srm.Artboard;
-    images: srm.Base64Image[];
-    svgs: srm.SvgPath[];
-    notes: Notes
+    images: srm.ImgAsset[];
+    svgs: srm.SvgAsset[];
+    notes: Note[];
+    fonts: string[];
+    artboardImage: string;
   }
 
   namespace css {
@@ -603,6 +620,9 @@ declare namespace srm {
       type TextAlign = 'left' | 'right' | 'center' | 'justify';
       type FontStyle = 'italic';
       type JustifyContent = 'flex-start' | 'center' | 'flex-end';
+      type Overflow = 'visible' | 'hidden';
+      type Mask = string;
+      type WebkitMaskBoxImage = string;
     }
 
     interface Left {
@@ -749,6 +769,15 @@ declare namespace srm {
 
     interface JustifyContent {
       justifyContent: srm.css.value.JustifyContent;
+    }
+
+    interface Overflow {
+      overflow: srm.css.value.Overflow;
+    }
+
+    interface Mask {
+      mask: srm.css.value.Mask;
+      WebkitMaskBoxImage: srm.css.value.WebkitMaskBoxImage;
     }
   }
 }

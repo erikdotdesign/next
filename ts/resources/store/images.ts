@@ -1,111 +1,136 @@
-const createBase64Image = (nsdata: srm.NSData, id: string): srm.Base64Image => {
-  let newImageBase64 = nsdata.base64EncodedStringWithOptions(0);
-  let newImage = 'data:image/png;base64,' + newImageBase64;
-  return {
-    id: id,
-    src: newImage
-  }
-};
-
-const base64ImageBatch = (images: srm.ImageData[]): srm.Base64Image[] => {
-  return images.map((image: srm.ImageData) => {
-    return createBase64Image(image.nsdata, image.id);
-  });
-};
-
-const layerToBase64 = (layer: srm.SketchLayer, id: string, sketch: srm.Sketch): srm.Base64Image => {
-  // create image buffer from layer
-  const buffer: srm.Buffer = sketch.export(layer, {
+const imageLayerToImage = (page: srm.Page, layer: srm.SketchLayer, sketch: srm.Sketch): srm.ImgAsset => {
+  const layerDuplicate = layer.duplicate();
+  // reset asset position on artboard
+  layerDuplicate.parent = page;
+  // export asset to temp folder
+  sketch.export(layerDuplicate, {
+    scales: '1, 2',
     formats: 'png',
-    output: false,
-    ['save-for-web']: true
+    // @ts-ignore
+    output: NSTemporaryDirectory(),
+    ['use-id-for-name']: true,
+    ['save-for-web']: true,
+    overwriting: true
   });
-  // create image from buffer data
-  const bufferImg: srm.Image = new sketch.Image({
-    image: buffer
-  });
-  // return base64 image
-  return createBase64Image(bufferImg.image.nsdata, id);
-};
+  // remove asset artboard from page
+  layerDuplicate.remove();
+  // return AppAsset
+  return {
+    id: (<srm.Image>layer).image.id,
+    src: {
+      // @ts-ignore
+      [`1x`]: `${NSTemporaryDirectory()}${layerDuplicate.id}.png`,
+      // @ts-ignore
+      [`2x`]: `${NSTemporaryDirectory()}${layerDuplicate.id}@2x.png`
+    },
+  }
+}
 
-const gradientToBase64 = (layer: srm.Shape | srm.ShapePath, id: string, sketch: srm.Sketch): srm.Base64Image => {
+const fillGradientToImage = (page: srm.Page, layer: srm.Shape | srm.ShapePath, sketch: srm.Sketch): srm.ImgAsset => {
   // get enabled gradients
   const activeGradients: srm.Fill[] = layer.style.fills.filter((fill: srm.Fill) => {
     return fill.enabled && fill.fillType === 'Gradient';
   });
   // get top gradient fill
   const topGradient: srm.Fill = activeGradients[activeGradients.length - 1];
-  // only keep layer gradient styles
-  layer.style.fills = [topGradient];
-  layer.style.borders = [];
-  layer.style.shadows = [];
-  layer.style.innerShadows = [];
-  layer.transform.rotation = 0;
-  layer.transform.flippedHorizontally = false;
-  layer.transform.flippedVertically = false;
-  if (layer.type === 'ShapePath') {
-    (<srm.ShapePath>layer).points.forEach((point: srm.CurvePoint) => point.cornerRadius = 0);
+  // create new layer with gradient
+  const gradientImage = new sketch.ShapePath({
+    parent: page,
+    frame: layer.frame,
+    style: {
+      fills: [topGradient],
+      borders: []
+    }
+  });
+  // export image to temp dir
+  sketch.export(gradientImage, {
+    scales: '1, 2',
+    formats: 'png',
+    // @ts-ignore
+    output: NSTemporaryDirectory(),
+    ['use-id-for-name']: true,
+    ['save-for-web']: true,
+    overwriting: true
+  });
+  // remove image from page
+  gradientImage.remove();
+  // return final image
+  return {
+    id: layer.id,
+    src: {
+      // @ts-ignore
+      [`1x`]: `${NSTemporaryDirectory()}${gradientImage.id}.png`,
+      // @ts-ignore
+      [`2x`]: `${NSTemporaryDirectory()}${gradientImage.id}@2x.png`,
+    }
   }
-  // return base64 image
-  return layerToBase64(layer, id, sketch);
-};
+}
 
-const getBase64Gradients = (layers: srm.SketchLayer[], sketch: srm.Sketch, images: srm.Base64Image[] = []): srm.Base64Image[] => {
-  layers.forEach((layer: srm.SketchLayer) => {
-    if (layer.type === 'Shape' || layer.type === 'ShapePath') {
-      // check if fills contain any enabled gradients
-      const hasActiveGradient: boolean = (<srm.Shape | srm.ShapePath>layer).style.fills.some((fill: srm.Fill) => {
-        return fill.fillType === 'Gradient' && fill.enabled;
-      });
-      // generate gradient base64
-      if (hasActiveGradient) {
-        // duplicate layer
-        // all styles but the gradient will be removed
-        const layerDuplicate = layer.duplicate();
-        // create base64 from duplicate layer
-        const base64Gradient = gradientToBase64(layerDuplicate, layer.id, sketch);
-        // push base64 gradient to images
-        images.push(base64Gradient);
-        // remove duplicate
-        layerDuplicate.remove();
+const fillImageToImage = (page: srm.Page, image: srm.ImageData, sketch: srm.Sketch): srm.ImgAsset => {
+  // get image size
+  const width = image.nsimage.size().width;
+  const height = image.nsimage.size().height;
+  // create image from fill image
+  const fillImage = new sketch.Image({
+    image: image,
+    parent: page,
+    frame: { width, height, x: 0, y: 0 }
+  });
+  // export image to temp dir
+  sketch.export(fillImage, {
+    scales: '1, 2',
+    formats: 'png',
+    // @ts-ignore
+    output: NSTemporaryDirectory(),
+    ['use-id-for-name']: true,
+    ['save-for-web']: true,
+    overwriting: true
+  });
+  // remove image from page
+  fillImage.remove();
+  // return final image
+  return {
+    id: image.id,
+    src: {
+      // @ts-ignore
+      [`1x`]: `${NSTemporaryDirectory()}${fillImage.id}.png`,
+      // @ts-ignore
+      [`2x`]: `${NSTemporaryDirectory()}${fillImage.id}@2x.png`
+    }
+  }
+}
+
+const createTempImages = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm.Sketch, images: srm.ImgAsset[] = []): srm.ImgAsset[] => {
+  if (layers.length > 0) {
+    layers.forEach((layer: srm.SketchLayer) => {
+      if (layer.type === 'Group') {
+        createTempImages(page, (<srm.Group>layer).layers, sketch, images);
+      } else if (layer.type === 'Image') {
+        const image = imageLayerToImage(page, layer, sketch);
+        images.push(image);
+      } else if (layer.type === 'Shape' || layer.type === 'ShapePath') {
+        (<srm.Shape | srm.ShapePath>layer).style.fills.forEach((fill: srm.Fill) => {
+          if (fill.pattern.image !== null && fill.enabled) {
+            // create image from fill image
+            const fillImage = fillImageToImage(page, fill.pattern.image, sketch);
+            // push final image
+            images.push(fillImage);
+          } else if (fill.fillType === 'Gradient' && fill.enabled) {
+            // create gradient image
+            const gradientImage = fillGradientToImage(page, layer as srm.ShapePath | srm.Shape, sketch);
+            // push final image
+            images.push(gradientImage);
+          }
+        });
       }
-    }
-  });
+    });
+  }
   return images;
 };
 
-const getLayerImages = (layers: srm.SketchLayer[], images: srm.ImageData[] = []): srm.ImageData[] => {
-  layers.forEach((layer: srm.SketchLayer) => {
-    if (layer.type === 'Image') {
-      images.push((<srm.Image>layer).image);
-    }
-  });
-  return images;
-};
-
-const getFillImages = (layers: srm.SketchLayer[], images: srm.ImageData[] = []): srm.ImageData[] => {
-  layers.forEach((layer: srm.SketchLayer) => {
-    if (layer.type === 'Shape' || layer.type === 'ShapePath') {
-      (<srm.Shape | srm.ShapePath>layer).style.fills.forEach((fill: srm.Fill) => {
-        if (fill.pattern.image !== null && fill.enabled) {
-          images.push(fill.pattern.image);
-        }
-      });
-    }
-  });
-  return images;
-};
-
-const getImages = (layers: srm.SketchLayer[], sketch: srm.Sketch): srm.Base64Image[] => {
-  // get layers to turn into base64
-  const layerImages: srm.ImageData[] = getLayerImages(layers);
-  const fillImages: srm.ImageData[] = getFillImages(layers);
-  // generate base64 images from layers
-  const base64LayerImages: srm.Base64Image[] = base64ImageBatch(layerImages);
-  const base64FillImages: srm.Base64Image[] = base64ImageBatch(fillImages);
-  const base64Gradients: srm.Base64Image[] = getBase64Gradients(layers, sketch);
-  // return final base64 image store
-  return [...base64LayerImages, ...base64FillImages, ...base64Gradients];
+const getImages = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm.Sketch): srm.ImgAsset[] => {
+  const layerImages: srm.ImgAsset[] = createTempImages(page, layers, sketch);
+  return layerImages;
 };
 
 export default getImages;

@@ -1,56 +1,57 @@
 import React from 'react';
-import SelectionRulesTop from './SelectionRulesTop';
-import SelectionRulesRight from './SelectionRulesRight';
-import SelectionRulesBottom from './SelectionRulesBottom';
-import SelectionRulesLeft from './SelectionRulesLeft';
+import SelectionRule from './SelectionRule';
 import { getOrigin } from '../utils';
 
 interface SelectionRulesProps {
-  selectionFrame: srm.Rectangle;
-  hoverFrame: srm.Rectangle;
-  artboardFrame: srm.Rectangle;
+  selection: srm.AppLayer;
+  hover: srm.AppLayer;
+  artboard: srm.Artboard;
   zoom: number;
 }
 
 const SelectionRules = (props: SelectionRulesProps) => {
-  const { selectionFrame, hoverFrame, artboardFrame, zoom } = props;
-  const selectionOrigin: srm.Origin = getOrigin(selectionFrame);
-  const hoverOrigin: srm.Origin = getOrigin(hoverFrame);
+  const { selection, hover, artboard, zoom } = props;
+  const selectionOrigin: srm.Origin = getOrigin(selection, artboard);
+  const hoverOrigin: srm.Origin = getOrigin(hover, artboard);
   return (
     <div className='c-selection__rules'>
       {
         selectionOrigin.top > hoverOrigin.top
-        ? <SelectionRulesTop
+        ? <SelectionRule
+            side='top'
             selectionOrigin={selectionOrigin}
             hoverOrigin={hoverOrigin}
-            artboardFrame={artboardFrame}
+            artboardFrame={artboard.frame}
             zoom={zoom} />
         : null
       }
       {
         selectionOrigin.right < hoverOrigin.right
-        ? <SelectionRulesRight
+        ? <SelectionRule
+            side='right'
             selectionOrigin={selectionOrigin}
             hoverOrigin={hoverOrigin}
-            artboardFrame={artboardFrame}
+            artboardFrame={artboard.frame}
             zoom={zoom} />
         : null
       }
       {
         selectionOrigin.bottom < hoverOrigin.bottom
-        ? <SelectionRulesBottom
+        ? <SelectionRule
+            side='bottom'
             selectionOrigin={selectionOrigin}
             hoverOrigin={hoverOrigin}
-            artboardFrame={artboardFrame}
+            artboardFrame={artboard.frame}
             zoom={zoom} />
         : null
       }
       {
         selectionOrigin.left > hoverOrigin.left
-        ? <SelectionRulesLeft
+        ? <SelectionRule
+            side='left'
             selectionOrigin={selectionOrigin}
             hoverOrigin={hoverOrigin}
-            artboardFrame={artboardFrame}
+            artboardFrame={artboard.frame}
             zoom={zoom} />
         : null
       }

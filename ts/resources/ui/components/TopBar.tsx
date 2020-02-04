@@ -1,53 +1,57 @@
 import React from 'react';
-import TopBarSelection from './TopBarSelection';
+import TopBarTheme from './TopBarTheme';
 import TopBarSave from './TopBarSave';
-import TopBarEdit from './TopBarEdit';
-import TopBarNotes from './TopBarNotes';
 import TopBarRefresh from './TopBarRefresh';
 import TopBarZoom from './TopBarZoom';
+import TopBarZoomReset from './TopBarZoomReset';
+import ThemeContext from './ThemeContext';
 
 interface TopbarProps {
-  selection: srm.AppLayer | null;
   baseZoom: number;
   zoom: number;
-  notes: srm.Notes;
-  showNotes: boolean;
-  edit: boolean;
+  notes: srm.Note[];
   composing: boolean;
-  setEdit(edit: boolean): void;
-  setShowNotes(showNotes: boolean): void;
+  appTheme: srm.Theme;
+  setAppTheme(appTheme: srm.Theme): void;
   setZoom(zoom: number): void;
   scrollToCenter(): void;
 }
 
 const TopBar = (props: TopbarProps) => {
-  const { scrollToCenter, zoom, baseZoom, setZoom, setShowNotes, notes, showNotes, edit, setEdit, composing, selection } = props;
+  const { scrollToCenter, zoom, appTheme, setAppTheme, baseZoom, setZoom, notes, composing } = props;
   return (
-    <div className='c-topbar-wrap'>
-      <div className='c-topbar'>
-        <TopBarSelection
-          selection={selection} />
-        <div className='c-topbar__controls'>
-          <TopBarSave
-            composing={composing}
-            notes={notes} />
-          <TopBarEdit
-            composing={composing}
-            edit={edit}
-            setEdit={setEdit} />
-          <TopBarNotes
-            showNotes={showNotes}
-            setShowNotes={setShowNotes} />
-          <TopBarRefresh
-            baseZoom={baseZoom}
-            setZoom={setZoom}
-            scrollToCenter={scrollToCenter} />
-          <TopBarZoom
-            zoom={zoom}
-            setZoom={setZoom} />
+    <ThemeContext.Consumer>
+      {(theme) => (
+        <div className='c-topbar-wrap'>
+          <div
+            className='c-topbar'
+            style={{
+              background: theme.background.z2,
+              boxShadow: `0px 1px 0px 0px ${theme.background.z5}`
+            }}>
+            <div className='c-topbar__controls'>
+              <TopBarRefresh
+                scrollToCenter={scrollToCenter} />
+              <TopBarZoom
+                zoom={zoom}
+                setZoom={setZoom} />
+              <TopBarZoomReset
+                baseZoom={baseZoom}
+                setZoom={setZoom} />
+              <div className='c-topbar__right'>
+                <TopBarTheme
+                  appTheme={appTheme}
+                  setAppTheme={setAppTheme} />
+                <TopBarSave
+                  composing={composing}
+                  notes={notes}
+                  appTheme={appTheme} />
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      )}
+    </ThemeContext.Consumer>
   );
 }
 

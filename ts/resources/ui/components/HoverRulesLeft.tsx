@@ -1,5 +1,5 @@
 import React from 'react';
-import { createRuleLeftStyles } from '../styles/hoverStyles';
+import HoverRule from './HoverRule';
 
 interface HoverRulesLeftProps {
   hoverOrigin: srm.Origin;
@@ -8,25 +8,27 @@ interface HoverRulesLeftProps {
 }
 
 const HoverRulesLeft = (props: HoverRulesLeftProps) => {
-  const { hoverOrigin, selectionOrigin, zoom } = props;
+  const { hoverOrigin, selectionOrigin } = props;
   return (
     <div>
       {
         selectionOrigin.bottom < hoverOrigin.top
         || selectionOrigin.top <= hoverOrigin.bottom && selectionOrigin.top > hoverOrigin.top
         || selectionOrigin.top < hoverOrigin.top && selectionOrigin.bottom > hoverOrigin.bottom
-        ? <div
-            className='c-hover__rule c-hover__rule--lt'
-            style={createRuleLeftStyles(hoverOrigin, selectionOrigin, zoom)} />
+        ? <HoverRule
+            {...props}
+            side='left'
+            sideAlt='top' />
         : null
       }
       {
         selectionOrigin.top > hoverOrigin.bottom
         || selectionOrigin.bottom >= hoverOrigin.top && selectionOrigin.bottom < hoverOrigin.bottom
         || selectionOrigin.bottom > hoverOrigin.bottom && selectionOrigin.top < hoverOrigin.top
-        ? <div
-            className='c-hover__rule c-hover__rule--lb'
-            style={createRuleLeftStyles(hoverOrigin, selectionOrigin, zoom)} />
+        ? <HoverRule
+            {...props}
+            side='left'
+            sideAlt='bottom' />
         : null
       }
     </div>

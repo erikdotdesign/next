@@ -28,50 +28,100 @@ const removeHiddenLayers = (layers: srm.SketchLayer[]): void => {
   if (layers.length > 0) {
     layers.forEach((layer: srm.SketchLayer) => {
       const hidden = (<srm.Group | srm.Shape | srm.Image | srm.ShapePath | srm.Text | srm.SymbolInstance>layer).hidden;
-      const transparent = (<srm.Group | srm.Shape | srm.Image | srm.ShapePath | srm.Text | srm.SymbolInstance>layer).style.opacity === 0;
-      const hiddenOrTransparent = hidden || transparent;
-      if (layer.type === 'Group' && !hiddenOrTransparent) {
+      if (layer.type === 'Group' && !hidden) {
         removeHiddenLayers((<srm.Group>layer).layers);
-      } else if (hiddenOrTransparent) {
+      } else if (hidden) {
         layer.remove();
       }
     });
   }
 };
 
-const maskGroupToImageLayer = (maskGroup: srm.Group, sketch: srm.Sketch): srm.Image => {
-  // create image buffer from layer
-  const buffer: srm.Buffer = sketch.export(maskGroup, {
-    formats: 'png',
-    output: false,
-    ['save-for-web']: true
+const createMaskLayer = (layer: srm.ShapePath | srm.Shape, sketch: srm.Sketch): srm.ShapePath | srm.Shape => {
+  // duplicate layer and reset styles
+  // layer needs a fill and 100% opacity,
+  // to correctly mimic sketch masking
+  let duplicate = layer.duplicate();
+  duplicate.style.fills = [{
+    color: '#000',
+    fillType: 'Color'
+  }];
+  duplicate.frame.x = 0;
+  duplicate.frame.y = 0;
+  duplicate.style.borders = [];
+  duplicate.style.shadows = [];
+  duplicate.style.innerShadows = [];
+  duplicate.style.opacity = 1;
+  // flatten shape
+  let shapeBuffer = sketch.export(duplicate, {
+    formats: 'svg',
+    output: false
   });
-  // create image layer from buffer data
-  const imageLayer: srm.Image = new sketch.Image({
-    name: 'masked-group',
-    image: buffer
-  });
-  // set image layer frame to match mask group frame
-  imageLayer.frame = maskGroup.frame;
-  // return image layer
-  return imageLayer;
-};
+  let shapeGroup = sketch.createLayerFromData(shapeBuffer, 'svg');
+  // get shape in flattened shape group
+  let maskShape = shapeGroup.layers[0];
+  // rename layer
+  maskShape.name = `srm.mask.shape`;
+  // remove duplicate
+  duplicate.remove();
+  // return final mask
+  return maskShape;
+}
 
-const masksToImages = (layers: srm.SketchLayer[], sketch: srm.Sketch): void => {
+const getMaskShape = (layer: srm.SketchLayer): srm.Shape | srm.ShapePath => {
+  let lastLayer = layer;
+  while(lastLayer.type === 'Group') {
+    lastLayer = (lastLayer as srm.Group).layers[0];
+  }
+  return lastLayer as srm.ShapePath | srm.Shape;
+}
+
+const createMaskGroups = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm.Sketch): void => {
   if (layers.length > 0) {
     layers.forEach((layer: srm.SketchLayer) => {
       const hasClippingMask: boolean = layer.sketchObject.hasClippingMask();
-      const hasParentGroup: boolean = layer.parent && layer.parent.type === 'Group';
-      if (layer.type === 'Group' && !hasClippingMask) {
-        masksToImages((<srm.Group>layer).layers, sketch);
-      } else if (hasClippingMask && hasParentGroup) {
-        // @ts-ignore
-        const parent: srm.Group = layer.parent;
-        const parentIndex: number = parent.index;
-        const parentsParent: srm.Group | srm.Artboard = parent.parent;
-        const imageLayer: srm.Image = maskGroupToImageLayer(parent, sketch);
-        // splice in new image, splice out old mask group
-        parentsParent.layers.splice(parentIndex, 1, imageLayer);
+      if (hasClippingMask) {
+        const maskIndex = layer.index;
+        const maskParent = layer.parent;
+        // get mask shape
+        const maskShape = getMaskShape(layer);
+        // flatten shape if polygon, star, or triangle
+        const flatMaskShape = createMaskLayer(maskShape as srm.Shape | srm.ShapePath, sketch);
+        // add prefix to name
+        // add offset to group if flat mask shape if slimmer than mask shape
+        const maskGroupOffset = flatMaskShape.frame.width !== maskShape.frame.width
+                                ? (maskShape.frame.width - flatMaskShape.frame.width) / 2
+                                : maskShape.frame.x;
+        // create new group to mimic mask behavior
+        // app will apply overflow hidden to groups with the name srm.mask
+        const maskGroup = new sketch.Group({
+          name: 'srm.mask',
+          frame: {
+            ...flatMaskShape.frame,
+            x: maskGroupOffset
+          },
+          layers: [flatMaskShape]
+        });
+        // splice in mask group, splice out old mask
+        maskParent.layers.splice(maskIndex, 1, maskGroup);
+        // if mask is a group, push group layers to mask group
+        if (layer.type === 'Group') {
+          (layer as srm.Group).layers.forEach((maskedLayer: srm.SketchLayer) => {
+            maskGroup.layers.push(maskedLayer);
+          });
+        }
+        // loop through mask parent layers,
+        // any layer with an index higher than the mask will be masked
+        // push masked layers to maskGroup
+        maskParent.layers.forEach((maskedLayer: srm.SketchLayer, index: number) => {
+          if (index > maskIndex) {
+            maskedLayer.frame.x = maskedLayer.frame.x - maskGroup.frame.x;
+            maskedLayer.frame.y = maskedLayer.frame.y - maskGroup.frame.y;
+            maskGroup.layers.push(maskedLayer);
+          }
+        });
+      } else if (layer.type === "Group") {
+        createMaskGroups(page, (<srm.Group>layer).layers, sketch);
       }
     });
   }
@@ -89,30 +139,34 @@ const flattenGroups = (layers: srm.SketchLayer[]): void => {
 };
 
 const roundFrameDimensions = (layers: srm.SketchLayer[]): void => {
-  layers.forEach((layer: srm.SketchLayer) => {
-    layer.frame.x = Math.round(layer.frame.x);
-    layer.frame.y = Math.round(layer.frame.y);
-    layer.frame.width = Math.round(layer.frame.width);
-    layer.frame.height = Math.round(layer.frame.height);
-  });
+  if (layers.length > 0) {
+    layers.forEach((layer: srm.SketchLayer) => {
+      layer.frame.x = Math.round(layer.frame.x);
+      layer.frame.y = Math.round(layer.frame.y);
+      layer.frame.width = Math.round(layer.frame.width);
+      layer.frame.height = Math.round(layer.frame.height);
+      if (layer.type === "Group") {
+        roundFrameDimensions((<srm.Group>layer).layers);
+      }
+    });
+  }
 };
 
-const getArtboard = (selectedArtboard: srm.Artboard, sketch: srm.Sketch): srm.Artboard => {
+const getArtboard = (page: srm.Page, selectedArtboard: srm.Artboard, sketch: srm.Sketch): srm.Artboard => {
   // duplicate artboard
-  let artboard: srm.Artboard = selectedArtboard.duplicate();
+  const artboard: srm.Artboard = selectedArtboard.duplicate();
   // reset duplicated artboard position
   artboard.frame.x = 0;
   artboard.frame.y = 0;
+  artboard.background.includedInExport = true;
   // removes hotspots, slices, and artboards
   removeIrrelevantLayers(artboard.layers);
   // detach all symbols from artboard, returns layer groups
   detatchSymbols(artboard.layers);
   // remove hidden layers
   removeHiddenLayers(artboard.layers);
-  // turn masks into image layers
-  masksToImages(artboard.layers, sketch);
-  // flatten all groups
-  flattenGroups(artboard.layers);
+  // create mask groups
+  createMaskGroups(page, artboard.layers, sketch);
   // round layer frame dimensions
   roundFrameDimensions(artboard.layers);
   // return final artboard

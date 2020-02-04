@@ -1,4 +1,17 @@
-import { getImage, getSVG, cssColor, styleReducer } from '../utils';
+import { getImage, getScaledImage, cssColor, styleReducer } from '../utils';
+
+export const createOverflow = (overflow: srm.css.value.Overflow): srm.css.Overflow => {
+  return {
+    overflow
+  }
+};
+
+export const createMask = (mask: string): srm.css.Mask => {
+  return {
+    mask: `url(${mask})`,
+    WebkitMaskBoxImage: `url(${mask}) 100 100 0 0 stretch stretch`
+  }
+};
 
 export const createLeft = (x: number): srm.css.Left => {
   return {
@@ -187,11 +200,12 @@ export const combineBordersAndShadows = (boxShadows: any[]): srm.css.BoxShadow |
   }
 };
 
-export const createGradientFillImage = (images: srm.Base64Image[], id: string): srm.css.Background | Pick<srm.css.Background, 'background'> | null => {
+export const createGradientFillImage = (images: srm.ImgAsset[], id: string): srm.css.Background | Pick<srm.css.Background, 'background'> | null => {
   const image = getImage(images, id);
+  const scaledImage = image ? getScaledImage(image) : null;
   if (image) {
     return {
-      background: `url(${image.src})`,
+      background: `url(${scaledImage})`,
       backgroundSize: 'cover',
       backgroundRepeat: 'no-repeat',
       backgroundPosition: 'center center'
@@ -242,13 +256,14 @@ export const createPatternDisplay = (patternType: srm.PatternFillType): Omit<srm
   };
 };
 
-export const createPatternFill = (pattern: srm.Pattern, images: srm.Base64Image[]): srm.css.Background | null => {
+export const createPatternFill = (pattern: srm.Pattern, images: srm.ImgAsset[]): srm.css.Background | null => {
   const displayStyle = createPatternDisplay(pattern.patternType);
   if (pattern.image) {
     const image = getImage(images, pattern.image.id);
+    const scaledImage = image ? getScaledImage(image) : null;
     if (image) {
       return {
-        background: `url(${image.src})`,
+        background: `url(${scaledImage})`,
         ...displayStyle
       }
     } else {
@@ -259,7 +274,7 @@ export const createPatternFill = (pattern: srm.Pattern, images: srm.Base64Image[
   }
 };
 
-export const createBackground = (layer: srm.ShapePath | srm.ShapePath | srm.Image, images: srm.Base64Image[]): srm.css.Background | Pick<srm.css.Background, 'background'> | null => {
+export const createBackground = (layer: srm.ShapePath | srm.ShapePath | srm.Image, images: srm.ImgAsset[]): srm.css.Background | Pick<srm.css.Background, 'background'> | null => {
   const { style, id } = layer;
   // get fills that are enabled
   const hasActiveFills = style.fills.some((fill: srm.Fill) => fill.enabled);
@@ -441,18 +456,7 @@ export const createStrokeLineCap = (sketchLineEnd: string): srm.css.StrokeLineCa
   }
 };
 
-export const createSVG = (id: string, svgs: srm.SvgPath[]) => {
-  const svg = getSVG(svgs, id);
-  if (svg) {
-    return {
-      svg: svg.svg
-    }
-  } else {
-    return null;
-  }
-};
-
-export const createBaseLayerStyles = (layer: srm.Shape | srm.ShapePath | srm.Image | srm.Text) => {
+export const createBaseLayerStyles = (layer: srm.AppArtboardLayer) => {
   const { frame } = layer;
   // generate styles
   const width = createWidth(frame.width);

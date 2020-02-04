@@ -1,17 +1,17 @@
 import React from 'react';
-import { createRuleBottomStyles } from '../styles/hoverStyles';
+import HoverRule from './HoverRule';
 const HoverRulesBottom = (props) => {
-    const { hoverOrigin, selectionOrigin, zoom } = props;
+    const { hoverOrigin, selectionOrigin } = props;
     return (React.createElement("div", null,
         selectionOrigin.right < hoverOrigin.left
             || selectionOrigin.left <= hoverOrigin.right && selectionOrigin.left > hoverOrigin.left
             || selectionOrigin.left < hoverOrigin.left && selectionOrigin.right > hoverOrigin.right
-            ? React.createElement("div", { className: 'c-hover__rule c-hover__rule--bl', style: createRuleBottomStyles(hoverOrigin, selectionOrigin, zoom) })
+            ? React.createElement(HoverRule, Object.assign({}, props, { side: 'bottom', sideAlt: 'left' }))
             : null,
         selectionOrigin.left > hoverOrigin.right
             || selectionOrigin.right >= hoverOrigin.left && selectionOrigin.right < hoverOrigin.right
             || selectionOrigin.left < hoverOrigin.left && selectionOrigin.right > hoverOrigin.right
-            ? React.createElement("div", { className: 'c-hover__rule c-hover__rule--br', style: createRuleBottomStyles(hoverOrigin, selectionOrigin, zoom) })
+            ? React.createElement(HoverRule, Object.assign({}, props, { side: 'bottom', sideAlt: 'right' }))
             : null));
 };
 export default HoverRulesBottom;

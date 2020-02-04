@@ -1,21 +1,26 @@
 import React from 'react';
+import LayerGroup from './LayerGroup';
 import LayerImage from './LayerImage';
 import LayerShapePath from './LayerShapePath';
 import LayerShape from './LayerShape';
 import LayerText from './LayerText';
 
 interface LayerProps {
-  layer: srm.ShapePath | srm.Shape | srm.Image | srm.Text;
-  images: srm.Base64Image[];
-  svgs: srm.SvgPath[];
+  layer: srm.AppArtboardLayer;
+  images: srm.ImgAsset[];
+  svgs: srm.SvgAsset[];
   setSelection(selection: srm.AppLayer | null): void;
+  setGroupSelection(selection: srm.AppLayer | null): void;
   setHover(hover: srm.AppLayer | null): void;
 }
 
 const Layer = (props: LayerProps) => {
-  const { layer, images, svgs, setSelection, setHover } = props;
+  const { layer, images, svgs, setSelection, setGroupSelection, setHover } = props;
   const onClick = () => {
     setSelection(layer);
+  }
+  const onDoubleClick = () => {
+    setGroupSelection(layer as srm.Group);
   }
   const onMouseOver = () => {
     setHover(layer);
@@ -24,6 +29,20 @@ const Layer = (props: LayerProps) => {
     setHover(null);
   }
   switch(layer.type) {
+    case 'Group':
+      return (
+        <LayerGroup
+          layer={layer as srm.Group}
+          images={images}
+          svgs={svgs}
+          onClick={onClick}
+          onDoubleClick={onDoubleClick}
+          onMouseOver={onMouseOver}
+          onMouseOut={onMouseOut}
+          setSelection={props.setSelection}
+          setGroupSelection={props.setGroupSelection}
+          setHover={props.setHover} />
+      )
     case 'Image':
       return (
         <LayerImage

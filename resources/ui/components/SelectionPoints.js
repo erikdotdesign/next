@@ -1,7 +1,7 @@
 import React from 'react';
 const SelectionPoints = (props) => {
-    const scale = props.zoom < 1 ? 1 / props.zoom : 1;
-    const origin = props.zoom < 1 ? 50 * props.zoom : 50;
+    const scale = 1 / props.zoom;
+    const origin = 50 * props.zoom;
     return (React.createElement("div", { className: 'c-selection__points' },
         React.createElement("div", { className: 'c-selection__point c-selection__point--tl', style: {
                 transform: `scale(${scale}) translate(-${origin}%, -${origin}%)`

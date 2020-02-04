@@ -2,25 +2,26 @@ import React from 'react';
 import Layer from './Layer';
 
 interface LayersProps {
-  layers: (srm.ShapePath | srm.Shape | srm.Image | srm.Text)[];
-  images: srm.Base64Image[];
-  svgs: srm.SvgPath[];
-  style: any;
+  layers: srm.AppArtboardLayer[];
+  images: srm.ImgAsset[];
+  svgs: srm.SvgAsset[];
   setSelection(selection: srm.AppLayer | null): void;
+  setGroupSelection(groupSelection: srm.Group | null): void;
   setHover(hover: srm.AppLayer | null): void;
 }
 
 const Layers = (props: LayersProps) => {
   return (
-    <div className='c-layers' style={props.style}>
+    <div className='c-layers'>
       {
-        props.layers.map((layer: srm.ShapePath | srm.Shape | srm.Image | srm.Text, index: number) => (
+        props.layers.map((layer: srm.AppArtboardLayer, index: number) => (
           <Layer
             layer={layer}
             key={index}
             images={props.images}
             svgs={props.svgs}
             setSelection={props.setSelection}
+            setGroupSelection={props.setGroupSelection}
             setHover={props.setHover} />
         ))
       }

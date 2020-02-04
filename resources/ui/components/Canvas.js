@@ -1,9 +1,11 @@
 import React, { useRef, useEffect } from 'react';
 import Artboard from './Artboard';
+import BackButton from './BackButton';
+import ThemeContext from './ThemeContext';
 let startGestureZoom = 0;
 let gestureZoom = 1;
 const Canvas = (props) => {
-    const { artboard, images, svgs, selection, setSelection, hover, setHover, setZoom, zoom, showNotes, edit, setEdit, notes, setNotes, composing, ready } = props;
+    const { artboard, images, svgs, selection, setSelection, groupSelection, setGroupSelection, groupSelectionNest, setGroupSelectionNest, hover, setHover, setZoom, zoom, ready } = props;
     const canvas = useRef(null);
     const handleClick = () => {
         setSelection(null);
@@ -43,10 +45,13 @@ const Canvas = (props) => {
     useEffect(() => {
         gestureZoom = zoom;
     }, [zoom]);
-    return (React.createElement("div", { className: 'c-canvas', id: 'canvas', ref: canvas, onWheel: handleWheel },
-        ready
-            ? React.createElement(Artboard, { artboard: artboard, images: images, svgs: svgs, selection: selection, setSelection: setSelection, hover: hover, setHover: setHover, zoom: zoom, showNotes: showNotes, edit: edit, notes: notes, setNotes: setNotes, composing: composing })
+    return (React.createElement(ThemeContext.Consumer, null, (theme) => (React.createElement("div", { className: 'c-canvas', id: 'canvas', ref: canvas, onWheel: handleWheel, style: { background: theme.background.z0 } },
+        groupSelectionNest
+            ? React.createElement(BackButton, { artboard: artboard, setSelection: setSelection, setGroupSelection: setGroupSelection, groupSelectionNest: groupSelectionNest, setGroupSelectionNest: setGroupSelectionNest })
             : null,
-        React.createElement("div", { className: 'c-canvas__escape', onClick: handleClick, onMouseOver: handleMouseOver })));
+        ready
+            ? React.createElement(Artboard, { artboard: artboard, images: images, svgs: svgs, selection: selection, setSelection: setSelection, groupSelection: groupSelection, setGroupSelection: setGroupSelection, groupSelectionNest: groupSelectionNest, setGroupSelectionNest: setGroupSelectionNest, hover: hover, setHover: setHover, zoom: zoom })
+            : null,
+        React.createElement("div", { className: 'c-canvas__escape', onClick: handleClick, onMouseOver: handleMouseOver })))));
 };
 export default Canvas;

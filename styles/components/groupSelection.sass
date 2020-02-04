@@ -1,0 +1,18 @@
+.c-group-selection
+  +absolute-full
+  z-index: 2
+
+.c-group-selection__artboard
+  position: relative
+  z-index: 2
+  box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.04), 0px 16px 24px -32px rgba(0,0,0,0.64), 0px -12px 24px -32px rgba(0,0,0,0.64), 12px 0px 24px -32px rgba(0,0,0,0.64), -12px 0px 24px -32px rgba(0,0,0,0.64)
+
+.c-group-selection__scrim
+  +absolute-full
+  width: calc(100% + #{$unit * 8}) // calc(100% + 32px)
+  height: calc(100% + #{$unit * 8}) // calc(100% + 32px)
+  top: -($unit * 4) // -16
+  left: -($unit * 4) // -16
+
+.c-group-selection__click-area
+  +absolute-full

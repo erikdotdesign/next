@@ -1,11 +1,19 @@
 import React, { useRef, useState, useEffect } from 'react';
-import Sidebar from './Sidebar';
+import SidebarRight from './SidebarRight';
+import SidebarLeft from './SidebarLeft';
 import Canvas from './Canvas';
 import TopBar from './TopBar';
+import ThemeProvider from './ThemeProvider';
+import ThemeContext, { SRM_DEFAULT_PRIMARY } from './ThemeContext';
+import chroma from 'chroma-js';
 const App = (props) => {
     const app = useRef(null);
     const [ready, setReady] = useState(false);
+    const [appTheme, setAppTheme] = useState(props.theme);
+    const [avgColor, setAvgColor] = useState(SRM_DEFAULT_PRIMARY);
     // selection and hover
+    const [groupSelectionNest, setGroupSelectionNest] = useState(null);
+    const [groupSelection, setGroupSelection] = useState(null);
     const [selection, setSelection] = useState(null);
     const [hover, setHover] = useState(null);
     // zoom
@@ -13,12 +21,11 @@ const App = (props) => {
     const [baseZoom, setBaseZoom] = useState(1);
     // scroll
     const canvasSize = 20000;
+    const sidebarSize = 320;
     const [centerScroll, setCenterScroll] = useState({ x: 0, y: 0 });
     const [viewPortSize, setViewPortSize] = useState({ width: 0, height: 0 });
     // notes
     const [notes, setNotes] = useState(props.notes);
-    const [showNotes, setShowNotes] = useState(true);
-    const [edit, setEdit] = useState(true);
     const scaleArtboardForViewport = () => {
         const artboardWidth = props.artboard.frame.width;
         const artboardHeight = props.artboard.frame.height;
@@ -36,9 +43,29 @@ const App = (props) => {
             return maxWidth / artboardWidth;
         }
     };
+    const getAvgColor = () => {
+        const colors = [];
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        const width = props.artboard.frame.width * 0.10;
+        const height = props.artboard.frame.height * 0.10;
+        canvas.width = width;
+        canvas.height = height;
+        if (context) {
+            context.drawImage(props.artboardImage, 0, 0);
+            const pixels = context.getImageData(0, 0, width, height).data;
+            for (let i = 0, n = pixels.length; i < n; i += 4) {
+                let r = pixels[i];
+                let g = pixels[i + 1];
+                let b = pixels[i + 2];
+                colors.push(`rgb(${r}, ${g}, ${b})`);
+            }
+        }
+        return chroma.average(colors, 'lch');
+    };
     const getViewPortSize = () => {
         return {
-            width: window.innerWidth - 320,
+            width: window.innerWidth - sidebarSize * 2,
             height: window.innerHeight - 48
         };
     };
@@ -46,6 +73,7 @@ const App = (props) => {
         setViewPortSize(getViewPortSize());
     };
     const handleInitialRender = (callback) => {
+        setAvgColor(getAvgColor());
         handleResize();
         callback();
     };
@@ -67,6 +95,40 @@ const App = (props) => {
             scrollToCenter();
         }
     };
+    // update groupSelectionNest on group selection change
+    useEffect(() => {
+        if (groupSelection) {
+            // check if groupSelectionNest exists
+            if (groupSelectionNest) {
+                // if groupSelectionNest exists,
+                // check if it contains groupSelection
+                const nestContainsGroup = groupSelectionNest.find((group) => {
+                    return group.id === groupSelection.id;
+                });
+                // if groupSelectionNest contains groupSelection,
+                // create new groupSelectionNest with all the parents up to groupSelection
+                if (nestContainsGroup) {
+                    let i = 0;
+                    let newNest = [];
+                    while (groupSelectionNest[i].id !== groupSelection.id) {
+                        newNest.push(groupSelectionNest[i]);
+                        i++;
+                    }
+                    setGroupSelectionNest([...newNest, groupSelection]);
+                }
+                else {
+                    // if groupSelectionNest does not contain groupSelection,
+                    // add groupSelection to the end of groupSelectionNest
+                    setGroupSelectionNest([...groupSelectionNest, groupSelection]);
+                }
+            }
+            else {
+                // if groupSelectionNest does not exist,
+                // initialize it with groupSelection
+                setGroupSelectionNest([groupSelection]);
+            }
+        }
+    }, [groupSelection]);
     useEffect(() => {
         var _a;
         // focus app for key events
@@ -90,7 +152,7 @@ const App = (props) => {
         const artboardWidthMid = artboardWidth / 2;
         // get and set offsets
         const canvasCenter = canvasSize / 2;
-        const leftOffset = canvasCenter - artboardWidthMid;
+        const leftOffset = canvasCenter - artboardWidthMid - sidebarSize;
         const topOffset = canvasCenter - artboardHeightMid;
         const rightRemainder = viewPortSize.width - artboardWidth;
         const bottomRemainder = viewPortSize.height - artboardHeight;
@@ -103,9 +165,13 @@ const App = (props) => {
         });
     }, [viewPortSize]);
     // SCROLL PERFORMANCE IS HORRIBLE ON SAFARI FOR NESTED COMPONENTS
-    return (React.createElement("div", { className: 'c-app', tabIndex: -1, ref: app, onKeyDown: handleKeyPress },
-        React.createElement(TopBar, { selection: selection, zoom: zoom, setZoom: setZoom, baseZoom: baseZoom, notes: notes, showNotes: showNotes, setShowNotes: setShowNotes, edit: edit, setEdit: setEdit, scrollToCenter: scrollToCenter, composing: props.composing }),
-        React.createElement(Sidebar, { selection: selection, images: props.images, svgs: props.svgs, notes: notes, setNotes: setNotes, edit: edit, composing: props.composing }),
-        React.createElement(Canvas, Object.assign({}, props, { ready: ready, zoom: zoom, setZoom: setZoom, selection: selection, setSelection: setSelection, hover: hover, setHover: setHover, viewPortSize: viewPortSize, showNotes: showNotes, edit: edit, setEdit: setEdit, notes: notes, setNotes: setNotes, composing: props.composing }))));
+    return (React.createElement(ThemeProvider, { theme: appTheme, avgColor: avgColor },
+        React.createElement(ThemeContext.Consumer, null, (theme) => (React.createElement("div", { className: 'c-app', tabIndex: -1, ref: app, onKeyDown: handleKeyPress, style: {
+                background: theme.background.z1
+            } },
+            React.createElement(TopBar, { zoom: zoom, setZoom: setZoom, baseZoom: baseZoom, notes: notes, scrollToCenter: scrollToCenter, appTheme: appTheme, setAppTheme: setAppTheme, composing: props.composing }),
+            React.createElement(SidebarLeft, { selection: selection, setSelection: setSelection, hover: hover, setHover: setHover, notes: notes, groupSelection: groupSelection, setGroupSelection: setGroupSelection, groupSelectionNest: groupSelectionNest, setGroupSelectionNest: setGroupSelectionNest, artboard: props.artboard }),
+            React.createElement(SidebarRight, { selection: selection, images: props.images, svgs: props.svgs, notes: notes, setNotes: setNotes, composing: props.composing }),
+            React.createElement(Canvas, Object.assign({}, props, { ready: ready, zoom: zoom, setZoom: setZoom, selection: selection, setSelection: setSelection, groupSelection: groupSelection, setGroupSelection: setGroupSelection, groupSelectionNest: groupSelectionNest, setGroupSelectionNest: setGroupSelectionNest, hover: hover, setHover: setHover })))))));
 };
 export default App;

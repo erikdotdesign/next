@@ -5,7 +5,7 @@ const artboardStyles = (artboard: srm.Artboard) => {
   const { color, enabled } = background;
   const width = styles.createWidth(frame.width);
   const height = styles.createHeight(frame.height);
-  const bg = enabled ? styles.createColorFill(color) : { background: 'transparent' };
+  const bg = enabled ? styles.createColorFill(color) : { background: '#fff' };
 
   return {
     ...width,

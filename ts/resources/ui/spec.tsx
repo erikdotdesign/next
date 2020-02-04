@@ -2,18 +2,25 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App';
 
+let SRM_ARTBOARD_IMAGE = new Image();
 // @ts-ignore
-// ignores window.renderApp
-ReactDOM.render(
-  <App
+SRM_ARTBOARD_IMAGE.src = SRM_APP_STORE.artboardImage;
+SRM_ARTBOARD_IMAGE.onload = () => {
+  ReactDOM.render(
+    <App
+    composing={false}
     // @ts-ignore
-    artboard={store.artboard}
+    theme={SRM_APP_THEME}
     // @ts-ignore
-    images={store.images}
+    artboard={SRM_APP_STORE.artboard}
     // @ts-ignore
-    svgs={store.svgs}
+    images={SRM_APP_STORE.images}
     // @ts-ignore
-    notes={store.notes}
-    composing={false} />,
-  document.getElementById('root')
-);
+    svgs={SRM_APP_STORE.svgs}
+    // @ts-ignore
+    notes={SRM_APP_STORE.notes}
+    // @ts-ignore
+    artboardImage={SRM_ARTBOARD_IMAGE} />,
+    document.getElementById('root')
+  );
+};

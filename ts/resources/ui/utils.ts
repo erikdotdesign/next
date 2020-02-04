@@ -1,11 +1,55 @@
 import chroma from 'chroma-js';
 
-export const getImage = (images: srm.Base64Image[], id: string): srm.Base64Image | undefined  => {
-  return images.find((image: srm.Base64Image) => image.id === id);
+export const getLayerNotes = (layerId: string, notes: srm.Note[]) => {
+  return notes.find((layerNote: srm.Note) => {
+    return layerNote.id === layerId;
+  });
 };
 
-export const getSVG = (svgs: srm.SvgPath[], id: string): srm.SvgPath | undefined  => {
-  return svgs.find((svg: srm.SvgPath) => svg.id === id);
+export const getNestedNoteCount = (groupLayer: srm.AppLayer, notes: srm.Note[])  => {
+  let groups: any[] = [groupLayer];
+  let count = 0;
+  let i = 0;
+  while (i < groups.length) {
+    groups[i].layers.forEach((layer: srm.SketchLayer) => {
+      const layerNotes = notes.find((layerNote: srm.Note) => {
+        return layerNote.id === layer.id;
+      });
+      count = count + (layerNotes ? layerNotes.notes.length : 0);
+      if (layer.type === 'Group') {
+        groups.push(layer);
+      }
+    });
+    i++;
+  }
+  return count;
+};
+
+export const getScaledImage = (image: srm.ImgAsset): string  => {
+  const dpr = window.devicePixelRatio;
+  return dpr > 1 ? image.src[`2x`] : image.src[`1x`];
+};
+
+export const getImage = (images: srm.ImgAsset[], id: string): srm.ImgAsset | undefined  => {
+  return images.find((image: srm.ImgAsset) => image.id === id);
+};
+
+export const getSVG = (svgs: srm.SvgAsset[], id: string): srm.SvgAsset | undefined  => {
+  return svgs.find((svg: srm.SvgAsset) => svg.id === id);
+};
+
+export const getAbsolutePosition = (artboardId: string, layerId: string) => {
+  const layerEl = document.getElementById(layerId);
+  var x = 0;
+  var y = 0;
+  var layer = layerEl;
+  while (layer && layer.id !== artboardId) {
+    x = x + layer?.offsetLeft;
+    y = y + layer?.offsetTop;
+    // @ts-ignore
+    layer = layer.offsetParent;
+  }
+  return {x, y}
 };
 
 export const cssColor = (color: string): string => {
@@ -21,8 +65,10 @@ export const styleReducer = (combinedStyles: any[]) => {
   }, {});
 };
 
-export const getOrigin = (frame: srm.Rectangle): srm.Origin => {
-  const { x, y, width, height } = frame;
+export const getOrigin = (layer: srm.AppLayer, artboard: srm.Artboard): srm.Origin => {
+  const absolutePosition = getAbsolutePosition(artboard.id, layer.id);
+  const layerFrame = {...layer.frame, ...absolutePosition};
+  const { x, y, width, height } = layerFrame;
   return {
     top: y,
     right: x + width,

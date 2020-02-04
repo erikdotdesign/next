@@ -2,13 +2,14 @@ import * as styles from './layerStyles';
 import shapeStyles from './shapeStyles';
 import { styleReducer } from '../utils';
 
-const shapePathStyles = (layer: srm.ShapePath, images: srm.Base64Image[]) => {
+const shapePathStyles = (layer: srm.ShapePath, images: srm.ImgAsset[], svgs: any[]) => {
   const { style, shapeType, points } = layer;
   // get shape path and type
   const hasOpenPath = !layer.closed;
   const notRectangle = layer.shapeType !== 'Rectangle';
   const notOval = layer.shapeType !== 'Oval';
   const isOddShape = notRectangle && notOval;
+  const hasDashPattern = layer.style.borderOptions.dashPattern.length > 0;
   // get styles
   const baseStyles = styles.createBaseLayerStyles(layer);
   const background = styles.createBackground(layer, images);
@@ -27,8 +28,8 @@ const shapePathStyles = (layer: srm.ShapePath, images: srm.Base64Image[]) => {
 
   // if shape is open or odd, it will be an svg with shape styles
   // else it will be a div with full styles
-  if (hasOpenPath || isOddShape) {
-    return {...shapeStyles(layer)};
+  if (hasOpenPath || isOddShape || hasDashPattern) {
+    return {...shapeStyles(layer, svgs)};
   } else {
     return styleReducer(combined);
   }

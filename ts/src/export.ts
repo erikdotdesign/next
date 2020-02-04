@@ -15,6 +15,7 @@ const webviewIdentifier = 'measure.webview';
 export default (context: any) => {
   // get document, selectedLayers, and artboard
   const document: srm.Document = sketch.getSelectedDocument();
+  const page = document.selectedPage;
   const selectedLayers: srm.Selection = document.selectedLayers;
   const artboard = selectedLayers.layers.find((layer: srm.SketchLayer) => {
     return layer.type === 'Artboard' && layer.selected;
@@ -22,7 +23,8 @@ export default (context: any) => {
   // if artboard selected, run command
   if (artboard) {
     //@ts-ignore
-    let store = getStore(artboard, sketch);
+    let store = getStore(page, artboard, sketch);
+    const theme = ui.getTheme();
     // set webview browser window
     const browserWindow = new BrowserWindow({
       identifier: webviewIdentifier,
@@ -42,14 +44,37 @@ export default (context: any) => {
     // render app once webview contents loaded
     webContents.on('did-finish-load', () => {
       //@ts-ignore
-      webContents.executeJavaScript(`renderApp(${JSON.stringify(store)})`);
+      webContents.executeJavaScript(`renderApp(
+        ${JSON.stringify(store)},
+        ${JSON.stringify(theme)}
+      )`);
     });
     // open save prompt on save
-    webContents.on('save', (notes: string) => {
+    webContents.on('save', (params: string) => {
+      const saveParams = JSON.parse(params);
       // add notes to store
-      store.notes = JSON.parse(notes);
-      // stringify store for export
-      let data = JSON.stringify(store);
+      store.notes = saveParams.notes;
+      // set final store
+      let finalStore = Object.assign({}, store);
+      // update final store image paths
+      finalStore.images = store.images.map((image) => {
+        return {
+          id: image.id,
+          src: {
+            [`1x`]: `images/${image.id}.png`,
+            [`2x`]: `images/${image.id}@2x.png`
+          }
+        }
+      });
+      // update final store svg paths
+      finalStore.svgs = store.svgs.map((svg: any) => {
+        return {
+          id: svg.id,
+          src: `svgs/${svg.id}.svg`
+        }
+      });
+      // stringify final store for export
+      let finalStoreString = JSON.stringify(finalStore);
       // get save path
       let savePath = pluginExport.getSavePath(context);
       // get plugin root
@@ -72,33 +97,47 @@ export default (context: any) => {
       // get contents of js
       let script = pluginExport.getFileContent(scriptPath);
       // add store to js string
-      let scriptWithStore = `var store = ${data}; ${script}`;
+      let scriptWithStore = `var SRM_APP_STORE = ${finalStoreString}; ${script}`;
+      // // add theme to js string
+      let scriptWithTheme = `var SRM_APP_THEME = '${saveParams.theme}'; ${scriptWithStore}`;
       // get contents of js map
       let scriptSourceMap = pluginExport.getFileContent(scriptSourceMapPath);
       // create final html
       pluginExport.writeFile({
         content: template,
-        path: `${savePath}`,
+        path: savePath,
         fileName: 'spec.html'
       });
       // create final css
       pluginExport.writeFile({
         content: styles,
-        path: `${savePath}`,
+        path: savePath,
         fileName: styleName
       });
       // create final js
       pluginExport.writeFile({
-        content: scriptWithStore,
-        path: `${savePath}`,
+        content: scriptWithTheme,
+        path: savePath,
         fileName: 'resources_ui_spec.js'
       });
       // create final js map
       pluginExport.writeFile({
         content: scriptSourceMap,
-        path: `${savePath}`,
+        path: savePath,
         fileName: 'resources_ui_spec.js.map'
       });
+      // move images from temp folder to spec
+      if (store.images.length > 0) {
+        pluginExport.moveImages(store.images, savePath);
+      }
+      // move svgs from temp folder to spec
+      if (store.svgs.length > 0) {
+        pluginExport.moveSVGs(store.svgs, savePath);
+      }
+      // copy fonts used in spec
+      if (store.fonts.length > 0) {
+        pluginExport.copyFonts(store.fonts, savePath);
+      }
     });
   } else {
     // if artboard not selected, alert user

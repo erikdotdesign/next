@@ -1,20 +1,21 @@
 import * as styles from './layerStyles';
-import { getImage, styleReducer } from '../utils';
+import { getImage, getScaledImage, styleReducer } from '../utils';
 
-const getImageBackground = (imageId: string, images: srm.Base64Image[]) => {
+const getImageBackground = (imageId: string, images: srm.ImgAsset[]) => {
   const image = getImage(images, imageId);
+  const scaledImage = image ? getScaledImage(image) : null;
   if (image) {
     return {
-      background: `url(${image ? image.src : ''})`,
+      background: `url(${scaledImage})`,
       backgroundRepeat: 'no-repeat',
       backgroundSize: '100% 100%',
     }
   } else {
     return null;
   }
-}
+};
 
-const imageStyles = (layer: srm.Image, images: srm.Base64Image[]) => {
+const imageStyles = (layer: srm.Image, images: srm.ImgAsset[]) => {
   const { style } = layer;
   const imageBackground = getImageBackground(layer.image.id, images);
   const baseStyles = styles.createBaseLayerStyles(layer);

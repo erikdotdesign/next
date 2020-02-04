@@ -1,25 +1,22 @@
 import React from 'react';
-import SelectionRulesTop from './SelectionRulesTop';
-import SelectionRulesRight from './SelectionRulesRight';
-import SelectionRulesBottom from './SelectionRulesBottom';
-import SelectionRulesLeft from './SelectionRulesLeft';
+import SelectionRule from './SelectionRule';
 import { getOrigin } from '../utils';
 const SelectionRules = (props) => {
-    const { selectionFrame, hoverFrame, artboardFrame, zoom } = props;
-    const selectionOrigin = getOrigin(selectionFrame);
-    const hoverOrigin = getOrigin(hoverFrame);
+    const { selection, hover, artboard, zoom } = props;
+    const selectionOrigin = getOrigin(selection, artboard);
+    const hoverOrigin = getOrigin(hover, artboard);
     return (React.createElement("div", { className: 'c-selection__rules' },
         selectionOrigin.top > hoverOrigin.top
-            ? React.createElement(SelectionRulesTop, { selectionOrigin: selectionOrigin, hoverOrigin: hoverOrigin, artboardFrame: artboardFrame, zoom: zoom })
+            ? React.createElement(SelectionRule, { side: 'top', selectionOrigin: selectionOrigin, hoverOrigin: hoverOrigin, artboardFrame: artboard.frame, zoom: zoom })
             : null,
         selectionOrigin.right < hoverOrigin.right
-            ? React.createElement(SelectionRulesRight, { selectionOrigin: selectionOrigin, hoverOrigin: hoverOrigin, artboardFrame: artboardFrame, zoom: zoom })
+            ? React.createElement(SelectionRule, { side: 'right', selectionOrigin: selectionOrigin, hoverOrigin: hoverOrigin, artboardFrame: artboard.frame, zoom: zoom })
             : null,
         selectionOrigin.bottom < hoverOrigin.bottom
-            ? React.createElement(SelectionRulesBottom, { selectionOrigin: selectionOrigin, hoverOrigin: hoverOrigin, artboardFrame: artboardFrame, zoom: zoom })
+            ? React.createElement(SelectionRule, { side: 'bottom', selectionOrigin: selectionOrigin, hoverOrigin: hoverOrigin, artboardFrame: artboard.frame, zoom: zoom })
             : null,
         selectionOrigin.left > hoverOrigin.left
-            ? React.createElement(SelectionRulesLeft, { selectionOrigin: selectionOrigin, hoverOrigin: hoverOrigin, artboardFrame: artboardFrame, zoom: zoom })
+            ? React.createElement(SelectionRule, { side: 'left', selectionOrigin: selectionOrigin, hoverOrigin: hoverOrigin, artboardFrame: artboard.frame, zoom: zoom })
             : null));
 };
 export default SelectionRules;

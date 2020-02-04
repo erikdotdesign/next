@@ -1,0 +1,73 @@
+$sidebarLeftCellHeight: $unit * 10 // 40
+
+.c-sidebar--left
+  left: 0
+
+  &::selection
+    background: none !important
+
+  *
+    &::selection
+      background: none !important
+
+.c-sidebar-left__layer
+  display: flex
+  position: relative
+  align-items: center
+  height: $sidebarLeftCellHeight
+  width: 100%
+  line-height: $sidebarLeftCellHeight
+  cursor: pointer
+
+.c-sidebar-left__layer--header
+  .c-sidebar-left-layer__name
+    font-weight: $fontWeightBold
+
+.c-sidebar-left__layer--group
+  .c-sidebar-left-layer__note-count
+    margin-right: $unit
+    margin-left: $unit
+
+.c-sidebar-left__group-click
+  +absolute-full
+  z-index: 1
+
+.c-sidebar-left-layer__icon
+  display: flex
+  width: $buttonSize
+  height: $buttonSize
+  align-items: center
+  justify-content: center
+
+.c-sidebar-left-layer__note-count,
+.c-sidebar-left-layer__nested-note-count
+  flex-shrink: 0
+  font-size: $fontSizeSm
+  width: $unit * 5
+  height: $unit * 5
+  line-height: $unit * 5
+  text-align: center
+
+.c-sidebar-left-layer__note-count
+  margin-right: $unit * 2 // 8
+  border-radius: 100%
+
+.c-sidebar-left-layer__nested-note-count
+  margin-right: $unit
+
+.c-sidebar-left-layer__name
+  flex-grow: 2
+  font-size: $fontSizeSm
+  padding-left: $unit * 4 // 16
+  line-height: $sidebarLeftCellHeight
+  white-space: nowrap
+  overflow: hidden
+  text-overflow: ellipsis
+  //animation: slideInRight $transitionNormal ease
+
+  &::selection
+    background: none
+
+.c-sidebar-left__group
+  .c-sidebar-left__layers
+    padding-left: $buttonSize
