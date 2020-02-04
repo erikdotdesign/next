@@ -24,6 +24,69 @@ export const getUserFontsLocation = () => {
   }
 }
 
+export const getSupplementalFontsLocation = () => {
+  //@ts-ignore
+  const systemLibrary = NSFileManager.defaultManager().URLsForDirectory_inDomains(NSLibraryDirectory, 8)[0];
+  const systemLibraryPath = systemLibrary ? systemLibrary.absoluteString().replace('file://', '') : null;
+  //@ts-ignore
+  const systemFonts = systemLibraryPath ? NSFileManager.defaultManager().fileExistsAtPath(`${systemLibraryPath}Fonts/Supplemental`) : null;
+  if (systemFonts) {
+    return `${systemLibraryPath}Fonts/Supplemental/`;
+  } else {
+    return null;
+  }
+}
+
+export const getUserFonts = () => {
+  const userFontsLoc = getUserFontsLocation();
+  if (userFontsLoc) {
+    //@ts-ignore
+    const userFonts = NSFileManager.defaultManager().contentsOfDirectoryAtPath_error(userFontsLoc, nil);
+    return Array.from(userFonts, (item) => { return String(item) });
+  } else {
+    return null;
+  }
+}
+
+export const getSystemFonts = () => {
+  const systemFontsLoc = getSystemFontsLocation();
+  if (systemFontsLoc) {
+    //@ts-ignore
+    const systemFonts = NSFileManager.defaultManager().contentsOfDirectoryAtPath_error(systemFontsLoc, nil);
+    return Array.from(systemFonts, (item) => { return String(item) });
+  } else {
+    return null;
+  }
+}
+
+export const getSupplimentalFonts = () => {
+  const supplementalFontsLoc = getSupplementalFontsLocation();
+  if (supplementalFontsLoc) {
+    //@ts-ignore
+    const supplementalFonts = NSFileManager.defaultManager().contentsOfDirectoryAtPath_error(supplementalFontsLoc, nil);
+    return Array.from(supplementalFonts, (item) => { return String(item) });
+  } else {
+    return null;
+  }
+}
+
+export const getAllFonts = () => {
+  const userFontsLoc = getUserFontsLocation();
+  const systemFontsLoc = getSystemFontsLocation();
+  const supplementalFontsLoc = getSupplementalFontsLocation();
+  const userFonts = getUserFonts();
+  const systemFonts = getSystemFonts();
+  const supplementalFonts = getSupplimentalFonts();
+  const fontLocations = [userFontsLoc, systemFontsLoc, supplementalFontsLoc];
+  const fontLocationContents = [userFonts, systemFonts, supplementalFonts];
+  return fontLocations.map((fontLocation: string | null, index: number) => {
+    return {
+      location: fontLocation,
+      contents: fontLocationContents[index]
+    }
+  });
+}
+
 export const getRoot = (context: any) => {
   return context.scriptPath.stringByDeletingLastPathComponent().stringByDeletingLastPathComponent().stringByDeletingLastPathComponent();
 };
@@ -139,47 +202,66 @@ const getHyphenCaseAlt = (str: string) => {
   return str.replace(/([A-Z][a-z])/g, (g) => `-${g}`);
 }
 
+// const getFontNameVariations = (font: string) => {
+//   const postScript = font;
+//   const family = getFontPostScriptFamily(font);
+//   const familySpaceCase = getSpaceCase(family);
+//   const familyHyphenCase = getHyphenCaseAlt(family);
+//   const weight = font.substr(family.length + 1, family.length);
+//   // const weightSpaceCase = getSpaceCase(weight);
+//   // const weightHyphenCase = getHyphenCaseAlt(weight);
+//   const spaceCase = `${familySpaceCase} ${weight}`;
+//   const hyphenCase = `${familyHyphenCase}-${weight}`;
+//   return [
+//     postScript,
+//     family,
+//     spaceCase,
+//     hyphenCase
+//   ];
+// }
+
 const getFontNameVariations = (font: string) => {
-  const postScript = font;
-  const family = getFontPostScriptFamily(font);
-  const familySpaceCase = getSpaceCase(family);
-  const familyHyphenCase = getHyphenCaseAlt(family);
-  const weight = font.substr(family.length + 1, family.length);
-  // const weightSpaceCase = getSpaceCase(weight);
-  // const weightHyphenCase = getHyphenCaseAlt(weight);
-  const spaceCase = `${familySpaceCase} ${weight}`;
-  const hyphenCase = `${familyHyphenCase}-${weight}`;
+  const noSpace = font.replace(/\s/g, '');
+  const hyphenCase = font.replace(/\s/g, '-');
   return [
-    postScript,
-    family,
-    spaceCase,
+    font,
+    noSpace,
     hyphenCase
   ];
 }
 
+const containsFontVariation = (string: string, variations: string[]) => {
+  let contains = false;
+  const normalizedString = string.toUpperCase();
+  variations.forEach((variation: string) => {
+    const normalizedVariant = variation.toUpperCase();
+    if (normalizedString.indexOf(normalizedVariant) !== -1) {
+      contains = true;
+    }
+  });
+  return contains;
+}
+
 export const copyFonts = (fonts: string[], savePath: string) => {
-  const userFontsLoc = getUserFontsLocation();
-  const systemFontsLoc = getSystemFontsLocation();
-  const suplimentalFontsLoc = `${systemFontsLoc}Supplemental/`
-  const fontExtensions = ['ttf', 'otf', 'ttc'];
-  const fontLocations = [userFontsLoc, systemFontsLoc, suplimentalFontsLoc];
+  const allFonts = getAllFonts();
   const fontsSavePath = `${savePath}/fonts`;
   //@ts-ignore
   NSFileManager.defaultManager().createDirectoryAtPath_attributes(fontsSavePath, nil);
-  fonts.forEach((font: any) => {
-    const nameVariants = getFontNameVariations(font);
-    fontLocations.forEach((location: string | null) => {
-      if (location) {
-        fontExtensions.forEach((extension: string) => {
-          nameVariants.forEach((nameVariant: string) => {
-            const fontVariantPath = `${location}${nameVariant}.${extension}`;
-            //@ts-ignore
-            if (NSFileManager.defaultManager().fileExistsAtPath(fontVariantPath)) {
-              //@ts-ignore
-              NSFileManager.defaultManager().copyItemAtPath_toPath_error(fontVariantPath, `${fontsSavePath}/${nameVariant}.${extension}`, nil);
-            }
-          });
+  fonts.forEach((font: string) => {
+    allFonts.forEach((fontDir: any) => {
+      if (fontDir.location) {
+        const fontNameVariations = getFontNameVariations(font);
+        const fontFiles = fontDir.contents.filter((fontFile: string) => {
+          return containsFontVariation(fontFile, fontNameVariations);
         });
+        if (fontFiles) {
+          //@ts-ignore
+          NSFileManager.defaultManager().createDirectoryAtPath_attributes(`${fontsSavePath}/${font}`, nil);
+          fontFiles.forEach((fontFile: string) => {
+            //@ts-ignore
+            NSFileManager.defaultManager().copyItemAtPath_toPath_error(`${fontDir.location}/${fontFile}`, `${fontsSavePath}/${font}/${fontFile}`, nil);
+          });
+        }
       }
     });
   });

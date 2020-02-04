@@ -5,14 +5,14 @@ const getFonts = (layers: srm.SketchLayer[], fonts: any[] = []) => {
         getFonts((<srm.Group>layer).layers, fonts);
       } else if (layer.type === 'Text') {
         const fontFamily = (<srm.Text>layer).style.fontFamily;
-        const font = (<srm.Text>layer).sketchObject.fontPostscriptName();
         //@ts-ignore
-        const availableFamilies: string[] = Array.from(NSFontManager.sharedFontManager().availableFontFamilies());
-        const fontAvailable = availableFamilies.filter((family: string) => {
-          return String(family) === String(fontFamily);
+        const availableFamilies = NSFontManager.sharedFontManager().availableFontFamilies();
+        const availableFamiliesArray: string[] = Array.from(availableFamilies, (item) => {
+          return String(item);
         });
-        if (fonts && fontAvailable && !fonts.includes(font)) {
-          fonts.push(font);
+        const fontAvailable = availableFamiliesArray.includes(fontFamily);
+        if (fonts && fontAvailable && !fonts.includes(fontFamily)) {
+          fonts.push(fontFamily);
         }
       }
     });
