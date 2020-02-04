@@ -113,31 +113,37 @@
       content: 'Zoom Out'
 
 .c-topbar__button--refresh
-
   &:hover
     &:after
       +tooltip
       content: 'Center Canvas'
 
 .c-topbar__button--zoom-reset
-
   &:hover
     &:after
       +tooltip
       content: 'Reset Zoom'
 
 .c-topbar__button--save
-
   &:hover
     &:after
       +tooltip
       right: 0
       content: 'Export Spec'
 
-.c-topbar__button--theme
-
+.c-topbar__button--theme-dark,
+.c-topbar__button--theme-light
   &:hover
     &:after
       +tooltip
       right: 0
-      content: 'Toggle Theme'
+
+.c-topbar__button--theme-dark
+  &:hover
+    &:after
+      content: 'Enable Light Theme'
+
+.c-topbar__button--theme-light
+  &:hover
+    &:after
+      content: 'Enable Dark Theme'

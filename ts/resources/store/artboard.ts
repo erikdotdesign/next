@@ -37,44 +37,43 @@ const removeHiddenLayers = (layers: srm.SketchLayer[]): void => {
   }
 };
 
-const flattenShapePath = (layer: srm.ShapePath, sketch: srm.Sketch): srm.ShapePath => {
-  let shapeBuffer = sketch.export(layer, {
+const createMaskLayer = (layer: srm.ShapePath | srm.Shape, sketch: srm.Sketch): srm.ShapePath | srm.Shape => {
+  // duplicate layer and reset styles
+  // layer needs a fill and 100% opacity,
+  // to correctly mimic sketch masking
+  let duplicate = layer.duplicate();
+  duplicate.style.fills = [{
+    color: '#000',
+    fillType: 'Color'
+  }];
+  duplicate.frame.x = 0;
+  duplicate.frame.y = 0;
+  duplicate.style.borders = [];
+  duplicate.style.shadows = [];
+  duplicate.style.innerShadows = [];
+  duplicate.style.opacity = 1;
+  // flatten shape
+  let shapeBuffer = sketch.export(duplicate, {
     formats: 'svg',
     output: false
   });
   let shapeGroup = sketch.createLayerFromData(shapeBuffer, 'svg');
-  let flatShape = shapeGroup.layers[0];
-  flatShape.frame.x = 0;
-  flatShape.frame.y = 0;
-  return flatShape;
+  // get shape in flattened shape group
+  let maskShape = shapeGroup.layers[0];
+  // rename layer
+  maskShape.name = `srm.mask.shape`;
+  // remove duplicate
+  duplicate.remove();
+  // return final mask
+  return maskShape;
 }
 
-const getFlatMaskShape = (layer: srm.SketchLayer, sketch: srm.Sketch): srm.SketchLayer => {
-  switch(layer.type) {
-    case 'ShapePath':
-      switch((layer as srm.ShapePath).shapeType) {
-        case 'Oval':
-        case 'Rectangle':
-        case 'Custom':
-          return layer.duplicate();
-        case 'Polygon':
-        case 'Star':
-        case 'Triangle':
-          return flattenShapePath(layer as srm.ShapePath, sketch);
-      }
-    case 'Image':
-    case 'Shape':
-    default:
-        return layer.duplicate();
-  }
-}
-
-const getMaskShape = (layer: srm.SketchLayer): srm.SketchLayer => {
+const getMaskShape = (layer: srm.SketchLayer): srm.Shape | srm.ShapePath => {
   let lastLayer = layer;
   while(lastLayer.type === 'Group') {
     lastLayer = (lastLayer as srm.Group).layers[0];
   }
-  return lastLayer;
+  return lastLayer as srm.ShapePath | srm.Shape;
 }
 
 const createMaskGroups = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm.Sketch): void => {
@@ -87,11 +86,12 @@ const createMaskGroups = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm
         // get mask shape
         const maskShape = getMaskShape(layer);
         // flatten shape if polygon, star, or triangle
-        const flatMaskShape = getFlatMaskShape(maskShape, sketch);
+        const flatMaskShape = createMaskLayer(maskShape as srm.Shape | srm.ShapePath, sketch);
         // add prefix to name
-        flatMaskShape.name = `[srm.mask.shape]${layer.name}`;
         // add offset to group if flat mask shape if slimmer than mask shape
-        const maskGroupOffset = flatMaskShape.frame.width !== maskShape.frame.width ? (maskShape.frame.width - flatMaskShape.frame.width) / 2 : maskShape.frame.x;
+        const maskGroupOffset = flatMaskShape.frame.width !== maskShape.frame.width
+                                ? (maskShape.frame.width - flatMaskShape.frame.width) / 2
+                                : maskShape.frame.x;
         // create new group to mimic mask behavior
         // app will apply overflow hidden to groups with the name srm.mask
         const maskGroup = new sketch.Group({

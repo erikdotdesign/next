@@ -24,7 +24,7 @@ const TopBarTheme = (props: TopBarThemeProps) => {
     <div className='c-topbar__control'>
       <TopBarButton
         onClick={toggleTheme}
-        className='c-topbar__button--theme'
+        className={`c-topbar__button--theme-${appTheme}`}
         icon={
           appTheme === 'dark'
           ? <IconMoon />

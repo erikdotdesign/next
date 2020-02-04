@@ -718,7 +718,8 @@ textarea {
   content: "Export Spec";
 }
 
-.c-topbar__button--theme:hover:after {
+.c-topbar__button--theme-dark:hover:after,
+.c-topbar__button--theme-light:hover:after {
   white-space: nowrap;
   word-wrap: none;
   position: absolute;
@@ -737,7 +738,14 @@ textarea {
   transform-origin: center top;
   animation: popIn 0.15s ease-out;
   right: 0;
-  content: "Toggle Theme";
+}
+
+.c-topbar__button--theme-dark:hover:after {
+  content: "Enable Light Theme";
+}
+
+.c-topbar__button--theme-light:hover:after {
+  content: "Enable Dark Theme";
 }
 
 .c-notes {

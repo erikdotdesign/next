@@ -134,7 +134,7 @@ export default (context: any) => {
       if (store.svgs.length > 0) {
         pluginExport.moveSVGs(store.svgs, savePath);
       }
-      // move svgs from temp folder to spec
+      // copy fonts used in spec
       if (store.fonts.length > 0) {
         pluginExport.copyFonts(store.fonts, savePath);
       }
