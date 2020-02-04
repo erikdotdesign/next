@@ -1,1 +1,230 @@
-!function(e){var t={};function n(r){if(t[r])return t[r].exports;var o=t[r]={i:r,l:!1,exports:{}};return e[r].call(o.exports,o,o.exports,n),o.l=!0,o.exports}n.m=e,n.c=t,n.d=function(e,t,r){n.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:r})},n.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},n.t=function(e,t){if(1&t&&(e=n(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var r=Object.create(null);if(n.r(r),Object.defineProperty(r,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var o in e)n.d(r,o,function(t){return e[t]}.bind(null,o));return r},n.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return n.d(t,"a",t),t},n.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},n.p="",n(n.s=0)}([function(e,t,n){"use strict";function r(e){return function(e){if(Array.isArray(e)){for(var t=0,n=new Array(e.length);t<e.length;t++)n[t]=e[t];return n}}(e)||function(e){if(Symbol.iterator in Object(e)||"[object Arguments]"===Object.prototype.toString.call(e))return Array.from(e)}(e)||function(){throw new TypeError("Invalid attempt to spread non-iterable instance")}()}n.r(t);var o=function(e,t){return{id:t,src:"data:image/png;base64,"+e.base64EncodedStringWithOptions(0)}},a=function(e){return e.map((function(e){return o(e.nsdata,e.id)}))},i=function(e,t,n){var r,a,i,u=n.export(e,(i=!0,(a="save-for-web")in(r={formats:"png",output:!1})?Object.defineProperty(r,a,{value:i,enumerable:!0,configurable:!0,writable:!0}):r[a]=i,r)),f=new n.Image({image:u});return o(f.image.nsdata,t)},u=function(e,t,n){var r=e.style.fills.filter((function(e){return e.enabled&&"Gradient"===e.fillType})),o=r[r.length-1];return e.style.fills=[o],e.style.borders=[],e.style.shadows=[],e.style.innerShadows=[],e.transform.rotation=0,e.transform.flippedHorizontally=!1,e.transform.flippedVertically=!1,"ShapePath"===e.type&&e.points.forEach((function(e){return e.cornerRadius=0})),i(e,t,n)};t.default=function(e,t){var n=function(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:[];return e.forEach((function(e){"Image"===e.type&&t.push(e.image)})),t}(e),o=function(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:[];return e.forEach((function(e){"Shape"!==e.type&&"ShapePath"!==e.type||e.style.fills.forEach((function(e){null!==e.pattern.image&&e.enabled&&t.push(e.pattern.image)}))})),t}(e),i=a(n),f=a(o),l=function(e,t){var n=arguments.length>2&&void 0!==arguments[2]?arguments[2]:[];return e.forEach((function(e){if(("Shape"===e.type||"ShapePath"===e.type)&&e.style.fills.some((function(e){return"Gradient"===e.fillType&&e.enabled}))){var r=e.duplicate(),o=u(r,e.id,t);n.push(o),r.remove()}})),n}(e,t);return[].concat(r(i),r(f),r(l))}}]);
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = "./resources/store/images.js");
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ "./resources/store/images.js":
+/*!***********************************!*\
+  !*** ./resources/store/images.js ***!
+  \***********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var imageLayerToImage = function imageLayerToImage(page, layer, sketch) {
+  var _sketch$export, _src;
+
+  var layerDuplicate = layer.duplicate(); // reset asset position on artboard
+
+  layerDuplicate.parent = page; // export asset to temp folder
+
+  sketch["export"](layerDuplicate, (_sketch$export = {
+    scales: '1, 2',
+    formats: 'png',
+    // @ts-ignore
+    output: NSTemporaryDirectory()
+  }, _defineProperty(_sketch$export, 'use-id-for-name', true), _defineProperty(_sketch$export, 'save-for-web', true), _defineProperty(_sketch$export, "overwriting", true), _sketch$export)); // remove asset artboard from page
+
+  layerDuplicate.remove(); // return AppAsset
+
+  return {
+    id: layer.image.id,
+    src: (_src = {}, _defineProperty(_src, "1x", "".concat(NSTemporaryDirectory()).concat(layerDuplicate.id, ".png")), _defineProperty(_src, "2x", "".concat(NSTemporaryDirectory()).concat(layerDuplicate.id, "@2x.png")), _src)
+  };
+};
+
+var fillGradientToImage = function fillGradientToImage(page, layer, sketch) {
+  var _sketch$export2, _src2;
+
+  // get enabled gradients
+  var activeGradients = layer.style.fills.filter(function (fill) {
+    return fill.enabled && fill.fillType === 'Gradient';
+  }); // get top gradient fill
+
+  var topGradient = activeGradients[activeGradients.length - 1]; // create new layer with gradient
+
+  var gradientImage = new sketch.ShapePath({
+    parent: page,
+    frame: layer.frame,
+    style: {
+      fills: [topGradient],
+      borders: []
+    }
+  }); // export image to temp dir
+
+  sketch["export"](gradientImage, (_sketch$export2 = {
+    scales: '1, 2',
+    formats: 'png',
+    // @ts-ignore
+    output: NSTemporaryDirectory()
+  }, _defineProperty(_sketch$export2, 'use-id-for-name', true), _defineProperty(_sketch$export2, 'save-for-web', true), _defineProperty(_sketch$export2, "overwriting", true), _sketch$export2)); // remove image from page
+
+  gradientImage.remove(); // return final image
+
+  return {
+    id: layer.id,
+    src: (_src2 = {}, _defineProperty(_src2, "1x", "".concat(NSTemporaryDirectory()).concat(gradientImage.id, ".png")), _defineProperty(_src2, "2x", "".concat(NSTemporaryDirectory()).concat(gradientImage.id, "@2x.png")), _src2)
+  };
+};
+
+var fillImageToImage = function fillImageToImage(page, image, sketch) {
+  var _sketch$export3, _src3;
+
+  // get image size
+  var width = image.nsimage.size().width;
+  var height = image.nsimage.size().height; // create image from fill image
+
+  var fillImage = new sketch.Image({
+    image: image,
+    parent: page,
+    frame: {
+      width: width,
+      height: height,
+      x: 0,
+      y: 0
+    }
+  }); // export image to temp dir
+
+  sketch["export"](fillImage, (_sketch$export3 = {
+    scales: '1, 2',
+    formats: 'png',
+    // @ts-ignore
+    output: NSTemporaryDirectory()
+  }, _defineProperty(_sketch$export3, 'use-id-for-name', true), _defineProperty(_sketch$export3, 'save-for-web', true), _defineProperty(_sketch$export3, "overwriting", true), _sketch$export3)); // remove image from page
+
+  fillImage.remove(); // return final image
+
+  return {
+    id: image.id,
+    src: (_src3 = {}, _defineProperty(_src3, "1x", "".concat(NSTemporaryDirectory()).concat(fillImage.id, ".png")), _defineProperty(_src3, "2x", "".concat(NSTemporaryDirectory()).concat(fillImage.id, "@2x.png")), _src3)
+  };
+};
+
+var createTempImages = function createTempImages(page, layers, sketch) {
+  var images = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : [];
+
+  if (layers.length > 0) {
+    layers.forEach(function (layer) {
+      if (layer.type === 'Group') {
+        createTempImages(page, layer.layers, sketch, images);
+      } else if (layer.type === 'Image') {
+        var image = imageLayerToImage(page, layer, sketch);
+        images.push(image);
+      } else if (layer.type === 'Shape' || layer.type === 'ShapePath') {
+        layer.style.fills.forEach(function (fill) {
+          if (fill.pattern.image !== null && fill.enabled) {
+            // create image from fill image
+            var fillImage = fillImageToImage(page, fill.pattern.image, sketch); // push final image
+
+            images.push(fillImage);
+          } else if (fill.fillType === 'Gradient' && fill.enabled) {
+            // create gradient image
+            var gradientImage = fillGradientToImage(page, layer, sketch); // push final image
+
+            images.push(gradientImage);
+          }
+        });
+      }
+    });
+  }
+
+  return images;
+};
+
+var getImages = function getImages(page, layers, sketch) {
+  var layerImages = createTempImages(page, layers, sketch);
+  return layerImages;
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (getImages);
+
+/***/ })
+
+/******/ });
+//# sourceMappingURL=resources_store_images.js.map
