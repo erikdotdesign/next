@@ -63,7 +63,9 @@ const SidebarLeftLayer = (props: SidebarLeftLayerProps) => {
           onMouseOut={handleMouseOut}
           className={`c-sidebar-left__layer ${isGroup ? 'c-sidebar-left__layer--group' : null}`}
           style={{
-            background: getBackground(theme)
+            background: getBackground(theme),
+            // for tooltips to display properly
+            zIndex: isHover ? 9999999 : 'initial'
           }}>
           <SidebarLeftLayerName
             name={layer.name}

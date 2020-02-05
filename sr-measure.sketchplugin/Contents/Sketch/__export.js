@@ -3317,7 +3317,7 @@ var getSVGs = function getSVGs(page, layers, sketch) {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "file://" + String(context.scriptPath).split(".sketchplugin/Contents/Sketch")[0] + ".sketchplugin/Contents/Resources/_webpack_resources/ce3add13c9c04cd1c30a5d7eb097fc1e.html";
+module.exports = "file://" + String(context.scriptPath).split(".sketchplugin/Contents/Sketch")[0] + ".sketchplugin/Contents/Resources/_webpack_resources/324cb3ffb55db2a9f80dbda3c1b19bd5.html";
 
 /***/ }),
 
@@ -3328,7 +3328,7 @@ module.exports = "file://" + String(context.scriptPath).split(".sketchplugin/Con
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "file://" + String(context.scriptPath).split(".sketchplugin/Contents/Sketch")[0] + ".sketchplugin/Contents/Resources/_webpack_resources/7ceb2e398f6ddba984df98a91e7b79ad.html";
+module.exports = "file://" + String(context.scriptPath).split(".sketchplugin/Contents/Sketch")[0] + ".sketchplugin/Contents/Resources/_webpack_resources/33005131e88e388c3971a4d6aaccd4d6.html";
 
 /***/ }),
 
@@ -3339,7 +3339,7 @@ module.exports = "file://" + String(context.scriptPath).split(".sketchplugin/Con
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "file://" + String(context.scriptPath).split(".sketchplugin/Contents/Sketch")[0] + ".sketchplugin/Contents/Resources/_webpack_resources/8d3be57d9df78cb6f15588e517f0da30.css";
+module.exports = "file://" + String(context.scriptPath).split(".sketchplugin/Contents/Sketch")[0] + ".sketchplugin/Contents/Resources/_webpack_resources/84b5d107ae6968d7d90ebfbffd2e2eb6.css";
 
 /***/ }),
 

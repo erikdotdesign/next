@@ -67,7 +67,9 @@ const SidebarLeftGroupHead = (props: SidebarLeftGroupHeadProps) => {
           className='c-sidebar-left__layer c-sidebar-left__layer--header'
           style={{
             background: getBackground(theme),
-            boxShadow: `0px -1px 0px 0px ${theme.background.z5} inset`
+            boxShadow: `0px -1px 0px 0px ${theme.background.z5} inset`,
+            // for tooltips to display properly
+            zIndex: isHover ? 9999999 : 'initial'
           }}>
           <SidebarLeftLayerName
             name={layer.name}

@@ -845,15 +845,59 @@ textarea {
   height: 20px;
   line-height: 20px;
   text-align: center;
+  position: relative;
+  z-index: 99;
 }
 
 .c-sidebar-left-layer__note-count {
   margin-right: 8px;
   border-radius: 100%;
 }
+.c-sidebar-left-layer__note-count:hover:after {
+  white-space: nowrap;
+  word-wrap: none;
+  position: absolute;
+  font-weight: 400;
+  text-align: center;
+  top: calc(100% + 8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  line-height: 32px;
+  padding: 0 8px;
+  font-size: 12px;
+  background: #444;
+  color: white;
+  transform-origin: center top;
+  animation: popIn 0.15s ease-out;
+  right: 0;
+  content: "Layer Notes";
+}
 
 .c-sidebar-left-layer__nested-note-count {
   margin-right: 4px;
+}
+.c-sidebar-left-layer__nested-note-count:hover:after {
+  white-space: nowrap;
+  word-wrap: none;
+  position: absolute;
+  font-weight: 400;
+  text-align: center;
+  top: calc(100% + 8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  line-height: 32px;
+  padding: 0 8px;
+  font-size: 12px;
+  background: #444;
+  color: white;
+  transform-origin: center top;
+  animation: popIn 0.15s ease-out;
+  right: 0;
+  content: "Nested Layer Notes";
 }
 
 .c-sidebar-left-layer__name {

@@ -42822,7 +42822,9 @@ var SidebarLeftGroupHead = function SidebarLeftGroupHead(props) {
       className: 'c-sidebar-left__layer c-sidebar-left__layer--header',
       style: {
         background: getBackground(theme),
-        boxShadow: "0px -1px 0px 0px ".concat(theme.background.z5, " inset")
+        boxShadow: "0px -1px 0px 0px ".concat(theme.background.z5, " inset"),
+        // for tooltips to display properly
+        zIndex: isHover ? 9999999 : 'initial'
       }
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SidebarLeftLayerName__WEBPACK_IMPORTED_MODULE_1__["default"], {
       name: layer.name,
@@ -43005,7 +43007,9 @@ var SidebarLeftLayer = function SidebarLeftLayer(props) {
       onMouseOut: handleMouseOut,
       className: "c-sidebar-left__layer ".concat(isGroup ? 'c-sidebar-left__layer--group' : null),
       style: {
-        background: getBackground(theme)
+        background: getBackground(theme),
+        // for tooltips to display properly
+        zIndex: isHover ? 9999999 : 'initial'
       }
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SidebarLeftLayerName__WEBPACK_IMPORTED_MODULE_1__["default"], {
       name: layer.name,

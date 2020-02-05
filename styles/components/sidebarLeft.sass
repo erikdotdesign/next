@@ -47,13 +47,27 @@ $sidebarLeftCellHeight: $unit * 10 // 40
   height: $unit * 5
   line-height: $unit * 5
   text-align: center
+  position: relative
+  z-index: 99
 
 .c-sidebar-left-layer__note-count
   margin-right: $unit * 2 // 8
   border-radius: 100%
 
+  &:hover
+    &:after
+      +tooltip
+      right: 0
+      content: 'Layer Notes'
+
 .c-sidebar-left-layer__nested-note-count
   margin-right: $unit
+
+  &:hover
+    &:after
+      +tooltip
+      right: 0
+      content: 'Nested Layer Notes'
 
 .c-sidebar-left-layer__name
   flex-grow: 2
@@ -63,7 +77,6 @@ $sidebarLeftCellHeight: $unit * 10 // 40
   white-space: nowrap
   overflow: hidden
   text-overflow: ellipsis
-  //animation: slideInRight $transitionNormal ease
 
   &::selection
     background: none
