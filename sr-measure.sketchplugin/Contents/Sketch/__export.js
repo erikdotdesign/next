@@ -3355,7 +3355,7 @@ module.exports = "file://" + String(context.scriptPath).split(".sketchplugin/Con
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "file://" + String(context.scriptPath).split(".sketchplugin/Contents/Sketch")[0] + ".sketchplugin/Contents/Resources/_webpack_resources/1d30b065b4fea00e9a14692c5ac4a6f2.html";
+module.exports = "file://" + String(context.scriptPath).split(".sketchplugin/Contents/Sketch")[0] + ".sketchplugin/Contents/Resources/_webpack_resources/c51dab97c1511095e6fdf42b42923bf2.html";
 
 /***/ }),
 
@@ -3483,7 +3483,7 @@ var loadingWindowIdentifier = 'srm.loadingWindow';
       // get store when index loads
       Object(_resources_store__WEBPACK_IMPORTED_MODULE_4__["default"])(page, selectedArtboard, sketch_dom__WEBPACK_IMPORTED_MODULE_0___default.a, function (appStore) {
         // update loading text
-        loadingWebContents.executeJavaScript("setLoadingText('Rendering Spec')"); // set plugin store upon loading store
+        loadingWebContents.executeJavaScript("setLoadingText('Rendering', 'Building spec')"); // set plugin store upon loading store
 
         store = appStore; // render react app upon loading store
 
