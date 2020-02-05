@@ -90,6 +90,7 @@ const App = (props: AppProps) => {
   const handleInitialRender = (callback: any): void => {
     setAvgColor(getAvgColor());
     handleResize();
+    app.current?.focus();
     callback();
   }
 
@@ -145,12 +146,9 @@ const App = (props: AppProps) => {
   }, [groupSelection]);
 
   useEffect(() => {
-    // focus app for key events
-    app.current?.focus();
     // set reszie listener
     window.addEventListener('resize', handleResize);
-    // set viewportsize
-    // scale artboard
+    // handle initial render,
     // set app ready
     handleInitialRender(() => setReady(true));
   }, []);

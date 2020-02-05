@@ -212,3 +212,27 @@ export const copyFonts = (fonts: string[], savePath: string) => {
     });
   }
 };
+
+export const getFinalStore = (store: srm.Store) => {
+  // copy store, and set final store
+  let finalStore: srm.Store = Object.assign({}, store);
+  // update final store image paths
+  finalStore.images = store.images.map((image) => {
+    return {
+      id: image.id,
+      src: {
+        [`1x`]: `images/${image.id}.png`,
+        [`2x`]: `images/${image.id}@2x.png`
+      }
+    }
+  });
+  // update final store svg paths
+  finalStore.svgs = store.svgs.map((svg: any) => {
+    return {
+      id: svg.id,
+      src: `svgs/${svg.id}.svg`
+    }
+  });
+  // return strigified final store
+  return JSON.stringify(finalStore);
+};

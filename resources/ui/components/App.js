@@ -73,8 +73,10 @@ const App = (props) => {
         setViewPortSize(getViewPortSize());
     };
     const handleInitialRender = (callback) => {
+        var _a;
         setAvgColor(getAvgColor());
         handleResize();
+        (_a = app.current) === null || _a === void 0 ? void 0 : _a.focus();
         callback();
     };
     const scrollToCenter = () => {
@@ -130,13 +132,9 @@ const App = (props) => {
         }
     }, [groupSelection]);
     useEffect(() => {
-        var _a;
-        // focus app for key events
-        (_a = app.current) === null || _a === void 0 ? void 0 : _a.focus();
         // set reszie listener
         window.addEventListener('resize', handleResize);
-        // set viewportsize
-        // scale artboard
+        // handle initial render,
         // set app ready
         handleInitialRender(() => setReady(true));
     }, []);

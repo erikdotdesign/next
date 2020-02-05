@@ -90,7 +90,7 @@
 /*!***********************************!*\
   !*** ./resources/export/index.js ***!
   \***********************************/
-/*! exports provided: getSystemFontsLocation, getUserFontsLocation, getSupplementalFontsLocation, getUserFonts, getSystemFonts, getSupplimentalFonts, getAllFonts, getRoot, getFileContent, getSavePath, writeFile, moveImages, moveSVGs, copyFonts */
+/*! exports provided: getSystemFontsLocation, getUserFontsLocation, getSupplementalFontsLocation, getUserFonts, getSystemFonts, getSupplimentalFonts, getAllFonts, getRoot, getFileContent, getSavePath, writeFile, moveImages, moveSVGs, copyFonts, getFinalStore */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -109,6 +109,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "moveImages", function() { return moveImages; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "moveSVGs", function() { return moveSVGs; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "copyFonts", function() { return copyFonts; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getFinalStore", function() { return getFinalStore; });
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 var getSystemFontsLocation = function getSystemFontsLocation() {
   //@ts-ignore
   var systemLibrary = NSFileManager.defaultManager().URLsForDirectory_inDomains(NSLibraryDirectory, 8)[0];
@@ -320,6 +323,28 @@ var copyFonts = function copyFonts(fonts, savePath) {
       });
     });
   }
+};
+var getFinalStore = function getFinalStore(store) {
+  // copy store, and set final store
+  var finalStore = Object.assign({}, store); // update final store image paths
+
+  finalStore.images = store.images.map(function (image) {
+    var _src;
+
+    return {
+      id: image.id,
+      src: (_src = {}, _defineProperty(_src, "1x", "images/".concat(image.id, ".png")), _defineProperty(_src, "2x", "images/".concat(image.id, "@2x.png")), _src)
+    };
+  }); // update final store svg paths
+
+  finalStore.svgs = store.svgs.map(function (svg) {
+    return {
+      id: svg.id,
+      src: "svgs/".concat(svg.id, ".svg")
+    };
+  }); // return strigified final store
+
+  return JSON.stringify(finalStore);
 };
 
 /***/ })

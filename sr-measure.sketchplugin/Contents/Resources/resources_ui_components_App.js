@@ -11513,8 +11513,11 @@ var App = function App(props) {
   };
 
   var handleInitialRender = function handleInitialRender(callback) {
+    var _a;
+
     setAvgColor(getAvgColor());
     handleResize();
+    (_a = app.current) === null || _a === void 0 ? void 0 : _a.focus();
     callback();
   };
 
@@ -11571,13 +11574,8 @@ var App = function App(props) {
     }
   }, [groupSelection]);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    var _a; // focus app for key events
-
-
-    (_a = app.current) === null || _a === void 0 ? void 0 : _a.focus(); // set reszie listener
-
-    window.addEventListener('resize', handleResize); // set viewportsize
-    // scale artboard
+    // set reszie listener
+    window.addEventListener('resize', handleResize); // handle initial render,
     // set app ready
 
     handleInitialRender(function () {

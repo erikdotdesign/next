@@ -2552,7 +2552,7 @@ module.exports.sendToWebview = function sendToWebview(identifier, evalString) {
 /*!***********************************!*\
   !*** ./resources/export/index.js ***!
   \***********************************/
-/*! exports provided: getSystemFontsLocation, getUserFontsLocation, getSupplementalFontsLocation, getUserFonts, getSystemFonts, getSupplimentalFonts, getAllFonts, getRoot, getFileContent, getSavePath, writeFile, moveImages, moveSVGs, copyFonts */
+/*! exports provided: getSystemFontsLocation, getUserFontsLocation, getSupplementalFontsLocation, getUserFonts, getSystemFonts, getSupplimentalFonts, getAllFonts, getRoot, getFileContent, getSavePath, writeFile, moveImages, moveSVGs, copyFonts, getFinalStore */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2571,6 +2571,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "moveImages", function() { return moveImages; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "moveSVGs", function() { return moveSVGs; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "copyFonts", function() { return copyFonts; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getFinalStore", function() { return getFinalStore; });
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 var getSystemFontsLocation = function getSystemFontsLocation() {
   //@ts-ignore
   var systemLibrary = NSFileManager.defaultManager().URLsForDirectory_inDomains(NSLibraryDirectory, 8)[0];
@@ -2782,6 +2785,28 @@ var copyFonts = function copyFonts(fonts, savePath) {
       });
     });
   }
+};
+var getFinalStore = function getFinalStore(store) {
+  // copy store, and set final store
+  var finalStore = Object.assign({}, store); // update final store image paths
+
+  finalStore.images = store.images.map(function (image) {
+    var _src;
+
+    return {
+      id: image.id,
+      src: (_src = {}, _defineProperty(_src, "1x", "images/".concat(image.id, ".png")), _defineProperty(_src, "2x", "images/".concat(image.id, "@2x.png")), _src)
+    };
+  }); // update final store svg paths
+
+  finalStore.svgs = store.svgs.map(function (svg) {
+    return {
+      id: svg.id,
+      src: "svgs/".concat(svg.id, ".svg")
+    };
+  }); // return strigified final store
+
+  return JSON.stringify(finalStore);
 };
 
 /***/ }),
@@ -3190,7 +3215,7 @@ var createArtboardImage = function createArtboardImage(artboard, sketch) {
   return "data:image/png;base64, ".concat(base64);
 };
 
-var getStore = function getStore(page, selectedArtboard, sketch) {
+var getStore = function getStore(page, selectedArtboard, sketch, callback) {
   // get final store items
   var artboard = Object(_artboard__WEBPACK_IMPORTED_MODULE_0__["default"])(page, selectedArtboard, sketch);
   var images = Object(_images__WEBPACK_IMPORTED_MODULE_1__["default"])(page, artboard.layers, sketch);
@@ -3199,16 +3224,18 @@ var getStore = function getStore(page, selectedArtboard, sketch) {
   var fonts = Object(_fonts__WEBPACK_IMPORTED_MODULE_3__["default"])(artboard.layers);
   var notes = []; // remove duplicate artboard
 
-  artboard.remove(); // return store
+  artboard.remove(); // set store
 
-  return {
+  var store = {
     artboard: artboard,
     images: images,
     svgs: svgs,
     notes: notes,
     fonts: fonts,
     artboardImage: artboardImage
-  };
+  }; // return callback
+
+  callback(store);
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (getStore);
@@ -3310,6 +3337,40 @@ var getSVGs = function getSVGs(page, layers, sketch) {
 
 /***/ }),
 
+/***/ "./resources/ui sync recursive ^\\.\\/loading\\-.*\\.html$":
+/*!***************************************************!*\
+  !*** ./resources/ui sync ^\.\/loading\-.*\.html$ ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var map = {
+	"./loading-dark.html": "./resources/ui/loading-dark.html",
+	"./loading-light.html": "./resources/ui/loading-light.html"
+};
+
+
+function webpackContext(req) {
+	var id = webpackContextResolve(req);
+	return __webpack_require__(id);
+}
+function webpackContextResolve(req) {
+	if(!__webpack_require__.o(map, req)) {
+		var e = new Error("Cannot find module '" + req + "'");
+		e.code = 'MODULE_NOT_FOUND';
+		throw e;
+	}
+	return map[req];
+}
+webpackContext.keys = function webpackContextKeys() {
+	return Object.keys(map);
+};
+webpackContext.resolve = webpackContextResolve;
+module.exports = webpackContext;
+webpackContext.id = "./resources/ui sync recursive ^\\.\\/loading\\-.*\\.html$";
+
+/***/ }),
+
 /***/ "./resources/ui/index.html":
 /*!*********************************!*\
   !*** ./resources/ui/index.html ***!
@@ -3317,7 +3378,29 @@ var getSVGs = function getSVGs(page, layers, sketch) {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "file://" + String(context.scriptPath).split(".sketchplugin/Contents/Sketch")[0] + ".sketchplugin/Contents/Resources/_webpack_resources/324cb3ffb55db2a9f80dbda3c1b19bd5.html";
+module.exports = "file://" + String(context.scriptPath).split(".sketchplugin/Contents/Sketch")[0] + ".sketchplugin/Contents/Resources/_webpack_resources/b46cdc1c1e454c1710f12829d1205ef7.html";
+
+/***/ }),
+
+/***/ "./resources/ui/loading-dark.html":
+/*!****************************************!*\
+  !*** ./resources/ui/loading-dark.html ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "file://" + String(context.scriptPath).split(".sketchplugin/Contents/Sketch")[0] + ".sketchplugin/Contents/Resources/_webpack_resources/c75cecd175f9667348e12ae287ebaa45.html";
+
+/***/ }),
+
+/***/ "./resources/ui/loading-light.html":
+/*!*****************************************!*\
+  !*** ./resources/ui/loading-light.html ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "file://" + String(context.scriptPath).split(".sketchplugin/Contents/Sketch")[0] + ".sketchplugin/Contents/Resources/_webpack_resources/851e4b797ae0dca6f4715231f12dac4f.html";
 
 /***/ }),
 
@@ -3328,7 +3411,7 @@ module.exports = "file://" + String(context.scriptPath).split(".sketchplugin/Con
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "file://" + String(context.scriptPath).split(".sketchplugin/Contents/Sketch")[0] + ".sketchplugin/Contents/Resources/_webpack_resources/33005131e88e388c3971a4d6aaccd4d6.html";
+module.exports = "file://" + String(context.scriptPath).split(".sketchplugin/Contents/Sketch")[0] + ".sketchplugin/Contents/Resources/_webpack_resources/09172822c1e03041db24c111ab66ef51.html";
 
 /***/ }),
 
@@ -3363,8 +3446,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var sketch_module_web_view_remote__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(sketch_module_web_view_remote__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _resources_store__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../resources/store */ "./resources/store/index.js");
 /* harmony import */ var _resources_export__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../resources/export */ "./resources/export/index.js");
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 // @ts-ignore
  // @ts-ignore
 
@@ -3375,66 +3456,104 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-var webviewIdentifier = 'measure.webview';
+var appWindowIdentifier = 'srm.appWindow';
+var loadingWindowIdentifier = 'srm.loadingWindow';
 /* harmony default export */ __webpack_exports__["default"] = (function (context) {
-  // get document, selectedLayers, and artboard
-  var document = sketch_dom__WEBPACK_IMPORTED_MODULE_0___default.a.getSelectedDocument();
-  var page = document.selectedPage;
-  var selectedLayers = document.selectedLayers;
-  var artboard = selectedLayers.layers.find(function (layer) {
+  // close any existing windows
+  var existingAppWindow = Object(sketch_module_web_view_remote__WEBPACK_IMPORTED_MODULE_3__["getWebview"])(appWindowIdentifier);
+  var existingLoadingWindow = Object(sketch_module_web_view_remote__WEBPACK_IMPORTED_MODULE_3__["getWebview"])(loadingWindowIdentifier);
+
+  if (existingAppWindow) {
+    existingAppWindow.close();
+  } else if (existingLoadingWindow) {
+    existingLoadingWindow.close();
+  } // get sketch document
+
+
+  var document = sketch_dom__WEBPACK_IMPORTED_MODULE_0___default.a.getSelectedDocument(); // get sketch selected page
+
+  var page = document.selectedPage; // get sketch selected layers
+
+  var selectedLayers = document.selectedLayers; // get sketch selected artboard
+  //@ts-ignore
+
+  var selectedArtboard = selectedLayers.layers.find(function (layer) {
     return layer.type === 'Artboard' && layer.selected;
   }); // if artboard selected, run command
 
-  if (artboard) {
-    //@ts-ignore
-    var store = Object(_resources_store__WEBPACK_IMPORTED_MODULE_4__["default"])(page, artboard, sketch_dom__WEBPACK_IMPORTED_MODULE_0___default.a);
-    var theme = sketch_ui__WEBPACK_IMPORTED_MODULE_1___default.a.getTheme(); // set webview browser window
+  if (selectedArtboard) {
+    // set base store
+    var store = null; // set theme
 
-    var browserWindow = new sketch_module_web_view__WEBPACK_IMPORTED_MODULE_2___default.a({
-      identifier: webviewIdentifier,
+    var theme = sketch_ui__WEBPACK_IMPORTED_MODULE_1___default.a.getTheme(); // set loading modal window
+
+    var loadingWindow = new sketch_module_web_view__WEBPACK_IMPORTED_MODULE_2___default.a({
+      identifier: loadingWindowIdentifier,
+      parent: document,
+      modal: true,
+      show: false
+    }); // load loading.html in modal
+
+    loadingWindow.loadURL(__webpack_require__("./resources/ui sync recursive ^\\.\\/loading\\-.*\\.html$")("./loading-".concat(theme, ".html"))); // set loading window contents
+
+    var loadingWebContents = loadingWindow.webContents; // display loading modal when ready
+
+    loadingWindow.once('ready-to-show', function () {
+      loadingWindow.show();
+    }); // make loading window closable
+
+    loadingWebContents.on('escape', function () {
+      if (!appWebContents.isLoading()) {
+        loadingWindow.close();
+      }
+    }); // set app window
+
+    var appWindow = new sketch_module_web_view__WEBPACK_IMPORTED_MODULE_2___default.a({
+      identifier: appWindowIdentifier,
       width: 1200,
       height: 900,
       fullscreenable: false,
       show: false
-    }); //browserWindow.setAspectRatio(1.33);
+    }); // maximize and center app window before showing
 
-    browserWindow.maximize();
-    browserWindow.center();
-    browserWindow.show(); // set webview contents
+    appWindow.maximize();
+    appWindow.center(); // load app index
 
-    var webContents = browserWindow.webContents; // load react app
+    appWindow.loadURL(__webpack_require__(/*! ../resources/ui/index.html */ "./resources/ui/index.html")); // set app window contents
 
-    browserWindow.loadURL(__webpack_require__(/*! ../resources/ui/index.html */ "./resources/ui/index.html")); // render app once webview contents loaded
+    var appWebContents = appWindow.webContents; // wait till app index finished loading
 
-    webContents.on('did-finish-load', function () {
-      //@ts-ignore
-      webContents.executeJavaScript("renderApp(\n        ".concat(JSON.stringify(store), ",\n        ").concat(JSON.stringify(theme), "\n      )"));
+    appWebContents.on('did-finish-load', function () {
+      // get store when index loads
+      Object(_resources_store__WEBPACK_IMPORTED_MODULE_4__["default"])(page, selectedArtboard, sketch_dom__WEBPACK_IMPORTED_MODULE_0___default.a, function (appStore) {
+        // set plugin store upon loading store
+        store = appStore; // render react app upon loading store
+
+        appWebContents.executeJavaScript("renderApp(\n          ".concat(JSON.stringify(appStore), ",\n          ").concat(JSON.stringify(theme), "\n        )")).then(function () {
+          // after react app renders,
+          // destroy loading window and show app window
+          loadingWindow.close();
+          appWindow.show();
+        });
+      });
+    }); // if app failed to load,
+    // destory windows and display alert
+
+    appWebContents.on('did-fail-load', function () {
+      loadingWindow.close();
+      appWindow.close();
+      sketch_ui__WEBPACK_IMPORTED_MODULE_1___default.a.alert('Error', 'Spec failed to load.');
     }); // open save prompt on save
 
-    webContents.on('save', function (params) {
+    appWebContents.on('save', function (params) {
+      // set save store
+      var saveStore = store; // parse save params
+
       var saveParams = JSON.parse(params); // add notes to store
 
-      store.notes = saveParams.notes; // set final store
+      saveStore.notes = saveParams.notes; // get final store
 
-      var finalStore = Object.assign({}, store); // update final store image paths
-
-      finalStore.images = store.images.map(function (image) {
-        var _src;
-
-        return {
-          id: image.id,
-          src: (_src = {}, _defineProperty(_src, "1x", "images/".concat(image.id, ".png")), _defineProperty(_src, "2x", "images/".concat(image.id, "@2x.png")), _src)
-        };
-      }); // update final store svg paths
-
-      finalStore.svgs = store.svgs.map(function (svg) {
-        return {
-          id: svg.id,
-          src: "svgs/".concat(svg.id, ".svg")
-        };
-      }); // stringify final store for export
-
-      var finalStoreString = JSON.stringify(finalStore); // get save path
+      var finalStore = _resources_export__WEBPACK_IMPORTED_MODULE_5__["getFinalStore"](saveStore); // get save path
 
       var savePath = _resources_export__WEBPACK_IMPORTED_MODULE_5__["getSavePath"](context); // get plugin root
 
@@ -3444,7 +3563,7 @@ var webviewIdentifier = 'measure.webview';
 
       var scriptSourceMapPath = "".concat(pluginRoot, "/Contents/Resources/resources_ui_spec.js.map"); // get css path
 
-      var stylesPath = __webpack_require__(/*! ../resources/ui/style.css */ "./resources/ui/style.css").replace('file://', ''); // get html path
+      var stylesPath = __webpack_require__(/*! ../resources/ui/style.css */ "./resources/ui/style.css").replace('file://', ''); // get html spec path
 
 
       var templatePath = __webpack_require__(/*! ../resources/ui/spec.html */ "./resources/ui/spec.html").replace('file://', ''); // get css file name
@@ -3457,11 +3576,9 @@ var webviewIdentifier = 'measure.webview';
 
       var styles = _resources_export__WEBPACK_IMPORTED_MODULE_5__["getFileContent"](stylesPath); // get contents of js
 
-      var script = _resources_export__WEBPACK_IMPORTED_MODULE_5__["getFileContent"](scriptPath); // add store to js string
+      var script = _resources_export__WEBPACK_IMPORTED_MODULE_5__["getFileContent"](scriptPath); // add store and theme to js string
 
-      var scriptWithStore = "var SRM_APP_STORE = ".concat(finalStoreString, "; ").concat(script); // // add theme to js string
-
-      var scriptWithTheme = "var SRM_APP_THEME = '".concat(saveParams.theme, "'; ").concat(scriptWithStore); // get contents of js map
+      var scriptWithGlobals = "var SRM_APP_THEME = '".concat(saveParams.theme, "'; var SRM_APP_STORE = ").concat(finalStore, "; ").concat(script); // get contents of js map
 
       var scriptSourceMap = _resources_export__WEBPACK_IMPORTED_MODULE_5__["getFileContent"](scriptSourceMapPath); // create final html
 
@@ -3478,7 +3595,7 @@ var webviewIdentifier = 'measure.webview';
       }); // create final js
 
       _resources_export__WEBPACK_IMPORTED_MODULE_5__["writeFile"]({
-        content: scriptWithTheme,
+        content: scriptWithGlobals,
         path: savePath,
         fileName: 'resources_ui_spec.js'
       }); // create final js map
@@ -3489,18 +3606,18 @@ var webviewIdentifier = 'measure.webview';
         fileName: 'resources_ui_spec.js.map'
       }); // move images from temp folder to spec
 
-      if (store.images.length > 0) {
-        _resources_export__WEBPACK_IMPORTED_MODULE_5__["moveImages"](store.images, savePath);
+      if (saveStore.images.length > 0) {
+        _resources_export__WEBPACK_IMPORTED_MODULE_5__["moveImages"](saveStore.images, savePath);
       } // move svgs from temp folder to spec
 
 
-      if (store.svgs.length > 0) {
-        _resources_export__WEBPACK_IMPORTED_MODULE_5__["moveSVGs"](store.svgs, savePath);
+      if (saveStore.svgs.length > 0) {
+        _resources_export__WEBPACK_IMPORTED_MODULE_5__["moveSVGs"](saveStore.svgs, savePath);
       } // copy fonts used in spec
 
 
-      if (store.fonts.length > 0) {
-        _resources_export__WEBPACK_IMPORTED_MODULE_5__["copyFonts"](store.fonts, savePath);
+      if (saveStore.fonts.length > 0) {
+        _resources_export__WEBPACK_IMPORTED_MODULE_5__["copyFonts"](saveStore.fonts, savePath);
       }
     });
   } else {
@@ -3509,10 +3626,13 @@ var webviewIdentifier = 'measure.webview';
   }
 });
 var onShutdown = function onShutdown() {
-  var existingWebview = Object(sketch_module_web_view_remote__WEBPACK_IMPORTED_MODULE_3__["getWebview"])(webviewIdentifier);
+  var existingAppWindow = Object(sketch_module_web_view_remote__WEBPACK_IMPORTED_MODULE_3__["getWebview"])(appWindowIdentifier);
+  var existingLoadingWindow = Object(sketch_module_web_view_remote__WEBPACK_IMPORTED_MODULE_3__["getWebview"])(loadingWindowIdentifier);
 
-  if (existingWebview) {
-    existingWebview.close();
+  if (existingAppWindow) {
+    existingAppWindow.close();
+  } else if (existingLoadingWindow) {
+    existingLoadingWindow.close();
   }
 };
 

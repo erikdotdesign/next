@@ -490,7 +490,7 @@ var createArtboardImage = function createArtboardImage(artboard, sketch) {
   return "data:image/png;base64, ".concat(base64);
 };
 
-var getStore = function getStore(page, selectedArtboard, sketch) {
+var getStore = function getStore(page, selectedArtboard, sketch, callback) {
   // get final store items
   var artboard = Object(_artboard__WEBPACK_IMPORTED_MODULE_0__["default"])(page, selectedArtboard, sketch);
   var images = Object(_images__WEBPACK_IMPORTED_MODULE_1__["default"])(page, artboard.layers, sketch);
@@ -499,16 +499,18 @@ var getStore = function getStore(page, selectedArtboard, sketch) {
   var fonts = Object(_fonts__WEBPACK_IMPORTED_MODULE_3__["default"])(artboard.layers);
   var notes = []; // remove duplicate artboard
 
-  artboard.remove(); // return store
+  artboard.remove(); // set store
 
-  return {
+  var store = {
     artboard: artboard,
     images: images,
     svgs: svgs,
     notes: notes,
     fonts: fonts,
     artboardImage: artboardImage
-  };
+  }; // return callback
+
+  callback(store);
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (getStore);

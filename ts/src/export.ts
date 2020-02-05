@@ -10,71 +10,106 @@ import { getWebview } from 'sketch-module-web-view/remote';
 import getStore from '../resources/store';
 import * as pluginExport from '../resources/export';
 
-const webviewIdentifier = 'measure.webview';
+const appWindowIdentifier = 'srm.appWindow';
+const loadingWindowIdentifier = 'srm.loadingWindow';
 
 export default (context: any) => {
-  // get document, selectedLayers, and artboard
+  // close any existing windows
+  const existingAppWindow = getWebview(appWindowIdentifier);
+  const existingLoadingWindow = getWebview(loadingWindowIdentifier);
+  if (existingAppWindow) {
+    existingAppWindow.close();
+  } else if (existingLoadingWindow) {
+    existingLoadingWindow.close();
+  }
+  // get sketch document
   const document: srm.Document = sketch.getSelectedDocument();
+  // get sketch selected page
   const page = document.selectedPage;
+  // get sketch selected layers
   const selectedLayers: srm.Selection = document.selectedLayers;
-  const artboard = selectedLayers.layers.find((layer: srm.SketchLayer) => {
+  // get sketch selected artboard
+  //@ts-ignore
+  const selectedArtboard: srm.Artboard | undefined = selectedLayers.layers.find((layer: srm.SketchLayer) => {
     return layer.type === 'Artboard' && layer.selected;
   });
   // if artboard selected, run command
-  if (artboard) {
-    //@ts-ignore
-    let store = getStore(page, artboard, sketch);
-    const theme = ui.getTheme();
-    // set webview browser window
-    const browserWindow = new BrowserWindow({
-      identifier: webviewIdentifier,
+  if (selectedArtboard) {
+    // set base store
+    let store: srm.Store | null = null;
+    // set theme
+    const theme: srm.Theme = ui.getTheme();
+    // set loading modal window
+    const loadingWindow = new BrowserWindow({
+      identifier: loadingWindowIdentifier,
+      parent: document,
+      modal: true,
+      show: false
+    });
+    // load loading.html in modal
+    loadingWindow.loadURL(require(`../resources/ui/loading-${theme}.html`));
+    // set loading window contents
+    const loadingWebContents = loadingWindow.webContents;
+    // display loading modal when ready
+    loadingWindow.once('ready-to-show', () => {
+      loadingWindow.show();
+    });
+    // make loading window closable
+    loadingWebContents.on('escape', () => {
+      if (!appWebContents.isLoading()) {
+        loadingWindow.close();
+      }
+    });
+    // set app window
+    const appWindow = new BrowserWindow({
+      identifier: appWindowIdentifier,
       width: 1200,
       height: 900,
       fullscreenable: false,
       show: false
     });
-    //browserWindow.setAspectRatio(1.33);
-    browserWindow.maximize();
-    browserWindow.center();
-    browserWindow.show();
-    // set webview contents
-    const webContents = browserWindow.webContents;
-    // load react app
-    browserWindow.loadURL(require('../resources/ui/index.html'));
-    // render app once webview contents loaded
-    webContents.on('did-finish-load', () => {
-      //@ts-ignore
-      webContents.executeJavaScript(`renderApp(
-        ${JSON.stringify(store)},
-        ${JSON.stringify(theme)}
-      )`);
+    // maximize and center app window before showing
+    appWindow.maximize();
+    appWindow.center();
+    // load app index
+    appWindow.loadURL(require('../resources/ui/index.html'));
+    // set app window contents
+    const appWebContents = appWindow.webContents;
+    // wait till app index finished loading
+    appWebContents.on('did-finish-load', () => {
+      // get store when index loads
+      getStore(page, selectedArtboard, sketch, (appStore: srm.Store) => {
+        // set plugin store upon loading store
+        store = appStore;
+        // render react app upon loading store
+        appWebContents.executeJavaScript(`renderApp(
+          ${JSON.stringify(appStore)},
+          ${JSON.stringify(theme)}
+        )`).then(() => {
+          // after react app renders,
+          // destroy loading window and show app window
+          loadingWindow.close();
+          appWindow.show();
+        });
+      });
+    });
+    // if app failed to load,
+    // destory windows and display alert
+    appWebContents.on('did-fail-load', () => {
+      loadingWindow.close();
+      appWindow.close();
+      ui.alert('Error', 'Spec failed to load.');
     });
     // open save prompt on save
-    webContents.on('save', (params: string) => {
-      const saveParams = JSON.parse(params);
+    appWebContents.on('save', (params: string) => {
+      // set save store
+      let saveStore = store as srm.Store;
+      // parse save params
+      let saveParams: { notes: srm.Note[], theme: srm.Theme } = JSON.parse(params);
       // add notes to store
-      store.notes = saveParams.notes;
-      // set final store
-      let finalStore = Object.assign({}, store);
-      // update final store image paths
-      finalStore.images = store.images.map((image) => {
-        return {
-          id: image.id,
-          src: {
-            [`1x`]: `images/${image.id}.png`,
-            [`2x`]: `images/${image.id}@2x.png`
-          }
-        }
-      });
-      // update final store svg paths
-      finalStore.svgs = store.svgs.map((svg: any) => {
-        return {
-          id: svg.id,
-          src: `svgs/${svg.id}.svg`
-        }
-      });
-      // stringify final store for export
-      let finalStoreString = JSON.stringify(finalStore);
+      saveStore.notes = saveParams.notes;
+      // get final store
+      let finalStore: string = pluginExport.getFinalStore(saveStore);
       // get save path
       let savePath = pluginExport.getSavePath(context);
       // get plugin root
@@ -85,7 +120,7 @@ export default (context: any) => {
       let scriptSourceMapPath = `${pluginRoot}/Contents/Resources/resources_ui_spec.js.map`;
       // get css path
       let stylesPath = require('../resources/ui/style.css').replace('file://', '');
-      // get html path
+      // get html spec path
       let templatePath = require('../resources/ui/spec.html').replace('file://', '');
       // get css file name
       // 32 + . + extension
@@ -96,10 +131,8 @@ export default (context: any) => {
       let styles = pluginExport.getFileContent(stylesPath);
       // get contents of js
       let script = pluginExport.getFileContent(scriptPath);
-      // add store to js string
-      let scriptWithStore = `var SRM_APP_STORE = ${finalStoreString}; ${script}`;
-      // // add theme to js string
-      let scriptWithTheme = `var SRM_APP_THEME = '${saveParams.theme}'; ${scriptWithStore}`;
+      // add store and theme to js string
+      let scriptWithGlobals = `var SRM_APP_THEME = '${saveParams.theme}'; var SRM_APP_STORE = ${finalStore}; ${script}`;
       // get contents of js map
       let scriptSourceMap = pluginExport.getFileContent(scriptSourceMapPath);
       // create final html
@@ -116,7 +149,7 @@ export default (context: any) => {
       });
       // create final js
       pluginExport.writeFile({
-        content: scriptWithTheme,
+        content: scriptWithGlobals,
         path: savePath,
         fileName: 'resources_ui_spec.js'
       });
@@ -127,16 +160,16 @@ export default (context: any) => {
         fileName: 'resources_ui_spec.js.map'
       });
       // move images from temp folder to spec
-      if (store.images.length > 0) {
-        pluginExport.moveImages(store.images, savePath);
+      if (saveStore.images.length > 0) {
+        pluginExport.moveImages(saveStore.images, savePath);
       }
       // move svgs from temp folder to spec
-      if (store.svgs.length > 0) {
-        pluginExport.moveSVGs(store.svgs, savePath);
+      if (saveStore.svgs.length > 0) {
+        pluginExport.moveSVGs(saveStore.svgs, savePath);
       }
       // copy fonts used in spec
-      if (store.fonts.length > 0) {
-        pluginExport.copyFonts(store.fonts, savePath);
+      if (saveStore.fonts.length > 0) {
+        pluginExport.copyFonts(saveStore.fonts, savePath);
       }
     });
   } else {
@@ -146,8 +179,11 @@ export default (context: any) => {
 }
 
 export const onShutdown = () => {
-  const existingWebview = getWebview(webviewIdentifier);
-  if (existingWebview) {
-    existingWebview.close();
+  const existingAppWindow = getWebview(appWindowIdentifier);
+  const existingLoadingWindow = getWebview(loadingWindowIdentifier);
+  if (existingAppWindow) {
+    existingAppWindow.close();
+  } else if (existingLoadingWindow) {
+    existingLoadingWindow.close();
   }
 }

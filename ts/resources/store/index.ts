@@ -18,7 +18,7 @@ export const createArtboardImage = (artboard: srm.Artboard, sketch: srm.Sketch) 
   return `data:image/png;base64, ${base64}`;
 }
 
-const getStore = (page: srm.Page, selectedArtboard: srm.Artboard, sketch: srm.Sketch): srm.Store => {
+const getStore = (page: srm.Page, selectedArtboard: srm.Artboard, sketch: srm.Sketch, callback: any) => {
   // get final store items
   const artboard: srm.Artboard = getArtboard(page, selectedArtboard, sketch);
   const images: srm.ImgAsset[] = getImages(page, artboard.layers, sketch);
@@ -28,15 +28,17 @@ const getStore = (page: srm.Page, selectedArtboard: srm.Artboard, sketch: srm.Sk
   const notes: srm.Note[] = [];
   // remove duplicate artboard
   artboard.remove();
-  // return store
-  return {
+  // set store
+  const store: srm.Store = {
     artboard,
     images,
     svgs,
     notes,
     fonts,
     artboardImage
-  }
+  };
+  // return callback
+  callback(store);
 };
 
 export default getStore;
