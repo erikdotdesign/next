@@ -11722,7 +11722,6 @@ var Artboard = function Artboard(props) {
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     setSelection(artboard);
-    console.log(artboard.layers);
   }, []);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     gsap__WEBPACK_IMPORTED_MODULE_2__["default"].set(artboardRef.current, {

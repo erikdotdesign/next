@@ -20,7 +20,6 @@ const Artboard = (props) => {
     };
     useEffect(() => {
         setSelection(artboard);
-        console.log(artboard.layers);
     }, []);
     useEffect(() => {
         gsap.set(artboardRef.current, { scale: zoom });
