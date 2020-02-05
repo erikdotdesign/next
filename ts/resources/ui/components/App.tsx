@@ -90,7 +90,6 @@ const App = (props: AppProps) => {
   const handleInitialRender = (callback: any): void => {
     setAvgColor(getAvgColor());
     handleResize();
-    app.current?.focus();
     callback();
   }
 
@@ -146,6 +145,7 @@ const App = (props: AppProps) => {
   }, [groupSelection]);
 
   useEffect(() => {
+    app.current?.focus();
     // set reszie listener
     window.addEventListener('resize', handleResize);
     // handle initial render,
@@ -215,6 +215,7 @@ const App = (props: AppProps) => {
               setGroupSelectionNest={setGroupSelectionNest}
               artboard={props.artboard} />
             <SidebarRight
+              ready={ready}
               selection={selection}
               images={props.images}
               svgs={props.svgs}

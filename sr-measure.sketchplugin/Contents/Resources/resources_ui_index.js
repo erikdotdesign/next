@@ -40750,11 +40750,8 @@ var App = function App(props) {
   };
 
   var handleInitialRender = function handleInitialRender(callback) {
-    var _a;
-
     setAvgColor(getAvgColor());
     handleResize();
-    (_a = app.current) === null || _a === void 0 ? void 0 : _a.focus();
     callback();
   };
 
@@ -40811,7 +40808,10 @@ var App = function App(props) {
     }
   }, [groupSelection]);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    // set reszie listener
+    var _a;
+
+    (_a = app.current) === null || _a === void 0 ? void 0 : _a.focus(); // set reszie listener
+
     window.addEventListener('resize', handleResize); // handle initial render,
     // set app ready
 
@@ -40877,6 +40877,7 @@ var App = function App(props) {
       setGroupSelectionNest: setGroupSelectionNest,
       artboard: props.artboard
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SidebarRight__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      ready: ready,
       selection: selection,
       images: props.images,
       svgs: props.svgs,
@@ -43227,6 +43228,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var SidebarRight = function SidebarRight(props) {
   var selection = props.selection,
+      ready = props.ready,
       images = props.images,
       svgs = props.svgs,
       notes = props.notes,
@@ -43243,7 +43245,7 @@ var SidebarRight = function SidebarRight(props) {
     notes: notes,
     setNotes: setNotes,
     composing: composing
-  }), composing ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SidebarRightInput__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }), composing && ready ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SidebarRightInput__WEBPACK_IMPORTED_MODULE_4__["default"], {
     selection: selection,
     notes: notes,
     setNotes: setNotes
@@ -43597,6 +43599,7 @@ var SidebarRightStyles = function SidebarRightStyles(props) {
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SidebarRightStylesProp__WEBPACK_IMPORTED_MODULE_4__["default"], {
       prop: key
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SidebarRightStylesValue__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      prop: key,
       value: selectionStyles[key]
     }));
   })) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SidebarPlaceholder__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -43833,7 +43836,8 @@ var SidebarRightStylesValue = function SidebarRightStylesValue(props) {
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SidebarRightStylesCopied__WEBPACK_IMPORTED_MODULE_2__["default"], {
     copied: copied
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SidebarRightSwatches__WEBPACK_IMPORTED_MODULE_4__["default"], {
-    value: props.value
+    value: props.value,
+    prop: props.prop
   }));
 };
 
@@ -43980,6 +43984,15 @@ var SidebarRightSwatches = function SidebarRightSwatches(props) {
     return colors;
   };
 
+  var getUrl = function getUrl() {
+    if (props.prop === 'WebkitMaskBoxImage') {
+      var nonUrl = " 100 100 0 0 stretch stretch";
+      return props.value.slice(0, props.value.length - nonUrl.length);
+    } else {
+      return props.value;
+    }
+  };
+
   var colors = getColors();
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: 'c-sidebar-right__swatch-group'
@@ -43994,7 +44007,7 @@ var SidebarRightSwatches = function SidebarRightSwatches(props) {
   }) : null, String(props.value).startsWith('url') ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: 'c-sidebar-right__swatch c-sidebar-right__swatch--image',
     style: {
-      background: props.value,
+      background: getUrl(),
       backgroundRepeat: 'no-repeat',
       backgroundSize: 'cover',
       backgroundPosition: 'center center'
@@ -45198,15 +45211,15 @@ var createPatternDisplay = function createPatternDisplay(patternType) {
   ;
 };
 var createPatternFill = function createPatternFill(pattern, images) {
-  var displayStyle = createPatternDisplay(pattern.patternType);
-
   if (pattern.image) {
+    var displayStyle = createPatternDisplay(pattern.patternType);
     var image = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["getImage"])(images, pattern.image.id);
-    var scaledImage = image ? Object(_utils__WEBPACK_IMPORTED_MODULE_0__["getScaledImage"])(image) : null;
+    var useScaled = pattern.patternType !== 'Tile';
 
     if (image) {
+      var imgSrc = useScaled ? image.src['2x'] : image.src['1x'];
       return Object.assign({
-        background: "url(".concat(scaledImage, ")")
+        background: "url(".concat(imgSrc, ")")
       }, displayStyle);
     } else {
       return null;

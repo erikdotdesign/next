@@ -73,10 +73,8 @@ const App = (props) => {
         setViewPortSize(getViewPortSize());
     };
     const handleInitialRender = (callback) => {
-        var _a;
         setAvgColor(getAvgColor());
         handleResize();
-        (_a = app.current) === null || _a === void 0 ? void 0 : _a.focus();
         callback();
     };
     const scrollToCenter = () => {
@@ -132,6 +130,8 @@ const App = (props) => {
         }
     }, [groupSelection]);
     useEffect(() => {
+        var _a;
+        (_a = app.current) === null || _a === void 0 ? void 0 : _a.focus();
         // set reszie listener
         window.addEventListener('resize', handleResize);
         // handle initial render,
@@ -169,7 +169,7 @@ const App = (props) => {
             } },
             React.createElement(TopBar, { zoom: zoom, setZoom: setZoom, baseZoom: baseZoom, notes: notes, scrollToCenter: scrollToCenter, appTheme: appTheme, setAppTheme: setAppTheme, composing: props.composing }),
             React.createElement(SidebarLeft, { selection: selection, setSelection: setSelection, hover: hover, setHover: setHover, notes: notes, groupSelection: groupSelection, setGroupSelection: setGroupSelection, groupSelectionNest: groupSelectionNest, setGroupSelectionNest: setGroupSelectionNest, artboard: props.artboard }),
-            React.createElement(SidebarRight, { selection: selection, images: props.images, svgs: props.svgs, notes: notes, setNotes: setNotes, composing: props.composing }),
+            React.createElement(SidebarRight, { ready: ready, selection: selection, images: props.images, svgs: props.svgs, notes: notes, setNotes: setNotes, composing: props.composing }),
             React.createElement(Canvas, Object.assign({}, props, { ready: ready, zoom: zoom, setZoom: setZoom, selection: selection, setSelection: setSelection, groupSelection: groupSelection, setGroupSelection: setGroupSelection, groupSelectionNest: groupSelectionNest, setGroupSelectionNest: setGroupSelectionNest, hover: hover, setHover: setHover })))))));
 };
 export default App;

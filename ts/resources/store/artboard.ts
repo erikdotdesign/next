@@ -1,3 +1,5 @@
+import chroma from 'chroma-js';
+
 const removeIrrelevantLayers = (layers: srm.SketchLayer[]): void => {
   if (layers.length > 0) {
     layers.forEach((layer: srm.SketchLayer) => {
@@ -42,10 +44,21 @@ const createMaskLayer = (layer: srm.ShapePath | srm.Shape, sketch: srm.Sketch): 
   // layer needs a fill and 100% opacity,
   // to correctly mimic sketch masking
   let duplicate = layer.duplicate();
-  duplicate.style.fills = [{
-    color: '#000',
-    fillType: 'Color'
-  }];
+  // check if layer has active fill
+  const activeFills = duplicate.style.fills.filter((fill: srm.Fill) => fill.enabled);
+  const topFill = activeFills ? activeFills[activeFills.length - 1] : null;
+  // if layer has active fill,
+  // return fill at 100% alpha
+  if (topFill) {
+    topFill.color = `${chroma(topFill.color).alpha(1)}`;
+  } else {
+    // if layer has no active fill,
+    // add black fill
+    duplicate.style.fills = [{
+      color: '#000',
+      fillType: 'Color'
+    }];
+  }
   duplicate.frame.x = 0;
   duplicate.frame.y = 0;
   duplicate.style.borders = [];

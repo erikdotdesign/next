@@ -52,7 +52,7 @@ const SidebarRightStyles = (props: SidebarRightStylesProps) => {
               Object.keys(selectionStyles).map((key: any, index: number) => (
                 <div className='c-sidebar-right__style' key={index}>
                   <SidebarRightStylesProp prop={key} />
-                  <SidebarRightStylesValue value={selectionStyles[key]} />
+                  <SidebarRightStylesValue prop={key} value={selectionStyles[key]} />
                 </div>
               ))
             }

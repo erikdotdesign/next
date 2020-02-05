@@ -6,6 +6,7 @@ import SidebarRightSwatches from './SidebarRightSwatches';
 
 interface SidebarRightStylesValueProps {
   value: string;
+  prop: string;
 }
 
 const SidebarRightStylesValue = (props: SidebarRightStylesValueProps) => {
@@ -34,7 +35,8 @@ const SidebarRightStylesValue = (props: SidebarRightStylesValueProps) => {
       <SidebarRightStylesCopied
         copied={copied} />
       <SidebarRightSwatches
-        value={props.value} />
+        value={props.value}
+        prop={props.prop} />
     </div>
   );
 }

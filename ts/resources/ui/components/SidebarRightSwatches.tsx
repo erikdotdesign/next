@@ -3,6 +3,7 @@ import chroma from 'chroma-js';
 
 interface SidebarRightSwatchesProps {
   value: string;
+  prop: string;
 }
 
 const SidebarRightSwatches = (props: SidebarRightSwatchesProps) => {
@@ -23,6 +24,14 @@ const SidebarRightSwatches = (props: SidebarRightSwatchesProps) => {
     });
     return colors;
   }
+  const getUrl = () => {
+    if (props.prop === 'WebkitMaskBoxImage') {
+      let nonUrl = ` 100 100 0 0 stretch stretch`;
+      return props.value.slice(0, props.value.length - nonUrl.length);
+    } else {
+      return props.value;
+    }
+  }
   const colors = getColors();
   return (
     <div className='c-sidebar-right__swatch-group'>
@@ -41,7 +50,7 @@ const SidebarRightSwatches = (props: SidebarRightSwatchesProps) => {
         ? <div
             className='c-sidebar-right__swatch c-sidebar-right__swatch--image'
             style={{
-              background: props.value,
+              background: getUrl(),
               backgroundRepeat: 'no-repeat',
               backgroundSize: 'cover',
               backgroundPosition: 'center center'

@@ -257,13 +257,14 @@ export const createPatternDisplay = (patternType: srm.PatternFillType): Omit<srm
 };
 
 export const createPatternFill = (pattern: srm.Pattern, images: srm.ImgAsset[]): srm.css.Background | null => {
-  const displayStyle = createPatternDisplay(pattern.patternType);
   if (pattern.image) {
+    const displayStyle = createPatternDisplay(pattern.patternType);
     const image = getImage(images, pattern.image.id);
-    const scaledImage = image ? getScaledImage(image) : null;
+    const useScaled = pattern.patternType !== 'Tile';
     if (image) {
+      const imgSrc = useScaled ? image.src['2x'] : image.src['1x'];
       return {
-        background: `url(${scaledImage})`,
+        background: `url(${imgSrc})`,
         ...displayStyle
       }
     } else {

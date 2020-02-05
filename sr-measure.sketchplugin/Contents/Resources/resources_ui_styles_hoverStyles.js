@@ -3752,15 +3752,15 @@ var createPatternDisplay = function createPatternDisplay(patternType) {
   ;
 };
 var createPatternFill = function createPatternFill(pattern, images) {
-  var displayStyle = createPatternDisplay(pattern.patternType);
-
   if (pattern.image) {
+    var displayStyle = createPatternDisplay(pattern.patternType);
     var image = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["getImage"])(images, pattern.image.id);
-    var scaledImage = image ? Object(_utils__WEBPACK_IMPORTED_MODULE_0__["getScaledImage"])(image) : null;
+    var useScaled = pattern.patternType !== 'Tile';
 
     if (image) {
+      var imgSrc = useScaled ? image.src['2x'] : image.src['1x'];
       return Object.assign({
-        background: "url(".concat(scaledImage, ")")
+        background: "url(".concat(imgSrc, ")")
       }, displayStyle);
     } else {
       return null;
