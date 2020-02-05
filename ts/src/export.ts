@@ -25,7 +25,7 @@ export default (context: any) => {
   // get sketch document
   const document: srm.Document = sketch.getSelectedDocument();
   // get sketch selected page
-  const page = document.selectedPage;
+  const page: srm.Page = document.selectedPage;
   // get sketch selected layers
   const selectedLayers: srm.Selection = document.selectedLayers;
   // get sketch selected artboard
@@ -47,11 +47,12 @@ export default (context: any) => {
       show: false
     });
     // load loading.html in modal
-    loadingWindow.loadURL(require(`../resources/ui/loading-${theme}.html`));
+    loadingWindow.loadURL(require(`../resources/ui/loading.html`));
     // set loading window contents
     const loadingWebContents = loadingWindow.webContents;
     // display loading modal when ready
-    loadingWindow.once('ready-to-show', () => {
+    loadingWebContents.on('did-finish-load', () => {
+      loadingWebContents.executeJavaScript(`setLoadingColor('${theme}')`);
       loadingWindow.show();
     });
     // make loading window closable
@@ -79,6 +80,8 @@ export default (context: any) => {
     appWebContents.on('did-finish-load', () => {
       // get store when index loads
       getStore(page, selectedArtboard, sketch, (appStore: srm.Store) => {
+        // update loading text
+        loadingWebContents.executeJavaScript(`setLoadingText('Rendering Spec')`);
         // set plugin store upon loading store
         store = appStore;
         // render react app upon loading store

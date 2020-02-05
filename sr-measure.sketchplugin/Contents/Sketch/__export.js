@@ -3337,40 +3337,6 @@ var getSVGs = function getSVGs(page, layers, sketch) {
 
 /***/ }),
 
-/***/ "./resources/ui sync recursive ^\\.\\/loading\\-.*\\.html$":
-/*!***************************************************!*\
-  !*** ./resources/ui sync ^\.\/loading\-.*\.html$ ***!
-  \***************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var map = {
-	"./loading-dark.html": "./resources/ui/loading-dark.html",
-	"./loading-light.html": "./resources/ui/loading-light.html"
-};
-
-
-function webpackContext(req) {
-	var id = webpackContextResolve(req);
-	return __webpack_require__(id);
-}
-function webpackContextResolve(req) {
-	if(!__webpack_require__.o(map, req)) {
-		var e = new Error("Cannot find module '" + req + "'");
-		e.code = 'MODULE_NOT_FOUND';
-		throw e;
-	}
-	return map[req];
-}
-webpackContext.keys = function webpackContextKeys() {
-	return Object.keys(map);
-};
-webpackContext.resolve = webpackContextResolve;
-module.exports = webpackContext;
-webpackContext.id = "./resources/ui sync recursive ^\\.\\/loading\\-.*\\.html$";
-
-/***/ }),
-
 /***/ "./resources/ui/index.html":
 /*!*********************************!*\
   !*** ./resources/ui/index.html ***!
@@ -3382,25 +3348,14 @@ module.exports = "file://" + String(context.scriptPath).split(".sketchplugin/Con
 
 /***/ }),
 
-/***/ "./resources/ui/loading-dark.html":
-/*!****************************************!*\
-  !*** ./resources/ui/loading-dark.html ***!
-  \****************************************/
+/***/ "./resources/ui/loading.html":
+/*!***********************************!*\
+  !*** ./resources/ui/loading.html ***!
+  \***********************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "file://" + String(context.scriptPath).split(".sketchplugin/Contents/Sketch")[0] + ".sketchplugin/Contents/Resources/_webpack_resources/c75cecd175f9667348e12ae287ebaa45.html";
-
-/***/ }),
-
-/***/ "./resources/ui/loading-light.html":
-/*!*****************************************!*\
-  !*** ./resources/ui/loading-light.html ***!
-  \*****************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "file://" + String(context.scriptPath).split(".sketchplugin/Contents/Sketch")[0] + ".sketchplugin/Contents/Resources/_webpack_resources/851e4b797ae0dca6f4715231f12dac4f.html";
+module.exports = "file://" + String(context.scriptPath).split(".sketchplugin/Contents/Sketch")[0] + ".sketchplugin/Contents/Resources/_webpack_resources/1d30b065b4fea00e9a14692c5ac4a6f2.html";
 
 /***/ }),
 
@@ -3494,11 +3449,12 @@ var loadingWindowIdentifier = 'srm.loadingWindow';
       show: false
     }); // load loading.html in modal
 
-    loadingWindow.loadURL(__webpack_require__("./resources/ui sync recursive ^\\.\\/loading\\-.*\\.html$")("./loading-".concat(theme, ".html"))); // set loading window contents
+    loadingWindow.loadURL(__webpack_require__(/*! ../resources/ui/loading.html */ "./resources/ui/loading.html")); // set loading window contents
 
     var loadingWebContents = loadingWindow.webContents; // display loading modal when ready
 
-    loadingWindow.once('ready-to-show', function () {
+    loadingWebContents.on('did-finish-load', function () {
+      loadingWebContents.executeJavaScript("setLoadingColor('".concat(theme, "')"));
       loadingWindow.show();
     }); // make loading window closable
 
@@ -3526,7 +3482,9 @@ var loadingWindowIdentifier = 'srm.loadingWindow';
     appWebContents.on('did-finish-load', function () {
       // get store when index loads
       Object(_resources_store__WEBPACK_IMPORTED_MODULE_4__["default"])(page, selectedArtboard, sketch_dom__WEBPACK_IMPORTED_MODULE_0___default.a, function (appStore) {
-        // set plugin store upon loading store
+        // update loading text
+        loadingWebContents.executeJavaScript("setLoadingText('Rendering Spec')"); // set plugin store upon loading store
+
         store = appStore; // render react app upon loading store
 
         appWebContents.executeJavaScript("renderApp(\n          ".concat(JSON.stringify(appStore), ",\n          ").concat(JSON.stringify(theme), "\n        )")).then(function () {
