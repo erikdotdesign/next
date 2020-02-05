@@ -80,6 +80,17 @@
   display: flex
   animation: slideInLeft $transitionNormal ease
 
+.c-sidebar-right__inspect
+  position: absolute
+  width: 150px
+  height: 150px
+  right: 0
+  top: $styleHeight + $unit
+  z-index: 9999
+  background-repeat: no-repeat
+  background-size: contain
+  background-position: center center
+
 .c-sidebar-right__style-input
   border: none
   margin: 0
@@ -136,7 +147,9 @@
   width: 25%
 
 .c-sidebar-right__swatch--image
-  width: 25%
+  background-repeat: no-repeat !important
+  background-size: cover !important
+  background-position: center center !important
 
 .c-sidebar-right__notes
   padding: $unit * 2 0

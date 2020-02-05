@@ -43302,6 +43302,40 @@ var SidebarRightInput = function SidebarRightInput(props) {
 
 /***/ }),
 
+/***/ "./resources/ui/components/SidebarRightInspect.js":
+/*!********************************************************!*\
+  !*** ./resources/ui/components/SidebarRightInspect.js ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _ThemeContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ThemeContext */ "./resources/ui/components/ThemeContext.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./resources/ui/utils.js");
+
+
+
+
+var SidebarRightInspect = function SidebarRightInspect(props) {
+  return props.hovering && String(props.value).startsWith('url') ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ThemeContext__WEBPACK_IMPORTED_MODULE_1__["default"].Consumer, null, function (theme) {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: 'c-sidebar-right__inspect',
+      style: {
+        backgroundImage: Object(_utils__WEBPACK_IMPORTED_MODULE_2__["getCSSUrl"])(props.prop, props.value),
+        backgroundColor: theme.background.z2,
+        boxShadow: "0px 0px 0px 1px ".concat(theme.background.z5, " inset")
+      }
+    });
+  }) : null;
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (SidebarRightInspect);
+
+/***/ }),
+
 /***/ "./resources/ui/components/SidebarRightNote.js":
 /*!*****************************************************!*\
   !*** ./resources/ui/components/SidebarRightNote.js ***!
@@ -43786,6 +43820,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _SidebarRightStylesCopied__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SidebarRightStylesCopied */ "./resources/ui/components/SidebarRightStylesCopied.js");
 /* harmony import */ var _SidebarRightStylesInput__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SidebarRightStylesInput */ "./resources/ui/components/SidebarRightStylesInput.js");
 /* harmony import */ var _SidebarRightSwatches__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./SidebarRightSwatches */ "./resources/ui/components/SidebarRightSwatches.js");
+/* harmony import */ var _SidebarRightInspect__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./SidebarRightInspect */ "./resources/ui/components/SidebarRightInspect.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
@@ -43793,6 +43828,7 @@ function _nonIterableRest() { throw new TypeError("Invalid attempt to destructur
 function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -43835,10 +43871,9 @@ var SidebarRightStylesValue = function SidebarRightStylesValue(props) {
     copied: copied
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SidebarRightStylesCopied__WEBPACK_IMPORTED_MODULE_2__["default"], {
     copied: copied
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SidebarRightSwatches__WEBPACK_IMPORTED_MODULE_4__["default"], {
-    value: props.value,
-    prop: props.prop
-  }));
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SidebarRightSwatches__WEBPACK_IMPORTED_MODULE_4__["default"], Object.assign({}, props)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SidebarRightInspect__WEBPACK_IMPORTED_MODULE_5__["default"], Object.assign({}, props, {
+    hovering: hovering
+  })));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (SidebarRightStylesValue);
@@ -43948,6 +43983,32 @@ var SidebarRightSubmit = function SidebarRightSubmit(props) {
 
 /***/ }),
 
+/***/ "./resources/ui/components/SidebarRightSwatch.js":
+/*!*******************************************************!*\
+  !*** ./resources/ui/components/SidebarRightSwatch.js ***!
+  \*******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var SidebarRightSwatch = function SidebarRightSwatch(props) {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    style: {
+      background: props.value
+    },
+    className: "c-sidebar-right__swatch ".concat(props.image ? 'c-sidebar-right__swatch--image' : null)
+  });
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (SidebarRightSwatch);
+
+/***/ }),
+
 /***/ "./resources/ui/components/SidebarRightSwatches.js":
 /*!*********************************************************!*\
   !*** ./resources/ui/components/SidebarRightSwatches.js ***!
@@ -43961,6 +44022,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var chroma_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! chroma-js */ "./node_modules/chroma-js/chroma.js");
 /* harmony import */ var chroma_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(chroma_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _SidebarRightSwatch__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SidebarRightSwatch */ "./resources/ui/components/SidebarRightSwatch.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils */ "./resources/ui/utils.js");
+
+
 
 
 
@@ -43984,34 +44049,17 @@ var SidebarRightSwatches = function SidebarRightSwatches(props) {
     return colors;
   };
 
-  var getUrl = function getUrl() {
-    if (props.prop === 'WebkitMaskBoxImage') {
-      var nonUrl = " 100 100 0 0 stretch stretch";
-      return props.value.slice(0, props.value.length - nonUrl.length);
-    } else {
-      return props.value;
-    }
-  };
-
   var colors = getColors();
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: 'c-sidebar-right__swatch-group'
   }, colors.length > 0 ? colors.map(function (color, index) {
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SidebarRightSwatch__WEBPACK_IMPORTED_MODULE_2__["default"], {
       key: index,
-      className: 'c-sidebar-right__swatch',
-      style: {
-        backgroundColor: color
-      }
+      value: color
     });
-  }) : null, String(props.value).startsWith('url') ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: 'c-sidebar-right__swatch c-sidebar-right__swatch--image',
-    style: {
-      background: getUrl(),
-      backgroundRepeat: 'no-repeat',
-      backgroundSize: 'cover',
-      backgroundPosition: 'center center'
-    }
+  }) : null, String(props.value).startsWith('url') ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SidebarRightSwatch__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    value: Object(_utils__WEBPACK_IMPORTED_MODULE_3__["getCSSUrl"])(props.prop, props.value),
+    image: true
   }) : null);
 };
 
@@ -45955,13 +46003,14 @@ var textStyles = function textStyles(layer) {
 /*!*******************************!*\
   !*** ./resources/ui/utils.js ***!
   \*******************************/
-/*! exports provided: getLayerNotes, getNestedNoteCount, getScaledImage, getImage, getSVG, getAbsolutePosition, cssColor, styleReducer, getOrigin, placeLeft, placeTop */
+/*! exports provided: getLayerNotes, getNestedNoteCount, getCSSUrl, getScaledImage, getImage, getSVG, getAbsolutePosition, cssColor, styleReducer, getOrigin, placeLeft, placeTop */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getLayerNotes", function() { return getLayerNotes; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getNestedNoteCount", function() { return getNestedNoteCount; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCSSUrl", function() { return getCSSUrl; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getScaledImage", function() { return getScaledImage; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getImage", function() { return getImage; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getSVG", function() { return getSVG; });
@@ -45999,6 +46048,14 @@ var getNestedNoteCount = function getNestedNoteCount(groupLayer, notes) {
   }
 
   return count;
+};
+var getCSSUrl = function getCSSUrl(prop, value) {
+  if (prop === 'WebkitMaskBoxImage') {
+    var nonUrl = " 100 100 0 0 stretch stretch";
+    return value.slice(0, value.length - nonUrl.length);
+  } else {
+    return value;
+  }
 };
 var getScaledImage = function getScaledImage(image) {
   var dpr = window.devicePixelRatio;

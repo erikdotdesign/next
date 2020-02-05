@@ -1,5 +1,7 @@
 import React from 'react';
 import chroma from 'chroma-js';
+import SidebarRightSwatch from './SidebarRightSwatch';
+import { getCSSUrl } from '../utils';
 
 interface SidebarRightSwatchesProps {
   value: string;
@@ -24,37 +26,23 @@ const SidebarRightSwatches = (props: SidebarRightSwatchesProps) => {
     });
     return colors;
   }
-  const getUrl = () => {
-    if (props.prop === 'WebkitMaskBoxImage') {
-      let nonUrl = ` 100 100 0 0 stretch stretch`;
-      return props.value.slice(0, props.value.length - nonUrl.length);
-    } else {
-      return props.value;
-    }
-  }
   const colors = getColors();
   return (
     <div className='c-sidebar-right__swatch-group'>
       {
         colors.length > 0
         ? colors.map((color: any, index: number) => (
-            <div
+            <SidebarRightSwatch
               key={index}
-              className='c-sidebar-right__swatch'
-              style={{backgroundColor: color}} />
+              value={color} />
           ))
         : null
       }
       {
         String(props.value).startsWith('url')
-        ? <div
-            className='c-sidebar-right__swatch c-sidebar-right__swatch--image'
-            style={{
-              background: getUrl(),
-              backgroundRepeat: 'no-repeat',
-              backgroundSize: 'cover',
-              backgroundPosition: 'center center'
-            }} />
+        ? <SidebarRightSwatch
+            value={getCSSUrl(props.prop, props.value)}
+            image />
         : null
       }
     </div>

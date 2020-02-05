@@ -1014,6 +1014,18 @@ textarea {
   animation: slideInLeft 0.15s ease;
 }
 
+.c-sidebar-right__inspect {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  right: 0;
+  top: 44px;
+  z-index: 9999;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center center;
+}
+
 .c-sidebar-right__style-input {
   border: none;
   margin: 0;
@@ -1092,7 +1104,9 @@ textarea {
 }
 
 .c-sidebar-right__swatch--image {
-  width: 25%;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  background-position: center center !important;
 }
 
 .c-sidebar-right__notes {

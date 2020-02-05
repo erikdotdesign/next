@@ -3325,13 +3325,14 @@
 /*!*******************************!*\
   !*** ./resources/ui/utils.js ***!
   \*******************************/
-/*! exports provided: getLayerNotes, getNestedNoteCount, getScaledImage, getImage, getSVG, getAbsolutePosition, cssColor, styleReducer, getOrigin, placeLeft, placeTop */
+/*! exports provided: getLayerNotes, getNestedNoteCount, getCSSUrl, getScaledImage, getImage, getSVG, getAbsolutePosition, cssColor, styleReducer, getOrigin, placeLeft, placeTop */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getLayerNotes", function() { return getLayerNotes; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getNestedNoteCount", function() { return getNestedNoteCount; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCSSUrl", function() { return getCSSUrl; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getScaledImage", function() { return getScaledImage; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getImage", function() { return getImage; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getSVG", function() { return getSVG; });
@@ -3369,6 +3370,14 @@ var getNestedNoteCount = function getNestedNoteCount(groupLayer, notes) {
   }
 
   return count;
+};
+var getCSSUrl = function getCSSUrl(prop, value) {
+  if (prop === 'WebkitMaskBoxImage') {
+    var nonUrl = " 100 100 0 0 stretch stretch";
+    return value.slice(0, value.length - nonUrl.length);
+  } else {
+    return value;
+  }
 };
 var getScaledImage = function getScaledImage(image) {
   var dpr = window.devicePixelRatio;

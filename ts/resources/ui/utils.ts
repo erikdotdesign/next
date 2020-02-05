@@ -25,6 +25,15 @@ export const getNestedNoteCount = (groupLayer: srm.AppLayer, notes: srm.Note[]) 
   return count;
 };
 
+export const getCSSUrl = (prop: string, value: string) => {
+  if (prop === 'WebkitMaskBoxImage') {
+    let nonUrl = ` 100 100 0 0 stretch stretch`;
+    return value.slice(0, value.length - nonUrl.length);
+  } else {
+    return value;
+  }
+}
+
 export const getScaledImage = (image: srm.ImgAsset): string  => {
   const dpr = window.devicePixelRatio;
   return dpr > 1 ? image.src[`2x`] : image.src[`1x`];

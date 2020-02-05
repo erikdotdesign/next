@@ -3,6 +3,7 @@ import SidebarRightStylesCopy from './SidebarRightStylesCopy';
 import SidebarRightStylesCopied from './SidebarRightStylesCopied';
 import SidebarRightStylesInput from './SidebarRightStylesInput';
 import SidebarRightSwatches from './SidebarRightSwatches';
+import SidebarRightInspect from './SidebarRightInspect';
 
 interface SidebarRightStylesValueProps {
   value: string;
@@ -35,8 +36,10 @@ const SidebarRightStylesValue = (props: SidebarRightStylesValueProps) => {
       <SidebarRightStylesCopied
         copied={copied} />
       <SidebarRightSwatches
-        value={props.value}
-        prop={props.prop} />
+        {...props} />
+      <SidebarRightInspect
+        {...props}
+        hovering={hovering} />
     </div>
   );
 }
