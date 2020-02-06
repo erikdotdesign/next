@@ -46,21 +46,6 @@ export default (context: any) => {
       modal: true,
       show: false
     });
-    // load loading.html in modal
-    loadingWindow.loadURL(require(`../resources/ui/loading.html`));
-    // set loading window contents
-    const loadingWebContents = loadingWindow.webContents;
-    // display loading modal when ready
-    loadingWebContents.on('did-finish-load', () => {
-      loadingWebContents.executeJavaScript(`setLoadingColor('${theme}')`);
-      loadingWindow.show();
-    });
-    // make loading window closable
-    loadingWebContents.on('escape', () => {
-      if (!appWebContents.isLoading()) {
-        loadingWindow.close();
-      }
-    });
     // set app window
     const appWindow = new BrowserWindow({
       identifier: appWindowIdentifier,
@@ -69,35 +54,58 @@ export default (context: any) => {
       fullscreenable: false,
       show: false
     });
-    // maximize and center app window before showing
-    appWindow.maximize();
-    appWindow.center();
-    // load app index
-    appWindow.loadURL(require('../resources/ui/index.html'));
+    // load loading.html in loading modal
+    loadingWindow.loadURL(require(`../resources/ui/loading.html`));
+    // set loading window contents
+    const loadingWebContents = loadingWindow.webContents;
+    // display loading modal when loaded
+    loadingWebContents.on('did-finish-load', () => {
+      // set loading text based on theme
+      loadingWebContents.executeJavaScript(
+        `setLoadingColor('${theme}')`
+      ).then(() => {
+        // show loading window after text is styled
+        loadingWindow.show();
+        // load app index
+        appWindow.loadURL(require('../resources/ui/index.html'));
+      });
+    });
+    // make loading window closable
+    loadingWebContents.on('escape', () => {
+      if (!appWebContents.isLoading()) {
+        loadingWindow.close();
+      }
+    });
     // set app window contents
     const appWebContents = appWindow.webContents;
     // wait till app index finished loading
     appWebContents.on('did-finish-load', () => {
       // get store when index loads
       getStore(page, selectedArtboard, sketch, (appStore: srm.Store) => {
-        // update loading text
-        loadingWebContents.executeJavaScript(`setLoadingText('Rendering', 'Building spec')`);
-        // set plugin store upon loading store
-        store = appStore;
-        // render react app upon loading store
-        appWebContents.executeJavaScript(`renderApp(
-          ${JSON.stringify(appStore)},
-          ${JSON.stringify(theme)}
-        )`).then(() => {
-          // after react app renders,
-          // destroy loading window and show app window
-          loadingWindow.close();
-          appWindow.show();
+        // update loading text then render app
+        loadingWebContents.executeJavaScript(
+          `setLoadingText('Rendering', 'Building spec')`
+        ).then(() => {
+          // set plugin store
+          store = appStore;
+          // render react app
+          appWebContents.executeJavaScript(`renderApp(
+            ${JSON.stringify(appStore)},
+            ${JSON.stringify(theme)}
+          )`).then(() => {
+            // after react app renders,
+            // close loading window and show app window
+            loadingWindow.close();
+            // maximize and center app window before showing
+            appWindow.maximize();
+            appWindow.center();
+            appWindow.show();
+          });
         });
       });
     });
     // if app failed to load,
-    // destory windows and display alert
+    // close windows and display alert
     appWebContents.on('did-fail-load', () => {
       loadingWindow.close();
       appWindow.close();

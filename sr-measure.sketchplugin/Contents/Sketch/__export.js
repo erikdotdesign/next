@@ -6700,21 +6700,6 @@ var loadingWindowIdentifier = 'srm.loadingWindow';
       parent: document,
       modal: true,
       show: false
-    }); // load loading.html in modal
-
-    loadingWindow.loadURL(__webpack_require__(/*! ../resources/ui/loading.html */ "./resources/ui/loading.html")); // set loading window contents
-
-    var loadingWebContents = loadingWindow.webContents; // display loading modal when ready
-
-    loadingWebContents.on('did-finish-load', function () {
-      loadingWebContents.executeJavaScript("setLoadingColor('".concat(theme, "')"));
-      loadingWindow.show();
-    }); // make loading window closable
-
-    loadingWebContents.on('escape', function () {
-      if (!appWebContents.isLoading()) {
-        loadingWindow.close();
-      }
     }); // set app window
 
     var appWindow = new sketch_module_web_view__WEBPACK_IMPORTED_MODULE_2___default.a({
@@ -6723,32 +6708,51 @@ var loadingWindowIdentifier = 'srm.loadingWindow';
       height: 900,
       fullscreenable: false,
       show: false
-    }); // maximize and center app window before showing
+    }); // load loading.html in loading modal
 
-    appWindow.maximize();
-    appWindow.center(); // load app index
+    loadingWindow.loadURL(__webpack_require__(/*! ../resources/ui/loading.html */ "./resources/ui/loading.html")); // set loading window contents
 
-    appWindow.loadURL(__webpack_require__(/*! ../resources/ui/index.html */ "./resources/ui/index.html")); // set app window contents
+    var loadingWebContents = loadingWindow.webContents; // display loading modal when loaded
+
+    loadingWebContents.on('did-finish-load', function () {
+      // set loading text based on theme
+      loadingWebContents.executeJavaScript("setLoadingColor('".concat(theme, "')")).then(function () {
+        // show loading window after text is styled
+        loadingWindow.show(); // load app index
+
+        appWindow.loadURL(__webpack_require__(/*! ../resources/ui/index.html */ "./resources/ui/index.html"));
+      });
+    }); // make loading window closable
+
+    loadingWebContents.on('escape', function () {
+      if (!appWebContents.isLoading()) {
+        loadingWindow.close();
+      }
+    }); // set app window contents
 
     var appWebContents = appWindow.webContents; // wait till app index finished loading
 
     appWebContents.on('did-finish-load', function () {
       // get store when index loads
       Object(_resources_store__WEBPACK_IMPORTED_MODULE_4__["default"])(page, selectedArtboard, sketch_dom__WEBPACK_IMPORTED_MODULE_0___default.a, function (appStore) {
-        // update loading text
-        loadingWebContents.executeJavaScript("setLoadingText('Rendering', 'Building spec')"); // set plugin store upon loading store
+        // update loading text then render app
+        loadingWebContents.executeJavaScript("setLoadingText('Rendering', 'Building spec')").then(function () {
+          // set plugin store
+          store = appStore; // render react app
 
-        store = appStore; // render react app upon loading store
+          appWebContents.executeJavaScript("renderApp(\n            ".concat(JSON.stringify(appStore), ",\n            ").concat(JSON.stringify(theme), "\n          )")).then(function () {
+            // after react app renders,
+            // close loading window and show app window
+            loadingWindow.close(); // maximize and center app window before showing
 
-        appWebContents.executeJavaScript("renderApp(\n          ".concat(JSON.stringify(appStore), ",\n          ").concat(JSON.stringify(theme), "\n        )")).then(function () {
-          // after react app renders,
-          // destroy loading window and show app window
-          loadingWindow.close();
-          appWindow.show();
+            appWindow.maximize();
+            appWindow.center();
+            appWindow.show();
+          });
         });
       });
     }); // if app failed to load,
-    // destory windows and display alert
+    // close windows and display alert
 
     appWebContents.on('did-fail-load', function () {
       loadingWindow.close();
