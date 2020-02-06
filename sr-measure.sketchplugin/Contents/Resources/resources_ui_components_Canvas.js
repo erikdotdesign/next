@@ -12071,7 +12071,6 @@ var Layer = function Layer(props) {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_LayerShapePath__WEBPACK_IMPORTED_MODULE_3__["default"], {
         layer: layer,
         images: images,
-        svgs: svgs,
         onClick: onClick,
         onMouseOver: onMouseOver,
         onMouseOut: onMouseOut
@@ -12248,85 +12247,22 @@ var LayerShape = function LayerShape(props) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _LayerShape__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./LayerShape */ "./resources/ui/components/LayerShape.js");
-/* harmony import */ var _LayerShapePathClosed__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./LayerShapePathClosed */ "./resources/ui/components/LayerShapePathClosed.js");
-
-
-
-
-var LayerShapePath = function LayerShapePath(props) {
-  return props.layer.closed ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_LayerShapePathClosed__WEBPACK_IMPORTED_MODULE_2__["default"], Object.assign({}, props)) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_LayerShape__WEBPACK_IMPORTED_MODULE_1__["default"], Object.assign({}, props));
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (LayerShapePath);
-
-/***/ }),
-
-/***/ "./resources/ui/components/LayerShapePathClosed.js":
-/*!*********************************************************!*\
-  !*** ./resources/ui/components/LayerShapePathClosed.js ***!
-  \*********************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _LayerShapePathNormal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./LayerShapePathNormal */ "./resources/ui/components/LayerShapePathNormal.js");
-/* harmony import */ var _LayerShape__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./LayerShape */ "./resources/ui/components/LayerShape.js");
-
-
-
-
-var LayerShapePathClosed = function LayerShapePathClosed(props) {
-  switch (props.layer.shapeType) {
-    case 'Rectangle':
-    case 'Oval':
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_LayerShapePathNormal__WEBPACK_IMPORTED_MODULE_1__["default"], Object.assign({}, props));
-
-    case 'Triangle':
-    case 'Polygon':
-    case 'Star':
-    case 'Custom':
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_LayerShape__WEBPACK_IMPORTED_MODULE_2__["default"], Object.assign({}, props));
-
-    default:
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_LayerShapePathNormal__WEBPACK_IMPORTED_MODULE_1__["default"], Object.assign({}, props));
-  }
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (LayerShapePathClosed);
-
-/***/ }),
-
-/***/ "./resources/ui/components/LayerShapePathNormal.js":
-/*!*********************************************************!*\
-  !*** ./resources/ui/components/LayerShapePathNormal.js ***!
-  \*********************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _styles_shapePathStyles__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../styles/shapePathStyles */ "./resources/ui/styles/shapePathStyles.js");
 
 
 
-var LayerShapePathNormal = function LayerShapePathNormal(props) {
+var LayerShapePath = function LayerShapePath(props) {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     id: props.layer.id,
     onClick: props.onClick,
     onMouseOver: props.onMouseOver,
     onMouseOut: props.onMouseOut,
     className: 'c-layer c-layer--shape-path',
-    style: Object(_styles_shapePathStyles__WEBPACK_IMPORTED_MODULE_1__["default"])(props.layer, props.images, props.svgs)
+    style: Object(_styles_shapePathStyles__WEBPACK_IMPORTED_MODULE_1__["default"])(props.layer, props.images)
   });
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (LayerShapePathNormal);
+/* harmony default export */ __webpack_exports__["default"] = (LayerShapePath);
 
 /***/ }),
 
@@ -13740,22 +13676,14 @@ var createDimTopBottomStyles = function createDimTopBottomStyles(selectionOrigin
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _layerStyles__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./layerStyles */ "./resources/ui/styles/layerStyles.js");
-/* harmony import */ var _shapeStyles__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./shapeStyles */ "./resources/ui/styles/shapeStyles.js");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./resources/ui/utils.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./resources/ui/utils.js");
 
 
 
-
-var shapePathStyles = function shapePathStyles(layer, images, svgs) {
+var shapePathStyles = function shapePathStyles(layer, images) {
   var style = layer.style,
       shapeType = layer.shapeType,
-      points = layer.points; // get shape path and type
-
-  var hasOpenPath = !layer.closed;
-  var notRectangle = layer.shapeType !== 'Rectangle';
-  var notOval = layer.shapeType !== 'Oval';
-  var isOddShape = notRectangle && notOval;
-  var hasDashPattern = layer.style.borderOptions.dashPattern.length > 0; // get styles
+      points = layer.points; // generate styles
 
   var baseStyles = _layerStyles__WEBPACK_IMPORTED_MODULE_0__["createBaseLayerStyles"](layer);
   var background = _layerStyles__WEBPACK_IMPORTED_MODULE_0__["createBackground"](layer, images);
@@ -13763,15 +13691,11 @@ var shapePathStyles = function shapePathStyles(layer, images, svgs) {
   var borders = _layerStyles__WEBPACK_IMPORTED_MODULE_0__["createBorders"](style.borders);
   var shadows = _layerStyles__WEBPACK_IMPORTED_MODULE_0__["createShadows"](style.shadows);
   var innerShadows = _layerStyles__WEBPACK_IMPORTED_MODULE_0__["createInnerShadows"](style.innerShadows);
-  var boxShadow = _layerStyles__WEBPACK_IMPORTED_MODULE_0__["combineBordersAndShadows"]([borders, shadows, innerShadows]);
-  var combined = [baseStyles, background, borderRadius, boxShadow]; // if shape is open or odd, it will be an svg with shape styles
-  // else it will be a div with full styles
+  var boxShadow = _layerStyles__WEBPACK_IMPORTED_MODULE_0__["combineBordersAndShadows"]([borders, shadows, innerShadows]); // combine styles
 
-  if (hasOpenPath || isOddShape || hasDashPattern) {
-    return Object.assign({}, Object(_shapeStyles__WEBPACK_IMPORTED_MODULE_1__["default"])(layer, svgs));
-  } else {
-    return Object(_utils__WEBPACK_IMPORTED_MODULE_2__["styleReducer"])(combined);
-  }
+  var combined = [baseStyles, background, borderRadius, boxShadow]; // return final style object
+
+  return Object(_utils__WEBPACK_IMPORTED_MODULE_1__["styleReducer"])(combined);
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (shapePathStyles);
@@ -13792,26 +13716,27 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+var getSvgBackground = function getSvgBackground(id, frame, svgs) {
+  var svg = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["getSVG"])(svgs, id);
+
+  if (svg) {
+    return {
+      backgroundImage: "url(".concat(svg ? svg.src : null, ")"),
+      backgroundRepeat: 'no-repeat',
+      backgroundSize: "".concat(frame.width, " ").concat(frame.height),
+      backgroundPosition: 'center center'
+    };
+  } else {
+    return null;
+  }
+};
+
 var shapeStyles = function shapeStyles(layer, svgs) {
-  var frame = layer.frame; // generate styles
+  // generate styles
+  var baseStyles = _layerStyles__WEBPACK_IMPORTED_MODULE_0__["createBaseLayerStyles"](layer);
+  var background = getSvgBackground(layer.id, layer.frame, svgs); // combine styles
 
-  var width = _layerStyles__WEBPACK_IMPORTED_MODULE_0__["createWidth"](frame.width);
-  var height = _layerStyles__WEBPACK_IMPORTED_MODULE_0__["createHeight"](frame.height);
-  var top = _layerStyles__WEBPACK_IMPORTED_MODULE_0__["createTop"](frame.y);
-  var left = _layerStyles__WEBPACK_IMPORTED_MODULE_0__["createLeft"](frame.x);
-  var svg = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["getSVG"])(svgs, layer.id);
-  var transformRotation = _layerStyles__WEBPACK_IMPORTED_MODULE_0__["createRotation"](layer.transform);
-  var transformHFlip = _layerStyles__WEBPACK_IMPORTED_MODULE_0__["createHorizontalFlip"](layer.transform);
-  var transformVFlip = _layerStyles__WEBPACK_IMPORTED_MODULE_0__["createVerticalFlip"](layer.transform);
-  var transform = _layerStyles__WEBPACK_IMPORTED_MODULE_0__["createTransform"]([transformRotation, transformHFlip, transformVFlip]);
-  var background = {
-    background: "url(".concat(svg ? svg.src : null, ")"),
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: "".concat(frame.width, " ").concat(frame.height),
-    backgroundPosition: 'center center'
-  }; // combine styles
-
-  var combined = [width, height, top, left, background, transform]; // return final style object
+  var combined = [baseStyles, background]; // return final style object
 
   return Object(_utils__WEBPACK_IMPORTED_MODULE_1__["styleReducer"])(combined);
 };

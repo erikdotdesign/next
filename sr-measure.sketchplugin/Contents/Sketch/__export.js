@@ -6525,9 +6525,9 @@ var layerToSVG = function layerToSVG(page, layer, sketch, id) {
 
   var layerDuplicate = layer.duplicate(); // set parent to page
 
-  layerDuplicate.parent = page; // remove transforms
-  // transforms will be applied on the div, not svg
+  layerDuplicate.parent = page; // opacity and transforms will be applied on the div, not svg
 
+  layerDuplicate.style.opacity = 1;
   layerDuplicate.transform.rotation = 0;
   layerDuplicate.transform.flippedHorizontally = false;
   layerDuplicate.transform.flippedVertically = false; // export duplicate layer
@@ -6552,14 +6552,27 @@ var layerToSVG = function layerToSVG(page, layer, sketch, id) {
   };
 };
 
+var layerToShape = function layerToShape(layer, sketch, name) {
+  // create new shape
+  var shapeReplacement = new sketch.Shape({
+    name: name ? name : layer.name,
+    frame: layer.frame,
+    style: layer.style,
+    transform: {
+      rotation: layer.transform.rotation,
+      flippedHorizontally: layer.transform.flippedHorizontally,
+      flippedVertically: layer.transform.flippedVertically
+    }
+  }); // return new shape
+
+  return shapeReplacement;
+};
+
 var groupToShape = function groupToShape(layer, sketch, prefix) {
   // remove prefix from name
   var newName = layer.name.substr(prefix.length, layer.name.length - prefix.length).trim(); // create new shape
 
-  var shapeReplacement = new sketch.Shape({
-    name: newName,
-    frame: layer.frame
-  }); // return new shape
+  var shapeReplacement = layerToShape(layer, sketch, newName); // return new shape
 
   return shapeReplacement;
 };
@@ -6593,9 +6606,14 @@ var createTempSVGs = function createTempSVGs(page, layers, sketch) {
         var hasDashPattern = layer.style.borderOptions.dashPattern.length > 0;
 
         if (hasOpenPath || isOddShape || hasDashPattern) {
-          var _svg2 = layerToSVG(page, layer, sketch);
+          // turn complex shapePaths into shapes
+          // makes things easier when it comes to styling the divs
+          var shapeReplacement = layerToShape(layer, sketch);
+
+          var _svg2 = layerToSVG(page, layer, sketch, shapeReplacement.id);
 
           svgs.push(_svg2);
+          layers.splice(index, 1, shapeReplacement);
         }
       }
     });

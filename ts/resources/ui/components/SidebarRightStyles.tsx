@@ -27,7 +27,7 @@ const SidebarRightStyles = (props: SidebarRightStylesProps) => {
         case 'Shape':
           return shapeStyles(selection as srm.Shape, svgs);
         case 'ShapePath':
-          return shapePathStyles(selection as srm.ShapePath, images, svgs);
+          return shapePathStyles(selection as srm.ShapePath, images);
         case 'Image':
           return imageStyles(selection as srm.Image, images);
         case 'Text':

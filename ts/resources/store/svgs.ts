@@ -12,8 +12,8 @@ const layerToSVG = (page: srm.Page, layer: srm.Shape | srm.ShapePath | srm.Group
   const layerDuplicate = layer.duplicate();
   // set parent to page
   layerDuplicate.parent = page;
-  // remove transforms
-  // transforms will be applied on the div, not svg
+  // opacity and transforms will be applied on the div, not svg
+  layerDuplicate.style.opacity = 1;
   layerDuplicate.transform.rotation = 0;
   layerDuplicate.transform.flippedHorizontally = false;
   layerDuplicate.transform.flippedVertically = false;
@@ -40,14 +40,27 @@ const layerToSVG = (page: srm.Page, layer: srm.Shape | srm.ShapePath | srm.Group
   }
 };
 
+const layerToShape = (layer: srm.Group | srm.ShapePath, sketch: srm.Sketch, name?: string) => {
+  // create new shape
+  const shapeReplacement = new sketch.Shape({
+    name: name ? name : layer.name,
+    frame: layer.frame,
+    style: layer.style,
+    transform: {
+      rotation: layer.transform.rotation,
+      flippedHorizontally: layer.transform.flippedHorizontally,
+      flippedVertically: layer.transform.flippedVertically
+    }
+  });
+  // return new shape
+  return shapeReplacement;
+};
+
 const groupToShape = (layer: srm.Group, sketch: srm.Sketch, prefix: string) => {
   // remove prefix from name
   const newName = layer.name.substr(prefix.length, layer.name.length - prefix.length).trim();
   // create new shape
-  const shapeReplacement = new sketch.Shape({
-    name: newName,
-    frame: layer.frame
-  });
+  const shapeReplacement = layerToShape(layer, sketch, newName);
   // return new shape
   return shapeReplacement;
 };
@@ -77,8 +90,12 @@ const createTempSVGs = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm.S
         const isOddShape: boolean = notRectangle && notOval;
         const hasDashPattern: boolean = (<srm.ShapePath>layer).style.borderOptions.dashPattern.length > 0;
         if (hasOpenPath || isOddShape || hasDashPattern) {
-          const svg = layerToSVG(page, layer as srm.ShapePath, sketch);
+          // turn complex shapePaths into shapes
+          // makes things easier when it comes to styling the divs
+          const shapeReplacement = layerToShape(layer as srm.ShapePath, sketch);
+          const svg = layerToSVG(page, layer as srm.ShapePath, sketch, shapeReplacement.id);
           svgs.push(svg);
+          layers.splice(index, 1, shapeReplacement);
         }
       }
     });

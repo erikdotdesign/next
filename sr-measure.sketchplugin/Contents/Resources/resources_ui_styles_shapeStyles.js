@@ -3891,26 +3891,27 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+var getSvgBackground = function getSvgBackground(id, frame, svgs) {
+  var svg = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["getSVG"])(svgs, id);
+
+  if (svg) {
+    return {
+      backgroundImage: "url(".concat(svg ? svg.src : null, ")"),
+      backgroundRepeat: 'no-repeat',
+      backgroundSize: "".concat(frame.width, " ").concat(frame.height),
+      backgroundPosition: 'center center'
+    };
+  } else {
+    return null;
+  }
+};
+
 var shapeStyles = function shapeStyles(layer, svgs) {
-  var frame = layer.frame; // generate styles
+  // generate styles
+  var baseStyles = _layerStyles__WEBPACK_IMPORTED_MODULE_0__["createBaseLayerStyles"](layer);
+  var background = getSvgBackground(layer.id, layer.frame, svgs); // combine styles
 
-  var width = _layerStyles__WEBPACK_IMPORTED_MODULE_0__["createWidth"](frame.width);
-  var height = _layerStyles__WEBPACK_IMPORTED_MODULE_0__["createHeight"](frame.height);
-  var top = _layerStyles__WEBPACK_IMPORTED_MODULE_0__["createTop"](frame.y);
-  var left = _layerStyles__WEBPACK_IMPORTED_MODULE_0__["createLeft"](frame.x);
-  var svg = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["getSVG"])(svgs, layer.id);
-  var transformRotation = _layerStyles__WEBPACK_IMPORTED_MODULE_0__["createRotation"](layer.transform);
-  var transformHFlip = _layerStyles__WEBPACK_IMPORTED_MODULE_0__["createHorizontalFlip"](layer.transform);
-  var transformVFlip = _layerStyles__WEBPACK_IMPORTED_MODULE_0__["createVerticalFlip"](layer.transform);
-  var transform = _layerStyles__WEBPACK_IMPORTED_MODULE_0__["createTransform"]([transformRotation, transformHFlip, transformVFlip]);
-  var background = {
-    background: "url(".concat(svg ? svg.src : null, ")"),
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: "".concat(frame.width, " ").concat(frame.height),
-    backgroundPosition: 'center center'
-  }; // combine styles
-
-  var combined = [width, height, top, left, background, transform]; // return final style object
+  var combined = [baseStyles, background]; // return final style object
 
   return Object(_utils__WEBPACK_IMPORTED_MODULE_1__["styleReducer"])(combined);
 };

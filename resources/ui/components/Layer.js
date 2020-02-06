@@ -26,7 +26,7 @@ const Layer = (props) => {
         case 'Shape':
             return (React.createElement(LayerShape, { layer: layer, images: images, svgs: svgs, onClick: onClick, onMouseOver: onMouseOver, onMouseOut: onMouseOut }));
         case 'ShapePath':
-            return (React.createElement(LayerShapePath, { layer: layer, images: images, svgs: svgs, onClick: onClick, onMouseOver: onMouseOver, onMouseOut: onMouseOut }));
+            return (React.createElement(LayerShapePath, { layer: layer, images: images, onClick: onClick, onMouseOver: onMouseOver, onMouseOut: onMouseOut }));
         case 'Text':
             return (React.createElement(LayerText, { layer: layer, onClick: onClick, onMouseOver: onMouseOver, onMouseOut: onMouseOut }));
         default:

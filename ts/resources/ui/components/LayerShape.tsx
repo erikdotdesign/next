@@ -2,7 +2,7 @@ import React from 'react';
 import shapeStyles from '../styles/shapeStyles';
 
 interface LayerShapeProps {
-  layer: srm.Shape | srm.ShapePath;
+  layer: srm.Shape;
   images: srm.ImgAsset[];
   svgs: srm.SvgAsset[];
   onClick(): void;

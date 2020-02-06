@@ -1,11 +1,9 @@
 import React from 'react';
-import LayerShape from './LayerShape';
-import LayerShapePathClosed from './LayerShapePathClosed';
+import shapePathStyles from '../styles/shapePathStyles';
 
 interface LayerShapePathProps {
   layer: srm.ShapePath;
   images: srm.ImgAsset[];
-  svgs: srm.SvgAsset[];
   onClick(): void;
   onMouseOver(): void;
   onMouseOut(): void;
@@ -13,9 +11,13 @@ interface LayerShapePathProps {
 
 const LayerShapePath = (props: LayerShapePathProps) => {
   return (
-    props.layer.closed
-    ? <LayerShapePathClosed {...props} />
-    : <LayerShape {...props} />
+    <div
+      id={props.layer.id}
+      onClick={props.onClick}
+      onMouseOver={props.onMouseOver}
+      onMouseOut={props.onMouseOut}
+      className='c-layer c-layer--shape-path'
+      style={shapePathStyles(props.layer, props.images)} />
   )
 };
 

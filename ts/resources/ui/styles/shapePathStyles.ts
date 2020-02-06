@@ -1,16 +1,9 @@
 import * as styles from './layerStyles';
-import shapeStyles from './shapeStyles';
 import { styleReducer } from '../utils';
 
-const shapePathStyles = (layer: srm.ShapePath, images: srm.ImgAsset[], svgs: any[]) => {
+const shapePathStyles = (layer: srm.ShapePath, images: srm.ImgAsset[]) => {
   const { style, shapeType, points } = layer;
-  // get shape path and type
-  const hasOpenPath = !layer.closed;
-  const notRectangle = layer.shapeType !== 'Rectangle';
-  const notOval = layer.shapeType !== 'Oval';
-  const isOddShape = notRectangle && notOval;
-  const hasDashPattern = layer.style.borderOptions.dashPattern.length > 0;
-  // get styles
+  // generate styles
   const baseStyles = styles.createBaseLayerStyles(layer);
   const background = styles.createBackground(layer, images);
   const borderRadius = styles.createBorderRadius(shapeType, points);
@@ -18,21 +11,15 @@ const shapePathStyles = (layer: srm.ShapePath, images: srm.ImgAsset[], svgs: any
   const shadows = styles.createShadows(style.shadows);
   const innerShadows = styles.createInnerShadows(style.innerShadows);
   const boxShadow = styles.combineBordersAndShadows([borders, shadows, innerShadows]);
-
+  // combine styles
   const combined = [
     baseStyles,
     background,
     borderRadius,
     boxShadow
   ];
-
-  // if shape is open or odd, it will be an svg with shape styles
-  // else it will be a div with full styles
-  if (hasOpenPath || isOddShape || hasDashPattern) {
-    return {...shapeStyles(layer, svgs)};
-  } else {
-    return styleReducer(combined);
-  }
+  // return final style object
+  return styleReducer(combined);
 };
 
 export default shapePathStyles;

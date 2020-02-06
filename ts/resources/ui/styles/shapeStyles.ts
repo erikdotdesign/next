@@ -1,32 +1,28 @@
 import * as styles from './layerStyles';
 import { styleReducer, getSVG } from '../utils';
 
-const shapeStyles = (layer: srm.Shape | srm.ShapePath, svgs: any[]) => {
-  const { frame } = layer;
-  // generate styles
-  const width = styles.createWidth(frame.width);
-  const height = styles.createHeight(frame.height);
-  const top = styles.createTop(frame.y);
-  const left = styles.createLeft(frame.x);
-  const svg = getSVG(svgs, layer.id);
-  const transformRotation = styles.createRotation(layer.transform);
-  const transformHFlip = styles.createHorizontalFlip(layer.transform);
-  const transformVFlip = styles.createVerticalFlip(layer.transform);
-  const transform = styles.createTransform([transformRotation, transformHFlip, transformVFlip]);
-  const background = {
-    background: `url(${svg ? svg.src : null})`,
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: `${frame.width} ${frame.height}`,
-    backgroundPosition: 'center center'
+const getSvgBackground = (id: string, frame: srm.Rectangle, svgs: srm.SvgAsset[]): srm.css.BackgroundImage | null => {
+  const svg = getSVG(svgs, id);
+  if (svg) {
+    return {
+      backgroundImage: `url(${svg ? svg.src : null})`,
+      backgroundRepeat: 'no-repeat',
+      backgroundSize: `${frame.width} ${frame.height}`,
+      backgroundPosition: 'center center'
+    }
+  } else {
+    return null;
   }
+};
+
+const shapeStyles = (layer: srm.Shape, svgs: any[]) => {
+  // generate styles
+  const baseStyles = styles.createBaseLayerStyles(layer);
+  const background = getSvgBackground(layer.id, layer.frame, svgs);
   // combine styles
   const combined = [
-    width,
-    height,
-    top,
-    left,
-    background,
-    transform
+    baseStyles,
+    background
   ];
   // return final style object
   return styleReducer(combined);

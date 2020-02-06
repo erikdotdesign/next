@@ -67,7 +67,6 @@ const Layer = (props: LayerProps) => {
         <LayerShapePath
           layer={layer as srm.ShapePath}
           images={images}
-          svgs={svgs}
           onClick={onClick}
           onMouseOver={onMouseOver}
           onMouseOut={onMouseOut} />
