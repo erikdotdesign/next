@@ -1,6 +1,6 @@
 ![icon](images/icon.png)
 
-# Sketch Measure React
+# SR Measure
 
 A sketch plugin to export your designs as react applications. Quickly share design specs, css, and assets.
 
