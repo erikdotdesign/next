@@ -591,6 +591,7 @@ declare namespace srm {
       type BoxShadow = string;
       type Filter = string;
       type Background = string;
+      type BackgroundImage = string;
       type BackgroundSize = string;
       type BackgroundRepeat = string;
       type BackgroundPosition = string;
@@ -655,6 +656,10 @@ declare namespace srm {
 
     interface Background {
       background: srm.css.value.Background;
+    }
+
+    interface BackgroundImage {
+      backgroundImage: srm.css.value.BackgroundImage;
       backgroundSize: srm.css.value.BackgroundSize;
       backgroundRepeat: srm.css.value.BackgroundRepeat;
       backgroundPosition: srm.css.value.BackgroundPosition;

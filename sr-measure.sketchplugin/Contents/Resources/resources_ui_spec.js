@@ -44925,9 +44925,10 @@ var getImageBackground = function getImageBackground(imageId, images) {
 
   if (image) {
     return {
-      background: "url(".concat(scaledImage, ")"),
+      backgroundImage: "url(".concat(scaledImage, ")"),
       backgroundRepeat: 'no-repeat',
-      backgroundSize: '100% 100%'
+      backgroundSize: '100% 100%',
+      backgroundPosition: 'center center'
     };
   } else {
     return null;
@@ -45207,7 +45208,7 @@ var createGradientFillImage = function createGradientFillImage(images, id) {
 
   if (image) {
     return {
-      background: "url(".concat(scaledImage, ")"),
+      backgroundImage: "url(".concat(scaledImage, ")"),
       backgroundSize: 'cover',
       backgroundRepeat: 'no-repeat',
       backgroundPosition: 'center center'
@@ -45270,7 +45271,7 @@ var createPatternFill = function createPatternFill(pattern, images) {
     if (image) {
       var imgSrc = useScaled ? image.src['2x'] : image.src['1x'];
       return Object.assign({
-        background: "url(".concat(imgSrc, ")")
+        backgroundImage: "url(".concat(imgSrc, ")")
       }, displayStyle);
     } else {
       return null;

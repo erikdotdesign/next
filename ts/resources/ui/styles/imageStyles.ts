@@ -1,14 +1,15 @@
 import * as styles from './layerStyles';
 import { getImage, getScaledImage, styleReducer } from '../utils';
 
-const getImageBackground = (imageId: string, images: srm.ImgAsset[]) => {
+const getImageBackground = (imageId: string, images: srm.ImgAsset[]): srm.css.BackgroundImage | null => {
   const image = getImage(images, imageId);
   const scaledImage = image ? getScaledImage(image) : null;
   if (image) {
     return {
-      background: `url(${scaledImage})`,
+      backgroundImage: `url(${scaledImage})`,
       backgroundRepeat: 'no-repeat',
       backgroundSize: '100% 100%',
+      backgroundPosition: 'center center'
     }
   } else {
     return null;
