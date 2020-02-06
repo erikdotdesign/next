@@ -4,7 +4,12 @@ assets/icon.sketch
 
 resources/export
 resources/store
-resources/ui
+resources/ui/components
+resources/ui/styles
+resources/ui/index.js
+resources/ui/spec.js
+resources/ui/utils.js
+resources/ui/style.css
 
 # npm
 node_modules
