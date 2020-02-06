@@ -14,63 +14,85 @@ Run plugin to compose export.
 
 ![Run plugin to compose export](images/screen-2.png)
 
-Hover over layers to see dimensions.
+Left panel shows layers. Right panel shows CSS and notes.
 
-![Hover over layers to see dimensions](images/screen-3.png)
+![Panels example](images/screen-3.png)
 
-Select layers to see styles and assets. While selected, you can hover over other layers to see relative spacing.
+Hover over layer on the artboard or layers panel to see dimensions.
 
-![Select layers to see styles and assets](images/screen-4.png)
+![Hover over layer to see dimensions](images/screen-4.png)
 
-Images are base64 strings.
+Click layer on the artboard or layers panel to select it. While selected, you can view CSS, notes, inspect assets, and hover over other layers to see relative spacing.
 
-![Images are base64 strings](images/screen-5.png)
+![Select layers to see styles and assets](images/screen-5.png)
+![Inspect images and svgs](images/screen-6.png)
+
+Double click groups to view group layers.
+
+![Groups example](images/screen-7.png)
+
+Navigate nested groups by clicking back, or double clicking a group in the layers panel.
+
+![Back button example](images/screen-8.png)
 
 Add layer notes.
 
-![Add layer notes 1](images/screen-6.png)
+![Add note example](images/screen-9.png)
 
-![Add layer notes 2](images/screen-7.png)
+Layer note count is displayed in a circle. Nested layer note count is displayed in a square.
 
-Shapes and ShapePaths that aren't ovals or rectangles are converted to svgs.
+![Note count example](images/screen-10.png)
 
-![Shapes converted to svgs](images/screen-8.png)
+Copy CSS to clipboard.
 
-Quickly copy styles, images, and svgs to clipboard.
-
-![Quickly copy styles, images, and svgs to clipboard 1](images/screen-9.png)
-
-![Quickly copy styles, images, and svgs to clipboard 2](images/screen-10.png)
+![Copy example](images/screen-11.png)
 
 Export spec
 
-![Export spec 1](images/screen-11.png)
+![Export spec 1](images/screen-12.png)
 
-![Export spec 2](images/screen-12.png)
+![Export spec 2](images/screen-13.png)
 
-Export folder structure. Open spec.html in your preferred browser to view spec.
+Export folder structure. Includes images (1x and 2x), svgs, and fonts used in spec.
 
-![Export folder structure](images/screen-13.png)
+![Export folder structure](images/screen-14.png)
 
-![Export example](images/screen-14.png)
+Open `spec.html` in your preferred browser to view spec.
 
-Toggle note indicators with show/hide notes.
+![Final spec example](images/screen-15.png)
 
-![hide notes](images/screen-15.png)
+### Sketch Theme Support
 
-![show notes](images/screen-16.png)
+Dark theme
 
-### Spec Export Details
+![Dark theme example](images/screen-16.png)
+
+Light theme
+
+![Light theme example](images/screen-17.png)
+
+### Complex SVG Export Support
+
+Prefix groups with `[srm.svg]` to make them an svg export (prefix will be removed from the layer name in the final spec).
+
+![Complex svg example 1](images/screen-18.png)
+
+![Complex svg example 2](images/screen-19.png)
+
+### Adaptive Rule Color
+
+Rule and dimension color is the inverse of the average artboard color.
+
+![Adaptive rule color](images/screen-20.png)
+
+### More Details
 
 - Max canvas size: `20,000px` by `20,000px`
-- All symbols are detached. (does not affect original symbols)
-- All layers are ungrouped. (does not affect original artboard)
-- Hidden or transparent layers are not included in spec.
+- Hidden layers are not included in spec.
 - Gradients are converted to images.
-- Any group containing a mask will be converted to an image.
-- Shapes and ShapePaths that aren't ovals or rectangles are converted to svgs.
+- Supports most masks.
+- Shapes and complex ShapePaths are converted to svgs.
 - Layer `Borders`, `Shadows`, and `Inner-Shadows` are combined and converted to a single css `box-shadow`.
-- Spec is not responsive.
 
 ### Key Bindings
 
@@ -88,3 +110,9 @@ Toggle note indicators with show/hide notes.
 
 1. Download or clone repo
 2. Open `sr-measure.sketchplugin`
+
+### Firefox Masking Bug
+
+If your design includes a complex mask (i.e. the mask shape is not an oval or rectangle), the mask and its contents will not be visible when viewing the spec on Firefox. This is due to Firefox's privacy settings. The bug only occurs when loading assets from local storage, so the CSS will still work in production. Until the bug is fixed, you should view your spec in Chrome or Safari if it includes a complex mask.
+
+https://bugzilla.mozilla.org/show_bug.cgi?id=1565509

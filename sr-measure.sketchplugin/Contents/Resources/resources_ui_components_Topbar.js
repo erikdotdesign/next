@@ -6191,7 +6191,14 @@ var textOnColor = function textOnColor(color) {
 
 var createPalette = function createPalette(avgColor) {
   //@ts-ignore
-  var primary = chroma_js__WEBPACK_IMPORTED_MODULE_1___default()(avgColor).set('hsl.h', '+180').set('lch.c', 700).saturate(100).darken(); //@ts-ignore
+  var primary = chroma_js__WEBPACK_IMPORTED_MODULE_1___default()(avgColor).set('hsl.h', '+180').set('lch.c', 700).saturate(100); //@ts-ignore
+
+  if (chroma_js__WEBPACK_IMPORTED_MODULE_1___default()(primary).get('hsl.l') >= 0.5) {
+    primary = primary.darken(); //@ts-ignore
+  } else if (chroma_js__WEBPACK_IMPORTED_MODULE_1___default()(primary).get('hsl.l') <= 0.3) {
+    primary = primary.brighten();
+  } //@ts-ignore
+
 
   var primaryHover = chroma_js__WEBPACK_IMPORTED_MODULE_1___default()(primary).darken(0.5); //@ts-ignore
 

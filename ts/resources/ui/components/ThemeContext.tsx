@@ -30,7 +30,14 @@ const textOnColor = (color: string | chroma.Color) => {
 
 const createPalette = (avgColor: Color) => {
   //@ts-ignore
-  let primary: Color = chroma(avgColor).set('hsl.h', '+180').set('lch.c', 700).saturate(100).darken();
+  let primary: Color = chroma(avgColor).set('hsl.h', '+180').set('lch.c', 700).saturate(100);
+  //@ts-ignore
+  if (chroma(primary).get('hsl.l') >= 0.5) {
+    primary = primary.darken();
+  //@ts-ignore
+  } else if (chroma(primary).get('hsl.l') <= 0.3) {
+    primary = primary.brighten();
+  }
   //@ts-ignore
   let primaryHover: Color = chroma(primary).darken(0.5);
   //@ts-ignore
