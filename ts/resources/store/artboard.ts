@@ -79,7 +79,7 @@ const createMaskLayer = (layer: srm.ShapePath | srm.Shape, sketch: srm.Sketch): 
   duplicate.remove();
   // return final mask
   return maskShape;
-}
+};
 
 const getMaskShape = (layer: srm.SketchLayer): srm.Shape | srm.ShapePath => {
   let lastLayer = layer;
@@ -87,7 +87,7 @@ const getMaskShape = (layer: srm.SketchLayer): srm.Shape | srm.ShapePath => {
     lastLayer = (lastLayer as srm.Group).layers[0];
   }
   return lastLayer as srm.ShapePath | srm.Shape;
-}
+};
 
 const createMaskGroups = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm.Sketch): void => {
   if (layers.length > 0) {

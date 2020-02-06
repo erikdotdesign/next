@@ -3781,7 +3781,7 @@ var getStore = function getStore(page, selectedArtboard, sketch, callback) {
 __webpack_require__.r(__webpack_exports__);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var shapeToSVG = function shapeToSVG(page, layer, sketch) {
+var layerToSVG = function layerToSVG(page, layer, sketch, id) {
   var _sketch$export;
 
   var borderSize = 0;
@@ -3821,22 +3821,45 @@ var shapeToSVG = function shapeToSVG(page, layer, sketch) {
   layerDuplicate.remove(); // return AppAsset
 
   return {
-    id: layer.id,
+    id: id ? id : layer.id,
     // @ts-ignore
     src: "".concat(NSTemporaryDirectory()).concat(layerDuplicate.id, ".svg")
   };
+};
+
+var groupToShape = function groupToShape(layer, sketch, prefix) {
+  // remove prefix from name
+  var newName = layer.name.substr(prefix.length, layer.name.length - prefix.length).trim(); // create new shape
+
+  var shapeReplacement = new sketch.Shape({
+    name: newName,
+    frame: layer.frame
+  }); // return new shape
+
+  return shapeReplacement;
 };
 
 var createTempSVGs = function createTempSVGs(page, layers, sketch) {
   var svgs = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : [];
 
   if (layers.length > 0) {
-    layers.forEach(function (layer) {
+    layers.forEach(function (layer, index) {
       if (layer.type === 'Group') {
-        createTempSVGs(page, layer.layers, sketch, svgs);
+        if (layer.name.startsWith('[srm.svg]')) {
+          // create shape to replace group
+          var newShape = groupToShape(layer, sketch, '[srm.svg]'); // create svg from group
+
+          var svg = layerToSVG(page, layer, sketch, newShape.id);
+          svgs.push(svg); // splice in new shape, splice out group
+
+          layers.splice(index, 1, newShape);
+        } else {
+          createTempSVGs(page, layer.layers, sketch, svgs);
+        }
       } else if (layer.type === 'Shape') {
-        var svg = shapeToSVG(page, layer, sketch);
-        svgs.push(svg);
+        var _svg = layerToSVG(page, layer, sketch);
+
+        svgs.push(_svg);
       } else if (layer.type === 'ShapePath') {
         var hasOpenPath = !layer.closed;
         var notRectangle = layer.shapeType !== 'Rectangle';
@@ -3845,9 +3868,9 @@ var createTempSVGs = function createTempSVGs(page, layers, sketch) {
         var hasDashPattern = layer.style.borderOptions.dashPattern.length > 0;
 
         if (hasOpenPath || isOddShape || hasDashPattern) {
-          var _svg = shapeToSVG(page, layer, sketch);
+          var _svg2 = layerToSVG(page, layer, sketch);
 
-          svgs.push(_svg);
+          svgs.push(_svg2);
         }
       }
     });

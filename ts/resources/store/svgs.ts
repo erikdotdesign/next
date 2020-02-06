@@ -1,4 +1,4 @@
-const shapeToSVG = (page: srm.Page, layer: srm.Shape | srm.ShapePath, sketch: srm.Sketch): srm.SvgAsset => {
+const layerToSVG = (page: srm.Page, layer: srm.Shape | srm.ShapePath | srm.Group, sketch: srm.Sketch, id?: string): srm.SvgAsset => {
   let borderSize = 0;
   const activeBorders = layer.style.borders.filter((border: srm.Border) => border.enabled);
   if (activeBorders) {
@@ -34,19 +34,41 @@ const shapeToSVG = (page: srm.Page, layer: srm.Shape | srm.ShapePath, sketch: sr
   layerDuplicate.remove();
   // return AppAsset
   return {
-    id: layer.id,
+    id: id ? id : layer.id,
     // @ts-ignore
     src: `${NSTemporaryDirectory()}${layerDuplicate.id}.svg`
   }
-}
+};
+
+const groupToShape = (layer: srm.Group, sketch: srm.Sketch, prefix: string) => {
+  // remove prefix from name
+  const newName = layer.name.substr(prefix.length, layer.name.length - prefix.length).trim();
+  // create new shape
+  const shapeReplacement = new sketch.Shape({
+    name: newName,
+    frame: layer.frame
+  });
+  // return new shape
+  return shapeReplacement;
+};
 
 const createTempSVGs = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm.Sketch, svgs: srm.SvgAsset[] = []): srm.SvgAsset[] => {
   if (layers.length > 0) {
-    layers.forEach((layer: srm.SketchLayer) => {
+    layers.forEach((layer: srm.SketchLayer, index: number) => {
       if (layer.type === 'Group') {
-        createTempSVGs(page, (<srm.Group>layer).layers, sketch, svgs);
+        if (layer.name.startsWith('[srm.svg]')) {
+          // create shape to replace group
+          const newShape = groupToShape(layer as srm.Group, sketch, '[srm.svg]');
+          // create svg from group
+          const svg = layerToSVG(page, layer as srm.Group, sketch, newShape.id);
+          svgs.push(svg);
+          // splice in new shape, splice out group
+          layers.splice(index, 1, newShape);
+        } else {
+          createTempSVGs(page, (<srm.Group>layer).layers, sketch, svgs);
+        }
       } else if (layer.type === 'Shape') {
-        const svg = shapeToSVG(page, layer as srm.Shape, sketch);
+        const svg = layerToSVG(page, layer as srm.Shape, sketch);
         svgs.push(svg);
       } else if (layer.type === 'ShapePath') {
         const hasOpenPath: boolean = !(<srm.ShapePath>layer).closed;
@@ -55,7 +77,7 @@ const createTempSVGs = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm.S
         const isOddShape: boolean = notRectangle && notOval;
         const hasDashPattern: boolean = (<srm.ShapePath>layer).style.borderOptions.dashPattern.length > 0;
         if (hasOpenPath || isOddShape || hasDashPattern) {
-          const svg = shapeToSVG(page, layer as srm.ShapePath, sketch);
+          const svg = layerToSVG(page, layer as srm.ShapePath, sketch);
           svgs.push(svg);
         }
       }
