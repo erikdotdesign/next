@@ -20,7 +20,7 @@ export const createArtboardImage = (artboard: srm.Artboard, sketch: srm.Sketch) 
 
 const getStore = (page: srm.Page, selectedArtboard: srm.Artboard, sketch: srm.Sketch, callback: any) => {
   // get final store items
-  const artboard: srm.Artboard = getArtboard(page, selectedArtboard, sketch);
+  const artboard: srm.Artboard = getArtboard(selectedArtboard, sketch);
   const images: srm.ImgAsset[] = getImages(page, artboard.layers, sketch);
   const svgs: srm.SvgAsset[] = getSVGs(page, artboard.layers, sketch);
   const artboardImage: string = createArtboardImage(artboard, sketch);
