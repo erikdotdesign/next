@@ -562,6 +562,12 @@ declare namespace srm {
     };
   }
 
+  interface ArtboardAssets {
+    images: srm.ImgAsset[];
+    svgs: srm.SvgAsset[];
+    fonts: string[];
+  }
+
   interface Note {
     id: string;
     notes: string[];
