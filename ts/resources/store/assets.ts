@@ -167,7 +167,7 @@ const createImageFillImage = (page: srm.Page, image: srm.ImageData, sketch: srm.
   }
 };
 
-const processLayerFills = (page: srm.Page, layer: srm.Shape | srm.ShapePath, images: srm.ImgAsset[], sketch: srm.Sketch, fillImages: srm.ImgAsset[] = []) => {
+const processLayerFills = (page: srm.Page, layer: srm.Shape | srm.ShapePath, images: srm.ImgAsset[], sketch: srm.Sketch, fillImages: srm.ImgAsset[] = []): srm.ImgAsset[] => {
   (<srm.Shape | srm.ShapePath>layer).style.fills.forEach((fill: srm.Fill) => {
     if (fill.pattern.image !== null && fill.enabled && !images.find(image => image.id === ((fill.pattern as srm.Pattern).image as srm.ImageData).id)) {
       const fillImage = createImageFillImage(page, fill.pattern.image, sketch);
@@ -180,7 +180,7 @@ const processLayerFills = (page: srm.Page, layer: srm.Shape | srm.ShapePath, ima
   return fillImages;
 };
 
-const isComplexShapePath = (layer: srm.ShapePath) => {
+const isComplexShapePath = (layer: srm.ShapePath): boolean => {
   const hasOpenPath: boolean = !(<srm.ShapePath>layer).closed;
   const notRectangle: boolean = (<srm.ShapePath>layer).shapeType !== 'Rectangle';
   const notOval: boolean = (<srm.ShapePath>layer).shapeType !== 'Oval';
@@ -189,7 +189,7 @@ const isComplexShapePath = (layer: srm.ShapePath) => {
   return hasOpenPath || isOddShape || hasDashPattern;
 };
 
-const processShapePath = (page: srm.Page, layer: srm.ShapePath, images: srm.ImgAsset[], sketch: srm.Sketch, callback: any) => {
+const processShapePath = (page: srm.Page, layer: srm.ShapePath, images: srm.ImgAsset[], sketch: srm.Sketch, callback: any): void => {
   const isComplex = isComplexShapePath(layer);
   const shapePathFillImages = processLayerFills(page, layer, images, sketch);
   if (isComplex) {
@@ -204,13 +204,13 @@ const processShapePath = (page: srm.Page, layer: srm.ShapePath, images: srm.ImgA
   }
 };
 
-const processShape = (page: srm.Page, layer: srm.Shape, images: srm.ImgAsset[], sketch: srm.Sketch, callback: any) => {
+const processShape = (page: srm.Page, layer: srm.Shape, images: srm.ImgAsset[], sketch: srm.Sketch, callback: any): void => {
   const shapeFillImages = processLayerFills(page, layer, images, sketch);
   const svg = createSvgFromLayer(page, layer, sketch);
   callback(shapeFillImages, svg);
 };
 
-const processImage = (page: srm.Page, layer: srm.Image, images: srm.ImgAsset[], sketch: srm.Sketch, callback: any) => {
+const processImage = (page: srm.Page, layer: srm.Image, images: srm.ImgAsset[], sketch: srm.Sketch, callback: any): void => {
   if (!images.find(image => image.id === layer.image.id)) {
     const image = createImageLayerImage(page, layer, sketch);
     callback(image);
@@ -219,7 +219,7 @@ const processImage = (page: srm.Page, layer: srm.Image, images: srm.ImgAsset[], 
   }
 };
 
-const processGroup = (page: srm.Page, layer: srm.Group, sketch: srm.Sketch, callback: any) => {
+const processGroup = (page: srm.Page, layer: srm.Group, sketch: srm.Sketch, callback: any): void => {
   if (layer.name.startsWith('[srm.svg]')) {
     // create shape to replace group
     const shapeReplacement = createShapeFromGroup(layer as srm.Group, sketch, '[srm.svg]');
@@ -234,7 +234,7 @@ const processGroup = (page: srm.Page, layer: srm.Group, sketch: srm.Sketch, call
   }
 };
 
-const processText = (layer: srm.Text, fonts: string[], callback: any) => {
+const processText = (layer: srm.Text, fonts: string[], callback: any): void => {
   const fontFamily = (<srm.Text>layer).style.fontFamily;
   //@ts-ignore
   const availableFamilies = NSFontManager.sharedFontManager().availableFontFamilies();
@@ -247,7 +247,7 @@ const processText = (layer: srm.Text, fonts: string[], callback: any) => {
   }
 };
 
-const processLayer = (page: srm.Page, layer: srm.SketchLayer, sketch: srm.Sketch, images: srm.ImgAsset[], svgs: srm.SvgAsset[], fonts: string[], callback: any) => {
+const processLayer = (page: srm.Page, layer: srm.SketchLayer, sketch: srm.Sketch, images: srm.ImgAsset[], svgs: srm.SvgAsset[], fonts: string[], callback: any): void => {
   switch(layer.type) {
     case 'Image':
       processImage(page, layer as srm.Image, images, sketch, (image: srm.ImgAsset | null) => {
@@ -312,7 +312,7 @@ const processLayers = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm.Sk
   }
 };
 
-export const createArtboardImage = (artboard: srm.Artboard, sketch: srm.Sketch) => {
+export const createArtboardImage = (artboard: srm.Artboard, sketch: srm.Sketch): string => {
   const buffer = sketch.export(artboard, {
     scales: '0.10',
     formats: 'png',

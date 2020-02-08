@@ -1,6 +1,6 @@
 import chroma from 'chroma-js';
 
-const checkIfRelevant = (layer: srm.SketchLayer, callback: any) => {
+const checkIfRelevant = (layer: srm.SketchLayer, callback: any): void => {
   switch(layer.type) {
     case 'Group':
     case 'Shape':
@@ -19,7 +19,7 @@ const checkIfRelevant = (layer: srm.SketchLayer, callback: any) => {
   }
 };
 
-const checkIfHidden = (layer: srm.SketchLayer, callback: any) => {
+const checkIfHidden = (layer: srm.SketchLayer, callback: any): void => {
   const isHidden = (<srm.Group | srm.Shape | srm.Image | srm.ShapePath | srm.Text | srm.SymbolInstance>layer).hidden;
   if (layer && isHidden) {
     layer.remove();
@@ -29,7 +29,7 @@ const checkIfHidden = (layer: srm.SketchLayer, callback: any) => {
   }
 };
 
-const checkIfSymbol = (layer: srm.SketchLayer, callback: any) => {
+const checkIfSymbol = (layer: srm.SketchLayer, callback: any): void => {
   if (layer && layer.type === 'SymbolInstance') {
     callback((<srm.SymbolInstance>layer).detach({
       recursively: true
@@ -90,7 +90,7 @@ const getMaskShape = (layer: srm.SketchLayer): srm.Shape | srm.ShapePath => {
   return lastLayer as srm.ShapePath | srm.Shape;
 };
 
-const checkIfMask = (layer: srm.SketchLayer, sketch: srm.Sketch, callback: any) => {
+const checkIfMask = (layer: srm.SketchLayer, sketch: srm.Sketch, callback: any): void => {
   if (layer && layer.sketchObject.hasClippingMask()) {
     const maskIndex = layer.index;
     const maskParent = layer.parent;
@@ -133,7 +133,7 @@ const checkIfMask = (layer: srm.SketchLayer, sketch: srm.Sketch, callback: any) 
   }
 };
 
-const roundFrameDimensions = (layer: srm.SketchLayer, callback: any) => {
+const roundFrameDimensions = (layer: srm.SketchLayer, callback: any): void => {
   if (layer) {
     layer.frame.x = Math.round(layer.frame.x);
     layer.frame.y = Math.round(layer.frame.y);
@@ -143,21 +143,27 @@ const roundFrameDimensions = (layer: srm.SketchLayer, callback: any) => {
   callback(layer);
 };
 
+const processLayer = (layer: srm.SketchLayer, sketch: srm.Sketch, callback: any): void => {
+  checkIfRelevant(layer, (rLayer: any) => {
+    checkIfHidden(rLayer, (hLayer: any) => {
+      checkIfSymbol(hLayer, (sLayer: any) => {
+        checkIfMask(sLayer, sketch, (mLayer: any) => {
+          roundFrameDimensions(mLayer, (fLayer: any) => {
+            callback(fLayer);
+          });
+        });
+      });
+    });
+  });
+};
+
 const processLayers = (layers: srm.SketchLayer[], sketch: srm.Sketch): void => {
   if (layers.length > 0) {
     layers.forEach((layer: srm.SketchLayer) => {
-      checkIfRelevant(layer, (rLayer: any) => {
-        checkIfHidden(rLayer, (hLayer: any) => {
-          checkIfSymbol(hLayer, (sLayer: any) => {
-            checkIfMask(sLayer, sketch, (mLayer: any) => {
-              roundFrameDimensions(mLayer, (fLayer: any) => {
-                if (fLayer && fLayer.type === 'Group') {
-                  processLayers(fLayer.layers, sketch);
-                }
-              });
-            });
-          });
-        });
+      processLayer(layer, sketch, (layer: srm.SketchLayer | null) => {
+        if (layer && layer.type === 'Group') {
+          processLayers((layer as srm.Group).layers, sketch);
+        }
       });
     });
   }
