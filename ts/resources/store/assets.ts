@@ -290,7 +290,7 @@ const processLayer = (page: srm.Page, layer: srm.SketchLayer, sketch: srm.Sketch
     svgs,
     fonts
   });
-}
+};
 
 const processLayers = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm.Sketch, images: srm.ImgAsset[] = [], svgs: srm.SvgAsset[] = [], fonts: string[] = []): srm.ArtboardAssets => {
   if (layers.length > 0) {
@@ -325,7 +325,7 @@ export const createArtboardImage = (artboard: srm.Artboard, sketch: srm.Sketch):
   });
   const base64 = bufferImg.image.nsdata.base64EncodedStringWithOptions(0);
   return `data:image/png;base64, ${base64}`;
-}
+};
 
 export const getAssets = (page: srm.Page, artboard: srm.Artboard, sketch: srm.Sketch) => {
   const artboardAssets: srm.ArtboardAssets = processLayers(page, artboard.layers, sketch);
@@ -334,6 +334,6 @@ export const getAssets = (page: srm.Page, artboard: srm.Artboard, sketch: srm.Sk
     ...artboardAssets,
     artboardImage
   };
-}
+};
 
 export default getAssets;
