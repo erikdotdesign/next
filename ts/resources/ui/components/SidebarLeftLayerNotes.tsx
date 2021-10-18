@@ -2,7 +2,7 @@ import React from 'react';
 import ThemeContext from './ThemeContext';
 
 interface SidebarLeftLayerNotesProps {
-  notes: srm.Note | undefined;
+  notes: next.Note | undefined;
 }
 
 const SidebarLeftLayerNotes = (props: SidebarLeftLayerNotesProps) => {

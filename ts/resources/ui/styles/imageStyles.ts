@@ -1,7 +1,7 @@
 import * as styles from './layerStyles';
 import { getImage, getScaledImage, styleReducer } from '../utils';
 
-const getImageBackground = (imageId: string, images: srm.ImgAsset[]): srm.css.BackgroundImage | null => {
+const getImageBackground = (imageId: string, images: next.ImgAsset[]): next.css.BackgroundImage | null => {
   const image = getImage(images, imageId);
   const scaledImage = image ? getScaledImage(image) : null;
   if (image) {
@@ -16,7 +16,7 @@ const getImageBackground = (imageId: string, images: srm.ImgAsset[]): srm.css.Ba
   }
 };
 
-const imageStyles = (layer: srm.Image, images: srm.ImgAsset[]) => {
+const imageStyles = (layer: next.Image, images: next.ImgAsset[]) => {
   const { style } = layer;
   const imageBackground = getImageBackground(layer.image.id, images);
   const baseStyles = styles.createBaseLayerStyles(layer);

@@ -2,8 +2,8 @@ import React from 'react';
 import shapePathStyles from '../styles/shapePathStyles';
 
 interface LayerShapePathProps {
-  layer: srm.ShapePath;
-  images: srm.ImgAsset[];
+  layer: next.ShapePath;
+  images: next.ImgAsset[];
   onClick(): void;
   onMouseOver(): void;
   onMouseOut(): void;

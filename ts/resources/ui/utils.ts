@@ -1,18 +1,18 @@
 import chroma from 'chroma-js';
 
-export const getLayerNotes = (layerId: string, notes: srm.Note[]) => {
-  return notes.find((layerNote: srm.Note) => {
+export const getLayerNotes = (layerId: string, notes: next.Note[]) => {
+  return notes.find((layerNote: next.Note) => {
     return layerNote.id === layerId;
   });
 };
 
-export const getNestedNoteCount = (groupLayer: srm.AppLayer, notes: srm.Note[])  => {
+export const getNestedNoteCount = (groupLayer: next.AppLayer, notes: next.Note[])  => {
   let groups: any[] = [groupLayer];
   let count = 0;
   let i = 0;
   while (i < groups.length) {
-    groups[i].layers.forEach((layer: srm.SketchLayer) => {
-      const layerNotes = notes.find((layerNote: srm.Note) => {
+    groups[i].layers.forEach((layer: next.SketchLayer) => {
+      const layerNotes = notes.find((layerNote: next.Note) => {
         return layerNote.id === layer.id;
       });
       count = count + (layerNotes ? layerNotes.notes.length : 0);
@@ -34,17 +34,17 @@ export const getCSSUrl = (prop: string, value: string) => {
   }
 }
 
-export const getScaledImage = (image: srm.ImgAsset): string  => {
+export const getScaledImage = (image: next.ImgAsset): string  => {
   const dpr = window.devicePixelRatio;
   return dpr > 1 ? image.src[`2x`] : image.src[`1x`];
 };
 
-export const getImage = (images: srm.ImgAsset[], id: string): srm.ImgAsset | undefined  => {
-  return images.find((image: srm.ImgAsset) => image.id === id);
+export const getImage = (images: next.ImgAsset[], id: string): next.ImgAsset | undefined  => {
+  return images.find((image: next.ImgAsset) => image.id === id);
 };
 
-export const getSVG = (svgs: srm.SvgAsset[], id: string): srm.SvgAsset | undefined  => {
-  return svgs.find((svg: srm.SvgAsset) => svg.id === id);
+export const getSVG = (svgs: next.SvgAsset[], id: string): next.SvgAsset | undefined  => {
+  return svgs.find((svg: next.SvgAsset) => svg.id === id);
 };
 
 export const getAbsolutePosition = (artboardId: string, layerId: string) => {
@@ -74,7 +74,7 @@ export const styleReducer = (combinedStyles: any[]) => {
   }, {});
 };
 
-export const getOrigin = (layer: srm.AppLayer, artboard: srm.Artboard): srm.Origin => {
+export const getOrigin = (layer: next.AppLayer, artboard: next.Artboard): next.Origin => {
   const absolutePosition = getAbsolutePosition(artboard.id, layer.id);
   const layerFrame = {...layer.frame, ...absolutePosition};
   const { x, y, width, height } = layerFrame;

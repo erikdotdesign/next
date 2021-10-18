@@ -2,7 +2,7 @@ import React, {useEffect, useRef} from 'react';
 import gsap from 'gsap';
 
 interface NoteCountProps {
-  position: srm.Rectangle;
+  position: next.Rectangle;
   count: number;
   onClick(): void;
 }

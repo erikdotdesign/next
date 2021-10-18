@@ -4,9 +4,9 @@ import SelectionRules from './SelectionRules';
 import { createSelectionStyles } from '../styles/selectionStyles';
 
 interface SelectionProps {
-  selection: srm.AppLayer;
-  hover: srm.AppLayer | null;
-  artboard: srm.Artboard;
+  selection: next.AppLayer;
+  hover: next.AppLayer | null;
+  artboard: next.Artboard;
   zoom: number;
 }
 

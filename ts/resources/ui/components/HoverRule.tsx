@@ -9,10 +9,10 @@ import {
 } from '../styles/hoverStyles'
 
 interface HoverRuleProps {
-  hoverOrigin: srm.Origin;
+  hoverOrigin: next.Origin;
   side: 'top' | 'right' | 'bottom' | 'left';
   sideAlt: 'top' | 'right' | 'bottom' | 'left';
-  selectionOrigin: srm.Origin;
+  selectionOrigin: next.Origin;
   zoom: number;
 }
 

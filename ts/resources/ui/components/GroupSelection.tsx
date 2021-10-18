@@ -4,13 +4,13 @@ import ThemeContext from './ThemeContext';
 import groupSelectionStyles, { groupSelectionArtboardStyles } from '../styles/groupSelectionStyles';
 
 interface GroupSelectionProps {
-  artboard: srm.Artboard;
-  groupSelection: srm.Group;
-  images: srm.ImgAsset[];
-  svgs: srm.SvgAsset[];
-  setSelection(selection: srm.AppLayer | null): void;
-  setGroupSelection(groupSelection: srm.Group | null): void;
-  setHover(hover: srm.AppLayer | null): void;
+  artboard: next.Artboard;
+  groupSelection: next.Group;
+  images: next.ImgAsset[];
+  svgs: next.SvgAsset[];
+  setSelection(selection: next.AppLayer | null): void;
+  setGroupSelection(groupSelection: next.Group | null): void;
+  setHover(hover: next.AppLayer | null): void;
 }
 
 const GroupSelection = (props: GroupSelectionProps) => {
@@ -26,7 +26,7 @@ const GroupSelection = (props: GroupSelectionProps) => {
               className='c-layer c-layer--group'
               style={groupSelectionStyles(groupSelection)}>
                 <Layers
-                  layers={groupSelection.layers as srm.AppArtboardLayer[]}
+                  layers={groupSelection.layers as next.AppArtboardLayer[]}
                   images={images}
                   svgs={svgs}
                   setSelection={setSelection}

@@ -6,16 +6,16 @@ import SidebarLeftGroups from './SidebarLeftGroups';
 import SidebarHeader from './SidebarHeader';
 
 interface SidebarLeftProps {
-  selection: srm.AppLayer | null;
-  hover: srm.AppLayer | null;
-  groupSelection: srm.Group | null;
-  groupSelectionNest: srm.Group[] | null;
-  artboard: srm.Artboard;
-  notes: srm.Note[];
-  setSelection(selection: srm.AppLayer | null): void;
-  setHover(hover: srm.AppLayer | null): void;
-  setGroupSelection(groupSelection: srm.Group | null): void;
-  setGroupSelectionNest(groupSelectionNest: srm.Group[] | null): void;
+  selection: next.AppLayer | null;
+  hover: next.AppLayer | null;
+  groupSelection: next.Group | null;
+  groupSelectionNest: next.Group[] | null;
+  artboard: next.Artboard;
+  notes: next.Note[];
+  setSelection(selection: next.AppLayer | null): void;
+  setHover(hover: next.AppLayer | null): void;
+  setGroupSelection(groupSelection: next.Group | null): void;
+  setGroupSelectionNest(groupSelectionNest: next.Group[] | null): void;
 }
 
 const SidebarLeft = (props: SidebarLeftProps) => {
@@ -45,7 +45,7 @@ const SidebarLeft = (props: SidebarLeftProps) => {
               setHover={setHover}
               setGroupSelection={setGroupSelection} />
           : <SidebarLeftLayers
-              layers={artboard.layers as srm.AppArtboardLayer[]}
+              layers={artboard.layers as next.AppArtboardLayer[]}
               selection={selection}
               hover={hover}
               notes={notes}

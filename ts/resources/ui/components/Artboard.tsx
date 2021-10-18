@@ -7,18 +7,18 @@ import Hover from './Hover';
 import artboardStyles from '../styles/artboardStyles';
 
 interface ArtboardProps {
-  artboard: srm.Artboard;
-  images: srm.ImgAsset[];
-  svgs: srm.SvgAsset[];
-  selection: srm.AppLayer | null;
-  groupSelection: srm.Group | null;
-  groupSelectionNest: srm.Group[] | null;
-  hover: srm.AppLayer | null;
+  artboard: next.Artboard;
+  images: next.ImgAsset[];
+  svgs: next.SvgAsset[];
+  selection: next.AppLayer | null;
+  groupSelection: next.Group | null;
+  groupSelectionNest: next.Group[] | null;
+  hover: next.AppLayer | null;
   zoom: number;
-  setSelection(selection: srm.AppLayer | null): void;
-  setGroupSelection(groupSelection: srm.Group | null): void;
-  setGroupSelectionNest(groupSelectionNest: srm.Group[] | null): void;
-  setHover(hover: srm.AppLayer | null): void;
+  setSelection(selection: next.AppLayer | null): void;
+  setGroupSelection(groupSelection: next.Group | null): void;
+  setGroupSelectionNest(groupSelectionNest: next.Group[] | null): void;
+  setHover(hover: next.AppLayer | null): void;
 }
 
 const Artboard = (props: ArtboardProps) => {
@@ -48,7 +48,7 @@ const Artboard = (props: ArtboardProps) => {
       style={artboardStyles(artboard)}>
       <div className='c-artboard__layers'>
         <Layers
-          layers={artboard.layers as srm.AppArtboardLayer[]}
+          layers={artboard.layers as next.AppArtboardLayer[]}
           images={images}
           svgs={svgs}
           setSelection={setSelection}

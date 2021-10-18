@@ -12,10 +12,10 @@ import {
 } from '../styles/selectionStyles'
 
 interface SelectionRuleProps {
-  selectionOrigin: srm.Origin;
+  selectionOrigin: next.Origin;
   side: 'top' | 'right' | 'bottom' | 'left';
-  hoverOrigin: srm.Origin;
-  artboardFrame: srm.Rectangle;
+  hoverOrigin: next.Origin;
+  artboardFrame: next.Rectangle;
   zoom: number;
 }
 

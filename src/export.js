@@ -8,8 +8,8 @@ import BrowserWindow from 'sketch-module-web-view';
 import { getWebview } from 'sketch-module-web-view/remote';
 import getStore from '../resources/store';
 import * as pluginExport from '../resources/export';
-const appWindowIdentifier = 'srm.appWindow';
-const loadingWindowIdentifier = 'srm.loadingWindow';
+const appWindowIdentifier = 'next.appWindow';
+const loadingWindowIdentifier = 'next.loadingWindow';
 export default (context) => {
     // close any existing windows
     const existingAppWindow = getWebview(appWindowIdentifier);

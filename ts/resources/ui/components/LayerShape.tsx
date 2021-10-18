@@ -2,9 +2,9 @@ import React from 'react';
 import shapeStyles from '../styles/shapeStyles';
 
 interface LayerShapeProps {
-  layer: srm.Shape;
-  images: srm.ImgAsset[];
-  svgs: srm.SvgAsset[];
+  layer: next.Shape;
+  images: next.ImgAsset[];
+  svgs: next.SvgAsset[];
   onClick(): void;
   onMouseOver(): void;
   onMouseOut(): void;

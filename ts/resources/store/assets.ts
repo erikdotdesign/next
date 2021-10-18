@@ -1,10 +1,10 @@
-const getFontWeight = (layer: srm.Text): any => {
+const getFontWeight = (layer: next.Text): any => {
   const sketchRatio = layer.style.fontWeight / 12;
   const domScale = ['thin', 'extra light', 'light', 'normal', 'medium', 'semi bold', 'bold', 'extra bold', 'black'];
   return domScale[Math.floor(sketchRatio * domScale.length)];
 };
 
-const getFontStretch = (layer: srm.Text): any => {
+const getFontStretch = (layer: next.Text): any => {
   switch(layer.style.fontStretch) {
     case 'compressed':
       return 'extra condensed';
@@ -21,7 +21,7 @@ const getFontStretch = (layer: srm.Text): any => {
   };
 };
 
-const getFontStyle = (layer: srm.Text): any => {
+const getFontStyle = (layer: next.Text): any => {
   if (layer.style.fontStyle === 'italic') {
     return 'italic';
   } else {
@@ -101,7 +101,7 @@ export const getSupplimentalFonts = (): string[] | null => {
   }
 }
 
-export const getAllFonts = (): srm.FontDir[] | null => {
+export const getAllFonts = (): next.FontDir[] | null => {
   const userFontsLoc = getUserFontsLocation();
   const systemFontsLoc = getSystemFontsLocation();
   const supplementalFontsLoc = getSupplementalFontsLocation();
@@ -118,7 +118,7 @@ export const getAllFonts = (): srm.FontDir[] | null => {
         contents: fontLocationContents[index]
       }
     });
-    return allFonts as srm.FontDir[];
+    return allFonts as next.FontDir[];
   } else {
     return null;
   }
@@ -146,9 +146,9 @@ const containsFontNameVariation = (fontFileName: string, fontNameVariations: str
   return contains;
 }
 
-// export const getFontPaths = (font: srm.Font): srm.FontPaths[] => {
-//   const allFonts: srm.FontDir[] | null = getAllFonts();
-//   return (allFonts as any).reduce((result: any, current: srm.FontDir) => {
+// export const getFontPaths = (font: next.Font): next.FontPaths[] => {
+//   const allFonts: next.FontDir[] | null = getAllFonts();
+//   return (allFonts as any).reduce((result: any, current: next.FontDir) => {
 //     const fontNameVariations = getFontNameVariations(font.family);
 //     const fontFamilyExists = current.contents.some((fontFileName: string) => {
 //       return containsFontNameVariation(fontFileName, fontNameVariations);
@@ -191,11 +191,11 @@ const processFontFile = (fontFile: string) => {
   }
 };
 
-export const getFontFiles = (fonts: srm.PreProcessedFonts): {
-  [id: string]: srm.ProcessedFont[];
+export const getFontFiles = (fonts: next.PreProcessedFonts): {
+  [id: string]: next.ProcessedFont[];
 } => {
-  const allFonts: srm.FontDir[] | null = getAllFonts();
-  return (allFonts as any).reduce((result: any, current: srm.FontDir) => {
+  const allFonts: next.FontDir[] | null = getAllFonts();
+  return (allFonts as any).reduce((result: any, current: next.FontDir) => {
     const fontFamily = fonts.allFontFamilies.find((ff) => {
       const fontNameVariations = getFontNameVariations(ff);
       return current.contents.some((fontFileName: string) => {
@@ -227,8 +227,8 @@ export const getFontFiles = (fonts: srm.PreProcessedFonts): {
   }, {});
 };
 
-export const processFonts = (fonts: srm.PreProcessedFonts): {
-  [id: string]: srm.ProcessedFont[];
+export const processFonts = (fonts: next.PreProcessedFonts): {
+  [id: string]: next.ProcessedFont[];
 } => {
   const fontFiles = getFontFiles(fonts);
   // loop through app fonts
@@ -257,11 +257,11 @@ export const processFonts = (fonts: srm.PreProcessedFonts): {
   }, {});
 };
 
-const createSvgFromLayer = (page: srm.Page, layer: srm.Shape | srm.ShapePath | srm.Group, sketch: srm.Sketch, id?: string): srm.SvgAsset => {
+const createSvgFromLayer = (page: next.Page, layer: next.Shape | next.ShapePath | next.Group, sketch: next.Sketch, id?: string): next.SvgAsset => {
   let borderSize = 0;
-  const activeBorders = layer.style.borders.filter((border: srm.Border) => border.enabled);
+  const activeBorders = layer.style.borders.filter((border: next.Border) => border.enabled);
   if (activeBorders) {
-    activeBorders.forEach((border: srm.Border) => {
+    activeBorders.forEach((border: next.Border) => {
       if (border.thickness > borderSize) {
         borderSize = border.thickness;
       }
@@ -299,7 +299,7 @@ const createSvgFromLayer = (page: srm.Page, layer: srm.Shape | srm.ShapePath | s
   }
 };
 
-const createShapeFromLayer = (layer: srm.Group | srm.ShapePath, sketch: srm.Sketch, name?: string): srm.Shape => {
+const createShapeFromLayer = (layer: next.Group | next.ShapePath, sketch: next.Sketch, name?: string): next.Shape => {
   // create new shape
   const shapeReplacement = new sketch.Shape({
     name: name ? name : layer.name,
@@ -315,7 +315,7 @@ const createShapeFromLayer = (layer: srm.Group | srm.ShapePath, sketch: srm.Sket
   return shapeReplacement;
 };
 
-const createShapeFromGroup = (layer: srm.Group, sketch: srm.Sketch, prefix: string): srm.Shape => {
+const createShapeFromGroup = (layer: next.Group, sketch: next.Sketch, prefix: string): next.Shape => {
   // remove prefix from name
   const newName = layer.name.substr(prefix.length, layer.name.length - prefix.length).trim();
   // create new shape
@@ -324,7 +324,7 @@ const createShapeFromGroup = (layer: srm.Group, sketch: srm.Sketch, prefix: stri
   return shapeReplacement;
 };
 
-const createImageLayerImage = (page: srm.Page, layer: srm.Image, sketch: srm.Sketch): srm.ImgAsset => {
+const createImageLayerImage = (page: next.Page, layer: next.Image, sketch: next.Sketch): next.ImgAsset => {
   const layerDuplicate = layer.duplicate();
   // reset asset position on artboard
   layerDuplicate.parent = page;
@@ -342,7 +342,7 @@ const createImageLayerImage = (page: srm.Page, layer: srm.Image, sketch: srm.Ske
   layerDuplicate.remove();
   // return AppAsset
   return {
-    id: (<srm.Image>layer).image.id,
+    id: (<next.Image>layer).image.id,
     src: {
       // @ts-ignore
       [`1x`]: `${NSTemporaryDirectory()}${layerDuplicate.id}.png`,
@@ -352,13 +352,13 @@ const createImageLayerImage = (page: srm.Page, layer: srm.Image, sketch: srm.Ske
   }
 };
 
-const createGradientFillImage = (page: srm.Page, layer: srm.Shape | srm.ShapePath, sketch: srm.Sketch): srm.ImgAsset => {
+const createGradientFillImage = (page: next.Page, layer: next.Shape | next.ShapePath, sketch: next.Sketch): next.ImgAsset => {
   // get enabled gradients
-  const activeGradients: srm.Fill[] = layer.style.fills.filter((fill: srm.Fill) => {
+  const activeGradients: next.Fill[] = layer.style.fills.filter((fill: next.Fill) => {
     return fill.enabled && fill.fillType === 'Gradient';
   });
   // get top gradient fill
-  const topGradient: srm.Fill = activeGradients[activeGradients.length - 1];
+  const topGradient: next.Fill = activeGradients[activeGradients.length - 1];
   // create new layer with gradient
   const gradientImage = new sketch.ShapePath({
     parent: page,
@@ -392,7 +392,7 @@ const createGradientFillImage = (page: srm.Page, layer: srm.Shape | srm.ShapePat
   }
 };
 
-const createImageFillImage = (page: srm.Page, image: srm.ImageData, sketch: srm.Sketch): srm.ImgAsset => {
+const createImageFillImage = (page: next.Page, image: next.ImageData, sketch: next.Sketch): next.ImgAsset => {
   // get image size
   const width = image.nsimage.size().width;
   const height = image.nsimage.size().height;
@@ -426,36 +426,36 @@ const createImageFillImage = (page: srm.Page, image: srm.ImageData, sketch: srm.
   }
 };
 
-const processLayerFills = (page: srm.Page, layer: srm.Shape | srm.ShapePath, images: srm.ImgAsset[], sketch: srm.Sketch, fillImages: srm.ImgAsset[] = []): srm.ImgAsset[] => {
-  (<srm.Shape | srm.ShapePath>layer).style.fills.forEach((fill: srm.Fill) => {
-    if (fill.pattern.image !== null && fill.enabled && !images.find(image => image.id === ((fill.pattern as srm.Pattern).image as srm.ImageData).id)) {
+const processLayerFills = (page: next.Page, layer: next.Shape | next.ShapePath, images: next.ImgAsset[], sketch: next.Sketch, fillImages: next.ImgAsset[] = []): next.ImgAsset[] => {
+  (<next.Shape | next.ShapePath>layer).style.fills.forEach((fill: next.Fill) => {
+    if (fill.pattern.image !== null && fill.enabled && !images.find(image => image.id === ((fill.pattern as next.Pattern).image as next.ImageData).id)) {
       const fillImage = createImageFillImage(page, fill.pattern.image, sketch);
       fillImages.push(fillImage);
     } else if (fill.fillType === 'Gradient' && fill.enabled) {
-      const gradientImage = createGradientFillImage(page, layer as srm.ShapePath | srm.Shape, sketch);
+      const gradientImage = createGradientFillImage(page, layer as next.ShapePath | next.Shape, sketch);
       fillImages.push(gradientImage);
     }
   });
   return fillImages;
 };
 
-const isComplexShapePath = (layer: srm.ShapePath): boolean => {
-  const hasOpenPath: boolean = !(<srm.ShapePath>layer).closed;
-  const notRectangle: boolean = (<srm.ShapePath>layer).shapeType !== 'Rectangle';
-  const notOval: boolean = (<srm.ShapePath>layer).shapeType !== 'Oval';
+const isComplexShapePath = (layer: next.ShapePath): boolean => {
+  const hasOpenPath: boolean = !(<next.ShapePath>layer).closed;
+  const notRectangle: boolean = (<next.ShapePath>layer).shapeType !== 'Rectangle';
+  const notOval: boolean = (<next.ShapePath>layer).shapeType !== 'Oval';
   const isOddShape: boolean = notRectangle && notOval;
-  const hasDashPattern: boolean = (<srm.ShapePath>layer).style.borderOptions.dashPattern.length > 0;
+  const hasDashPattern: boolean = (<next.ShapePath>layer).style.borderOptions.dashPattern.length > 0;
   return hasOpenPath || isOddShape || hasDashPattern;
 };
 
-const processShapePath = (page: srm.Page, layer: srm.ShapePath, images: srm.ImgAsset[], sketch: srm.Sketch, callback: any): void => {
+const processShapePath = (page: next.Page, layer: next.ShapePath, images: next.ImgAsset[], sketch: next.Sketch, callback: any): void => {
   const isComplex = isComplexShapePath(layer);
   const shapePathFillImages = processLayerFills(page, layer, images, sketch);
   if (isComplex) {
     // turn complex shapePaths into shapes
     // makes things easier when divs are styled later
-    const shapeReplacement = createShapeFromLayer(layer as srm.ShapePath, sketch);
-    const svg = createSvgFromLayer(page, layer as srm.ShapePath, sketch, shapeReplacement.id);
+    const shapeReplacement = createShapeFromLayer(layer as next.ShapePath, sketch);
+    const svg = createSvgFromLayer(page, layer as next.ShapePath, sketch, shapeReplacement.id);
     layer.parent.layers.splice(layer.index, 1, shapeReplacement);
     callback(shapePathFillImages, svg);
   } else {
@@ -463,13 +463,13 @@ const processShapePath = (page: srm.Page, layer: srm.ShapePath, images: srm.ImgA
   }
 };
 
-const processShape = (page: srm.Page, layer: srm.Shape, images: srm.ImgAsset[], sketch: srm.Sketch, callback: any): void => {
+const processShape = (page: next.Page, layer: next.Shape, images: next.ImgAsset[], sketch: next.Sketch, callback: any): void => {
   const shapeFillImages = processLayerFills(page, layer, images, sketch);
   const svg = createSvgFromLayer(page, layer, sketch);
   callback(shapeFillImages, svg);
 };
 
-const processImage = (page: srm.Page, layer: srm.Image, images: srm.ImgAsset[], sketch: srm.Sketch, callback: any): void => {
+const processImage = (page: next.Page, layer: next.Image, images: next.ImgAsset[], sketch: next.Sketch, callback: any): void => {
   if (!images.find(image => image.id === layer.image.id)) {
     const image = createImageLayerImage(page, layer, sketch);
     callback(image);
@@ -478,12 +478,12 @@ const processImage = (page: srm.Page, layer: srm.Image, images: srm.ImgAsset[], 
   }
 };
 
-const processGroup = (page: srm.Page, layer: srm.Group, sketch: srm.Sketch, callback: any): void => {
-  if (layer.name.startsWith('[srm.svg]')) {
+const processGroup = (page: next.Page, layer: next.Group, sketch: next.Sketch, callback: any): void => {
+  if (layer.name.startsWith('[next.svg]')) {
     // create shape to replace group
-    const shapeReplacement = createShapeFromGroup(layer as srm.Group, sketch, '[srm.svg]');
+    const shapeReplacement = createShapeFromGroup(layer as next.Group, sketch, '[next.svg]');
     // create svg from group
-    const svg = createSvgFromLayer(page, layer as srm.Group, sketch, shapeReplacement.id);
+    const svg = createSvgFromLayer(page, layer as next.Group, sketch, shapeReplacement.id);
     // splice in shape replacement, splice out old group
     layer.parent.layers.splice(layer.index, 1, shapeReplacement);
     // return callback
@@ -493,8 +493,8 @@ const processGroup = (page: srm.Page, layer: srm.Group, sketch: srm.Sketch, call
   }
 };
 
-const processText = (layer: srm.Text, fonts: srm.PreProcessedFonts, callback: any): void => {
-  const fontFamily = (<srm.Text>layer).style.fontFamily;
+const processText = (layer: next.Text, fonts: next.PreProcessedFonts, callback: any): void => {
+  const fontFamily = (<next.Text>layer).style.fontFamily;
   const fontWeight = getFontWeight(layer);
   const fontStretch = getFontStretch(layer);
   const fontStyle = getFontStyle(layer);
@@ -503,7 +503,7 @@ const processText = (layer: srm.Text, fonts: srm.PreProcessedFonts, callback: an
   const availableFamiliesArray: string[] = Array.from(availableFamilies, item => String(item));
   const fontAvailable = availableFamiliesArray.includes(fontFamily);
   const fontExists = fonts.allFontFamilies.includes(fontFamily);
-  const variantExists = fontExists && fonts.byFamily[`${fontFamily}`].find((variant: srm.PreProcessedFontVariant) => {
+  const variantExists = fontExists && fonts.byFamily[`${fontFamily}`].find((variant: next.PreProcessedFontVariant) => {
     return variant.weight === fontWeight &&
     variant.stretch === fontStretch &&
     variant.style === fontStyle;
@@ -541,36 +541,36 @@ const processText = (layer: srm.Text, fonts: srm.PreProcessedFonts, callback: an
   }
 };
 
-const processLayer = (page: srm.Page, layer: srm.SketchLayer, sketch: srm.Sketch, images: srm.ImgAsset[], svgs: srm.SvgAsset[], fonts: srm.PreProcessedFonts, callback: any): void => {
+const processLayer = (page: next.Page, layer: next.SketchLayer, sketch: next.Sketch, images: next.ImgAsset[], svgs: next.SvgAsset[], fonts: next.PreProcessedFonts, callback: any): void => {
   switch(layer.type) {
     case 'Image':
-      processImage(page, layer as srm.Image, images, sketch, (image: srm.ImgAsset | null) => {
+      processImage(page, layer as next.Image, images, sketch, (image: next.ImgAsset | null) => {
         if (image) {
           images.push(image);
         }
       });
       break;
     case 'Shape':
-      processShape(page, layer as srm.Shape, images, sketch, (shapeImages: srm.ImgAsset[] | [], shapeSvg: srm.SvgAsset) => {
+      processShape(page, layer as next.Shape, images, sketch, (shapeImages: next.ImgAsset[] | [], shapeSvg: next.SvgAsset) => {
         images.push(...shapeImages);
         svgs.push(shapeSvg);
       });
       break;
     case 'ShapePath':
-      processShapePath(page, layer as srm.ShapePath, images, sketch, (shapePathImages: srm.ImgAsset[] | [], shapePathSvg: srm.SvgAsset | null) => {
+      processShapePath(page, layer as next.ShapePath, images, sketch, (shapePathImages: next.ImgAsset[] | [], shapePathSvg: next.SvgAsset | null) => {
         if (shapePathSvg) {
-          svgs.push(shapePathSvg as srm.SvgAsset);
+          svgs.push(shapePathSvg as next.SvgAsset);
         }
         images.push(...shapePathImages);
       });
       break;
     case 'Text':
-      processText(layer as srm.Text, fonts, (newFonts: srm.PreProcessedFonts) => {
+      processText(layer as next.Text, fonts, (newFonts: next.PreProcessedFonts) => {
         fonts = newFonts;
       });
       break;
     case 'Group':
-      processGroup(page, layer as srm.Group, sketch, (groupSvg: srm.SvgAsset | null) => {
+      processGroup(page, layer as next.Group, sketch, (groupSvg: next.SvgAsset | null) => {
         if (groupSvg) {
           svgs.push(groupSvg);
         }
@@ -584,16 +584,16 @@ const processLayer = (page: srm.Page, layer: srm.SketchLayer, sketch: srm.Sketch
   });
 };
 
-const processLayers = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm.Sketch, images: srm.ImgAsset[] = [], svgs: srm.SvgAsset[] = [], fonts: srm.PreProcessedFonts = { allFontFamilies: [], byFamily: {} }): any => {
+const processLayers = (page: next.Page, layers: next.SketchLayer[], sketch: next.Sketch, images: next.ImgAsset[] = [], svgs: next.SvgAsset[] = [], fonts: next.PreProcessedFonts = { allFontFamilies: [], byFamily: {} }): any => {
   if (layers.length > 0) {
-    layers.forEach((layer: srm.SketchLayer) => {
+    layers.forEach((layer: next.SketchLayer) => {
       processLayer(page, layer, sketch, images, svgs, fonts, (newAssets: any) => {
         images = newAssets.images;
         svgs = newAssets.svgs;
         fonts = newAssets.fonts;
       });
       if (layer.type === 'Group') {
-        processLayers(page, (layer as srm.Group).layers, sketch, images, svgs, fonts);
+        processLayers(page, (layer as next.Group).layers, sketch, images, svgs, fonts);
       }
     });
   }
@@ -604,7 +604,7 @@ const processLayers = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm.Sk
   }
 };
 
-export const createArtboardImage = (artboard: srm.Artboard, sketch: srm.Sketch): string => {
+export const createArtboardImage = (artboard: next.Artboard, sketch: next.Sketch): string => {
   const buffer = sketch.export(artboard, {
     scales: '0.10',
     formats: 'png',
@@ -612,15 +612,15 @@ export const createArtboardImage = (artboard: srm.Artboard, sketch: srm.Sketch):
     ['save-for-web']: true
   });
   // create image from buffer data
-  const bufferImg: srm.Image = new sketch.Image({
+  const bufferImg: next.Image = new sketch.Image({
     image: buffer
   });
   const base64 = bufferImg.image.nsdata.base64EncodedStringWithOptions(0);
   return `data:image/png;base64, ${base64}`;
 };
 
-export const getAssets = (page: srm.Page, artboard: srm.Artboard, sketch: srm.Sketch) => {
-  const artboardAssets: srm.ArtboardPreProcessedAssets = processLayers(page, artboard.layers, sketch);
+export const getAssets = (page: next.Page, artboard: next.Artboard, sketch: next.Sketch) => {
+  const artboardAssets: next.ArtboardPreProcessedAssets = processLayers(page, artboard.layers, sketch);
   const processedFonts = processFonts(artboardAssets.fonts);
   const artboardImage: string = createArtboardImage(artboard, sketch);
   return {

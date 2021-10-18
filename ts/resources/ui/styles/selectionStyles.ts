@@ -1,7 +1,7 @@
 import { placeLeft, placeTop, getAbsolutePosition } from '../utils';
 import { createLeft, createTop, createWidth, createHeight } from './layerStyles';
 
-export const createSelectionStyles = (selection: srm.AppLayer, artboard: srm.Artboard, zoom:number) => {
+export const createSelectionStyles = (selection: next.AppLayer, artboard: next.Artboard, zoom:number) => {
   const absolutePosition = getAbsolutePosition(artboard.id, selection.id);
   const width = createWidth(selection.frame.width);
   const height = createHeight(selection.frame.height);
@@ -18,7 +18,7 @@ export const createSelectionStyles = (selection: srm.AppLayer, artboard: srm.Art
   }
 }
 
-export const createRuleTopStyles = (selectionOrigin: srm.Origin, hoverOrigin: srm.Origin, zoom: number, color: string) => {
+export const createRuleTopStyles = (selectionOrigin: next.Origin, hoverOrigin: next.Origin, zoom: number, color: string) => {
   const height = selectionOrigin.top <= hoverOrigin.bottom
                   ? selectionOrigin.top - hoverOrigin.top
                   : selectionOrigin.top - hoverOrigin.bottom;
@@ -32,7 +32,7 @@ export const createRuleTopStyles = (selectionOrigin: srm.Origin, hoverOrigin: sr
   }
 }
 
-export const createRuleRightStyles = (selectionOrigin: srm.Origin, hoverOrigin: srm.Origin, zoom: number, color: string) => {
+export const createRuleRightStyles = (selectionOrigin: next.Origin, hoverOrigin: next.Origin, zoom: number, color: string) => {
   const width = selectionOrigin.right >= hoverOrigin.left
                 ? hoverOrigin.right - selectionOrigin.right
                 : hoverOrigin.left - selectionOrigin.right;
@@ -46,7 +46,7 @@ export const createRuleRightStyles = (selectionOrigin: srm.Origin, hoverOrigin: 
   }
 }
 
-export const createRuleBottomStyles = (selectionOrigin: srm.Origin, hoverOrigin: srm.Origin, zoom: number, color: string) => {
+export const createRuleBottomStyles = (selectionOrigin: next.Origin, hoverOrigin: next.Origin, zoom: number, color: string) => {
   const height = selectionOrigin.bottom >= hoverOrigin.top
                   ? hoverOrigin.bottom - selectionOrigin.bottom
                   : hoverOrigin.top - selectionOrigin.bottom;
@@ -60,7 +60,7 @@ export const createRuleBottomStyles = (selectionOrigin: srm.Origin, hoverOrigin:
   }
 }
 
-export const createRuleLeftStyles = (selectionOrigin: srm.Origin, hoverOrigin: srm.Origin, zoom: number, color: string) => {
+export const createRuleLeftStyles = (selectionOrigin: next.Origin, hoverOrigin: next.Origin, zoom: number, color: string) => {
   const width = selectionOrigin.left <= hoverOrigin.right
                 ? selectionOrigin.left - hoverOrigin.left
                 : selectionOrigin.left - hoverOrigin.right;
@@ -74,7 +74,7 @@ export const createRuleLeftStyles = (selectionOrigin: srm.Origin, hoverOrigin: s
   }
 }
 
-export const createDimRightLeftStyles = (selectionOrigin: srm.Origin, artboardFrame: srm.Rectangle, zoom: number) => {
+export const createDimRightLeftStyles = (selectionOrigin: next.Origin, artboardFrame: next.Rectangle, zoom: number) => {
   const scale = 1 / zoom;
   const origin = 50 / zoom;
   const translate = (100 - origin) * -1;
@@ -97,7 +97,7 @@ export const createDimRightLeftStyles = (selectionOrigin: srm.Origin, artboardFr
   }
 }
 
-export const createDimTopBottomStyles = (selectionOrigin: srm.Origin, artboardFrame: srm.Rectangle, zoom: number) => {
+export const createDimTopBottomStyles = (selectionOrigin: next.Origin, artboardFrame: next.Rectangle, zoom: number) => {
   const scale = 1 / zoom;
   const origin = 50 / zoom;
   const translate = (100 - origin) * -1;

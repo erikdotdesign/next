@@ -6,12 +6,12 @@ import SidebarRightInput from './SidebarRightInput';
 
 interface SidebarRightProps {
   ready: boolean;
-  selection: srm.AppLayer | null;
-  images: srm.ImgAsset[];
-  svgs: srm.SvgAsset[];
-  notes: srm.Note[];
+  selection: next.AppLayer | null;
+  images: next.ImgAsset[];
+  svgs: next.SvgAsset[];
+  notes: next.Note[];
   composing: boolean;
-  setNotes(notes: srm.Note[]): void;
+  setNotes(notes: next.Note[]): void;
 }
 
 const SidebarRight = (props: SidebarRightProps) => {

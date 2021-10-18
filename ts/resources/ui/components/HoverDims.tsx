@@ -3,8 +3,8 @@ import LayerDim from './LayerDim';
 import { createDimWidthStyles, createDimHeightStyles } from '../styles/hoverStyles';
 
 interface HoverDimsProps {
-  hover: srm.AppLayer;
-  artboard: srm.Artboard;
+  hover: next.AppLayer;
+  artboard: next.Artboard;
   zoom: number;
 }
 

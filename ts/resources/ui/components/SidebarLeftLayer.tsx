@@ -7,13 +7,13 @@ import ThemeContext from './ThemeContext';
 import { getLayerNotes, getNestedNoteCount } from '../utils';
 
 interface SidebarLeftLayerProps {
-  layer: srm.AppLayer;
-  selection: srm.AppLayer | null;
-  hover: srm.AppLayer | null;
-  notes: srm.Note[];
-  setSelection(selection: srm.AppLayer | null): void;
-  setHover(hover: srm.AppLayer | null): void;
-  setGroupSelection(groupSelection: srm.Group | null): void;
+  layer: next.AppLayer;
+  selection: next.AppLayer | null;
+  hover: next.AppLayer | null;
+  notes: next.Note[];
+  setSelection(selection: next.AppLayer | null): void;
+  setHover(hover: next.AppLayer | null): void;
+  setGroupSelection(groupSelection: next.Group | null): void;
   nestPadding?: number;
 }
 
@@ -26,7 +26,7 @@ const SidebarLeftLayer = (props: SidebarLeftLayerProps) => {
   const nestedNotes = isGroup ? getNestedNoteCount(layer, notes) : null;
   const handleDoubleClick = () => {
     if (isGroup) {
-      setGroupSelection(layer as srm.Group);
+      setGroupSelection(layer as next.Group);
     } else {
       return;
     }

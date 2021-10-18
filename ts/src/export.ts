@@ -10,8 +10,8 @@ import { getWebview } from 'sketch-module-web-view/remote';
 import getStore from '../resources/store';
 import * as pluginExport from '../resources/export';
 
-const appWindowIdentifier = 'srm.appWindow';
-const loadingWindowIdentifier = 'srm.loadingWindow';
+const appWindowIdentifier = 'next.appWindow';
+const loadingWindowIdentifier = 'next.loadingWindow';
 
 export default (context: any) => {
   // close any existing windows
@@ -23,24 +23,24 @@ export default (context: any) => {
     existingLoadingWindow.close();
   }
   // get sketch document
-  const document: srm.Document = sketch.getSelectedDocument();
+  const document: next.Document = sketch.getSelectedDocument();
   // get sketch selected page
-  const page: srm.Page = document.selectedPage;
+  const page: next.Page = document.selectedPage;
   // get sketch selected layers
-  const selectedLayers: srm.Selection = document.selectedLayers;
+  const selectedLayers: next.Selection = document.selectedLayers;
   // get sketch selected artboard
   //@ts-ignore
-  const selectedArtboard: srm.Artboard | undefined = selectedLayers.layers.find((layer: srm.SketchLayer) => {
+  const selectedArtboard: next.Artboard | undefined = selectedLayers.layers.find((layer: next.SketchLayer) => {
     return layer.type === 'Artboard' && layer.selected;
   });
   // if artboard selected, run command
   if (selectedArtboard) {
     // set base store
-    let store: srm.Store | null = null;
+    let store: next.Store | null = null;
     // base styles
     let baseStyleContent: string;
     // set theme
-    const theme: srm.Theme = ui.getTheme();
+    const theme: next.Theme = ui.getTheme();
     // set loading modal window
     const loadingWindow = new BrowserWindow({
       identifier: loadingWindowIdentifier,
@@ -83,7 +83,7 @@ export default (context: any) => {
     // wait till app index finished loading
     appWebContents.on('did-finish-load', () => {
       // get store when index loads
-      getStore(page, selectedArtboard, sketch, (appStore: srm.Store) => {
+      getStore(page, selectedArtboard, sketch, (appStore: next.Store) => {
         // update loading text then render app
         loadingWebContents.executeJavaScript(
           `setLoadingText('Rendering', 'Building Spec')`
@@ -125,9 +125,9 @@ export default (context: any) => {
     // open save prompt on save
     appWebContents.on('save', (params: string) => {
       // set save store
-      let saveStore = store as srm.Store;
+      let saveStore = store as next.Store;
       // parse save params
-      let saveParams: { notes: srm.Note[], theme: srm.Theme } = JSON.parse(params);
+      let saveParams: { notes: next.Note[], theme: next.Theme } = JSON.parse(params);
       // add notes to store
       saveStore.notes = saveParams.notes;
       // get final store

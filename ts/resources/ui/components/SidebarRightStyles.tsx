@@ -12,9 +12,9 @@ import imageStyles from '../styles/imageStyles';
 import { textContainerStyles, textStyles } from '../styles/textStyles';
 
 interface SidebarRightStylesProps {
-  selection: srm.AppLayer | null;
-  images: srm.ImgAsset[];
-  svgs: srm.SvgAsset[];
+  selection: next.AppLayer | null;
+  images: next.ImgAsset[];
+  svgs: next.SvgAsset[];
 }
 
 const SidebarRightStyles = (props: SidebarRightStylesProps) => {
@@ -23,17 +23,17 @@ const SidebarRightStyles = (props: SidebarRightStylesProps) => {
     if (selection) {
       switch(selection.type) {
         case 'Group':
-          return groupStyles(selection as srm.Group, svgs);
+          return groupStyles(selection as next.Group, svgs);
         case 'Shape':
-          return shapeStyles(selection as srm.Shape, svgs);
+          return shapeStyles(selection as next.Shape, svgs);
         case 'ShapePath':
-          return shapePathStyles(selection as srm.ShapePath, images);
+          return shapePathStyles(selection as next.ShapePath, images);
         case 'Image':
-          return imageStyles(selection as srm.Image, images);
+          return imageStyles(selection as next.Image, images);
         case 'Text':
-          return {...textContainerStyles(selection as srm.Text), ...textStyles(selection as srm.Text)};
+          return {...textContainerStyles(selection as next.Text), ...textStyles(selection as next.Text)};
         case 'Artboard':
-          return artboardStyles(selection as srm.Artboard);
+          return artboardStyles(selection as next.Artboard);
         default:
           return {}
       }

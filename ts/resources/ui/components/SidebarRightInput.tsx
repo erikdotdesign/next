@@ -3,9 +3,9 @@ import SidebarRightTextArea from './SidebarRightTextArea';
 import SidebarRightSubmit from './SidebarRightSubmit';
 
 interface SidebarRightInputProps {
-  selection: srm.AppLayer | null;
-  notes: srm.Note[];
-  setNotes(notes: srm.Note[]): void;
+  selection: next.AppLayer | null;
+  notes: next.Note[];
+  setNotes(notes: next.Note[]): void;
 }
 
 const SidebarRightInput = (props: SidebarRightInputProps) => {

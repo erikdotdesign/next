@@ -3,16 +3,16 @@ import SelectionRule from './SelectionRule';
 import { getOrigin } from '../utils';
 
 interface SelectionRulesProps {
-  selection: srm.AppLayer;
-  hover: srm.AppLayer;
-  artboard: srm.Artboard;
+  selection: next.AppLayer;
+  hover: next.AppLayer;
+  artboard: next.Artboard;
   zoom: number;
 }
 
 const SelectionRules = (props: SelectionRulesProps) => {
   const { selection, hover, artboard, zoom } = props;
-  const selectionOrigin: srm.Origin = getOrigin(selection, artboard);
-  const hoverOrigin: srm.Origin = getOrigin(hover, artboard);
+  const selectionOrigin: next.Origin = getOrigin(selection, artboard);
+  const hoverOrigin: next.Origin = getOrigin(hover, artboard);
   return (
     <div className='c-selection__rules'>
       {

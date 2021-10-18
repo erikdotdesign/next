@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import ThemeContext from './ThemeContext';
 
 interface BackButtonProps {
-  artboard: srm.Artboard;
-  groupSelectionNest: srm.Group[] | null;
-  setSelection(selection: srm.AppLayer | null): void;
-  setGroupSelection(groupSelection: srm.Group | null): void;
-  setGroupSelectionNest(groupSelectionNest: srm.Group[] | null): void;
+  artboard: next.Artboard;
+  groupSelectionNest: next.Group[] | null;
+  setSelection(selection: next.AppLayer | null): void;
+  setGroupSelection(groupSelection: next.Group | null): void;
+  setGroupSelectionNest(groupSelectionNest: next.Group[] | null): void;
 }
 
 const BackButton = (props: BackButtonProps) => {

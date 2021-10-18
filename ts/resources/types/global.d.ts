@@ -1,4 +1,4 @@
-declare namespace srm {
+declare namespace next {
   ////////////////////////////////////////////////////////
   //++++++++++++++++++++++++++++++++++++++++++++++++++++++
   // Sketch Models
@@ -584,9 +584,9 @@ declare namespace srm {
   type Theme = 'light' | 'dark';
 
   interface Store {
-    artboard: srm.Artboard;
-    images: srm.ImgAsset[];
-    svgs: srm.SvgAsset[];
+    artboard: next.Artboard;
+    images: next.ImgAsset[];
+    svgs: next.SvgAsset[];
     notes: Note[];
     fonts: {
       [id: string]: ProcessedFont[];
@@ -609,9 +609,9 @@ declare namespace srm {
 
   interface Font {
     family: string;
-    weight: srm.FontWeight;
-    style: srm.FontStyle;
-    stretch: srm.FontStretch;
+    weight: next.FontWeight;
+    style: next.FontStyle;
+    stretch: next.FontStretch;
   }
 
   interface ProcessedFont {
@@ -671,162 +671,162 @@ declare namespace srm {
     }
 
     interface Left {
-      left: srm.css.value.Left
+      left: next.css.value.Left
     }
 
     interface Top {
-      top: srm.css.value.Top
+      top: next.css.value.Top
     }
 
     interface Width {
-      width: srm.css.value.Width;
+      width: next.css.value.Width;
     }
 
     interface Height {
-      height: srm.css.value.Height;
+      height: next.css.value.Height;
     }
 
     interface Opacity {
-      opacity: srm.css.value.Opacity;
+      opacity: next.css.value.Opacity;
     }
 
     interface BorderRadius {
-      borderRadius: srm.css.value.BorderRadius;
+      borderRadius: next.css.value.BorderRadius;
     }
 
     interface BoxShadow {
-      boxShadow: srm.css.value.BoxShadow;
+      boxShadow: next.css.value.BoxShadow;
     }
 
     interface Background {
-      background: srm.css.value.Background;
+      background: next.css.value.Background;
     }
 
     interface BackgroundImage {
-      backgroundImage: srm.css.value.BackgroundImage;
-      backgroundSize: srm.css.value.BackgroundSize;
-      backgroundRepeat: srm.css.value.BackgroundRepeat;
-      backgroundPosition: srm.css.value.BackgroundPosition;
+      backgroundImage: next.css.value.BackgroundImage;
+      backgroundSize: next.css.value.BackgroundSize;
+      backgroundRepeat: next.css.value.BackgroundRepeat;
+      backgroundPosition: next.css.value.BackgroundPosition;
     }
 
     interface GaussianBlur {
-      filter: srm.css.value.Filter;
+      filter: next.css.value.Filter;
     }
 
     interface Fill {
-      fill: srm.css.value.Fill;
+      fill: next.css.value.Fill;
     }
 
     interface StrokeWidth {
-      strokeWidth: srm.css.value.StrokeWidth;
+      strokeWidth: next.css.value.StrokeWidth;
     }
 
     interface Stroke {
-      stroke: srm.css.value.Stroke;
+      stroke: next.css.value.Stroke;
     }
 
     interface StrokeLineJoin {
-      strokeLinejoin: srm.css.value.StrokeLineJoin;
+      strokeLinejoin: next.css.value.StrokeLineJoin;
     }
 
     interface StrokeDashArray {
-      strokeDasharray: srm.css.value.StrokeDashArray;
+      strokeDasharray: next.css.value.StrokeDashArray;
     }
 
     interface StrokeLineCap {
-      strokeLinecap: srm.css.value.StrokeLineCap;
+      strokeLinecap: next.css.value.StrokeLineCap;
     }
 
     interface D {
-      d: srm.css.value.D;
+      d: next.css.value.D;
     }
 
     interface Transform {
-      transform: srm.css.value.Transform;
+      transform: next.css.value.Transform;
     }
 
     interface TextTransform {
-      textTransform: srm.css.value.TextTransform;
+      textTransform: next.css.value.TextTransform;
     }
 
     interface TextStrokeColor {
-      WebkitTextStrokeColor: srm.css.value.WebkitTextStrokeColor;
-      MozTextStrokeColor: srm.css.value.MozTextStrokeColor;
+      WebkitTextStrokeColor: next.css.value.WebkitTextStrokeColor;
+      MozTextStrokeColor: next.css.value.MozTextStrokeColor;
     }
 
     interface TextStrokeWidth {
-      WebkitTextStrokeWidth: srm.css.value.WebkitTextStrokeWidth;
-      MozTextStrokeWidth: srm.css.value.MozTextStrokeWidth;
+      WebkitTextStrokeWidth: next.css.value.WebkitTextStrokeWidth;
+      MozTextStrokeWidth: next.css.value.MozTextStrokeWidth;
     }
 
     interface TextStrokeWidth {
-      WebkitTextStrokeWidth: srm.css.value.WebkitTextStrokeWidth;
-      MozTextStrokeWidth: srm.css.value.MozTextStrokeWidth;
+      WebkitTextStrokeWidth: next.css.value.WebkitTextStrokeWidth;
+      MozTextStrokeWidth: next.css.value.MozTextStrokeWidth;
     }
 
     interface TextShadow {
-      textShadow: srm.css.value.TextShadow;
+      textShadow: next.css.value.TextShadow;
     }
 
     interface TextDecoration {
-      textDecoration: srm.css.value.TextDecoration;
+      textDecoration: next.css.value.TextDecoration;
     }
 
     interface LetterSpacing {
-      letterSpacing: srm.css.value.LetterSpacing;
+      letterSpacing: next.css.value.LetterSpacing;
     }
 
     interface FontFamily {
-      fontFamily: srm.css.value.FontFamily;
+      fontFamily: next.css.value.FontFamily;
     }
 
     interface FontWeight {
-      fontWeight: srm.css.value.FontWeight;
+      fontWeight: next.css.value.FontWeight;
     }
 
     interface FontSize {
-      fontSize: srm.css.value.FontSize;
+      fontSize: next.css.value.FontSize;
     }
 
     interface FontStretch {
-      fontStretch: srm.css.value.FontStretch;
+      fontStretch: next.css.value.FontStretch;
     }
 
     interface Color {
-      color: srm.css.value.Color;
+      color: next.css.value.Color;
     }
 
     interface LineHeight {
-      lineHeight: srm.css.value.LineHeight;
+      lineHeight: next.css.value.LineHeight;
     }
 
     interface PaddingBottom {
-      paddingBottom: srm.css.value.PaddingBottom;
+      paddingBottom: next.css.value.PaddingBottom;
     }
 
     interface TextAlign {
-      textAlign: srm.css.value.TextAlign;
+      textAlign: next.css.value.TextAlign;
     }
 
     interface FontStyle {
-      fontStyle: srm.css.value.FontStyle;
+      fontStyle: next.css.value.FontStyle;
     }
 
     interface JustifyContent {
-      justifyContent: srm.css.value.JustifyContent;
+      justifyContent: next.css.value.JustifyContent;
     }
 
     interface JustifyContent {
-      justifyContent: srm.css.value.JustifyContent;
+      justifyContent: next.css.value.JustifyContent;
     }
 
     interface Overflow {
-      overflow: srm.css.value.Overflow;
+      overflow: next.css.value.Overflow;
     }
 
     interface Mask {
-      mask: srm.css.value.Mask;
-      WebkitMaskBoxImage: srm.css.value.WebkitMaskBoxImage;
+      mask: next.css.value.Mask;
+      WebkitMaskBoxImage: next.css.value.WebkitMaskBoxImage;
     }
   }
 }

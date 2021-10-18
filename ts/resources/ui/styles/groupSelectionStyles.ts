@@ -1,7 +1,7 @@
 import { getAbsolutePosition } from '../utils';
 import * as styles from './layerStyles';
 
-export const groupSelectionStyles = (groupSelection: srm.AppArtboardLayer) => {
+export const groupSelectionStyles = (groupSelection: next.AppArtboardLayer) => {
   const baseStyles = styles.createBaseLayerStyles(groupSelection);
   const top = styles.createTop(0);
   const left = styles.createLeft(0);
@@ -13,7 +13,7 @@ export const groupSelectionStyles = (groupSelection: srm.AppArtboardLayer) => {
   }
 }
 
-export const groupSelectionArtboardStyles = (groupSelection: srm.AppArtboardLayer, artboard: srm.Artboard) => {
+export const groupSelectionArtboardStyles = (groupSelection: next.AppArtboardLayer, artboard: next.Artboard) => {
   const { background } = artboard;
   const { color, enabled } = background;
   const absolutePosition = getAbsolutePosition(artboard.id, groupSelection.id);

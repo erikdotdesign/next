@@ -5,24 +5,24 @@ import ThemeContext from './ThemeContext';
 import { getLayerNotes } from '../utils';
 
 interface SidebarLeftGroupHeadProps {
-  layer: srm.Group | srm.Artboard;
+  layer: next.Group | next.Artboard;
   index?: number;
-  selection: srm.AppLayer | null;
-  hover: srm.AppLayer | null;
-  groupSelection: srm.Group | null;
-  notes: srm.Note[];
-  setSelection(selection: srm.AppLayer | null): void;
-  setHover(hover: srm.AppLayer | null): void;
-  setGroupSelection(groupSelection: srm.Group | null): void;
-  setGroupSelectionNest?(groupSelectionNest: srm.Group[] | null): void;
+  selection: next.AppLayer | null;
+  hover: next.AppLayer | null;
+  groupSelection: next.Group | null;
+  notes: next.Note[];
+  setSelection(selection: next.AppLayer | null): void;
+  setHover(hover: next.AppLayer | null): void;
+  setGroupSelection(groupSelection: next.Group | null): void;
+  setGroupSelectionNest?(groupSelectionNest: next.Group[] | null): void;
 }
 
 const SidebarLeftGroupHead = (props: SidebarLeftGroupHeadProps) => {
   const { layer, index, selection, hover, groupSelection, notes, setSelection, setHover, setGroupSelection, setGroupSelectionNest } = props;
   const isArtboard = layer.type === 'Artboard';
   const isActiveGroup = groupSelection && layer.id === groupSelection.id;
-  const artboardNotes = isArtboard ? getLayerNotes((layer as srm.Artboard).id, notes) : undefined;
-  const layerNotes = isActiveGroup ? getLayerNotes((layer as srm.Group).id, notes) : undefined;
+  const artboardNotes = isArtboard ? getLayerNotes((layer as next.Artboard).id, notes) : undefined;
+  const layerNotes = isActiveGroup ? getLayerNotes((layer as next.Group).id, notes) : undefined;
   const isSelected = selection && layer.id === selection.id;
   const isHover = hover && layer.id === hover.id;
   const handleDoubleClick = () => {
@@ -31,7 +31,7 @@ const SidebarLeftGroupHead = (props: SidebarLeftGroupHeadProps) => {
       //@ts-ignore
       setGroupSelectionNest(null);
     } else {
-      setGroupSelection(layer as srm.Group);
+      setGroupSelection(layer as next.Group);
     }
   }
   const handleMouseOver = () => {

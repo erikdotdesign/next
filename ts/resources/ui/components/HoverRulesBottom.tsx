@@ -2,8 +2,8 @@ import React from 'react';
 import HoverRule from './HoverRule';
 
 interface HoverRulesBottomProps {
-  hoverOrigin: srm.Origin;
-  selectionOrigin: srm.Origin;
+  hoverOrigin: next.Origin;
+  selectionOrigin: next.Origin;
   zoom: number;
 }
 

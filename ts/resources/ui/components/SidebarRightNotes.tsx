@@ -5,10 +5,10 @@ import SidebarPlaceholder from './SidebarPlaceholder';
 import { getLayerNotes } from '../utils';
 
 interface SidebarRightNotesProps {
-  selection: srm.AppLayer | null;
-  notes: srm.Note[];
+  selection: next.AppLayer | null;
+  notes: next.Note[];
   composing: boolean;
-  setNotes(notes: srm.Note[]): void;
+  setNotes(notes: next.Note[]): void;
 }
 
 const SidebarRightNotes = (props: SidebarRightNotesProps) => {
@@ -16,7 +16,7 @@ const SidebarRightNotes = (props: SidebarRightNotesProps) => {
   const selectionNotes = selection ? getLayerNotes(selection.id, notes) : null;
   const removeNote = (noteIndex: number) => {
     if (selection) {
-      if ((selectionNotes as srm.Note).notes.length > 1) {
+      if ((selectionNotes as next.Note).notes.length > 1) {
         let newNotes = notes.map((layerNotes: any) => {
           if (layerNotes.id === selection.id) {
             layerNotes.notes.splice(noteIndex, 1);
@@ -26,7 +26,7 @@ const SidebarRightNotes = (props: SidebarRightNotesProps) => {
         setNotes(newNotes);
       } else {
         let notesCopy = [...notes];
-        let selectionIndex = notes.findIndex((layer: srm.Note) => {
+        let selectionIndex = notes.findIndex((layer: next.Note) => {
           return layer.id === selection.id;
         });
         notesCopy.splice(selectionIndex, 1);

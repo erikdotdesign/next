@@ -1,7 +1,7 @@
 import { cssColor, styleReducer } from '../utils';
 import { createBaseLayerStyles } from './layerStyles';
 
-const createTextTransform = (transform: srm.TextTransform): srm.css.TextTransform | null => {
+const createTextTransform = (transform: next.TextTransform): next.css.TextTransform | null => {
   if (transform !== 'none') {
     return {
       textTransform: transform
@@ -11,7 +11,7 @@ const createTextTransform = (transform: srm.TextTransform): srm.css.TextTransfor
   }
 };
 
-const createTextStroke = (borders: srm.Border[]): srm.css.TextStrokeColor | null => {
+const createTextStroke = (borders: next.Border[]): next.css.TextStrokeColor | null => {
   if (borders.length > 0 && borders[0].enabled) {
     const { color } = borders[0];
     return {
@@ -23,7 +23,7 @@ const createTextStroke = (borders: srm.Border[]): srm.css.TextStrokeColor | null
   }
 };
 
-const createTextStrokeWidth = (borders: srm.Border[]): srm.css.TextStrokeWidth | null => {
+const createTextStrokeWidth = (borders: next.Border[]): next.css.TextStrokeWidth | null => {
   if (borders.length > 0 && borders[0].enabled) {
     const { thickness } = borders[0];
     return {
@@ -35,7 +35,7 @@ const createTextStrokeWidth = (borders: srm.Border[]): srm.css.TextStrokeWidth |
   }
 };
 
-const createTextShadow = (sketchShadow: srm.Shadow): srm.css.TextShadow | null => {
+const createTextShadow = (sketchShadow: next.Shadow): next.css.TextShadow | null => {
   const { x, y, blur, color } = sketchShadow;
   const textShadow = `${x}px ${y}px ${blur}px ${cssColor(color)}`;
   return {
@@ -43,14 +43,14 @@ const createTextShadow = (sketchShadow: srm.Shadow): srm.css.TextShadow | null =
   }
 };
 
-const createTextShadows = (sketchShadows: srm.Shadow[]): srm.css.TextShadow | null => {
-  const enabledShadows = sketchShadows.filter((sketchShadow: srm.Shadow) => {
+const createTextShadows = (sketchShadows: next.Shadow[]): next.css.TextShadow | null => {
+  const enabledShadows = sketchShadows.filter((sketchShadow: next.Shadow) => {
     return sketchShadow.enabled;
   });
   if (enabledShadows.length > 0) {
-    const textShadows = enabledShadows.map((sketchShadow: srm.Shadow) => {
+    const textShadows = enabledShadows.map((sketchShadow: next.Shadow) => {
       const shadow = createTextShadow(sketchShadow);
-      return (<srm.css.TextShadow>shadow).textShadow;
+      return (<next.css.TextShadow>shadow).textShadow;
     });
     return {
       textShadow: textShadows.join(', ')
@@ -60,7 +60,7 @@ const createTextShadows = (sketchShadows: srm.Shadow[]): srm.css.TextShadow | nu
   }
 };
 
-const createTextDecoration = (textStrikethrough: srm.TextStrikethrough, textUnderline: srm.TextUnderline): srm.css.TextDecoration | null => {
+const createTextDecoration = (textStrikethrough: next.TextStrikethrough, textUnderline: next.TextUnderline): next.css.TextDecoration | null => {
   if (textStrikethrough) {
     return {
       textDecoration: 'line-through'
@@ -74,7 +74,7 @@ const createTextDecoration = (textStrikethrough: srm.TextStrikethrough, textUnde
   }
 };
 
-const createLetterSpacing = (kerning: number | null): srm.css.LetterSpacing | null => {
+const createLetterSpacing = (kerning: number | null): next.css.LetterSpacing | null => {
   if (kerning !== null) {
     return {
       letterSpacing: `${kerning}px`
@@ -84,13 +84,13 @@ const createLetterSpacing = (kerning: number | null): srm.css.LetterSpacing | nu
   }
 };
 
-const createFontFamily = (fontFamily: string): srm.css.FontFamily | null => {
+const createFontFamily = (fontFamily: string): next.css.FontFamily | null => {
   return {
     fontFamily: fontFamily
   }
 };
 
-const createFontWeight = (fontWeight: srm.FontWeight): srm.css.FontWeight => {
+const createFontWeight = (fontWeight: next.FontWeight): next.css.FontWeight => {
   const sketchRatio = fontWeight / 12;
   const domScale = [100, 200, 300, 400, 500, 600, 700, 800, 900];
   const weight = domScale[Math.floor(sketchRatio * domScale.length)];
@@ -100,13 +100,13 @@ const createFontWeight = (fontWeight: srm.FontWeight): srm.css.FontWeight => {
   }
 };
 
-const createFontSize = (fontSize: number): srm.css.FontSize => {
+const createFontSize = (fontSize: number): next.css.FontSize => {
   return {
     fontSize: `${fontSize}px`
   }
 };
 
-const createFontStretch = (fontStretch: srm.FontStretch): srm.css.FontStretch | null => {
+const createFontStretch = (fontStretch: next.FontStretch): next.css.FontStretch | null => {
   switch(fontStretch) {
     case 'compressed':
       return {
@@ -133,13 +133,13 @@ const createFontStretch = (fontStretch: srm.FontStretch): srm.css.FontStretch | 
   };
 };
 
-const createFontColor = (color: string): srm.css.Color => {
+const createFontColor = (color: string): next.css.Color => {
   return {
     color: cssColor(color)
   }
 };
 
-const createLineHeight = (lineHeight: number | null): srm.css.LineHeight | null => {
+const createLineHeight = (lineHeight: number | null): next.css.LineHeight | null => {
   if (lineHeight !== null) {
     return {
       lineHeight: `${lineHeight}px`
@@ -149,7 +149,7 @@ const createLineHeight = (lineHeight: number | null): srm.css.LineHeight | null 
   }
 };
 
-const createParagraphSpacing = (paragraphSpacing: number, lastChild: boolean): srm.css.PaddingBottom => {
+const createParagraphSpacing = (paragraphSpacing: number, lastChild: boolean): next.css.PaddingBottom => {
   if (lastChild || paragraphSpacing === 0) {
     return {
       paddingBottom: '0px'
@@ -161,7 +161,7 @@ const createParagraphSpacing = (paragraphSpacing: number, lastChild: boolean): s
   }
 };
 
-const createTextAlign = (alignment: srm.Alignment): srm.css.TextAlign | null => {
+const createTextAlign = (alignment: next.Alignment): next.css.TextAlign | null => {
   switch(alignment) {
     case 'left':
       return {
@@ -184,7 +184,7 @@ const createTextAlign = (alignment: srm.Alignment): srm.css.TextAlign | null => 
   }
 };
 
-const createFontStyle = (fontStyle: srm.FontStyle): srm.css.FontStyle | null => {
+const createFontStyle = (fontStyle: next.FontStyle): next.css.FontStyle | null => {
   if (fontStyle === 'italic') {
     return {
       fontStyle: 'italic'
@@ -194,7 +194,7 @@ const createFontStyle = (fontStyle: srm.FontStyle): srm.css.FontStyle | null => 
   }
 };
 
-const createVerticalAlignment = (alignment: srm.VerticalAlignment): srm.css.JustifyContent => {
+const createVerticalAlignment = (alignment: next.VerticalAlignment): next.css.JustifyContent => {
   switch(alignment) {
     case 'top':
       return {
@@ -215,7 +215,7 @@ const createVerticalAlignment = (alignment: srm.VerticalAlignment): srm.css.Just
   }
 };
 
-export const paragraphSpacing = (layer: srm.Text, lastChild: boolean) => {
+export const paragraphSpacing = (layer: next.Text, lastChild: boolean) => {
   const { style } = layer;
   const paragraphSpacing = createParagraphSpacing(style.paragraphSpacing, lastChild);
 
@@ -224,14 +224,14 @@ export const paragraphSpacing = (layer: srm.Text, lastChild: boolean) => {
   }
 };
 
-export const textContainerStyles = (layer: srm.Text) => {
+export const textContainerStyles = (layer: next.Text) => {
   const baseStyles = createBaseLayerStyles(layer);
   const verticalAlignment = createVerticalAlignment(layer.style.verticalAlignment);
 
   return styleReducer([baseStyles, verticalAlignment]);
 };
 
-export const textStyles = (layer: srm.Text) => {
+export const textStyles = (layer: next.Text) => {
   const { style } = layer;
   const color = createFontColor(style.textColor);
   const fontFamily = createFontFamily(style.fontFamily);

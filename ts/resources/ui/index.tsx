@@ -4,7 +4,7 @@ import App from './components/App';
 
 // @ts-ignore
 // ignores window.renderApp
-window.renderApp = (store: any, theme: srm.Theme) => {
+window.renderApp = (store: any, theme: next.Theme) => {
   let image = new Image();
   image.src = store.artboardImage;
   image.onload = () => {

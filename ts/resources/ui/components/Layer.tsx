@@ -6,12 +6,12 @@ import LayerShape from './LayerShape';
 import LayerText from './LayerText';
 
 interface LayerProps {
-  layer: srm.AppArtboardLayer;
-  images: srm.ImgAsset[];
-  svgs: srm.SvgAsset[];
-  setSelection(selection: srm.AppLayer | null): void;
-  setGroupSelection(selection: srm.AppLayer | null): void;
-  setHover(hover: srm.AppLayer | null): void;
+  layer: next.AppArtboardLayer;
+  images: next.ImgAsset[];
+  svgs: next.SvgAsset[];
+  setSelection(selection: next.AppLayer | null): void;
+  setGroupSelection(selection: next.AppLayer | null): void;
+  setHover(hover: next.AppLayer | null): void;
 }
 
 const Layer = (props: LayerProps) => {
@@ -20,7 +20,7 @@ const Layer = (props: LayerProps) => {
     setSelection(layer);
   }
   const onDoubleClick = () => {
-    setGroupSelection(layer as srm.Group);
+    setGroupSelection(layer as next.Group);
   }
   const onMouseOver = () => {
     setHover(layer);
@@ -32,7 +32,7 @@ const Layer = (props: LayerProps) => {
     case 'Group':
       return (
         <LayerGroup
-          layer={layer as srm.Group}
+          layer={layer as next.Group}
           images={images}
           svgs={svgs}
           onClick={onClick}
@@ -46,7 +46,7 @@ const Layer = (props: LayerProps) => {
     case 'Image':
       return (
         <LayerImage
-          layer={layer as srm.Image}
+          layer={layer as next.Image}
           images={images}
           onClick={onClick}
           onMouseOver={onMouseOver}
@@ -55,7 +55,7 @@ const Layer = (props: LayerProps) => {
     case 'Shape':
       return (
         <LayerShape
-          layer={layer as srm.Shape}
+          layer={layer as next.Shape}
           images={images}
           svgs={svgs}
           onClick={onClick}
@@ -65,7 +65,7 @@ const Layer = (props: LayerProps) => {
     case 'ShapePath':
       return  (
         <LayerShapePath
-          layer={layer as srm.ShapePath}
+          layer={layer as next.ShapePath}
           images={images}
           onClick={onClick}
           onMouseOver={onMouseOver}
@@ -74,7 +74,7 @@ const Layer = (props: LayerProps) => {
     case 'Text':
       return (
         <LayerText
-          layer={layer as srm.Text}
+          layer={layer as next.Text}
           onClick={onClick}
           onMouseOver={onMouseOver}
           onMouseOut={onMouseOut} />

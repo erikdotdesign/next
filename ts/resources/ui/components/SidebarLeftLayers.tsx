@@ -2,13 +2,13 @@ import React from 'react';
 import SidebarLeftLayer from './SidebarLeftLayer';
 
 interface SidebarLeftLayersProps {
-  layers: srm.AppArtboardLayer[];
-  hover: srm.AppLayer | null;
-  selection: srm.AppLayer | null;
-  notes: srm.Note[];
-  setSelection(selection: srm.AppLayer | null): void;
-  setHover(hover: srm.AppLayer | null): void;
-  setGroupSelection(groupSelection: srm.Group | null): void;
+  layers: next.AppArtboardLayer[];
+  hover: next.AppLayer | null;
+  selection: next.AppLayer | null;
+  notes: next.Note[];
+  setSelection(selection: next.AppLayer | null): void;
+  setHover(hover: next.AppLayer | null): void;
+  setGroupSelection(groupSelection: next.Group | null): void;
   nestPadding?: number;
 }
 
@@ -17,7 +17,7 @@ const SidebarLeftLayers = (props: SidebarLeftLayersProps) => {
   return (
     <div className='c-sidebar-left__layers'>
       {
-        layers.map((layer: srm.AppArtboardLayer, index: number) => (
+        layers.map((layer: next.AppArtboardLayer, index: number) => (
           <SidebarLeftLayer
             key={index}
             layer={layer}

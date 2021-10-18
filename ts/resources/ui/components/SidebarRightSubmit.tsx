@@ -4,11 +4,11 @@ import ThemeContext from './ThemeContext';
 import { getLayerNotes } from '../utils';
 
 interface SidebarRightSubmitProps {
-  selection: srm.AppLayer | null;
+  selection: next.AppLayer | null;
   note: string;
-  notes: srm.Note[];
+  notes: next.Note[];
   setNote(note: string): void;
-  setNotes(notes: srm.Note[]): void;
+  setNotes(notes: next.Note[]): void;
 }
 
 const SidebarRightSubmit = (props: SidebarRightSubmitProps) => {

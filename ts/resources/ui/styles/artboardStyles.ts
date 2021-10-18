@@ -1,6 +1,6 @@
 import * as styles from './layerStyles';
 
-const artboardStyles = (artboard: srm.Artboard) => {
+const artboardStyles = (artboard: next.Artboard) => {
   const { frame, background } = artboard;
   const { color, enabled } = background;
   const width = styles.createWidth(frame.width);

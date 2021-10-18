@@ -1,11 +1,11 @@
 import getArtboard from './artboard';
 import getAssets from './assets';
 
-const getStore = (page: srm.Page, selectedArtboard: srm.Artboard, sketch: srm.Sketch, callback: any) => {
+const getStore = (page: next.Page, selectedArtboard: next.Artboard, sketch: next.Sketch, callback: any) => {
   // get final store items
-  const artboard: srm.Artboard = getArtboard(selectedArtboard, sketch);
-  const assets: srm.ArtboardAssets = getAssets(page, artboard, sketch);
-  const notes: srm.Note[] = [];
+  const artboard: next.Artboard = getArtboard(selectedArtboard, sketch);
+  const assets: next.ArtboardAssets = getAssets(page, artboard, sketch);
+  const notes: next.Note[] = [];
   // remove duplicate artboard
   artboard.remove();
   // return callback
@@ -13,7 +13,7 @@ const getStore = (page: srm.Page, selectedArtboard: srm.Artboard, sketch: srm.Sk
     ...assets,
     artboard,
     notes
-  } as srm.Store);
+  } as next.Store);
 };
 
 export default getStore;

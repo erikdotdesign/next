@@ -4,8 +4,8 @@ import IconMoon from './IconMoon';
 import IconSun from './IconSun';
 
 interface TopBarThemeProps {
-  appTheme: srm.Theme;
-  setAppTheme(theme: srm.Theme): void;
+  appTheme: next.Theme;
+  setAppTheme(theme: next.Theme): void;
 }
 
 const TopBarTheme = (props: TopBarThemeProps) => {

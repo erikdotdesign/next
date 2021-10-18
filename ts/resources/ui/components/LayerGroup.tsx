@@ -3,16 +3,16 @@ import Layers from './Layers';
 import groupStyles from '../styles/groupStyles';
 
 interface LayerGroupProps {
-  layer: srm.Group;
-  images: srm.ImgAsset[];
-  svgs: srm.SvgAsset[];
+  layer: next.Group;
+  images: next.ImgAsset[];
+  svgs: next.SvgAsset[];
   onClick(): void;
   onDoubleClick(): void;
   onMouseOver(): void;
   onMouseOut(): void;
-  setSelection(selection: srm.AppLayer | null): void;
-  setGroupSelection(groupSelection: srm.Group | null): void;
-  setHover(hover: srm.AppLayer | null): void;
+  setSelection(selection: next.AppLayer | null): void;
+  setGroupSelection(groupSelection: next.Group | null): void;
+  setHover(hover: next.AppLayer | null): void;
 }
 
 const LayerGroup = (props: LayerGroupProps) => {
@@ -27,7 +27,7 @@ const LayerGroup = (props: LayerGroupProps) => {
       className='c-layer c-layer--group'
       style={groupStyles(layer, svgs)}>
       <Layers
-        layers={layer.layers as srm.AppArtboardLayer[]}
+        layers={layer.layers as next.AppArtboardLayer[]}
         images={images}
         svgs={svgs}
         setSelection={props.setSelection}

@@ -5,9 +5,9 @@ import ThemeContext from './ThemeContext';
 import { createHoveredStyles } from '../styles/hoverStyles';
 
 interface HoverProps {
-  hover: srm.AppLayer;
-  selection: srm.AppLayer | null;
-  artboard: srm.Artboard;
+  hover: next.AppLayer;
+  selection: next.AppLayer | null;
+  artboard: next.Artboard;
   zoom: number;
 }
 

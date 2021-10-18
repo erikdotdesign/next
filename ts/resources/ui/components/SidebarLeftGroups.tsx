@@ -3,14 +3,14 @@ import SidebarLeftGroupHead from './SidebarLeftGroupHead';
 import SidebarLeftLayers from './SidebarLeftLayers';
 
 interface SidebarLeftGroupsProps {
-  selection: srm.AppLayer | null;
-  hover: srm.AppLayer | null;
-  groupSelection: srm.Group;
-  groupSelectionNest: srm.Group[] | null;
-  notes: srm.Note[];
-  setSelection(selection: srm.AppLayer | null): void;
-  setHover(hover: srm.AppLayer | null): void;
-  setGroupSelection(groupSelection: srm.Group | null): void;
+  selection: next.AppLayer | null;
+  hover: next.AppLayer | null;
+  groupSelection: next.Group;
+  groupSelectionNest: next.Group[] | null;
+  notes: next.Note[];
+  setSelection(selection: next.AppLayer | null): void;
+  setHover(hover: next.AppLayer | null): void;
+  setGroupSelection(groupSelection: next.Group | null): void;
 }
 
 const SidebarLeftGroups = (props: SidebarLeftGroupsProps) => {
@@ -18,7 +18,7 @@ const SidebarLeftGroups = (props: SidebarLeftGroupsProps) => {
   const [nestPadding, setNestPadding] = useState<number>(0);
   useEffect(() => {
     if (groupSelectionNest) {
-      const groupSelectionIndex = groupSelectionNest.findIndex((group: srm.Group) => {
+      const groupSelectionIndex = groupSelectionNest.findIndex((group: next.Group) => {
         return group.id === groupSelection.id;
       });
       setNestPadding(((groupSelectionIndex + 1) * 8) + 8);
@@ -30,7 +30,7 @@ const SidebarLeftGroups = (props: SidebarLeftGroupsProps) => {
     <div className='c-sidebar c-sidebar--left'>
       {
         groupSelectionNest
-        ? groupSelectionNest.map((group: srm.Group, index: number) => (
+        ? groupSelectionNest.map((group: next.Group, index: number) => (
             <SidebarLeftGroupHead
               key={index}
               layer={group}
@@ -46,7 +46,7 @@ const SidebarLeftGroups = (props: SidebarLeftGroupsProps) => {
         : null
       }
       <SidebarLeftLayers
-        layers={groupSelection.layers as srm.AppArtboardLayer[]}
+        layers={groupSelection.layers as next.AppArtboardLayer[]}
         nestPadding={nestPadding}
         selection={selection}
         hover={hover}

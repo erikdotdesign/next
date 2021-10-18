@@ -1,43 +1,43 @@
 import { getImage, getScaledImage, cssColor, styleReducer } from '../utils';
 
-export const createOverflow = (overflow: srm.css.value.Overflow): srm.css.Overflow => {
+export const createOverflow = (overflow: next.css.value.Overflow): next.css.Overflow => {
   return {
     overflow
   }
 };
 
-export const createMask = (mask: string): srm.css.Mask => {
+export const createMask = (mask: string): next.css.Mask => {
   return {
     mask: `url(${mask})`,
     WebkitMaskBoxImage: `url(${mask}) 100 100 0 0 stretch stretch`
   }
 };
 
-export const createLeft = (x: number): srm.css.Left => {
+export const createLeft = (x: number): next.css.Left => {
   return {
     left: `${x}px`
   }
 };
 
-export const createTop = (y: number): srm.css.Top => {
+export const createTop = (y: number): next.css.Top => {
   return {
     top: `${y}px`
   }
 };
 
-export const createWidth = (width: number): srm.css.Width => {
+export const createWidth = (width: number): next.css.Width => {
   return {
     width: `${width}px`
   }
 };
 
-export const createHeight = (height: number): srm.css.Height => {
+export const createHeight = (height: number): next.css.Height => {
   return {
     height: `${height}px`
   }
 };
 
-export const createOpacity = (opacity: number): srm.css.Opacity | null => {
+export const createOpacity = (opacity: number): next.css.Opacity | null => {
   if (opacity < 1) {
     return {
       opacity
@@ -47,10 +47,10 @@ export const createOpacity = (opacity: number): srm.css.Opacity | null => {
   }
 };
 
-export const createBorderRadius = (shapeType: srm.ShapeType, points: srm.CurvePoint[]): srm.css.BorderRadius | null => {
+export const createBorderRadius = (shapeType: next.ShapeType, points: next.CurvePoint[]): next.css.BorderRadius | null => {
   switch(shapeType) {
     case 'Rectangle':
-      const borderRadii = points.map((point: srm.CurvePoint) => {
+      const borderRadii = points.map((point: next.CurvePoint) => {
         return `${point.cornerRadius}px`;
       });
       const uniformRadius = borderRadii.every((radius: string) => {
@@ -76,7 +76,7 @@ export const createBorderRadius = (shapeType: srm.ShapeType, points: srm.CurvePo
   };
 };
 
-export const createGaussianBlur = (blur: srm.Blur): srm.css.GaussianBlur | null => {
+export const createGaussianBlur = (blur: next.Blur): next.css.GaussianBlur | null => {
   const { enabled, blurType, radius } = blur;
   if (enabled && blurType === 'Gaussian') {
     return {
@@ -97,7 +97,7 @@ export const createScale = (zoom: number) => {
   }
 };
 
-export const createBorder = (sketchBorder: srm.Border): srm.css.BoxShadow => {
+export const createBorder = (sketchBorder: next.Border): next.css.BoxShadow => {
   const { thickness, position } = sketchBorder;
   const color = cssColor(sketchBorder.color);
   let border;
@@ -124,9 +124,9 @@ export const createBorder = (sketchBorder: srm.Border): srm.css.BoxShadow => {
   }
 };
 
-export const createBorders = (sketchBorders: srm.Border[]): srm.css.BoxShadow | null => {
+export const createBorders = (sketchBorders: next.Border[]): next.css.BoxShadow | null => {
   const borders: string[] = [];
-  sketchBorders.forEach((sketchBorder: srm.Border) => {
+  sketchBorders.forEach((sketchBorder: next.Border) => {
     if (sketchBorder.enabled) {
       const border = createBorder(sketchBorder);
       return borders.push(border.boxShadow);
@@ -141,7 +141,7 @@ export const createBorders = (sketchBorders: srm.Border[]): srm.css.BoxShadow | 
   }
 };
 
-export const createShadow = (sketchShadow: srm.Shadow, inset: boolean): srm.css.BoxShadow => {
+export const createShadow = (sketchShadow: next.Shadow, inset: boolean): next.css.BoxShadow => {
   const { x, y, blur, spread, color } = sketchShadow;
   const base = `${x}px ${y}px ${blur}px ${spread}px ${cssColor(color)}`;
   const shadow = inset ? `${base} inset` : base;
@@ -151,9 +151,9 @@ export const createShadow = (sketchShadow: srm.Shadow, inset: boolean): srm.css.
   }
 };
 
-export const createShadows = (sketchShadows: srm.Shadow[]): srm.css.BoxShadow | null => {
+export const createShadows = (sketchShadows: next.Shadow[]): next.css.BoxShadow | null => {
   const shadows: string[] = [];
-  sketchShadows.forEach((sketchShadow: srm.Shadow) => {
+  sketchShadows.forEach((sketchShadow: next.Shadow) => {
     if (sketchShadow.enabled) {
       const shadow = createShadow(sketchShadow, false);
       return shadows.push(shadow.boxShadow);
@@ -168,9 +168,9 @@ export const createShadows = (sketchShadows: srm.Shadow[]): srm.css.BoxShadow | 
   }
 };
 
-export const createInnerShadows = (sketchInnerShadows: srm.Shadow[]): srm.css.BoxShadow | null => {
+export const createInnerShadows = (sketchInnerShadows: next.Shadow[]): next.css.BoxShadow | null => {
   const innerShadows: string[] = [];
-  sketchInnerShadows.forEach((sketchInnerShadow: srm.Shadow) => {
+  sketchInnerShadows.forEach((sketchInnerShadow: next.Shadow) => {
     if (sketchInnerShadow.enabled) {
       const innerShadow = createShadow(sketchInnerShadow, true);
       return innerShadows.push(innerShadow.boxShadow);
@@ -185,9 +185,9 @@ export const createInnerShadows = (sketchInnerShadows: srm.Shadow[]): srm.css.Bo
   }
 }
 
-export const combineBordersAndShadows = (boxShadows: any[]): srm.css.BoxShadow | null => {
-  const filtered: srm.css.BoxShadow[] = boxShadows.filter((item: srm.css.BoxShadow | null) => item !== null);
-  const combined: string[] = filtered.map((item: srm.css.BoxShadow) => {
+export const combineBordersAndShadows = (boxShadows: any[]): next.css.BoxShadow | null => {
+  const filtered: next.css.BoxShadow[] = boxShadows.filter((item: next.css.BoxShadow | null) => item !== null);
+  const combined: string[] = filtered.map((item: next.css.BoxShadow) => {
     return item.boxShadow;
   });
 
@@ -200,7 +200,7 @@ export const combineBordersAndShadows = (boxShadows: any[]): srm.css.BoxShadow |
   }
 };
 
-export const createGradientFillImage = (images: srm.ImgAsset[], id: string): srm.css.BackgroundImage | null => {
+export const createGradientFillImage = (images: next.ImgAsset[], id: string): next.css.BackgroundImage | null => {
   const image = getImage(images, id);
   const scaledImage = image ? getScaledImage(image) : null;
   if (image) {
@@ -215,13 +215,13 @@ export const createGradientFillImage = (images: srm.ImgAsset[], id: string): srm
   }
 };
 
-export const createColorFill = (color: string): srm.css.Background => {
+export const createColorFill = (color: string): next.css.Background => {
   return {
     background: cssColor(color)
   };
 };
 
-export const createPatternDisplay = (patternType: srm.PatternFillType): Omit<srm.css.BackgroundImage, 'backgroundImage'>  => {
+export const createPatternDisplay = (patternType: next.PatternFillType): Omit<next.css.BackgroundImage, 'backgroundImage'>  => {
   switch(patternType) {
     case 'Fill':
       return {
@@ -256,7 +256,7 @@ export const createPatternDisplay = (patternType: srm.PatternFillType): Omit<srm
   };
 };
 
-export const createPatternFill = (pattern: srm.Pattern, images: srm.ImgAsset[]): srm.css.BackgroundImage | null => {
+export const createPatternFill = (pattern: next.Pattern, images: next.ImgAsset[]): next.css.BackgroundImage | null => {
   if (pattern.image) {
     const displayStyle = createPatternDisplay(pattern.patternType);
     const image = getImage(images, pattern.image.id);
@@ -275,14 +275,14 @@ export const createPatternFill = (pattern: srm.Pattern, images: srm.ImgAsset[]):
   }
 };
 
-export const createBackground = (layer: srm.ShapePath | srm.ShapePath | srm.Image, images: srm.ImgAsset[]): srm.css.Background | srm.css.BackgroundImage | null => {
+export const createBackground = (layer: next.ShapePath | next.ShapePath | next.Image, images: next.ImgAsset[]): next.css.Background | next.css.BackgroundImage | null => {
   const { style, id } = layer;
   // get fills that are enabled
-  const hasActiveFills = style.fills.some((fill: srm.Fill) => fill.enabled);
+  const hasActiveFills = style.fills.some((fill: next.Fill) => fill.enabled);
   // create background if there are active fills
   if (hasActiveFills) {
     // get all active fills
-    const activeFills = style.fills.filter((fill: srm.Fill) => fill.enabled);
+    const activeFills = style.fills.filter((fill: next.Fill) => fill.enabled);
     // return active fill with highest index
     const topFill = activeFills[activeFills.length - 1];
     // create background by fillType
@@ -301,7 +301,7 @@ export const createBackground = (layer: srm.ShapePath | srm.ShapePath | srm.Imag
   }
 };
 
-export const createHorizontalFlip = (transform: srm.Transform): srm.css.Transform | null => {
+export const createHorizontalFlip = (transform: next.Transform): next.css.Transform | null => {
   if (transform && transform.flippedHorizontally) {
     return {
       transform: `scaleX(-1)`
@@ -311,7 +311,7 @@ export const createHorizontalFlip = (transform: srm.Transform): srm.css.Transfor
   }
 };
 
-export const createVerticalFlip = (transform: srm.Transform): srm.css.Transform | null => {
+export const createVerticalFlip = (transform: next.Transform): next.css.Transform | null => {
   if (transform && transform.flippedVertically) {
     return {
       transform: `scaleY(-1)`
@@ -321,7 +321,7 @@ export const createVerticalFlip = (transform: srm.Transform): srm.css.Transform 
   }
 };
 
-export const createRotation = (transform: srm.Transform): srm.css.Transform | null => {
+export const createRotation = (transform: next.Transform): next.css.Transform | null => {
   if (transform && transform.rotation !== 0) {
     const scaleX = transform.flippedHorizontally ? -1 : 1;
     const scaleY = transform.flippedVertically ? -1 : 1;
@@ -334,9 +334,9 @@ export const createRotation = (transform: srm.Transform): srm.css.Transform | nu
   }
 };
 
-export const createTransform = (transforms: any[]): srm.css.Transform | null => {
-  const filtered: srm.css.Transform[] = transforms.filter((transform: srm.css.Transform | null) => transform !== null);
-  const combined: string[] = filtered.map((item: srm.css.Transform) => {
+export const createTransform = (transforms: any[]): next.css.Transform | null => {
+  const filtered: next.css.Transform[] = transforms.filter((transform: next.css.Transform | null) => transform !== null);
+  const combined: string[] = filtered.map((item: next.css.Transform) => {
     return item.transform;
   });
 
@@ -349,13 +349,13 @@ export const createTransform = (transforms: any[]): srm.css.Transform | null => 
   }
 };
 
-export const createFill = (fills: srm.Fill[]): srm.css.Fill | null => {
+export const createFill = (fills: next.Fill[]): next.css.Fill | null => {
   // get fills that are enabled
-  const hasActiveFills = fills.some((fill: srm.Fill) => fill.enabled);
+  const hasActiveFills = fills.some((fill: next.Fill) => fill.enabled);
   // create background if there are active fills
   if (hasActiveFills) {
     // get all active fills
-    const activeFills = fills.filter((fill: srm.Fill) => fill.enabled);
+    const activeFills = fills.filter((fill: next.Fill) => fill.enabled);
     // return active fill with highest index
     const topFill = activeFills[activeFills.length - 1];
     // return fill
@@ -369,13 +369,13 @@ export const createFill = (fills: srm.Fill[]): srm.css.Fill | null => {
   }
 };
 
-export const createStrokeWidth = (borders: srm.Border[]): srm.css.StrokeWidth | null => {
+export const createStrokeWidth = (borders: next.Border[]): next.css.StrokeWidth | null => {
   // get borders that are enabled
-  const hasActiveBorders = borders.some((border: srm.Border) => border.enabled);
+  const hasActiveBorders = borders.some((border: next.Border) => border.enabled);
   // create border if there are active borders
   if (hasActiveBorders) {
     // get all active borders
-    const activeBorders = borders.filter((border: srm.Border) => border.enabled);
+    const activeBorders = borders.filter((border: next.Border) => border.enabled);
     // return active border with highest index
     const topBorder = activeBorders[activeBorders.length - 1];
     // create stroke from border
@@ -389,13 +389,13 @@ export const createStrokeWidth = (borders: srm.Border[]): srm.css.StrokeWidth | 
   }
 };
 
-export const createStroke = (borders: srm.Border[]): srm.css.Stroke | null => {
+export const createStroke = (borders: next.Border[]): next.css.Stroke | null => {
   // get borders that are enabled
-  const hasActiveBorders = borders.some((border: srm.Border) => border.enabled);
+  const hasActiveBorders = borders.some((border: next.Border) => border.enabled);
   // create border if there are active borders
   if (hasActiveBorders) {
     // get all active borders
-    const activeBorders = borders.filter((border: srm.Border) => border.enabled);
+    const activeBorders = borders.filter((border: next.Border) => border.enabled);
     // return active border with highest index
     const topBorder = activeBorders[activeBorders.length - 1];
     // return color
@@ -407,7 +407,7 @@ export const createStroke = (borders: srm.Border[]): srm.css.Stroke | null => {
   }
 };
 
-export const createStrokeLineJoin = (sketchLineJoin: string): srm.css.StrokeLineJoin => {
+export const createStrokeLineJoin = (sketchLineJoin: string): next.css.StrokeLineJoin => {
   let lineJoin;
   switch(sketchLineJoin) {
     case 'Miter':
@@ -427,7 +427,7 @@ export const createStrokeLineJoin = (sketchLineJoin: string): srm.css.StrokeLine
   }
 };
 
-export const createStrokeDashArray = (sketchDashPattern: number[]): srm.css.StrokeDashArray | null => {
+export const createStrokeDashArray = (sketchDashPattern: number[]): next.css.StrokeDashArray | null => {
   if (sketchDashPattern.length > 0) {
     return {
       strokeDasharray: sketchDashPattern.join(', ')
@@ -437,7 +437,7 @@ export const createStrokeDashArray = (sketchDashPattern: number[]): srm.css.Stro
   }
 };
 
-export const createStrokeLineCap = (sketchLineEnd: string): srm.css.StrokeLineCap => {
+export const createStrokeLineCap = (sketchLineEnd: string): next.css.StrokeLineCap => {
   let lineCap;
   switch(sketchLineEnd) {
     case 'Butt':
@@ -457,7 +457,7 @@ export const createStrokeLineCap = (sketchLineEnd: string): srm.css.StrokeLineCa
   }
 };
 
-export const createBaseLayerStyles = (layer: srm.AppArtboardLayer) => {
+export const createBaseLayerStyles = (layer: next.AppArtboardLayer) => {
   const { frame } = layer;
   // generate styles
   const width = createWidth(frame.width);

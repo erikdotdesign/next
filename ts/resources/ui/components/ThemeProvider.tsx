@@ -3,7 +3,7 @@ import ThemeContext, { getTheme } from './ThemeContext';
 import { Color } from 'chroma-js';
 
 interface ThemeProviderProps {
-  theme: srm.Theme;
+  theme: next.Theme;
   avgColor: Color;
   children: React.ReactNode;
 }

@@ -85,7 +85,7 @@ const createText = (scale: string[], palette: any) => ({
   onAccent: textOnColor(palette.accent),
 });
 
-export const getTheme = (theme: srm.Theme, avgColor: Color) => {
+export const getTheme = (theme: next.Theme, avgColor: Color) => {
   const palette = createPalette(avgColor);
   switch(theme) {
     case 'dark':

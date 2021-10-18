@@ -8,11 +8,11 @@ import ThemeContext, { SRM_DEFAULT_PRIMARY } from './ThemeContext';
 import chroma, { Color } from 'chroma-js';
 
 interface AppProps {
-  artboard: srm.Artboard;
-  images: srm.ImgAsset[];
-  svgs: srm.SvgAsset[];
-  notes: srm.Note[];
-  theme: srm.Theme;
+  artboard: next.Artboard;
+  images: next.ImgAsset[];
+  svgs: next.SvgAsset[];
+  notes: next.Note[];
+  theme: next.Theme;
   artboardImage: HTMLImageElement;
   composing: boolean;
 }
@@ -20,13 +20,13 @@ interface AppProps {
 const App = (props: AppProps) => {
   const app = useRef<HTMLDivElement>(null);
   const [ready, setReady] = useState<boolean>(false);
-  const [appTheme, setAppTheme] = useState<srm.Theme>(props.theme);
+  const [appTheme, setAppTheme] = useState<next.Theme>(props.theme);
   const [avgColor, setAvgColor] = useState<Color>(SRM_DEFAULT_PRIMARY);
   // selection and hover
-  const [groupSelectionNest, setGroupSelectionNest] = useState<srm.Group[] | null>(null);
-  const [groupSelection, setGroupSelection] = useState<srm.Group | null>(null);
-  const [selection, setSelection] = useState<srm.AppLayer | null>(null);
-  const [hover, setHover] = useState<srm.AppLayer | null>(null);
+  const [groupSelectionNest, setGroupSelectionNest] = useState<next.Group[] | null>(null);
+  const [groupSelection, setGroupSelection] = useState<next.Group | null>(null);
+  const [selection, setSelection] = useState<next.AppLayer | null>(null);
+  const [hover, setHover] = useState<next.AppLayer | null>(null);
   // zoom
   const [zoom, setZoom] = useState<number>(1);
   const [baseZoom, setBaseZoom] = useState<number>(1);
@@ -36,7 +36,7 @@ const App = (props: AppProps) => {
   const [centerScroll, setCenterScroll] = useState<{x: number, y: number}>({x: 0, y: 0});
   const [viewPortSize, setViewPortSize] = useState<{width: number, height: number}>({width: 0, height: 0});
   // notes
-  const [notes, setNotes] = useState<srm.Note[]>(props.notes);
+  const [notes, setNotes] = useState<next.Note[]>(props.notes);
 
   const scaleArtboardForViewport = (): number => {
     const artboardWidth: number = props.artboard.frame.width;
@@ -118,7 +118,7 @@ const App = (props: AppProps) => {
       if (groupSelectionNest) {
         // if groupSelectionNest exists,
         // check if it contains groupSelection
-        const nestContainsGroup = groupSelectionNest.find((group: srm.Group) => {
+        const nestContainsGroup = groupSelectionNest.find((group: next.Group) => {
           return group.id === groupSelection.id;
         });
         // if groupSelectionNest contains groupSelection,

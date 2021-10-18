@@ -1,7 +1,7 @@
 import * as styles from './layerStyles';
 import { styleReducer } from '../utils';
 
-const shapePathStyles = (layer: srm.ShapePath, images: srm.ImgAsset[]) => {
+const shapePathStyles = (layer: next.ShapePath, images: next.ImgAsset[]) => {
   const { style, shapeType, points } = layer;
   // generate styles
   const baseStyles = styles.createBaseLayerStyles(layer);

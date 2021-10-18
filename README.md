@@ -1,6 +1,6 @@
 ![icon](images/icon.png)
 
-# SR Measure
+# Next
 
 A sketch plugin to export your designs as react applications. Quickly share design specs, css, and assets.
 
@@ -73,7 +73,7 @@ Light theme
 
 ### Complex SVG Export Support
 
-Prefix groups with `[srm.svg]` to make them an svg export (prefix will be removed from the layer name in the final spec).
+Prefix groups with `[next.svg]` to make them an svg export (prefix will be removed from the layer name in the final spec).
 
 ![Complex svg example 1](images/screen-18.png)
 

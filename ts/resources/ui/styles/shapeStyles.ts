@@ -1,7 +1,7 @@
 import * as styles from './layerStyles';
 import { styleReducer, getSVG } from '../utils';
 
-const getSvgBackground = (id: string, frame: srm.Rectangle, svgs: srm.SvgAsset[]): srm.css.BackgroundImage | null => {
+const getSvgBackground = (id: string, frame: next.Rectangle, svgs: next.SvgAsset[]): next.css.BackgroundImage | null => {
   const svg = getSVG(svgs, id);
   if (svg) {
     return {
@@ -15,7 +15,7 @@ const getSvgBackground = (id: string, frame: srm.Rectangle, svgs: srm.SvgAsset[]
   }
 };
 
-const shapeStyles = (layer: srm.Shape, svgs: any[]) => {
+const shapeStyles = (layer: next.Shape, svgs: any[]) => {
   // generate styles
   const baseStyles = styles.createBaseLayerStyles(layer);
   const background = getSvgBackground(layer.id, layer.frame, svgs);

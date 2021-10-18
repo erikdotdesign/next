@@ -4,8 +4,8 @@ import IconSave from './IconSave';
 
 interface TopBarSaveProps {
   composing: boolean;
-  notes: srm.Note[];
-  appTheme: srm.Theme;
+  notes: next.Note[];
+  appTheme: next.Theme;
 }
 
 const TopBarSave = (props: TopBarSaveProps) => {

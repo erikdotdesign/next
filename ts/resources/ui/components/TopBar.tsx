@@ -9,10 +9,10 @@ import ThemeContext from './ThemeContext';
 interface TopbarProps {
   baseZoom: number;
   zoom: number;
-  notes: srm.Note[];
+  notes: next.Note[];
   composing: boolean;
-  appTheme: srm.Theme;
-  setAppTheme(appTheme: srm.Theme): void;
+  appTheme: next.Theme;
+  setAppTheme(appTheme: next.Theme): void;
   setZoom(zoom: number): void;
   scrollToCenter(): void;
 }
