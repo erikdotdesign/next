@@ -108,8 +108,9 @@ Rule and dimension color is the inverse of the average artboard color.
 
 ### Installing
 
-1. Download or clone repo
-2. Open `sr-measure.sketchplugin`
+1. [Download](../../releases/latest/download/next.sketchplugin.zip) the latest release of the plugin
+2. Un-zip
+3. Double-click on next.sketchplugin
 
 ### Firefox Masking Bug
 
