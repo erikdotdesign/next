@@ -89,7 +89,7 @@ export default (context) => {
             ${JSON.stringify(appStore)},
             ${JSON.stringify(theme)}
           )`).then(() => {
-                        // embed fonts
+                        // embed temp fonts
                         let stylesPath = require('../resources/ui/style.css').replace('file://', '');
                         let styleName = stylesPath.substr(-36);
                         baseStyleContent = pluginExport.getFileContent(stylesPath);

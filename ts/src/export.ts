@@ -86,7 +86,7 @@ export default (context: any) => {
       getStore(page, selectedArtboard, sketch, (appStore: srm.Store) => {
         // update loading text then render app
         loadingWebContents.executeJavaScript(
-          `setLoadingText('Rendering', 'Building spec')`
+          `setLoadingText('Rendering', 'Building Spec')`
         ).then(() => {
           // set plugin store
           store = appStore;
