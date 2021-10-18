@@ -81,7 +81,7 @@ export default (context) => {
             // get store when index loads
             getStore(page, selectedArtboard, sketch, (appStore) => {
                 // update loading text then render app
-                loadingWebContents.executeJavaScript(`setLoadingText('Rendering', 'Building spec')`).then(() => {
+                loadingWebContents.executeJavaScript(`setLoadingText('Rendering', 'Building Spec')`).then(() => {
                     // set plugin store
                     store = appStore;
                     // render react app

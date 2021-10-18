@@ -2,7 +2,7 @@
 
 # Next
 
-A sketch plugin to export your designs as react applications. Quickly share design specs, css, and assets.
+A sketch plugin that exports designs as html, making it easy to quickly share design specs, css, and assets like fonts, svgs, and images.
 
 ## Getting Started
 

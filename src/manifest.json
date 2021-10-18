@@ -1,7 +1,7 @@
 {
   "name": "Next",
   "author": "erik.design",
-  "description": "Export your designs as a html. Quickly share layer specs and css styles.",
+  "description": "Exports designs as html. Quickly share design specs, css, and assets like fonts, svgs, and images.",
   "icon": "icon.png",
   "compatibleVersion": "61.2",
   "bundleVersion": "1.0",

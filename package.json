@@ -1,12 +1,12 @@
 {
-  "name": "next",
+  "name": "Next",
   "version": "2.1.0",
   "engines": {
     "sketch": ">=61.2"
   },
-  "repository": "https://github.com/endswithak/sketch-measure-react",
+  "repository": "https://github.com/endswithak/next",
   "skpm": {
-    "name": "next",
+    "name": "Next",
     "manifest": "src/manifest.json",
     "main": "next.sketchplugin",
     "assets": [
