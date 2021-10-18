@@ -149,6 +149,23 @@ export const moveImages = (images: srm.ImgAsset[], savePath: string) => {
 };
 
 //@ts-ignore
+export const moveFonts = (fonts: { [id: string]: srm.FontWithPath[] }, savePath: string) => {
+  const fontsPath: string = `${savePath}/fonts`;
+  //@ts-ignore
+  NSFileManager.defaultManager().createDirectoryAtPath_attributes(fontsPath, nil);
+  Object.keys(fonts).forEach((fontFamily) => {
+    const fontFiles = fonts[`${fontFamily}`];
+    const fontFamilyDir = `${fontsPath}/${fontFamily}`;
+    //@ts-ignore
+    NSFileManager.defaultManager().createDirectoryAtPath_attributes(fontFamilyDir, nil);
+    fontFiles.forEach((fwp) => {
+      //@ts-ignore
+      NSFileManager.defaultManager().moveItemAtPath_toPath_error(fwp.path, `${fontFamilyDir}/${fwp.fileName}`, nil);
+    });
+  });
+};
+
+//@ts-ignore
 export const moveSVGs = (svgs: srm.SvgAsset[], savePath: string) => {
   const svgsPath: string = `${savePath}/svgs`;
   //@ts-ignore
@@ -159,63 +176,67 @@ export const moveSVGs = (svgs: srm.SvgAsset[], savePath: string) => {
   });
 };
 
-const getFontNameVariations = (font: string): string[] => {
-  const noSpace: string = font.replace(/\s/g, '');
-  const hyphenCase: string = font.replace(/\s/g, '-');
-  return [
-    font,
-    noSpace,
-    hyphenCase
-  ];
-}
+export const embedFont = (fontFamily: string, fontFiles: srm.ProcessedFont[]): string => {
+  return fontFiles.reduce((result, current) => {
+    // const processedFile = processFontFile(current);
+    // create variant fontFace string for css embed
+    const fontFace = `
+      @font-face {
+        font-family: '${fontFamily}';
+        font-weight: ${current.font.weight};
+        font-stretch: ${current.font.stretch};
+        font-style: ${current.font.style};
+        src: url("./fonts/${fontFamily}/${current.fileName}");
+      }
+    `;
+    // append variant fontFace string to result
+    result = `${result} ${fontFace}`;
+    // result result
+    return result;
+  }, '');
+};
 
-const containsFontNameVariation = (fontFileName: string, fontNameVariations: string[]): boolean => {
-  let contains: boolean = false;
-  const normalizedFileName: string = fontFileName.toUpperCase();
-  fontNameVariations.forEach((variation: string) => {
-    const normalizedNameVariant = variation.toUpperCase();
-    if (normalizedFileName.indexOf(normalizedNameVariant) !== -1) {
-      contains = true;
-    }
-  });
-  return contains;
-}
+export const embedFonts = (fonts: { [id: string]: srm.ProcessedFont[] }, styleContent: any): string => {
+  return Object.keys(fonts).reduce((result: any, current) => {
+    const fontFiles = fonts[`${current}`];
+    const fontFamilyEmbedString = embedFont(current, fontFiles);
+    result = `${result} ${fontFamilyEmbedString}`;
+    return result;
+  }, styleContent);
+};
 
-export const copyFonts = (fonts: string[], savePath: string) => {
-  // get user, system, and supplemental fonts
-  const allFonts: srm.FontDir[] | null = getAllFonts();
-  // set font save location
-  const fontsSavePath: string = `${savePath}/fonts`;
-  // if some font directories exist, move forward
-  if (allFonts) {
-    // create base font directory in spec folder
-    //@ts-ignore
-    NSFileManager.defaultManager().createDirectoryAtPath_attributes(fontsSavePath, nil);
-    // loop through app fonts
-    fonts.forEach((font: string) => {
-      // loop through font directories
-      allFonts.forEach((fontDir: srm.FontDir) => {
-        // if directory exists, move forward
-        const fontNameVariations = getFontNameVariations(font);
-        const fontFiles = fontDir.contents.filter((fontFileName: string) => {
-          return containsFontNameVariation(fontFileName, fontNameVariations);
-        });
-        if (fontFiles.length > 0) {
-          //@ts-ignore
-          NSFileManager.defaultManager().createDirectoryAtPath_attributes(`${fontsSavePath}/${font}`, nil);
-          fontFiles.forEach((fontFile: string) => {
-            //@ts-ignore
-            NSFileManager.defaultManager().copyItemAtPath_toPath_error(`${fontDir.location}/${fontFile}`, `${fontsSavePath}/${font}/${fontFile}`, nil);
-          });
-        }
-      });
-    });
-  }
+export const embedTempFont = (fontFamily: string, fontFiles: srm.ProcessedFont[]): string => {
+  return fontFiles.reduce((result, current) => {
+    // const processedFile = processFontFile(current);
+    // create variant fontFace string for css embed
+    const fontFace = `
+      @font-face {
+        font-family: '${fontFamily}';
+        font-weight: ${current.font.weight};
+        font-stretch: ${current.font.stretch};
+        font-style: ${current.font.style};
+        src: url("file:/${current.path}");
+      }
+    `;
+    // append variant fontFace string to result
+    result = `${result} ${fontFace}`;
+    // result result
+    return result;
+  }, '');
+};
+
+export const embedTempFonts = (fonts: { [id: string]: srm.ProcessedFont[] }, styleContent: any): void => {
+  return Object.keys(fonts).reduce((result, current) => {
+    const fontFiles = fonts[`${current}`];
+    const fontFamilyEmbedString = embedTempFont(current, fontFiles);
+    result = `${result} ${fontFamilyEmbedString}`;
+    return result;
+  }, styleContent);
 };
 
 export const getFinalStore = (store: srm.Store) => {
   // copy store, and set final store
-  let finalStore: srm.Store = Object.assign({}, store);
+  let finalStore: srm.Store = {...store};
   // update final store image paths
   finalStore.images = store.images.map((image) => {
     return {

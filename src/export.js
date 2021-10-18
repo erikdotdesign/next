@@ -35,6 +35,8 @@ export default (context) => {
     if (selectedArtboard) {
         // set base store
         let store = null;
+        // base styles
+        let baseStyleContent;
         // set theme
         const theme = ui.getTheme();
         // set loading modal window
@@ -87,6 +89,15 @@ export default (context) => {
             ${JSON.stringify(appStore)},
             ${JSON.stringify(theme)}
           )`).then(() => {
+                        // embed fonts
+                        let stylesPath = require('../resources/ui/style.css').replace('file://', '');
+                        let styleName = stylesPath.substr(-36);
+                        baseStyleContent = pluginExport.getFileContent(stylesPath);
+                        pluginExport.writeFile({
+                            content: pluginExport.embedTempFonts(appStore.fonts, `${baseStyleContent}`),
+                            path: stylesPath,
+                            fileName: styleName
+                        });
                         // after react app renders,
                         // close loading window and show app window
                         loadingWindow.close();
@@ -107,6 +118,7 @@ export default (context) => {
         });
         // open save prompt on save
         appWebContents.on('save', (params) => {
+            var _a;
             // set save store
             let saveStore = store;
             // parse save params
@@ -133,7 +145,7 @@ export default (context) => {
             // get contents of html
             let template = pluginExport.getFileContent(templatePath);
             // get contents of css
-            let styles = pluginExport.getFileContent(stylesPath);
+            // let styles = pluginExport.getFileContent(stylesPath);
             // get contents of js
             let script = pluginExport.getFileContent(scriptPath);
             // add store and theme to js string
@@ -148,7 +160,7 @@ export default (context) => {
             });
             // create final css
             pluginExport.writeFile({
-                content: styles,
+                content: pluginExport.embedFonts((_a = store) === null || _a === void 0 ? void 0 : _a.fonts, `${baseStyleContent}`),
                 path: savePath,
                 fileName: styleName
             });
@@ -173,8 +185,8 @@ export default (context) => {
                 pluginExport.moveSVGs(saveStore.svgs, savePath);
             }
             // copy fonts used in spec
-            if (saveStore.fonts.length > 0) {
-                pluginExport.copyFonts(saveStore.fonts, savePath);
+            if (Object.keys(saveStore.fonts).length > 0) {
+                pluginExport.moveFonts(saveStore.fonts, savePath);
             }
         });
     }

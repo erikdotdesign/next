@@ -1,14 +1,14 @@
 {
-  "name": "Sr Measure",
+  "name": "Next",
   "author": "erik.design",
-  "description": "Export your designs as a React application. Quickly share layer specs and css styles.",
+  "description": "Export your designs as a html. Quickly share layer specs and css styles.",
   "icon": "icon.png",
   "compatibleVersion": "61.2",
   "bundleVersion": "1.0",
   "commands": [
     {
       "name": "Export Spec",
-      "identifier": "sr-measure.export-identifier",
+      "identifier": "next.export-identifier",
       "script": "./export.js",
       "handlers": {
         "run": "onRun",
@@ -19,9 +19,9 @@
     }
   ],
   "menu": {
-    "title": "Sr Measure",
+    "title": "Next",
     "items": [
-      "sr-measure.export-identifier"
+      "next.export-identifier"
     ]
   }
 }

@@ -17,7 +17,7 @@
   "exclude": [
     "./ts/types/**/*",
     "./assets",
-    "./measure.sketchplugin",
+    "./next.sketchplugin",
     "./node_modules",
     "./sketch_assets",
     "./.babelrc",

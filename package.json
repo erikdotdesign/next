@@ -1,14 +1,14 @@
 {
-  "name": "sr-measure",
+  "name": "next",
   "version": "2.1.0",
   "engines": {
     "sketch": ">=61.2"
   },
   "repository": "https://github.com/endswithak/sketch-measure-react",
   "skpm": {
-    "name": "sr-measure",
+    "name": "next",
     "manifest": "src/manifest.json",
-    "main": "sr-measure.sketchplugin",
+    "main": "next.sketchplugin",
     "assets": [
       "assets/**/*"
     ],

@@ -562,10 +562,18 @@ declare namespace srm {
     };
   }
 
+  interface ArtboardPreProcessedAssets {
+    images: ImgAsset[];
+    svgs: SvgAsset[];
+    fonts: PreProcessedFonts;
+  }
+
   interface ArtboardAssets {
-    images: srm.ImgAsset[];
-    svgs: srm.SvgAsset[];
-    fonts: string[];
+    images: ImgAsset[];
+    svgs: SvgAsset[];
+    fonts: {
+      [id: string]: ProcessedFont[];
+    };
   }
 
   interface Note {
@@ -580,8 +588,37 @@ declare namespace srm {
     images: srm.ImgAsset[];
     svgs: srm.SvgAsset[];
     notes: Note[];
-    fonts: string[];
+    fonts: {
+      [id: string]: ProcessedFont[];
+    };
     artboardImage: string;
+  }
+
+  interface PreProcessedFontVariant {
+    weight: any;
+    style: any;
+    stretch: any;
+  }
+
+  interface PreProcessedFonts {
+    allFontFamilies: string[];
+    byFamily: {
+      [id: string]: PreProcessedFontVariant[];
+    }
+  }
+
+  interface Font {
+    family: string;
+    weight: srm.FontWeight;
+    style: srm.FontStyle;
+    stretch: srm.FontStretch;
+  }
+
+  interface ProcessedFont {
+    font: Font;
+    fileLocation: string;
+    fileName: string;
+    path: string;
   }
 
   namespace css {
@@ -619,6 +656,7 @@ declare namespace srm {
       type LetterSpacing = string;
       type FontFamily = string;
       type FontWeight = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
+      type FontWeightName = 'thin' | 'hairline' | 'extra light' | 'ultra light' | 'light' | 'normal' | 'medium' | 'semi bold' | 'demi bold' | 'bold' | 'extra bold' | 'ultra bold' | 'black' | 'heavy';
       type FontSize = string;
       type FontStretch = 'extra-condensed' | 'condensed' | 'semi-condensed' | 'expanded' | 'extra-expanded';
       type Color = string;

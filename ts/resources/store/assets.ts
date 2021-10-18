@@ -1,3 +1,262 @@
+const getFontWeight = (layer: srm.Text): any => {
+  const sketchRatio = layer.style.fontWeight / 12;
+  const domScale = ['thin', 'extra light', 'light', 'normal', 'medium', 'semi bold', 'bold', 'extra bold', 'black'];
+  return domScale[Math.floor(sketchRatio * domScale.length)];
+};
+
+const getFontStretch = (layer: srm.Text): any => {
+  switch(layer.style.fontStretch) {
+    case 'compressed':
+      return 'extra condensed';
+    case 'condensed':
+      return 'condensed';
+    case 'narrow':
+      return 'semi condensed';
+    case 'expanded':
+      return 'expanded'
+    case 'poster':
+      return 'extra expanded';
+    default:
+      return 'normal';
+  };
+};
+
+const getFontStyle = (layer: srm.Text): any => {
+  if (layer.style.fontStyle === 'italic') {
+    return 'italic';
+  } else {
+    return 'normal';
+  }
+};
+
+export const getSystemFontsLocation = (): string | null => {
+  //@ts-ignore
+  const systemLibrary = NSFileManager.defaultManager().URLsForDirectory_inDomains(NSLibraryDirectory, 8)[0];
+  const systemLibraryPath = systemLibrary ? systemLibrary.absoluteString().replace('file://', '') : null;
+  //@ts-ignore
+  const systemFonts = systemLibraryPath ? NSFileManager.defaultManager().fileExistsAtPath(`${systemLibraryPath}Fonts`) : null;
+  if (systemFonts) {
+    return `${systemLibraryPath}Fonts/`;
+  } else {
+    return null;
+  }
+}
+
+export const getUserFontsLocation = (): string | null => {
+  //@ts-ignore
+  const userLibrary = NSFileManager.defaultManager().URLsForDirectory_inDomains(NSLibraryDirectory, 1)[0];
+  const userLibraryPath = userLibrary ? userLibrary.absoluteString().replace('file://', '') : null;
+  //@ts-ignore
+  const userFonts = userLibraryPath ? NSFileManager.defaultManager().fileExistsAtPath(`${userLibraryPath}Fonts`) : null;
+  if (userFonts) {
+    return `${userLibraryPath}Fonts/`;
+  } else {
+    return null;
+  }
+}
+
+export const getSupplementalFontsLocation = (): string | null => {
+  //@ts-ignore
+  const systemLibrary = NSFileManager.defaultManager().URLsForDirectory_inDomains(NSLibraryDirectory, 8)[0];
+  const systemLibraryPath = systemLibrary ? systemLibrary.absoluteString().replace('file://', '') : null;
+  //@ts-ignore
+  const systemFonts = systemLibraryPath ? NSFileManager.defaultManager().fileExistsAtPath(`${systemLibraryPath}Fonts/Supplemental`) : null;
+  if (systemFonts) {
+    return `${systemLibraryPath}Fonts/Supplemental/`;
+  } else {
+    return null;
+  }
+}
+
+export const getUserFonts = (): string[] | null => {
+  const userFontsLoc = getUserFontsLocation();
+  if (userFontsLoc) {
+    //@ts-ignore
+    const userFonts = NSFileManager.defaultManager().contentsOfDirectoryAtPath_error(userFontsLoc, nil);
+    return Array.from(userFonts, (item) => { return String(item) });
+  } else {
+    return null;
+  }
+}
+
+export const getSystemFonts = (): string[] | null => {
+  const systemFontsLoc = getSystemFontsLocation();
+  if (systemFontsLoc) {
+    //@ts-ignore
+    const systemFonts = NSFileManager.defaultManager().contentsOfDirectoryAtPath_error(systemFontsLoc, nil);
+    return Array.from(systemFonts, (item) => { return String(item) });
+  } else {
+    return null;
+  }
+}
+
+export const getSupplimentalFonts = (): string[] | null => {
+  const supplementalFontsLoc = getSupplementalFontsLocation();
+  if (supplementalFontsLoc) {
+    //@ts-ignore
+    const supplementalFonts = NSFileManager.defaultManager().contentsOfDirectoryAtPath_error(supplementalFontsLoc, nil);
+    return Array.from(supplementalFonts, (item) => { return String(item) });
+  } else {
+    return null;
+  }
+}
+
+export const getAllFonts = (): srm.FontDir[] | null => {
+  const userFontsLoc = getUserFontsLocation();
+  const systemFontsLoc = getSystemFontsLocation();
+  const supplementalFontsLoc = getSupplementalFontsLocation();
+  const userFonts = getUserFonts();
+  const systemFonts = getSystemFonts();
+  const supplementalFonts = getSupplimentalFonts();
+  const fontLocations = [userFontsLoc, systemFontsLoc, supplementalFontsLoc];
+  const fontLocationContents = [userFonts, systemFonts, supplementalFonts];
+  const availableFontLocations = fontLocations.filter((fontDir: string | null) => fontDir !== null);
+  if (availableFontLocations.length > 0) {
+    const allFonts = (availableFontLocations as string[]).map((fontLocation: string, index: number) => {
+      return {
+        location: fontLocation,
+        contents: fontLocationContents[index]
+      }
+    });
+    return allFonts as srm.FontDir[];
+  } else {
+    return null;
+  }
+}
+
+const getFontNameVariations = (font: string): string[] => {
+  const noSpace: string = font.replace(/\s/g, '');
+  const hyphenCase: string = font.replace(/\s/g, '-');
+  return [
+    font,
+    noSpace,
+    hyphenCase
+  ];
+}
+
+const containsFontNameVariation = (fontFileName: string, fontNameVariations: string[]): boolean => {
+  let contains: boolean = false;
+  const normalizedFileName: string = fontFileName.toUpperCase();
+  fontNameVariations.forEach((variation: string) => {
+    const normalizedNameVariant = variation.toUpperCase();
+    if (normalizedFileName.indexOf(normalizedNameVariant) !== -1) {
+      contains = true;
+    }
+  });
+  return contains;
+}
+
+// export const getFontPaths = (font: srm.Font): srm.FontPaths[] => {
+//   const allFonts: srm.FontDir[] | null = getAllFonts();
+//   return (allFonts as any).reduce((result: any, current: srm.FontDir) => {
+//     const fontNameVariations = getFontNameVariations(font.family);
+//     const fontFamilyExists = current.contents.some((fontFileName: string) => {
+//       return containsFontNameVariation(fontFileName, fontNameVariations);
+//     });
+//     if (fontFamilyExists) {
+//       const fontNameVariations = getFontNameVariations(font.family);
+//       const fontFiles = current.contents.filter((fontFileName: string) => {
+//         return containsFontNameVariation(fontFileName, fontNameVariations);
+//       });
+//       result = [...result, {
+//         font,
+//         location: current.location,
+//         fontFiles
+//       }];
+//     }
+//     return result;
+//   }, []);
+// };
+
+const processFontFile = (fontFile: string) => {
+  const string = fontFile.split('').filter((str) => {
+    if (str !== '-' && str !== '_' && str !== ' ') {
+      return str;
+    }
+  }).join('').toLowerCase();
+  const weights = ['thin', 'hairline', 'extra light', 'ultra light', 'light', 'regular', 'medium', 'semi bold', 'demi bold', 'extra bold', 'ultra bold', 'bold', 'black', 'heavy'];
+  const stretchs = ['extra condensed', 'semi condensed', 'condensed', 'extra expanded', 'expanded'];
+  const style = 'italic';
+  const weight = weights.find((w) => {
+    return string.indexOf(w.replace(/\s/g, '')) !== -1;
+  });
+  const stretch = stretchs.find((s) => {
+    return string.indexOf(s.replace(/\s/g, '')) !== -1;
+  });
+  const italic = string.indexOf(style) !== -1;
+  return {
+    weight: weight ? weight === 'regular' ? 'normal' : weight : 'normal',
+    stretch: stretch ? stretch : 'normal',
+    style: italic ? 'italic' : 'normal'
+  }
+};
+
+export const getFontFiles = (fonts: srm.PreProcessedFonts): {
+  [id: string]: srm.ProcessedFont[];
+} => {
+  const allFonts: srm.FontDir[] | null = getAllFonts();
+  return (allFonts as any).reduce((result: any, current: srm.FontDir) => {
+    const fontFamily = fonts.allFontFamilies.find((ff) => {
+      const fontNameVariations = getFontNameVariations(ff);
+      return current.contents.some((fontFileName: string) => {
+        return containsFontNameVariation(fontFileName, fontNameVariations);
+      });
+    });
+    if (fontFamily) {
+      const fontNameVariations = getFontNameVariations(fontFamily);
+      const fontFiles = current.contents.filter((fontFileName: string) => {
+        return containsFontNameVariation(fontFileName, fontNameVariations);
+      }).map((fontFileName) => {
+        const processedFontFileName = processFontFile(fontFileName);
+        return {
+          fileName: fontFileName,
+          location: current.location,
+          path: `${current.location}/${fontFileName}`,
+          font: {
+            family: fontFamily,
+            ...processedFontFileName
+          }
+        }
+      });
+      result = {
+        ...result,
+        [`${fontFamily}`]: fontFiles
+      };
+    }
+    return result;
+  }, {});
+};
+
+export const processFonts = (fonts: srm.PreProcessedFonts): {
+  [id: string]: srm.ProcessedFont[];
+} => {
+  const fontFiles = getFontFiles(fonts);
+  // loop through app fonts
+  return fonts.allFontFamilies.reduce((result, current) => {
+    const fontFamilyFiles = fontFiles[`${current}`];
+    if (fontFamilyFiles) {
+      //@ts-ignore
+      const tempFontFamilyDirectory = NSTemporaryDirectory();
+      const tempFontFiles = fontFamilyFiles.map((fwp) => {
+        const tempFilePath = `${tempFontFamilyDirectory}${fwp.fileName}`;
+        //@ts-ignore
+        NSFileManager.defaultManager().copyItemAtPath_toPath_error(`${fwp.path}`, `${tempFilePath}`, nil);
+        return {
+          fileName: fwp.fileName,
+          location: tempFontFamilyDirectory,
+          path: tempFilePath,
+          font: fwp.font
+        };
+      });
+      result = {
+        ...result,
+        [`${current}`]: tempFontFiles
+      }
+    }
+    return result;
+  }, {});
+};
+
 const createSvgFromLayer = (page: srm.Page, layer: srm.Shape | srm.ShapePath | srm.Group, sketch: srm.Sketch, id?: string): srm.SvgAsset => {
   let borderSize = 0;
   const activeBorders = layer.style.borders.filter((border: srm.Border) => border.enabled);
@@ -234,20 +493,55 @@ const processGroup = (page: srm.Page, layer: srm.Group, sketch: srm.Sketch, call
   }
 };
 
-const processText = (layer: srm.Text, fonts: string[], callback: any): void => {
+const processText = (layer: srm.Text, fonts: srm.PreProcessedFonts, callback: any): void => {
   const fontFamily = (<srm.Text>layer).style.fontFamily;
+  const fontWeight = getFontWeight(layer);
+  const fontStretch = getFontStretch(layer);
+  const fontStyle = getFontStyle(layer);
   //@ts-ignore
   const availableFamilies = NSFontManager.sharedFontManager().availableFontFamilies();
   const availableFamiliesArray: string[] = Array.from(availableFamilies, item => String(item));
   const fontAvailable = availableFamiliesArray.includes(fontFamily);
-  if (fonts && fontAvailable && !fonts.includes(fontFamily)) {
-    callback(fontFamily);
+  const fontExists = fonts.allFontFamilies.includes(fontFamily);
+  const variantExists = fontExists && fonts.byFamily[`${fontFamily}`].find((variant: srm.PreProcessedFontVariant) => {
+    return variant.weight === fontWeight &&
+    variant.stretch === fontStretch &&
+    variant.style === fontStyle;
+  });
+  if (fonts && fontAvailable && (!fontExists || !variantExists)) {
+    if (!fontExists) {
+      fonts = {
+        ...fonts,
+        allFontFamilies: [...fonts.allFontFamilies, fontFamily],
+        byFamily: {
+          ...fonts.byFamily,
+          [`${fontFamily}`]: []
+        }
+      }
+    }
+    if (!variantExists) {
+      fonts = {
+        ...fonts,
+        byFamily: {
+          ...fonts.byFamily,
+          [`${fontFamily}`]: [
+            ...fonts.byFamily[`${fontFamily}`],
+            {
+              weight: fontWeight,
+              style: fontStyle,
+              stretch: fontStretch
+            }
+          ]
+        }
+      }
+    }
+    callback(fonts);
   } else {
-    callback(null);
+    callback(fonts);
   }
 };
 
-const processLayer = (page: srm.Page, layer: srm.SketchLayer, sketch: srm.Sketch, images: srm.ImgAsset[], svgs: srm.SvgAsset[], fonts: string[], callback: any): void => {
+const processLayer = (page: srm.Page, layer: srm.SketchLayer, sketch: srm.Sketch, images: srm.ImgAsset[], svgs: srm.SvgAsset[], fonts: srm.PreProcessedFonts, callback: any): void => {
   switch(layer.type) {
     case 'Image':
       processImage(page, layer as srm.Image, images, sketch, (image: srm.ImgAsset | null) => {
@@ -271,10 +565,8 @@ const processLayer = (page: srm.Page, layer: srm.SketchLayer, sketch: srm.Sketch
       });
       break;
     case 'Text':
-      processText(layer as srm.Text, fonts, (font: string | null) => {
-        if (font) {
-          fonts.push(font);
-        }
+      processText(layer as srm.Text, fonts, (newFonts: srm.PreProcessedFonts) => {
+        fonts = newFonts;
       });
       break;
     case 'Group':
@@ -292,10 +584,10 @@ const processLayer = (page: srm.Page, layer: srm.SketchLayer, sketch: srm.Sketch
   });
 };
 
-const processLayers = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm.Sketch, images: srm.ImgAsset[] = [], svgs: srm.SvgAsset[] = [], fonts: string[] = []): srm.ArtboardAssets => {
+const processLayers = (page: srm.Page, layers: srm.SketchLayer[], sketch: srm.Sketch, images: srm.ImgAsset[] = [], svgs: srm.SvgAsset[] = [], fonts: srm.PreProcessedFonts = { allFontFamilies: [], byFamily: {} }): any => {
   if (layers.length > 0) {
     layers.forEach((layer: srm.SketchLayer) => {
-      processLayer(page, layer, sketch, images, svgs, fonts, (newAssets: srm.ArtboardAssets) => {
+      processLayer(page, layer, sketch, images, svgs, fonts, (newAssets: any) => {
         images = newAssets.images;
         svgs = newAssets.svgs;
         fonts = newAssets.fonts;
@@ -328,10 +620,12 @@ export const createArtboardImage = (artboard: srm.Artboard, sketch: srm.Sketch):
 };
 
 export const getAssets = (page: srm.Page, artboard: srm.Artboard, sketch: srm.Sketch) => {
-  const artboardAssets: srm.ArtboardAssets = processLayers(page, artboard.layers, sketch);
+  const artboardAssets: srm.ArtboardPreProcessedAssets = processLayers(page, artboard.layers, sketch);
+  const processedFonts = processFonts(artboardAssets.fonts);
   const artboardImage: string = createArtboardImage(artboard, sketch);
   return {
     ...artboardAssets,
+    fonts: processedFonts,
     artboardImage
   };
 };

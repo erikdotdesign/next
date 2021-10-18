@@ -37,6 +37,8 @@ export default (context: any) => {
   if (selectedArtboard) {
     // set base store
     let store: srm.Store | null = null;
+    // base styles
+    let baseStyleContent: string;
     // set theme
     const theme: srm.Theme = ui.getTheme();
     // set loading modal window
@@ -93,6 +95,15 @@ export default (context: any) => {
             ${JSON.stringify(appStore)},
             ${JSON.stringify(theme)}
           )`).then(() => {
+            // embed temp fonts
+            let stylesPath = require('../resources/ui/style.css').replace('file://', '');
+            let styleName = stylesPath.substr(-36);
+            baseStyleContent = pluginExport.getFileContent(stylesPath);
+            pluginExport.writeFile({
+              content: pluginExport.embedTempFonts(appStore.fonts as any, `${baseStyleContent}`),
+              path: stylesPath,
+              fileName: styleName
+            });
             // after react app renders,
             // close loading window and show app window
             loadingWindow.close();
@@ -139,7 +150,7 @@ export default (context: any) => {
       // get contents of html
       let template = pluginExport.getFileContent(templatePath);
       // get contents of css
-      let styles = pluginExport.getFileContent(stylesPath);
+      // let styles = pluginExport.getFileContent(stylesPath);
       // get contents of js
       let script = pluginExport.getFileContent(scriptPath);
       // add store and theme to js string
@@ -154,7 +165,7 @@ export default (context: any) => {
       });
       // create final css
       pluginExport.writeFile({
-        content: styles,
+        content: pluginExport.embedFonts(store?.fonts as any, `${baseStyleContent}`),
         path: savePath,
         fileName: styleName
       });
@@ -179,8 +190,8 @@ export default (context: any) => {
         pluginExport.moveSVGs(saveStore.svgs, savePath);
       }
       // copy fonts used in spec
-      if (saveStore.fonts.length > 0) {
-        pluginExport.copyFonts(saveStore.fonts, savePath);
+      if (Object.keys(saveStore.fonts).length > 0) {
+        pluginExport.moveFonts(saveStore.fonts as any, savePath);
       }
     });
   } else {
